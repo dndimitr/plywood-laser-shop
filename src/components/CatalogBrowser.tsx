@@ -156,7 +156,7 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
   const totalShown = groups.reduce((n, g) => n + g.products.length, 0);
   const activeLabel =
     category === "all" ? null : categoryById(category)?.label ?? category;
-  const featuredIds = new Set(featured.map((c) => c.id));
+  const featuredIds = new Set<string>(featured.map((c) => c.id));
   const activeInFeatured = category !== "all" && featuredIds.has(category);
 
   function renderChip(c: CatWithCount | { id: "all"; label: string; count: number }) {
