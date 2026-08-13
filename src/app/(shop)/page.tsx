@@ -148,26 +148,19 @@ export default async function HomePage() {
               Качи файл за оферта
             </Link>
           </div>
-          <div
-            className="trust"
-            style={{ gridTemplateColumns: "1fr 1fr", color: "#f7f1e8" }}
-          >
+          <div className="trust trust-on-dark">
             <div className="trust-item">
               <IconPencil size={22} aria-hidden />
               <div>
                 <strong>Гравиране</strong>
-                <span style={{ color: "rgba(247,241,232,0.75)" }}>
-                  Текст, логотипи, орнаменти
-                </span>
+                <span>Текст, логотипи, орнаменти</span>
               </div>
             </div>
             <div className="trust-item">
               <IconScales size={22} aria-hidden />
               <div>
                 <strong>Изрязване</strong>
-                <span style={{ color: "rgba(247,241,232,0.75)" }}>
-                  Контур по векторен файл
-                </span>
+                <span>Контур по векторен файл</span>
               </div>
             </div>
           </div>
@@ -241,15 +234,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      <div className="mobile-cta" aria-label="Бързи действия">
-        <Link href="#katalog" className="btn btn-dark">
-          Каталог
-        </Link>
-        <Link href="/custom" className="btn btn-primary">
-          По файл
-        </Link>
-      </div>
     </>
   );
 }
