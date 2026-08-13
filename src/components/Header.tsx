@@ -3,11 +3,16 @@ import { IconCart } from "@/components/Icons";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { MobileNav } from "@/components/MobileNav";
 import { cartTotals, getCart } from "@/lib/cart";
-import { CATEGORIES } from "@/lib/shop-config";
+import {
+  featuredCategories,
+  navCategoryGroups,
+} from "@/lib/shop-config";
 
 export async function Header() {
   const cart = await getCart();
   const { itemCount } = cartTotals(cart);
+  const featured = featuredCategories();
+  const groups = navCategoryGroups();
 
   return (
     <header className="site-header">
@@ -24,20 +29,26 @@ export async function Header() {
                 ▾
               </span>
             </Link>
-            <div className="nav-dropdown-panel" role="menu">
-              <Link href="/#katalog" role="menuitem">
+            <div className="nav-dropdown-panel nav-dropdown-panel-wide" role="menu">
+              <Link href="/#katalog" role="menuitem" className="nav-dropdown-all">
                 Всички категории
               </Link>
-              <div className="nav-dropdown-divider" />
-              {CATEGORIES.filter((c) => c.id !== "other").map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/?cat=${c.id}#katalog`}
-                  role="menuitem"
-                >
-                  {c.label}
-                </Link>
-              ))}
+              <div className="nav-mega">
+                {groups.map(({ group, categories }) => (
+                  <div key={group.id} className="nav-mega-col">
+                    <p className="nav-mega-label">{group.label}</p>
+                    {categories.map((c) => (
+                      <Link
+                        key={c.id}
+                        href={`/?cat=${c.id}#katalog`}
+                        role="menuitem"
+                      >
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
           <Link href="/#kak-raboti">Как работи</Link>
@@ -62,12 +73,12 @@ export async function Header() {
         </div>
       </div>
 
-      <div className="category-bar" aria-label="Категории">
+      <div className="category-bar" aria-label="Популярни категории">
         <div className="container category-bar-inner">
           <Link href="/#katalog" className="category-bar-link">
             Всички
           </Link>
-          {CATEGORIES.filter((c) => c.id !== "other").map((c) => (
+          {featured.map((c) => (
             <Link
               key={c.id}
               href={`/?cat=${c.id}#katalog`}

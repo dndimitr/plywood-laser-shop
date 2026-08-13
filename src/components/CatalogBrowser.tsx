@@ -3,7 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ProductCard } from "@/components/ProductCard";
-import { CATEGORIES } from "@/lib/shop-config";
+import {
+  CATEGORIES,
+  CATEGORY_GROUPS,
+  categoryById,
+  navCategoryGroups,
+} from "@/lib/shop-config";
 
 type Product = {
   id: string;
@@ -16,7 +21,7 @@ type Product = {
 };
 
 function labelFor(id: string) {
-  return CATEGORIES.find((c) => c.id === id)?.label ?? id;
+  return categoryById(id)?.label ?? id;
 }
 
 export function CatalogBrowser({ products }: { products: Product[] }) {
@@ -55,7 +60,6 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
         products: byId.get(c.id) ?? [],
       })).filter((g) => g.products.length > 0);
 
-    // Any unknown category ids
     for (const [id, list] of byId) {
       if (!CATEGORIES.some((c) => c.id === id) && list.length) {
         ordered.push({ id, label: labelFor(id), products: list });
@@ -68,15 +72,20 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
     return ordered;
   }, [searched, category]);
 
-  const availableCats = useMemo(() => {
+  const filterGroups = useMemo(() => {
     const counts = new Map<string, number>();
     for (const p of products) {
       counts.set(p.category, (counts.get(p.category) ?? 0) + 1);
     }
-    return CATEGORIES.filter((c) => (counts.get(c.id) ?? 0) > 0).map((c) => ({
-      ...c,
-      count: counts.get(c.id) ?? 0,
-    }));
+
+    return navCategoryGroups()
+      .map(({ group, categories }) => ({
+        group,
+        categories: categories
+          .map((c) => ({ ...c, count: counts.get(c.id) ?? 0 }))
+          .filter((c) => c.count > 0),
+      }))
+      .filter((g) => g.categories.length > 0);
   }, [products]);
 
   function syncUrl(nextQ: string, nextCat: string) {
@@ -93,6 +102,8 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
   }
 
   const totalShown = groups.reduce((n, g) => n + g.products.length, 0);
+  const activeLabel =
+    category === "all" ? null : categoryById(category)?.label ?? category;
 
   return (
     <div>
@@ -110,25 +121,46 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
         </label>
       </div>
 
-      <nav className="catalog-cat-nav" aria-label="Категории в каталога">
-        <button
-          type="button"
-          className={category === "all" ? "cat-chip is-active" : "cat-chip"}
-          onClick={() => selectCategory("all")}
-        >
-          Всички
-          <span className="cat-chip-count">{products.length}</span>
-        </button>
-        {availableCats.map((c) => (
+      <nav className="catalog-filters" aria-label="Категории в каталога">
+        <div className="catalog-filter-row">
           <button
             type="button"
-            key={c.id}
-            className={category === c.id ? "cat-chip is-active" : "cat-chip"}
-            onClick={() => selectCategory(c.id)}
+            className={category === "all" ? "cat-chip is-active" : "cat-chip"}
+            onClick={() => selectCategory("all")}
           >
-            {c.label}
-            <span className="cat-chip-count">{c.count}</span>
+            Всички
+            <span className="cat-chip-count">{products.length}</span>
           </button>
+          {activeLabel ? (
+            <button
+              type="button"
+              className="cat-chip cat-chip-clear"
+              onClick={() => selectCategory("all")}
+            >
+              Изчисти · {activeLabel}
+            </button>
+          ) : null}
+        </div>
+
+        {filterGroups.map(({ group, categories }) => (
+          <div key={group.id} className="catalog-filter-group">
+            <p className="catalog-filter-label">{group.label}</p>
+            <div className="catalog-cat-nav">
+              {categories.map((c) => (
+                <button
+                  type="button"
+                  key={c.id}
+                  className={
+                    category === c.id ? "cat-chip is-active" : "cat-chip"
+                  }
+                  onClick={() => selectCategory(c.id)}
+                >
+                  {c.label}
+                  <span className="cat-chip-count">{c.count}</span>
+                </button>
+              ))}
+            </div>
+          </div>
         ))}
       </nav>
 
@@ -136,36 +168,123 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
         <p className="muted">Няма модели по избраните филтри.</p>
       ) : (
         <div className="catalog-groups">
-          {groups.map((group) => (
-            <section
-              key={group.id}
-              id={`cat-${group.id}`}
-              className="catalog-group"
-              aria-labelledby={`cat-title-${group.id}`}
-            >
-              <div className="catalog-group-head">
-                <h3 id={`cat-title-${group.id}`}>{group.label}</h3>
-                <span className="muted">
-                  {group.products.length}{" "}
-                  {group.products.length === 1 ? "модел" : "модела"}
-                </span>
-              </div>
-              <div className="product-grid">
-                {group.products.map((product) => (
-                  <ProductCard
-                    key={product.id}
-                    product={{
-                      name: product.name,
-                      slug: product.slug,
-                      description: product.description,
-                      basePrice: Number(product.basePrice),
-                      imageUrl: product.imageUrl,
-                    }}
-                  />
-                ))}
-              </div>
-            </section>
-          ))}
+          {category === "all"
+            ? CATEGORY_GROUPS.map((section) => {
+                const sectionGroups = groups.filter((g) =>
+                  section.categoryIds.includes(
+                    g.id as (typeof section.categoryIds)[number],
+                  ),
+                );
+                if (!sectionGroups.length) return null;
+                return (
+                  <div key={section.id} className="catalog-section">
+                    <h3 className="catalog-section-title">{section.label}</h3>
+                    {sectionGroups.map((group) => (
+                      <section
+                        key={group.id}
+                        id={`cat-${group.id}`}
+                        className="catalog-group"
+                        aria-labelledby={`cat-title-${group.id}`}
+                      >
+                        <div className="catalog-group-head">
+                          <h4 id={`cat-title-${group.id}`}>{group.label}</h4>
+                          <span className="muted">
+                            {group.products.length}{" "}
+                            {group.products.length === 1 ? "модел" : "модела"}
+                          </span>
+                        </div>
+                        <div className="product-grid">
+                          {group.products.map((product) => (
+                            <ProductCard
+                              key={product.id}
+                              product={{
+                                name: product.name,
+                                slug: product.slug,
+                                description: product.description,
+                                basePrice: Number(product.basePrice),
+                                imageUrl: product.imageUrl,
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </section>
+                    ))}
+                  </div>
+                );
+              })
+            : groups.map((group) => (
+                <section
+                  key={group.id}
+                  id={`cat-${group.id}`}
+                  className="catalog-group"
+                  aria-labelledby={`cat-title-${group.id}`}
+                >
+                  <div className="catalog-group-head">
+                    <h3 id={`cat-title-${group.id}`}>{group.label}</h3>
+                    <span className="muted">
+                      {group.products.length}{" "}
+                      {group.products.length === 1 ? "модел" : "модела"}
+                    </span>
+                  </div>
+                  <div className="product-grid">
+                    {group.products.map((product) => (
+                      <ProductCard
+                        key={product.id}
+                        product={{
+                          name: product.name,
+                          slug: product.slug,
+                          description: product.description,
+                          basePrice: Number(product.basePrice),
+                          imageUrl: product.imageUrl,
+                        }}
+                      />
+                    ))}
+                  </div>
+                </section>
+              ))}
+
+          {/* Unknown categories when viewing all */}
+          {category === "all"
+            ? groups
+                .filter(
+                  (g) =>
+                    !CATEGORY_GROUPS.some((section) =>
+                      section.categoryIds.includes(
+                        g.id as (typeof section.categoryIds)[number],
+                      ),
+                    ),
+                )
+                .map((group) => (
+                  <section
+                    key={group.id}
+                    id={`cat-${group.id}`}
+                    className="catalog-group"
+                    aria-labelledby={`cat-title-${group.id}`}
+                  >
+                    <div className="catalog-group-head">
+                      <h3 id={`cat-title-${group.id}`}>{group.label}</h3>
+                      <span className="muted">
+                        {group.products.length}{" "}
+                        {group.products.length === 1 ? "модел" : "модела"}
+                      </span>
+                    </div>
+                    <div className="product-grid">
+                      {group.products.map((product) => (
+                        <ProductCard
+                          key={product.id}
+                          product={{
+                            name: product.name,
+                            slug: product.slug,
+                            description: product.description,
+                            basePrice: Number(product.basePrice),
+                            imageUrl: product.imageUrl,
+                          }}
+                        />
+                      ))}
+                    </div>
+                  </section>
+                ))
+            : null}
         </div>
       )}
     </div>
