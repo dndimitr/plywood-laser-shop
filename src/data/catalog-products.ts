@@ -3180,6 +3180,224 @@ const DRAFTS: Draft[] = [
       },
     ]),
   },
+
+  // —— Стенни панели ——
+  {
+    name: "Геометричен панел „Лабиринт“",
+    slug: "panel-labirint-geometriya",
+    category: "panels",
+    description:
+      "Квадратен ажурен панел с лабиринтен геометричен мотив в четири квадранта. За стена, преграда или врата — 3 мм шперплат.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "30×30 см · 3 мм",
+        sizeLabel: "30×30 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "45×45 см · 3 мм · масло",
+        sizeLabel: "45×45 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 22,
+      },
+      {
+        label: "60×60 см · 4 мм · масло",
+        sizeLabel: "60×60 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 45,
+      },
+    ]),
+  },
+  {
+    name: "Ажурен панел „Цветна решетка“",
+    slug: "panel-cvetna-reshetka",
+    category: "panels",
+    description:
+      "Повтаряща се решетка с флорални арки и звезди. Класически лазерно изрязан мотив за хол, коридор или заведение.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "30×30 см · 3 мм",
+        sizeLabel: "30×30 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "45×45 см · 3 мм · масло",
+        sizeLabel: "45×45 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 22,
+      },
+      {
+        label: "60×60 см · 4 мм · масло",
+        sizeLabel: "60×60 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 45,
+      },
+    ]),
+  },
+  {
+    name: "Панел „Гръцки ключ“",
+    slug: "panel-gratski-klyuch",
+    category: "panels",
+    description:
+      "Стенен панел с меандър / гръцки ключ. Чисти прави линии, симетричен ритъм — модерен интериорен акцент.",
+    basePrice: 42,
+    options: opts([
+      {
+        label: "30×30 см · 3 мм",
+        sizeLabel: "30×30 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "40×60 см · 4 мм · масло",
+        sizeLabel: "40×60 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 28,
+      },
+    ]),
+  },
+  {
+    name: "Мароканска ажурна решетка",
+    slug: "panel-marokanska-reshetka",
+    category: "panels",
+    description:
+      "Ориенталска решетка с островърхи арки и розети. Подходяща за стена, ширма или декоративна врата.",
+    basePrice: 52,
+    options: opts([
+      {
+        label: "30×30 см · 3 мм",
+        sizeLabel: "30×30 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "50×50 см · 4 мм · масло",
+        sizeLabel: "50×50 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 35,
+      },
+    ]),
+  },
+  {
+    name: "Модулен хексагонален панел",
+    slug: "panel-heksagon-modulen",
+    category: "panels",
+    description:
+      "Шестоъгълен модул с ажур — комбинира се в големи стенни композиции. Поръчайте по бройка.",
+    basePrice: 18,
+    options: opts([
+      {
+        label: "Единичен · 3 мм",
+        sizeLabel: "ø20 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Комплект 7 бр. · масло",
+        sizeLabel: "ø20 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 95,
+      },
+    ]),
+  },
+  {
+    name: "Панел с вълнообразни линии",
+    slug: "panel-valnovi-linii",
+    category: "panels",
+    description:
+      "Минималистичен панел с паралелни вълни. Лек визуален ритъм за модерен хол или офис.",
+    basePrice: 44,
+    options: opts([
+      {
+        label: "40×40 см · 3 мм",
+        sizeLabel: "40×40 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "50×70 см · 4 мм · масло",
+        sizeLabel: "50×70 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 32,
+      },
+    ]),
+  },
+  {
+    name: "Панел с ромбове и диаманти",
+    slug: "panel-rombove",
+    category: "panels",
+    description:
+      "Геометрична мрежа от ромбове с различен мащаб. Добър акцент зад диван или рецепция.",
+    basePrice: 46,
+    options: opts([
+      {
+        label: "40×40 см · 3 мм",
+        sizeLabel: "40×40 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "60×40 см · 4 мм · масло",
+        sizeLabel: "60×40 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 28,
+      },
+    ]),
+  },
+  {
+    name: "Трислоен релефен панел",
+    slug: "panel-trisloen-relef",
+    category: "panels",
+    description:
+      "Три слоя шперплат за дълбочина и сянка. Премиум стенен декор — монтажът е с дистанционери.",
+    basePrice: 89,
+    options: opts([
+      {
+        label: "30×30 см · 3×3 мм",
+        sizeLabel: "30×30 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "45×45 см · масло",
+        sizeLabel: "45×45 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 40,
+      },
+    ]),
+  },
 ];
 
 export const CATALOG_PRODUCTS: SeedProduct[] = pack(DRAFTS);

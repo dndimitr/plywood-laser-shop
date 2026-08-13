@@ -4,6 +4,7 @@ export const CATEGORIES = [
   { id: "keychains", label: "Ключодържатели", labelEn: "Keychains" },
   { id: "signs", label: "Табели", labelEn: "Signs" },
   { id: "decor", label: "Декор", labelEn: "Decor" },
+  { id: "panels", label: "Стенни панели", labelEn: "Wall panels" },
   { id: "wedding", label: "Сватба", labelEn: "Wedding" },
   { id: "venues", label: "Заведения", labelEn: "Venues" },
   { id: "christmas", label: "Коледа", labelEn: "Christmas" },
