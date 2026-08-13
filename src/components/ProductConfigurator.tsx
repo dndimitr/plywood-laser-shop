@@ -101,9 +101,7 @@ export function ProductConfigurator({
     <>
       <div className="configurator">
         <h2>Конфигурация</h2>
-        <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "1rem" }}>
-          {productName}
-        </p>
+        <p className="muted configurator-product-name">{productName}</p>
 
         <label className="field">
           <span>Вариант (размер / материал / обработка)</span>
@@ -181,7 +179,7 @@ export function ProductConfigurator({
           Ускорена изработка (+50%)
         </label>
 
-        <p className="price-line" aria-live="polite">
+        <p className="price-line desktop-price-line" aria-live="polite">
           Цена: <strong>{formatBgn(lineTotal)}</strong>
         </p>
 
@@ -193,25 +191,28 @@ export function ProductConfigurator({
 
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary configurator-submit"
           disabled={pending}
           onClick={addToCart}
-          style={{ width: "100%" }}
         >
           <IconCart size={18} aria-hidden />
           {pending ? "Добавяне…" : "Добави в количката"}
         </button>
       </div>
 
-      <div className="mobile-cta" aria-label="Добавяне в количката">
+      <div className="product-mobile-cta" aria-label="Добавяне в количката">
+        <div className="product-mobile-cta-price">
+          <span className="muted">Общо</span>
+          <strong>{formatBgn(lineTotal)}</strong>
+        </div>
         <button
           type="button"
           className="btn btn-primary"
           disabled={pending}
           onClick={addToCart}
-          style={{ width: "100%" }}
         >
-          {pending ? "Добавяне…" : `Добави · ${formatBgn(lineTotal)}`}
+          <IconCart size={18} aria-hidden />
+          {pending ? "…" : "Добави"}
         </button>
       </div>
     </>
