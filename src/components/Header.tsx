@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { IconCart } from "@/components/Icons";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
+import { MobileNav } from "@/components/MobileNav";
 import { cartTotals, getCart } from "@/lib/cart";
 import { CATEGORIES } from "@/lib/shop-config";
 
@@ -14,7 +15,8 @@ export async function Header() {
         <Link href="/" className="brand" aria-label="ЛазерШперплат — начало">
           ЛазерШперплат
         </Link>
-        <nav className="nav" aria-label="Основна навигация">
+
+        <nav className="nav desktop-nav" aria-label="Основна навигация">
           <div className="nav-dropdown">
             <Link href="/#katalog" className="nav-dropdown-trigger">
               Каталог
@@ -42,19 +44,24 @@ export async function Header() {
           <Link href="/custom">По файл</Link>
           <Link href="/account">Поръчки</Link>
           <LocaleSwitch />
+        </nav>
+
+        <div className="header-actions">
           <Link
             href="/cart"
             className="nav-cart"
             aria-label={`Количка, ${itemCount} артикула`}
           >
             <IconCart size={18} aria-hidden />
-            Количка
+            <span className="nav-cart-label">Количка</span>
             {itemCount > 0 ? (
               <span className="cart-badge">{itemCount}</span>
             ) : null}
           </Link>
-        </nav>
+          <MobileNav cartCount={itemCount} />
+        </div>
       </div>
+
       <div className="category-bar" aria-label="Категории">
         <div className="container category-bar-inner">
           <Link href="/#katalog" className="category-bar-link">

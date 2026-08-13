@@ -110,3 +110,22 @@ export function IconCheck(props: IconProps) {
     </svg>
   );
 }
+
+export function IconMenu(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M40 72h176" />
+      <path d="M40 128h176" />
+      <path d="M40 184h176" />
+    </svg>
+  );
+}
+
+export function IconClose(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M64 64l128 128" />
+      <path d="M192 64 64 192" />
+    </svg>
+  );
+}
