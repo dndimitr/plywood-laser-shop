@@ -81,8 +81,15 @@ export function ProductConfigurator({
         }),
       });
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error?.formErrors?.[0] ?? "Грешка при добавяне");
+        const data = await res.json().catch(() => ({}));
+        const err = data?.error;
+        const message =
+          (typeof err === "string" && err) ||
+          err?.formErrors?.[0] ||
+          err?.fieldErrors?.optionId?.[0] ||
+          err?.fieldErrors?.productId?.[0] ||
+          "Грешка при добавяне";
+        throw new Error(message);
       }
       router.push("/cart");
       router.refresh();
@@ -201,19 +208,26 @@ export function ProductConfigurator({
       </div>
 
       <div className="product-mobile-cta" aria-label="Добавяне в количката">
-        <div className="product-mobile-cta-price">
-          <span className="muted">Общо</span>
-          <strong>{formatBgn(lineTotal)}</strong>
+        {error ? (
+          <p className="error product-mobile-cta-error" role="alert">
+            {error}
+          </p>
+        ) : null}
+        <div className="product-mobile-cta-row">
+          <div className="product-mobile-cta-price">
+            <span className="muted">Общо</span>
+            <strong>{formatBgn(lineTotal)}</strong>
+          </div>
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={pending}
+            onClick={addToCart}
+          >
+            <IconCart size={18} aria-hidden />
+            {pending ? "…" : "Добави"}
+          </button>
         </div>
-        <button
-          type="button"
-          className="btn btn-primary"
-          disabled={pending}
-          onClick={addToCart}
-        >
-          <IconCart size={18} aria-hidden />
-          {pending ? "…" : "Добави"}
-        </button>
       </div>
     </>
   );
