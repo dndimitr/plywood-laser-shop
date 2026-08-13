@@ -17,6 +17,7 @@ export type CategoryId =
   | "keychains"
   | "jewelry"
   | "pets"
+  | "auto"
   | "other";
 
 export type CategoryDef = {
@@ -50,6 +51,7 @@ export const CATEGORIES: readonly CategoryDef[] = [
   { id: "keychains", label: "Ключодържатели", labelEn: "Keychains" },
   { id: "jewelry", label: "Бижута", labelEn: "Jewelry" },
   { id: "pets", label: "Домашни любимци", labelEn: "Pets" },
+  { id: "auto", label: "Авто маниаци", labelEn: "Car enthusiasts" },
   // Fallback
   { id: "other", label: "Други", labelEn: "Other" },
 ] as const;
@@ -85,7 +87,7 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
     id: "accessories",
     label: "Аксесоари",
     labelEn: "Accessories",
-    categoryIds: ["keychains", "jewelry", "pets"],
+    categoryIds: ["keychains", "jewelry", "pets", "auto"],
   },
 ] as const;
 
@@ -100,7 +102,7 @@ export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
   "panels",
   "signs",
   "keychains",
-  "venues",
+  "auto",
 ] as const;
 
 export function categoryById(id: string): CategoryDef | undefined {
