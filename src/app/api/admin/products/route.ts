@@ -1,0 +1,68 @@
+import { NextResponse } from "next/server";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { productFormSchema } from "@/lib/validators";
+
+async function requireAdmin() {
+  const session = await auth();
+  if (!session?.user) {
+    return null;
+  }
+  return session;
+}
+
+export async function GET() {
+  if (!(await requireAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const products = await prisma.product.findMany({
+    include: { options: true },
+    orderBy: { updatedAt: "desc" },
+  });
+  return NextResponse.json(products);
+}
+
+export async function POST(request: Request) {
+  if (!(await requireAdmin())) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await request.json();
+  const parsed = productFormSchema.safeParse(body);
+  if (!parsed.success) {
+    return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+  }
+
+  const product = await prisma.product.create({
+    data: {
+      name: parsed.data.name,
+      slug: parsed.data.slug,
+      description: parsed.data.description,
+      basePrice: parsed.data.basePrice,
+      imageUrl: parsed.data.imageUrl || null,
+      active: parsed.data.active,
+      options: {
+        create: Array.isArray(body.options)
+          ? body.options.map(
+              (o: {
+                label: string;
+                sizeLabel: string;
+                thicknessMm: number;
+                laserType: "ENGRAVE" | "CUT" | "BOTH";
+                priceModifier: number;
+              }) => ({
+                label: o.label,
+                sizeLabel: o.sizeLabel,
+                thicknessMm: Number(o.thicknessMm),
+                laserType: o.laserType,
+                priceModifier: Number(o.priceModifier),
+              }),
+            )
+          : [],
+      },
+    },
+    include: { options: true },
+  });
+
+  return NextResponse.json(product);
+}

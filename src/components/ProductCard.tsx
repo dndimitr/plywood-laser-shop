@@ -1,0 +1,53 @@
+import Link from "next/link";
+import Image from "next/image";
+import { IconArrowRight } from "@/components/Icons";
+import { formatBgn } from "@/lib/pricing";
+
+type Props = {
+  product: {
+    name: string;
+    slug: string;
+    description: string;
+    basePrice: number | string;
+    imageUrl: string | null;
+  };
+};
+
+export function ProductCard({ product }: Props) {
+  return (
+    <Link href={`/products/${product.slug}`} className="product-card">
+      <div className="product-card-media">
+        {product.imageUrl ? (
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            sizes="(max-width:768px) 100vw, 33vw"
+            className="object-cover"
+            style={{ objectFit: "cover" }}
+            unoptimized={product.imageUrl.endsWith(".svg")}
+          />
+        ) : (
+          <div className="product-card-placeholder" aria-hidden />
+        )}
+      </div>
+      <div className="product-card-body">
+        <h3>{product.name}</h3>
+        <p>{product.description}</p>
+        <span className="price">от {formatBgn(Number(product.basePrice))}</span>
+        <span
+          className="muted"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "0.35rem",
+            fontSize: "0.88rem",
+            fontWeight: 600,
+          }}
+        >
+          Конфигурирай <IconArrowRight size={14} aria-hidden />
+        </span>
+      </div>
+    </Link>
+  );
+}

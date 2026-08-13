@@ -1,0 +1,201 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum LaserType {
+  ENGRAVE
+  CUT
+  BOTH
+}
+
+enum OrderStatus {
+  NEW
+  AWAITING_DESIGN
+  DESIGN_APPROVED
+  DESIGN_REJECTED
+  IN_PRODUCTION
+  SHIPPED
+  DONE
+  CANCELLED
+}
+
+enum PaymentMethod {
+  BANK_TRANSFER
+  CASH_ON_DELIVERY
+  CARD
+}
+
+enum PaymentStatus {
+  PENDING
+  AWAITING_TRANSFER
+  PAID
+  REFUNDED
+}
+
+enum OrderItemType {
+  TEMPLATE
+  CUSTOM
+}
+
+enum Courier {
+  ECONT
+  SPEEDY
+  PICKUP
+}
+
+enum DesignReviewStatus {
+  NOT_REQUIRED
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model AdminUser {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Customer {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String?
+  name         String?
+  phone        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+}
+
+model Product {
+  id            String          @id @default(cuid())
+  name          String
+  slug          String          @unique
+  description   String
+  category      String          @default("other")
+  basePrice     Decimal         @db.Decimal(10, 2)
+  imageUrl      String?
+  galleryUrls   Json            @default("[]")
+  active        Boolean         @default(true)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  options       ProductOption[]
+  orderItems    OrderItem[]
+  reviews       Review[]
+}
+
+model ProductOption {
+  id             String    @id @default(cuid())
+  productId      String
+  product        Product   @relation(fields: [productId], references: [id], onDelete: Cascade)
+  label          String
+  sizeLabel      String
+  thicknessMm    Int
+  laserType      LaserType
+  material       String    @default("birch-plywood")
+  finish         String    @default("raw")
+  doubleSided    Boolean   @default(false)
+  priceModifier  Decimal   @db.Decimal(10, 2)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([productId])
+}
+
+model PricingRule {
+  id                     String   @id @default(cuid())
+  name                   String   @unique
+  pricePerCm2            Decimal  @db.Decimal(10, 4)
+  thicknessCoefficients  Json
+  complexityMultipliers  Json
+  quantityDiscounts      Json     @default("[]")
+  rushMultiplier         Decimal  @db.Decimal(4, 2) @default(1.5)
+  minPrice               Decimal  @db.Decimal(10, 2) @default(15)
+  minOrderAmount         Decimal  @db.Decimal(10, 2) @default(0)
+  active                 Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+}
+
+model UploadedDesign {
+  id           String      @id @default(cuid())
+  url          String
+  originalName String
+  mimeType     String
+  sizeBytes    Int
+  widthCm      Float?
+  heightCm     Float?
+  createdAt    DateTime    @default(now())
+  orderItems   OrderItem[]
+}
+
+model Order {
+  id                String             @id @default(cuid())
+  publicToken       String             @unique
+  status            OrderStatus        @default(NEW)
+  designReview      DesignReviewStatus @default(NOT_REQUIRED)
+  customerId        String?
+  customer          Customer?          @relation(fields: [customerId], references: [id])
+  customerName      String
+  customerEmail     String
+  customerPhone     String
+  companyName       String?
+  vatNumber         String?
+  needInvoice       Boolean            @default(false)
+  shippingAddress   String
+  shippingNote      String?
+  courier           Courier            @default(ECONT)
+  shippingFee       Decimal            @db.Decimal(10, 2) @default(0)
+  rush              Boolean            @default(false)
+  paymentMethod     PaymentMethod
+  paymentStatus     PaymentStatus      @default(PENDING)
+  subtotalAmount    Decimal            @db.Decimal(10, 2)
+  totalAmount       Decimal            @db.Decimal(10, 2)
+  adminNotes        String?
+  locale            String             @default("bg")
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  items             OrderItem[]
+
+  @@index([customerEmail])
+  @@index([publicToken])
+}
+
+model OrderItem {
+  id                String           @id @default(cuid())
+  orderId           String
+  order             Order            @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  type              OrderItemType
+  productId         String?
+  product           Product?         @relation(fields: [productId], references: [id])
+  uploadedDesignId  String?
+  uploadedDesign    UploadedDesign?  @relation(fields: [uploadedDesignId], references: [id])
+  title             String
+  quantity          Int              @default(1)
+  unitPrice         Decimal          @db.Decimal(10, 2)
+  personalization   Json
+  createdAt         DateTime         @default(now())
+
+  @@index([orderId])
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  productId  String?
+  product    Product? @relation(fields: [productId], references: [id])
+  authorName String
+  rating     Int
+  body       String
+  published  Boolean  @default(true)
+  createdAt  DateTime @default(now())
+
+  @@index([productId])
+}
