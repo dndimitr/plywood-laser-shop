@@ -1,19 +1,34 @@
 import { z } from "zod";
 
-export const checkoutSchema = z.object({
-  customerName: z.string().min(2, "Въведете име"),
-  customerEmail: z.string().email("Невалиден имейл"),
-  customerPhone: z.string().min(6, "Въведете телефон"),
-  shippingAddress: z.string().min(5, "Въведете адрес или офис на куриер"),
-  shippingNote: z.string().optional(),
-  paymentMethod: z.enum(["BANK_TRANSFER", "CASH_ON_DELIVERY", "CARD"]),
-  courier: z.enum(["ECONT", "SPEEDY", "PICKUP"]).default("ECONT"),
-  rush: z.boolean().default(false),
-  needInvoice: z.boolean().default(false),
-  companyName: z.string().optional(),
-  vatNumber: z.string().optional(),
-  locale: z.enum(["bg", "en"]).default("bg"),
-});
+export const checkoutSchema = z
+  .object({
+    customerName: z.string().min(2, "Въведете име"),
+    customerEmail: z.string().email("Невалиден имейл"),
+    customerPhone: z.string().min(6, "Въведете телефон"),
+    shippingAddress: z.string().min(5, "Въведете адрес или офис на куриер"),
+    shippingNote: z.string().optional(),
+    paymentMethod: z.enum(["BANK_TRANSFER", "CASH_ON_DELIVERY", "CARD"]),
+    courier: z.enum(["ECONT", "SPEEDY", "PICKUP"]).default("ECONT"),
+    rush: z.boolean().default(false),
+    needInvoice: z.boolean().default(false),
+    companyName: z.string().optional(),
+    vatNumber: z.string().optional(),
+    locale: z.enum(["bg", "en"]).default("bg"),
+  })
+  .superRefine((data, ctx) => {
+    // Наложен платеж при доставка изисква куриер (не лично получаване)
+    if (
+      data.paymentMethod === "CASH_ON_DELIVERY" &&
+      data.courier === "PICKUP"
+    ) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["paymentMethod"],
+        message:
+          "Наложеният платеж е само при доставка с куриер. Изберете Еконт или Speedy, или друг начин на плащане.",
+      });
+    }
+  });
 
 export const customQuoteSchema = z.object({
   widthCm: z.coerce.number().positive().max(200),

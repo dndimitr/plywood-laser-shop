@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
 import { COURIERS } from "@/lib/shop-config";
@@ -26,9 +26,18 @@ export function CheckoutForm({ subtotal }: Props) {
     locale: "bg",
   });
 
+  const isPickup = form.courier === "PICKUP";
+  const codAvailable = !isPickup;
+
   function update(key: string, value: string | boolean) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
+
+  useEffect(() => {
+    if (isPickup && form.paymentMethod === "CASH_ON_DELIVERY") {
+      setForm((prev) => ({ ...prev, paymentMethod: "BANK_TRANSFER" }));
+    }
+  }, [isPickup, form.paymentMethod]);
 
   const shippingFee =
     COURIERS.find((c) => c.id === form.courier)?.fee ?? 0;
@@ -39,6 +48,12 @@ export function CheckoutForm({ subtotal }: Props) {
     setPending(true);
     setError(null);
     try {
+      if (form.paymentMethod === "CASH_ON_DELIVERY" && isPickup) {
+        throw new Error(
+          "Наложеният платеж е само при доставка с куриер. Изберете Еконт или Speedy.",
+        );
+      }
+
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -49,7 +64,8 @@ export function CheckoutForm({ subtotal }: Props) {
         throw new Error(
           typeof data.error === "string"
             ? data.error
-            : "Проверете данните във формата",
+            : data?.details?.fieldErrors?.paymentMethod?.[0] ??
+                "Проверете данните във формата",
         );
       }
 
@@ -140,13 +156,19 @@ export function CheckoutForm({ subtotal }: Props) {
       </label>
 
       <label className="field">
-        <span>Адрес / офис на куриер</span>
+        <span>
+          {isPickup ? "Адрес / място за получаване" : "Адрес / офис на куриер"}
+        </span>
         <textarea
           required
           rows={3}
           value={form.shippingAddress}
           onChange={(e) => update("shippingAddress", e.target.value)}
-          placeholder="Град, улица № или офис на Еконт / Speedy"
+          placeholder={
+            isPickup
+              ? "Къде ще получите поръчката"
+              : "Град, улица № или офис на Еконт / Speedy"
+          }
         />
       </label>
       <label className="field">
@@ -196,36 +218,62 @@ export function CheckoutForm({ subtotal }: Props) {
         </div>
       ) : null}
 
-      <fieldset className="field">
+      <fieldset className="field payment-methods">
         <legend>Начин на плащане</legend>
-        <label className="radio">
+
+        <label className={`payment-option${codAvailable ? "" : " is-disabled"}`}>
           <input
             type="radio"
             name="payment"
             checked={form.paymentMethod === "CASH_ON_DELIVERY"}
+            disabled={!codAvailable}
             onChange={() => update("paymentMethod", "CASH_ON_DELIVERY")}
           />
-          Наложен платеж
+          <span className="payment-option-body">
+            <strong>Наложен платеж при доставка</strong>
+            <span className="muted">
+              {codAvailable
+                ? "Плащате в брой или с карта на куриера при получаване на пратката."
+                : "Наличен само при доставка с Еконт или Speedy."}
+            </span>
+          </span>
         </label>
-        <label className="radio">
+
+        <label className="payment-option">
           <input
             type="radio"
             name="payment"
             checked={form.paymentMethod === "BANK_TRANSFER"}
             onChange={() => update("paymentMethod", "BANK_TRANSFER")}
           />
-          Банков превод
+          <span className="payment-option-body">
+            <strong>Банков превод</strong>
+            <span className="muted">
+              Ще получите IBAN и основание след потвърждение на поръчката.
+            </span>
+          </span>
         </label>
-        <label className="radio">
+
+        <label className="payment-option">
           <input
             type="radio"
             name="payment"
             checked={form.paymentMethod === "CARD"}
             onChange={() => update("paymentMethod", "CARD")}
           />
-          Карта онлайн (Stripe)
+          <span className="payment-option-body">
+            <strong>Карта онлайн</strong>
+            <span className="muted">Плащане чрез Stripe (ако е активирано).</span>
+          </span>
         </label>
       </fieldset>
+
+      {form.paymentMethod === "CASH_ON_DELIVERY" && codAvailable ? (
+        <p className="payment-hint muted" role="note">
+          Сумата от {formatBgn(estimatedTotal)} се дължи при получаване от{" "}
+          {form.courier === "SPEEDY" ? "Speedy" : "Еконт"}.
+        </p>
+      ) : null}
 
       {error ? (
         <p className="error" role="alert">
