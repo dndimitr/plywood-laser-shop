@@ -3398,6 +3398,259 @@ const DRAFTS: Draft[] = [
       },
     ]),
   },
+
+  // —— Авто маниаци ——
+  {
+    name: "Ключодържател силует кола",
+    slug: "avto-klyuchodarzhatel-kola",
+    category: "auto",
+    description:
+      "Лазерно изрязан силует на автомобил с опция за гравирано име или инициали. За ключове от гаража или подарък на шофьор.",
+    basePrice: 13,
+    options: opts([
+      {
+        label: "Седан · 3 мм",
+        sizeLabel: "6×3 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "SUV · 4 мм · масло",
+        sizeLabel: "7×3.5 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 5,
+      },
+    ]),
+  },
+  {
+    name: "Ключодържател с рег. номер",
+    slug: "avto-klyuchodarzhatel-nomer",
+    category: "auto",
+    description:
+      "Мини табелка с ваш регистрационен номер или гаражен код. Гравиране по поръчка — ясен шрифт, чисти ръбове.",
+    basePrice: 14,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм",
+        sizeLabel: "5×2.5 см",
+        thicknessMm: 3,
+        laserType: "ENGRAVE",
+        priceModifier: 0,
+      },
+      {
+        label: "Премиум · двустранно",
+        sizeLabel: "6×3 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        doubleSided: true,
+        priceModifier: 7,
+      },
+    ]),
+  },
+  {
+    name: "Ключодържател волан",
+    slug: "avto-klyuchodarzhatel-volan",
+    category: "auto",
+    description:
+      "Ажурен волан от шперплат — компактен аксесоар за ключове. Добавете инициали в центъра по желание.",
+    basePrice: 12,
+    options: opts([
+      {
+        label: "Стандартен · 3 мм",
+        sizeLabel: "5×5 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С гравиране · масло",
+        sizeLabel: "5.5×5.5 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Табела за гараж",
+    slug: "avto-tabela-garazh",
+    category: "auto",
+    description:
+      "Стенна табела „Garage“ или с ваше име/номер на бокс. Подходяща за домашен гараж или работилница.",
+    basePrice: 32,
+    options: opts([
+      {
+        label: "Средна · 4 мм",
+        sizeLabel: "30×12 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · масло",
+        sizeLabel: "40×15 см",
+        thicknessMm: 6,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 18,
+      },
+    ]),
+  },
+  {
+    name: "Паркинг табела с име",
+    slug: "avto-parking-tabela",
+    category: "auto",
+    description:
+      "Резервирано паркомясто с име или фамилия. Лазерно изрязан текст — ясно четим от разстояние.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 4 мм",
+        sizeLabel: "25×10 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · 6 мм",
+        sizeLabel: "35×12 см",
+        thicknessMm: 6,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Стенен силует класическа кола",
+    slug: "avto-siluet-klasika",
+    category: "auto",
+    description:
+      "Декоративен силует на класически автомобил за стена в гараж, кабинет или шоурум. Чист контур, готов за окачване.",
+    basePrice: 45,
+    options: opts([
+      {
+        label: "Среден · 4 мм",
+        sizeLabel: "40×15 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · масло",
+        sizeLabel: "60×22 см",
+        thicknessMm: 6,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 25,
+      },
+    ]),
+  },
+  {
+    name: "Подложки за чаши — авто",
+    slug: "avto-podlozhki-chashi",
+    category: "auto",
+    description:
+      "Комплект подложки с автомобилни мотиви (волан, гуми, силуети). Практичен подарък за авто ентусиасти.",
+    basePrice: 22,
+    options: opts([
+      {
+        label: "4 бр. · 3 мм",
+        sizeLabel: "9×9 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "6 бр. · масло",
+        sizeLabel: "9×9 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 10,
+      },
+    ]),
+  },
+  {
+    name: "Ключодържател за гараж — кука панел",
+    slug: "avto-kuka-panel-klyuchove",
+    category: "auto",
+    description:
+      "Стенен панел с куки за ключове от колата и къщата. Гравиран надпис по избор — „Keys“, „Garage“ или име.",
+    basePrice: 36,
+    options: opts([
+      {
+        label: "3 куки · 4 мм",
+        sizeLabel: "25×10 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "5 куки · масло",
+        sizeLabel: "35×12 см",
+        thicknessMm: 6,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 16,
+      },
+    ]),
+  },
+  {
+    name: "Плакет „Първа кола“",
+    slug: "avto-plaket-parva-kola",
+    category: "auto",
+    description:
+      "Споменен плакет с дата и текст за първата кола или важна покупка. Подходящ подарък за шофьорски изпит или юбилей.",
+    basePrice: 38,
+    options: opts([
+      {
+        label: "Стандарт · 4 мм",
+        sizeLabel: "20×15 см",
+        thicknessMm: 4,
+        laserType: "ENGRAVE",
+        priceModifier: 0,
+      },
+      {
+        label: "Премиум · рамка · масло",
+        sizeLabel: "25×18 см",
+        thicknessMm: 6,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 18,
+      },
+    ]),
+  },
+  {
+    name: "Табела модел / двигател",
+    slug: "avto-tabela-model-dvigatel",
+    category: "auto",
+    description:
+      "Декоративна табела с модел, година или тип двигател — за стена до колекцията или в гаража. Текстът е по ваш макет.",
+    basePrice: 34,
+    options: opts([
+      {
+        label: "Средна · 4 мм",
+        sizeLabel: "28×10 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · 6 мм · масло",
+        sizeLabel: "40×12 см",
+        thicknessMm: 6,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 16,
+      },
+    ]),
+  },
 ];
 
 export const CATALOG_PRODUCTS: SeedProduct[] = pack(DRAFTS);
