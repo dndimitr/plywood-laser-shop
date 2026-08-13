@@ -1,7 +1,8 @@
-import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { ProductConfigurator } from "@/components/ProductConfigurator";
+import { ProductGallery } from "@/components/ProductGallery";
 import {
   RecentlyViewed,
   TrackProductView,
@@ -40,79 +41,58 @@ export default async function ProductPage({ params }: Props) {
         ? [product.imageUrl]
         : [];
 
+  const basePrice = Number(product.basePrice);
+
   return (
-    <div className="container product-detail">
-      <TrackProductView slug={product.slug} name={product.name} />
-      <div className="product-detail-grid">
-        <div>
-          <div className="detail-media">
-            {gallery[0] ? (
-              <Image
-                src={gallery[0]}
-                alt={product.name}
-                fill
-                sizes="(max-width:860px) 100vw, 55vw"
-                className="object-cover"
-                style={{ objectFit: "cover" }}
-                unoptimized={gallery[0].endsWith(".svg")}
-              />
-            ) : null}
+    <div className="product-detail">
+      <TrackProductView
+        slug={product.slug}
+        name={product.name}
+        imageUrl={product.imageUrl ?? gallery[0] ?? null}
+        basePrice={basePrice}
+      />
+
+      <div className="container">
+        <nav className="product-breadcrumb" aria-label="Навигация">
+          <Link href="/#katalog">Каталог</Link>
+          <span aria-hidden>/</span>
+          <span>{product.name}</span>
+        </nav>
+
+        <div className="product-detail-grid">
+          <div className="product-detail-main">
+            <ProductGallery images={gallery} alt={product.name} />
+
+            <header className="product-detail-header">
+              <h1 className="page-title">{product.name}</h1>
+              <p className="price product-detail-price">
+                от {formatBgn(basePrice)}
+              </p>
+              <p className="product-detail-desc">{product.description}</p>
+            </header>
           </div>
-          {gallery.length > 1 ? (
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(3,1fr)",
-                gap: "0.5rem",
-                marginTop: "0.5rem",
-              }}
-            >
-              {gallery.slice(1, 4).map((url) => (
-                <div
-                  key={url}
-                  style={{
-                    position: "relative",
-                    aspectRatio: "4/3",
-                    border: "1px solid var(--line)",
-                  }}
-                >
-                  <Image
-                    src={url}
-                    alt=""
-                    fill
-                    sizes="120px"
-                    style={{ objectFit: "cover" }}
-                    unoptimized={url.endsWith(".svg")}
-                  />
-                </div>
-              ))}
-            </div>
-          ) : null}
-          <h1 className="page-title" style={{ marginTop: "1.25rem" }}>
-            {product.name}
-          </h1>
-          <p className="muted">{product.description}</p>
-          <p className="price">от {formatBgn(Number(product.basePrice))}</p>
-          <RecentlyViewed />
+
+          <ProductConfigurator
+            productId={product.id}
+            productName={product.name}
+            basePrice={basePrice}
+            options={product.options.map((o) => ({
+              id: o.id,
+              label: o.label,
+              sizeLabel: o.sizeLabel,
+              thicknessMm: o.thicknessMm,
+              laserType: o.laserType,
+              priceModifier: Number(o.priceModifier),
+              material: o.material,
+              finish: o.finish,
+              doubleSided: Boolean(o.doubleSided),
+              materialLabel: materialLabel[o.material] ?? o.material,
+              finishLabel: finishLabel[o.finish] ?? o.finish,
+            }))}
+          />
         </div>
-        <ProductConfigurator
-          productId={product.id}
-          productName={product.name}
-          basePrice={Number(product.basePrice)}
-          options={product.options.map((o) => ({
-            id: o.id,
-            label: o.label,
-            sizeLabel: o.sizeLabel,
-            thicknessMm: o.thicknessMm,
-            laserType: o.laserType,
-            priceModifier: Number(o.priceModifier),
-            material: o.material,
-            finish: o.finish,
-            doubleSided: Boolean(o.doubleSided),
-            materialLabel: materialLabel[o.material] ?? o.material,
-            finishLabel: finishLabel[o.finish] ?? o.finish,
-          }))}
-        />
+
+        <RecentlyViewed excludeSlug={product.slug} />
       </div>
     </div>
   );
