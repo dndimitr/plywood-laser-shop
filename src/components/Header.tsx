@@ -2,6 +2,7 @@ import Link from "next/link";
 import { IconCart } from "@/components/Icons";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { MobileNav } from "@/components/MobileNav";
+import { TopInfoBar } from "@/components/TopInfoBar";
 import { cartTotals, getCart } from "@/lib/cart";
 import {
   featuredCategories,
@@ -16,6 +17,7 @@ export async function Header() {
 
   return (
     <header className="site-header">
+      <TopInfoBar />
       <div className="container header-inner">
         <Link href="/" className="brand" aria-label="ЛазерШперплат — начало">
           ЛазерШперплат
