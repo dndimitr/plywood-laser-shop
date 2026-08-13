@@ -114,10 +114,9 @@ export default async function HomePage() {
 
       <section id="katalog" className="section section-alt" style={{ scrollMarginTop: "var(--header-h)" }}>
         <div className="container">
-          <h2>Каталог — готови модели</h2>
+          <h2>Каталог</h2>
           <p className="section-lead">
-            Продуктите са групирани по поводи, дом, бизнес и аксесоари. Изберете
-            категория от менюто или филтрирайте тук.
+            Готови модели по поводи, дом, бизнес и аксесоари.
           </p>
           <Suspense fallback={<p className="muted">Зареждане…</p>}>
             <CatalogBrowser
