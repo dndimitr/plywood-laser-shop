@@ -163,7 +163,10 @@ export type LocalDb = {
   reviews: LocalReview[];
 };
 
-const DATA_DIR = path.join(process.cwd(), "data");
+const DATA_DIR =
+  process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME
+    ? path.join("/tmp", "plywood-laser-shop-data")
+    : path.join(process.cwd(), "data");
 const DB_PATH = path.join(DATA_DIR, "local-db.json");
 
 function nowIso() {
