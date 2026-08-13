@@ -7,7 +7,6 @@ import {
   CATEGORIES,
   CATEGORY_GROUPS,
   categoryById,
-  featuredCategories,
   navCategoryGroups,
 } from "@/lib/shop-config";
 
@@ -133,12 +132,6 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
       .filter((g) => g.categories.length > 0);
   }, [counts]);
 
-  const featured = useMemo(() => {
-    return featuredCategories()
-      .map((c) => ({ ...c, count: counts.get(c.id) ?? 0 }))
-      .filter((c) => c.count > 0);
-  }, [counts]);
-
   function syncUrl(nextQ: string, nextCat: string) {
     const sp = new URLSearchParams();
     if (nextQ.trim()) sp.set("q", nextQ.trim());
@@ -156,8 +149,6 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
   const totalShown = groups.reduce((n, g) => n + g.products.length, 0);
   const activeLabel =
     category === "all" ? null : categoryById(category)?.label ?? category;
-  const featuredIds = new Set<string>(featured.map((c) => c.id));
-  const activeInFeatured = category !== "all" && featuredIds.has(category);
 
   function renderChip(c: CatWithCount | { id: "all"; label: string; count: number }) {
     const isActive = c.id === "all" ? category === "all" : category === c.id;
@@ -176,12 +167,13 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
 
   return (
     <div className="catalog-browser">
-      <div className="catalog-toolbar">
-        <label className="field" style={{ marginBottom: 0, flex: 1 }}>
+      {/* Mobile: search + filters button, no horizontal scroll */}
+      <div className="catalog-mobile-bar">
+        <label className="field catalog-mobile-search">
           <span className="sr-only">Търсене</span>
           <input
             value={q}
-            placeholder="Търсене в каталога…"
+            placeholder="Търсене…"
             onChange={(e) => {
               setQ(e.target.value);
               syncUrl(e.target.value, category);
@@ -189,56 +181,66 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
             aria-label="Търсене в каталога"
           />
         </label>
+        <button
+          type="button"
+          className={`catalog-filter-btn${category !== "all" ? " has-filter" : ""}`}
+          aria-expanded={filtersOpen}
+          aria-controls="catalog-filter-sheet"
+          onClick={() => setFiltersOpen(true)}
+        >
+          Филтри
+          {category !== "all" ? <span className="catalog-filter-dot" /> : null}
+        </button>
       </div>
 
-      {/* Mobile: compact horizontal row + filters button */}
-      <nav className="catalog-mobile-filters" aria-label="Категории">
-        <div className="catalog-chip-row">
-          {renderChip({ id: "all", label: "Всички", count: products.length })}
-          {featured.map((c) => renderChip(c))}
+      {activeLabel ? (
+        <div className="catalog-active-filter">
           <button
             type="button"
-            className={`catalog-filter-btn${category !== "all" && !activeInFeatured ? " has-filter" : ""}`}
-            aria-expanded={filtersOpen}
-            aria-controls="catalog-filter-sheet"
-            onClick={() => setFiltersOpen(true)}
+            className="catalog-active-chip"
+            onClick={() => selectCategory("all")}
+            aria-label={`Премахни филтър ${activeLabel}`}
           >
-            Филтри
-            {category !== "all" ? <span className="catalog-filter-dot" /> : null}
+            <span>
+              {activeLabel}
+              <span className="muted"> · филтър</span>
+            </span>
+            <span className="catalog-active-clear" aria-hidden>
+              ×
+            </span>
           </button>
         </div>
+      ) : null}
 
-        {activeLabel && !activeInFeatured ? (
-          <div className="catalog-active-filter">
-            <button
-              type="button"
-              className="cat-chip is-active catalog-active-chip"
-              onClick={() => selectCategory("all")}
-              aria-label={`Премахни филтър ${activeLabel}`}
-            >
-              {activeLabel}
-              <span className="catalog-active-clear" aria-hidden>
-                ×
-              </span>
-            </button>
-          </div>
-        ) : null}
-      </nav>
-
-      {/* Desktop: grouped filters */}
-      <nav className="catalog-desktop-filters" aria-label="Категории в каталога">
-        <div className="catalog-filter-row">
-          {renderChip({ id: "all", label: "Всички", count: products.length })}
+      {/* Desktop: search + grouped filters */}
+      <div className="catalog-desktop-bar">
+        <div className="catalog-toolbar">
+          <label className="field" style={{ marginBottom: 0, flex: 1 }}>
+            <span>Търсене</span>
+            <input
+              value={q}
+              placeholder="Име или описание…"
+              onChange={(e) => {
+                setQ(e.target.value);
+                syncUrl(e.target.value, category);
+              }}
+            />
+          </label>
         </div>
-        {filterGroups.map(({ group, categories }) => (
-          <div key={group.id} className="catalog-filter-group">
-            <p className="catalog-filter-label">{group.label}</p>
-            <div className="catalog-cat-nav">
-              {categories.map((c) => renderChip(c))}
-            </div>
+        <nav className="catalog-desktop-filters" aria-label="Категории в каталога">
+          <div className="catalog-filter-row">
+            {renderChip({ id: "all", label: "Всички", count: products.length })}
           </div>
-        ))}
-      </nav>
+          {filterGroups.map(({ group, categories }) => (
+            <div key={group.id} className="catalog-filter-group">
+              <p className="catalog-filter-label">{group.label}</p>
+              <div className="catalog-cat-nav">
+                {categories.map((c) => renderChip(c))}
+              </div>
+            </div>
+          ))}
+        </nav>
+      </div>
 
       {/* Filter bottom sheet (mobile) */}
       <div
@@ -256,7 +258,7 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
       >
         <div className="filter-sheet-handle" aria-hidden />
         <div className="filter-sheet-head">
-          <h2 id={sheetTitleId}>Филтри</h2>
+          <h2 id={sheetTitleId}>Категории</h2>
           <button
             type="button"
             className="filter-sheet-close"
