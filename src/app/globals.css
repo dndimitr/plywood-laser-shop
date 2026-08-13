@@ -16,7 +16,9 @@
   --error: #9b1c1c;
   --shadow: 0 18px 40px rgba(20, 18, 16, 0.12);
   --radius: 2px;
-  --header-h: 56px;
+  --topbar-h: 36px;
+  --nav-h: 56px;
+  --header-h: calc(var(--topbar-h) + var(--nav-h));
   --page-pad: 1rem;
   --section-y: 2.75rem;
 }
@@ -104,12 +106,54 @@ img {
   border-bottom: 1px solid var(--line);
 }
 
+.top-info-bar {
+  display: block;
+  background: var(--walnut);
+  color: #f7f1e8;
+  font-size: 0.78rem;
+  line-height: 1.2;
+  min-height: var(--topbar-h);
+}
+
+.top-info-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  min-height: var(--topbar-h);
+  padding: 0.4rem 0;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.top-info-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.top-info-item svg {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.top-info-item strong {
+  font-weight: 700;
+}
+
+.top-info-sep {
+  opacity: 0.45;
+  font-weight: 700;
+}
+
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  height: var(--header-h);
+  height: var(--nav-h);
   min-height: 56px;
 }
 
@@ -1738,9 +1782,15 @@ img {
 
 @media (min-width: 900px) {
   :root {
+    --topbar-h: 0px;
+    --nav-h: 64px;
     --header-h: 108px;
     --page-pad: 1.5rem;
     --section-y: 4.5rem;
+  }
+
+  .top-info-bar {
+    display: none;
   }
 
   .brand {
@@ -1774,7 +1824,7 @@ img {
   }
 
   .header-inner {
-    height: 64px;
+    height: var(--nav-h);
   }
 
   .product-grid {
