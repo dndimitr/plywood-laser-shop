@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { FavoriteToggle } from "@/components/FavoriteToggle";
 import { ProductConfigurator } from "@/components/ProductConfigurator";
 import { ProductGallery } from "@/components/ProductGallery";
 import {
@@ -65,9 +66,17 @@ export default async function ProductPage({ params }: Props) {
 
             <header className="product-detail-header">
               <h1 className="page-title">{product.name}</h1>
-              <p className="price product-detail-price">
-                от {formatBgn(basePrice)}
-              </p>
+              <div className="product-detail-meta">
+                <p className="price product-detail-price">
+                  от {formatBgn(basePrice)}
+                </p>
+                <FavoriteToggle
+                  slug={product.slug}
+                  name={product.name}
+                  imageUrl={product.imageUrl ?? gallery[0] ?? null}
+                  basePrice={basePrice}
+                />
+              </div>
               <p className="product-detail-desc">{product.description}</p>
             </header>
           </div>

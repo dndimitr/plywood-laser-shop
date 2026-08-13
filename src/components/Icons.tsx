@@ -129,3 +129,41 @@ export function IconClose(props: IconProps) {
     </svg>
   );
 }
+
+export function IconHome(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M40 120 128 48l88 72" />
+      <path d="M64 112v88a8 8 0 0 0 8 8h40v-56h32v56h40a8 8 0 0 0 8-8v-88" />
+    </svg>
+  );
+}
+
+export function IconHeart(props: IconProps & { filled?: boolean }) {
+  const { filled, ...rest } = props;
+  if (filled) {
+    return (
+      <svg
+        {...baseProps(rest)}
+        fill="currentColor"
+        stroke="currentColor"
+        strokeWidth={12}
+      >
+        <path d="M128 216s-76-48-92-96a48 48 0 0 1 84-44 48 48 0 0 1 84 44c-16 48-92 96-92 96Z" />
+      </svg>
+    );
+  }
+  return (
+    <svg {...baseProps(rest)}>
+      <path d="M128 216s-76-48-92-96a48 48 0 0 1 84-44 48 48 0 0 1 84 44c-16 48-92 96-92 96Z" />
+    </svg>
+  );
+}
+
+export function IconPhone(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M80 48h40l16 48-28 16a120 120 0 0 0 48 48l16-28 48 16v40a16 16 0 0 1-16 16A152 152 0 0 1 64 64a16 16 0 0 1 16-16Z" />
+    </svg>
+  );
+}

@@ -158,4 +158,14 @@ export function shippingFeeFor(courier: string) {
   return found?.fee ?? 6.9;
 }
 
+/** Public contact phone for mobile bottom bar / tel: links */
+export function getShopPhone() {
+  return process.env.NEXT_PUBLIC_SHOP_PHONE ?? "0888123456";
+}
+
+export function getShopPhoneHref() {
+  const digits = getShopPhone().replace(/[^\d+]/g, "");
+  return `tel:${digits}`;
+}
+
 export type QtyDiscount = { minQty: number; percentOff: number };
