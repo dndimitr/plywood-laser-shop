@@ -116,8 +116,8 @@ export default async function HomePage() {
         <div className="container">
           <h2>Каталог — готови модели</h2>
           <p className="section-lead">
-            Продуктите са групирани по категории. Изберете категория от менюто
-            или филтрирайте тук.
+            Продуктите са групирани по поводи, дом, бизнес и аксесоари. Изберете
+            категория от менюто или филтрирайте тук.
           </p>
           <Suspense fallback={<p className="muted">Зареждане…</p>}>
             <CatalogBrowser

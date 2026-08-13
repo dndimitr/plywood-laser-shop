@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
-import { CATEGORIES } from "@/lib/shop-config";
+import { navCategoryGroups } from "@/lib/shop-config";
 
 type Props = {
   cartCount: number;
@@ -14,6 +14,7 @@ export function MobileNav({ cartCount }: Props) {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const titleId = useId();
+  const groups = navCategoryGroups();
 
   useEffect(() => {
     setOpen(false);
@@ -96,20 +97,29 @@ export function MobileNav({ cartCount }: Props) {
 
           <div className="mobile-drawer-section">
             <p className="mobile-drawer-label">Категории</p>
-            <div className="mobile-drawer-cats">
-              <Link href="/#katalog" onClick={() => setOpen(false)}>
-                Всички
-              </Link>
-              {CATEGORIES.filter((c) => c.id !== "other").map((c) => (
-                <Link
-                  key={c.id}
-                  href={`/?cat=${c.id}#katalog`}
-                  onClick={() => setOpen(false)}
-                >
-                  {c.label}
-                </Link>
-              ))}
-            </div>
+            <Link
+              href="/#katalog"
+              className="mobile-drawer-all"
+              onClick={() => setOpen(false)}
+            >
+              Всички категории
+            </Link>
+            {groups.map(({ group, categories }) => (
+              <div key={group.id} className="mobile-drawer-group">
+                <p className="mobile-drawer-group-title">{group.label}</p>
+                <div className="mobile-drawer-cats">
+                  {categories.map((c) => (
+                    <Link
+                      key={c.id}
+                      href={`/?cat=${c.id}#katalog`}
+                      onClick={() => setOpen(false)}
+                    >
+                      {c.label}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
 
           <div className="mobile-drawer-locale">
