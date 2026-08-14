@@ -196,7 +196,7 @@ export function CheckoutForm({ subtotal }: Props) {
         </div>
       ) : null}
 
-      <fieldset className="field">
+      <fieldset className="payment-methods">
         <legend>Начин на плащане</legend>
         <label className="radio">
           <input
