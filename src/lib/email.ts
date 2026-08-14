@@ -11,6 +11,17 @@ type OrderMail = {
   rush?: boolean;
 };
 
+type QuoteMail = {
+  customerName: string;
+  customerEmail: string;
+  customerPhone: string;
+  companyName?: string;
+  quantity?: number;
+  message: string;
+  source: string;
+  productSlug?: string;
+};
+
 function appUrl() {
   return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 }
@@ -57,6 +68,49 @@ export async function sendOrderEmails(order: OrderMail) {
       html: `<h2>Нова поръчка</h2><p>${order.customerName} · ${order.customerEmail}</p><p>${formatBgn(order.totalAmount)}</p>`,
     });
   }
+
+  return { skipped: false as const };
+}
+
+export async function sendQuoteRequestEmails(quote: QuoteMail) {
+  const key = process.env.RESEND_API_KEY;
+  const from = process.env.EMAIL_FROM ?? "ЛазерШперплат <onboarding@resend.dev>";
+  const adminTo = process.env.ADMIN_NOTIFY_EMAIL ?? process.env.ADMIN_EMAIL;
+
+  const html = `
+    <h2>Заявка за оферта</h2>
+    <p><strong>${quote.customerName}</strong></p>
+    <p>Имейл: ${quote.customerEmail}<br/>Телефон: ${quote.customerPhone}</p>
+    ${quote.companyName ? `<p>Фирма: ${quote.companyName}</p>` : ""}
+    ${quote.quantity ? `<p>Количество: ~${quote.quantity}</p>` : ""}
+    <p>Източник: ${quote.source}${quote.productSlug ? ` · ${quote.productSlug}` : ""}</p>
+    <p>${quote.message.replace(/\n/g, "<br/>")}</p>
+  `;
+
+  if (!key) {
+    console.info("[email] RESEND_API_KEY missing — quote logged", quote);
+    return { skipped: true as const };
+  }
+
+  const { Resend } = await import("resend");
+  const resend = new Resend(key);
+
+  if (adminTo) {
+    await resend.emails.send({
+      from,
+      to: adminTo,
+      subject: `Оферта · ${quote.companyName || quote.customerName}`,
+      html,
+      replyTo: quote.customerEmail,
+    });
+  }
+
+  await resend.emails.send({
+    from,
+    to: quote.customerEmail,
+    subject: "Получихме заявката ви за оферта · ЛазерШперплат",
+    html: `<p>Здравейте, ${quote.customerName},</p><p>Получихме заявката и ще се свържем скоро.</p>`,
+  });
 
   return { skipped: false as const };
 }

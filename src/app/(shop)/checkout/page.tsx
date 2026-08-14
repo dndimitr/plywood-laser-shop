@@ -13,7 +13,7 @@ export default async function CheckoutPage() {
       <div className="container empty-state">
         <h1 className="page-title">Количката е празна</h1>
         <p className="muted">Добавете модел или файл, преди да продължите към доставка.</p>
-        <Link href="/#katalog" className="btn btn-primary">
+        <Link href="/katalog" className="btn btn-primary">
           Към каталога
         </Link>
       </div>

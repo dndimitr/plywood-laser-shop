@@ -25,8 +25,8 @@ export function ProductGallery({ images, alt }: Props) {
           fill
           priority
           sizes="(max-width:899px) 100vw, 55vw"
-          className="object-cover"
-          style={{ objectFit: "cover" }}
+          className="object-contain"
+          style={{ objectFit: "contain" }}
           unoptimized={current.endsWith(".svg")}
         />
       </div>
@@ -51,7 +51,7 @@ export function ProductGallery({ images, alt }: Props) {
                 alt=""
                 fill
                 sizes="96px"
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: "contain" }}
                 unoptimized={url.endsWith(".svg")}
               />
             </button>

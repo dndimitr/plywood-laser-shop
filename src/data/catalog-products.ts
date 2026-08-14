@@ -1,7 +1,11 @@
+import { bgnToEur } from "@/lib/currency";
+
 /**
  * Original shop catalog inspired by popular laser-cut plywood categories
  * (Etsy / handmade marketplaces). Names, copy and SKUs are original —
  * not scraped or copied from third-party listings.
+ *
+ * Draft amounts below are authored in BGN and converted to EUR in `pack()`.
  */
 
 export type SeedLaserType = "ENGRAVE" | "CUT" | "BOTH";
@@ -65,6 +69,11 @@ type Draft = {
 function pack(drafts: Draft[]): SeedProduct[] {
   return drafts.map((d) => ({
     ...d,
+    basePrice: bgnToEur(d.basePrice),
+    options: d.options.map((o) => ({
+      ...o,
+      priceModifier: bgnToEur(o.priceModifier),
+    })),
     ...imgs(d.slug),
   }));
 }
@@ -98,11 +107,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ключодържател сърце",
+    name: "Ключодържател „Геометрично сърце“",
     slug: "klyuchodarzhatel-sarce",
     category: "keychains",
     description:
-      "Ажурно изрязано сърце с опция за гравиран текст отвътре. Класически подарък за Свети Валентин и годишнини.",
+      "Ажурно геометрично сърце с прави линии и чисти ръбове. Опция за гравиран текст отвътре.",
     basePrice: 11,
     options: opts([
       {
@@ -147,11 +156,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ключодържател зодия",
+    name: "Ключодържател със зодия",
     slug: "klyuchodarzhatel-zodiya",
     category: "keychains",
     description:
-      "Силует на зодия с фино гравиране. Изберете знак и опционално дата на раждане.",
+      "Силует на зодия с фино гравиране. Изберете знак и по желание дата на раждане.",
     basePrice: 13,
     options: opts([
       {
@@ -173,7 +182,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ключодържател къща с адрес",
+    name: "Ключодържател „Къща“ с адрес",
     slug: "klyuchodarzhatel-kashta",
     category: "keychains",
     description:
@@ -198,7 +207,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ключодържател силует домашен любимец",
+    name: "Ключодържател със силует на домашен любимец",
     slug: "klyuchodarzhatel-lubimets",
     category: "keychains",
     description:
@@ -226,7 +235,7 @@ const DRAFTS: Draft[] = [
     slug: "klyuchodarzhatel-qr",
     category: "keychains",
     description:
-      "Гравиран QR код към сайт, визитка или безжична мрежа. Практичен корпоративен и личен аксесоар.",
+      "Гравиран QR код към сайт, визитка или Wi‑Fi мрежа. Практичен корпоративен и личен аксесоар.",
     basePrice: 16,
     options: opts([
       {
@@ -251,7 +260,7 @@ const DRAFTS: Draft[] = [
     slug: "komplekt-klyuchodarzhateli-gosti",
     category: "keychains",
     description:
-      "Мини ключодържатели за сватбени или фирмени гости. Еднакъв макет, индивидуални инициали по желание.",
+      "Мини ключодържатели за сватбени или фирмени гости. Еднакъв макет с индивидуални инициали по желание.",
     basePrice: 9,
     options: opts([
       {
@@ -401,7 +410,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Табела Отворено / Затворено",
+    name: "Табела „Отворено / Затворено“",
     slug: "tabela-otvoreno-zatvoreno",
     category: "venues",
     description:
@@ -510,7 +519,7 @@ const DRAFTS: Draft[] = [
     slug: "geometrichen-stenen-panel",
     category: "decor",
     description:
-      "Модулен геометричен панел — хексагони, линии или диаманти. Монтира се самостоятелно или в композиция.",
+      "Модулен геометричен панел — шестоъгълници, линии или ромбове. Монтира се самостоятелно или в композиция.",
     basePrice: 38,
     options: opts([
       {
@@ -531,23 +540,23 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Мандала стенен декор",
+    name: "Стенен декор „Мандала“",
     slug: "mandala-stenen-dekor",
     category: "decor",
     description:
-      "Фино изрязана мандала с концентрични мотиви. Акцент за хол, йога студио или спалня.",
+      "Квадратен ажурен панел с геометрична мандала. Акцент за хол, студио за йога или спалня.",
     basePrice: 44,
     options: opts([
       {
-        label: "ø30 см · 3 мм",
-        sizeLabel: "ø30 см",
+        label: "30×30 см · 3 мм",
+        sizeLabel: "30×30 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
-        label: "ø45 см · 4 мм · масло",
-        sizeLabel: "ø45 см",
+        label: "45×45 см · 4 мм · масло",
+        sizeLabel: "45×45 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -581,11 +590,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Слоеста карта на света",
+    name: "Многослойна карта на света",
     slug: "sloesta-karta-svyat",
     category: "decor",
     description:
-      "Многослоен макет на световна карта от шперплат. Премиум стенен акцент за офис и хол.",
+      "Многослоен макет на световна карта от шперплат. Ефектен стенен акцент за офис и хол.",
     basePrice: 89,
     options: opts([
       {
@@ -610,19 +619,19 @@ const DRAFTS: Draft[] = [
     slug: "stenen-chasovnik",
     category: "decor",
     description:
-      "Лазерно изрязан циферблат с място за стандартен часовников механизъм (не е включен).",
+      "Квадратен лазерно изрязан циферблат с място за стандартен часовников механизъм (не е включен).",
     basePrice: 52,
     options: opts([
       {
-        label: "ø30 см · 4 мм",
-        sizeLabel: "ø30 см",
+        label: "30×30 см · 4 мм",
+        sizeLabel: "30×30 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
-        label: "ø40 см · ажур · масло",
-        sizeLabel: "ø40 см",
+        label: "40×40 см · ажур · масло",
+        sizeLabel: "40×40 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -837,7 +846,7 @@ const DRAFTS: Draft[] = [
     slug: "place-cards-svatba",
     category: "wedding",
     description:
-      "Индивидуални дървени картички с име на гост. Поръчват се по бройка — подходящи за маси.",
+      "Индивидуални дървени картички с име на гост. Поръчват се на брой — подходящи за масите.",
     basePrice: 4.5,
     options: opts([
       {
@@ -861,7 +870,7 @@ const DRAFTS: Draft[] = [
     slug: "kutiya-halki",
     category: "wedding",
     description:
-      "Мини кутия или възглавничка-алтернатива за халките. Гравирани инициали и дата.",
+      "Мини кутия за брачните халки — алтернатива на класическата възглавничка. С гравирани инициали и дата.",
     basePrice: 42,
     options: opts([
       {
@@ -882,11 +891,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Табела номер на маса",
+    name: "Табела с номер на маса",
     slug: "nomer-masa",
     category: "wedding",
     description:
-      "Номер за сватбена или банкетна маса. Комплект от 1 до 20 по заявка.",
+      "Номер за сватбена или банкетна маса. Комплект от 1 до 20 — по заявка.",
     basePrice: 12,
     options: opts([
       {
@@ -910,7 +919,7 @@ const DRAFTS: Draft[] = [
     slug: "guestbook-darvo",
     category: "wedding",
     description:
-      "Голяма табела или пъзел, върху който гостите оставят подписи и пожелания. Алтернатива на книгата за гости.",
+      "Голяма табела или пъзел, върху която гостите оставят подписи и пожелания. Алтернатива на книгата за гости.",
     basePrice: 95,
     options: opts([
       {
@@ -933,11 +942,11 @@ const DRAFTS: Draft[] = [
 
   // —— Детска ——
   {
-    name: "Име на бебе за стена",
+    name: "Стенни букви с име на бебе",
     slug: "ime-bebe-stena",
     category: "nursery",
     description:
-      "Букви или цяло име за детска стая. Шрифт, размер и цвят (суров/масло) по избор.",
+      "Букви или цяло име за детска стая. Шрифт, размер и покритие (суров или с масло) по избор.",
     basePrice: 48,
     options: opts([
       {
@@ -983,11 +992,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Мобиле животни за креватче",
+    name: "Мобиле с животни за креватче",
     slug: "mobile-zhivotni",
     category: "nursery",
     description:
-      "Лазерно изрязани животни за мобиле. Комплект фигури + пръстени; окачалката е по желание.",
+      "Лазерно изрязани животни за бебешко мобиле. Комплект фигури и пръстени; окачалката е по желание.",
     basePrice: 46,
     options: opts([
       {
@@ -1062,7 +1071,7 @@ const DRAFTS: Draft[] = [
     slug: "tabela-bebe-spi",
     category: "nursery",
     description:
-      "Врата табела за родителска или детска стая. Вежлив надпис с икона.",
+      "Табела за врата на родителска или детска стая. Вежлив надпис с икона.",
     basePrice: 20,
     options: opts([
       {
@@ -1078,6 +1087,206 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 5,
+      },
+    ]),
+  },
+  {
+    name: "Фигурка зайче за детска стая",
+    slug: "figurka-zaek",
+    category: "nursery",
+    description:
+      "Лазерно изрязано зайче от шперплат с гравирани детайли. За рафт, стена или като топер за торта.",
+    basePrice: 18,
+    options: opts([
+      {
+        label: "Средно · 3 мм",
+        sizeLabel: "10×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голямо · масло",
+        sizeLabel: "14×16 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 8,
+      },
+    ]),
+  },
+  {
+    name: "Фигурка еднорог за детска стая",
+    slug: "figurka-edinorog",
+    category: "nursery",
+    description:
+      "Силует на еднорог от шперплат с фино гравирана грива. Нежен акцент за детската стая или парти.",
+    basePrice: 20,
+    options: opts([
+      {
+        label: "Среден · 3 мм",
+        sizeLabel: "12×14 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · масло",
+        sizeLabel: "16×18 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 9,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Игрална зона“",
+    slug: "tabela-igralna-zona",
+    category: "nursery",
+    description:
+      "Табела за кът за игра у дома или в детски кът на заведение. Ясен надпис с икона на кубчета.",
+    basePrice: 22,
+    options: opts([
+      {
+        label: "Квадратна · 3 мм",
+        sizeLabel: "15×15 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · 4 мм · масло",
+        sizeLabel: "20×20 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 8,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Моята стая“",
+    slug: "tabela-mojata-staya",
+    category: "nursery",
+    description:
+      "Входна табела за детска стая с надпис „Моята стая“ и звезден мотив. Опция за добавяне на име.",
+    basePrice: 24,
+    options: opts([
+      {
+        label: "Стандартна · 3 мм",
+        sizeLabel: "18×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · масло",
+        sizeLabel: "22×14 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 10,
+      },
+    ]),
+  },
+  {
+    name: "Кутия за играчки с име",
+    slug: "kutiya-igrachki-ime",
+    category: "nursery",
+    description:
+      "Сглобяема кутия за дребни играчки с гравирано име на капака. Практичен ред в детската стая.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Средна · 4 мм",
+        sizeLabel: "25×18×12 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · масло",
+        sizeLabel: "32×22×15 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 18,
+      },
+    ]),
+  },
+  {
+    name: "Стойка за моливи за детска стая",
+    slug: "stoika-molivi-detska",
+    category: "nursery",
+    description:
+      "Сглобяема стойка за моливи и четчици с гравирани звезди. Подходяща за бюро в детската стая.",
+    basePrice: 16,
+    options: opts([
+      {
+        label: "Компактна · 3 мм",
+        sizeLabel: "8×8×10 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · масло",
+        sizeLabel: "9×9×11 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Стенен комплект „Облаци и звезди“",
+    slug: "panel-oblaci-zvezdi",
+    category: "nursery",
+    description:
+      "Комплект от лазерно изрязани облаци и звезди за стенна композиция над креватчето.",
+    basePrice: 36,
+    options: opts([
+      {
+        label: "5 елемента · 3 мм",
+        sizeLabel: "8–18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "8 елемента · масло",
+        sizeLabel: "8–20 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Стенна азбука от шперплат",
+    slug: "azbuka-stenna",
+    category: "nursery",
+    description:
+      "Лазерно изрязани букви от българската азбука за учене и декорация. Поръчват се по брой или като пълен комплект.",
+    basePrice: 42,
+    options: opts([
+      {
+        label: "6 букви · 4 мм",
+        sizeLabel: "8 см височина",
+        thicknessMm: 4,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Пълен комплект · масло",
+        sizeLabel: "8 см височина",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 95,
       },
     ]),
   },
@@ -1138,7 +1347,7 @@ const DRAFTS: Draft[] = [
     slug: "azhurna-snezhinka",
     category: "ornaments",
     description:
-      "Фино изрязана снежинка за елха или прозорец. Продава се поединично или в комплект.",
+      "Фино изрязана снежинка за елха или прозорец. Продава се поотделно или в комплект.",
     basePrice: 8,
     options: opts([
       {
@@ -1158,7 +1367,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ангелче орнамент",
+    name: "Орнамент „Ангелче“",
     slug: "angelche-ornament",
     category: "ornaments",
     description:
@@ -1183,7 +1392,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Великденско яйце орнамент",
+    name: "Орнамент „Великденско яйце“",
     slug: "velikdensko-yaitse",
     category: "ornaments",
     description:
@@ -1207,11 +1416,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Валентинско сърце орнамент",
+    name: "Валентински орнамент със сърце",
     slug: "valentinsko-sarce",
     category: "ornaments",
     description:
-      "Сърце с гравирано послание или дата. За Свети Валентин и годишнини.",
+      "Квадратен орнамент с ажурно сърце и място за послание или дата. За Свети Валентин и годишнини.",
     basePrice: 11,
     options: opts([
       {
@@ -1236,7 +1445,7 @@ const DRAFTS: Draft[] = [
     slug: "semeen-komplekt-ornamenti",
     category: "ornaments",
     description:
-      "Комплект орнаменти с имена на всички в семейството + година. Един макет, различни надписи.",
+      "Комплект орнаменти с имената на всички в семейството и годината. Един макет — различни надписи.",
     basePrice: 45,
     options: opts([
       {
@@ -1275,8 +1484,8 @@ const DRAFTS: Draft[] = [
         priceModifier: 0,
       },
       {
-        label: "Кръг · 4 мм · лак",
-        sizeLabel: "ø9 см",
+        label: "Квадрат · 4 мм · лак",
+        sizeLabel: "9×9 см",
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
@@ -1336,11 +1545,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Табела за кафе кът",
+    name: "Табела за кафен кът",
     slug: "tabela-coffee-bar",
     category: "venues",
     description:
-      "Декоративна кухненска табела за къта с кафе. Текст и икони по ваш избор.",
+      "Декоративна кухненска табела за кафен кът. Текст и икони по ваш избор.",
     basePrice: 32,
     options: opts([
       {
@@ -1386,11 +1595,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Сервираща дъска с гравиране",
+    name: "Сервизна дъска с гравиране",
     slug: "servirashta-daska",
     category: "kitchen",
     description:
-      "Дъска за сервиране на сирена и мезета с гравиран монограм. Само за презентация — не за рязане.",
+      "Дъска за сервиране на сирена и мезета с гравиран монограм. Само за презентация — не е предназначена за рязане.",
     basePrice: 54,
     options: opts([
       {
@@ -1415,11 +1624,11 @@ const DRAFTS: Draft[] = [
 
   // —— Бижута ——
   {
-    name: "Обеци геометрични",
+    name: "Геометрични обеци",
     slug: "obeci-geometrichni",
     category: "jewelry",
     description:
-      "Леки геометрични обеци от 3 мм шперплат. Включва стоманени кукички.",
+      "Леки геометрични обеци от 3 мм шперплат. Включени са стоманени кукички.",
     basePrice: 18,
     options: opts([
       {
@@ -1440,7 +1649,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Обеци с листен мотив",
+    name: "Обеци с мотив на листо",
     slug: "obeci-list",
     category: "jewelry",
     description:
@@ -1465,23 +1674,23 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Колие медальон с гравиране",
+    name: "Колие с медальон и гравиране",
     slug: "kolie-medalion",
     category: "jewelry",
     description:
-      "Кръгъл или сърцевиден медальон с инициали. Верижка по заявка или само висулката.",
+      "Шестоъгълен медальон с инициали. Верижка по заявка или само висулката.",
     basePrice: 16,
     options: opts([
       {
-        label: "Висулка · 3 мм",
-        sizeLabel: "ø3 см",
+        label: "Шестоъгълник · 3 мм",
+        sizeLabel: "3×3 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Двустранен · масло",
-        sizeLabel: "ø3.5 см",
+        sizeLabel: "3.5×3.5 см",
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
@@ -1521,19 +1730,19 @@ const DRAFTS: Draft[] = [
     slug: "medalion-lubimets",
     category: "pets",
     description:
-      "Лек дървен медальон с име и телефон. Не е заместител на металния чип — декоративен слой.",
+      "Лек шестоъгълен дървен таг с име. Декоративен аксесоар — не замества металния идентификационен чип.",
     basePrice: 12,
     options: opts([
       {
-        label: "Костен · 3 мм",
-        sizeLabel: "4×2.5 см",
+        label: "Шестоъгълник · 3 мм",
+        sizeLabel: "3.5×3.5 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
-        label: "Кръгъл · двустранен",
-        sizeLabel: "ø3.5 см",
+        label: "Шестоъгълник · двустранен",
+        sizeLabel: "3.5×3.5 см",
         thicknessMm: 3,
         laserType: "BOTH",
         doubleSided: true,
@@ -1596,7 +1805,7 @@ const DRAFTS: Draft[] = [
     slug: "etiket-lakomstva",
     category: "pets",
     description:
-      "Декоративен етикет/табела за кутия с храна или лакомства. Име на любимеца включено.",
+      "Декоративен етикет или табела за кутия с храна или лакомства. Включва името на любимеца.",
     basePrice: 16,
     options: opts([
       {
@@ -1622,7 +1831,7 @@ const DRAFTS: Draft[] = [
     slug: "darven-vizitnik",
     category: "corporate",
     description:
-      "Сглобяем визитник с гравирано лого. Елегантен корпоративен подарък и бюро аксесоар.",
+      "Сглобяем визитник с гравирано лого. Елегантен корпоративен подарък и аксесоар за бюро.",
     basePrice: 36,
     options: opts([
       {
@@ -1670,11 +1879,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Плакет / награда",
+    name: "Плакет за награда",
     slug: "plaket-nagrada",
     category: "corporate",
     description:
-      "Награден плакет с текст и лого. За служители, партньори и събития.",
+      "Награден плакет с текст и лого. За служители, партньори и фирмени събития.",
     basePrice: 48,
     options: opts([
       {
@@ -1700,7 +1909,7 @@ const DRAFTS: Draft[] = [
     slug: "imenen-beidzh",
     category: "corporate",
     description:
-      "Лек бейдж с име и позиция. За конференции, хотели и екипи. Клипс/магнит по заявка.",
+      "Лек бейдж с име и длъжност. За конференции, хотели и екипи. Клипс или магнит — по заявка.",
     basePrice: 9,
     options: opts([
       {
@@ -1750,7 +1959,7 @@ const DRAFTS: Draft[] = [
     slug: "korporativen-komplekt",
     category: "corporate",
     description:
-      "Комплект: визитник + ключодържател + подложки с общо лого. Минимална поръчка 10 комплекта.",
+      "Комплект: визитник, ключодържател и подложки с общо лого. Минимална поръчка — 10 комплекта.",
     basePrice: 55,
     options: opts([
       {
@@ -1822,11 +2031,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Кутия за бижута ажурна",
+    name: "Ажурна кутия за бижута",
     slug: "kutiya-bizhuta",
     category: "gifts",
     description:
-      "Сглобяема кутия с ажурен капак и опционални прегради. Подарък с гравирани инициали.",
+      "Сглобяема кутия с ажурен капак и прегради по желание. Подарък с гравирани инициали.",
     basePrice: 58,
     options: opts([
       {
@@ -1876,7 +2085,7 @@ const DRAFTS: Draft[] = [
     slug: "stoika-telefon",
     category: "gifts",
     description:
-      "Минималистична стойка за смартфон — портрет и пейзаж. Сглобява се без лепило.",
+      "Минималистична стойка за смартфон — във вертикална и хоризонтална ориентация. Сглобява се без лепило.",
     basePrice: 18,
     options: opts([
       {
@@ -1947,11 +2156,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Нощна лампа кутия със светлинна лента",
+    name: "Нощна лампа-кутия със светлинна лента",
     slug: "led-noshtna-lampa",
     category: "gifts",
     description:
-      "Ажурна кутия-лампа за светлинна лента (лентата не е включена). Топъл акцент за спалня и детска.",
+      "Ажурна кутия-лампа за LED светлинна лента (лентата не е включена). Топъл акцент за спалня и детска стая.",
     basePrice: 68,
     options: opts([
       {
@@ -1972,7 +2181,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Кутия спомен с гравиране",
+    name: "Кутия за спомени с гравиране",
     slug: "kutiya-spomen",
     category: "gifts",
     description:
@@ -2073,23 +2282,23 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Коледен венец ажурен",
+    name: "Коледен стенен орнамент",
     slug: "koleden-venets",
     category: "christmas",
     description:
-      "Кръгъл ажурен венец с зимни мотиви. За врата или стена — лек и декоративен.",
+      "Квадратен ажурен коледен орнамент със зимна сцена. За врата или стена — лек и декоративен.",
     basePrice: 42,
     options: opts([
       {
-        label: "ø30 см · 3 мм",
-        sizeLabel: "ø30 см",
+        label: "30×30 см · 3 мм",
+        sizeLabel: "30×30 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
-        label: "ø40 см · масло",
-        sizeLabel: "ø40 см",
+        label: "40×40 см · масло",
+        sizeLabel: "40×40 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -2098,7 +2307,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Адвент календар дървен",
+    name: "Дървен адвент календар",
     slug: "advent-kalendar",
     category: "christmas",
     description:
@@ -2123,7 +2332,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Фигурка Дядо Коледа",
+    name: "Фигурка „Дядо Коледа“",
     slug: "figura-dyado-koleda",
     category: "christmas",
     description:
@@ -2148,7 +2357,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Орнамент снежен човек",
+    name: "Орнамент „Снежен човек“",
     slug: "ornament-snejen-chovek",
     category: "christmas",
     description:
@@ -2172,11 +2381,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Орнамент коледна шапка",
+    name: "Орнамент „Коледна шапка“",
     slug: "ornament-koledna-shapka",
     category: "christmas",
     description:
-      "Мини коледна шапка от шперплат с гравиране. За елха или пакетни украси.",
+      "Мини коледна шапка от шперплат с гравиране. За елха или украса на подаръчни пакети.",
     basePrice: 9,
     options: opts([
       {
@@ -2200,7 +2409,7 @@ const DRAFTS: Draft[] = [
     slug: "girlyanda-vesela-koleda",
     category: "christmas",
     description:
-      "Отделни букви и орнаменти за гирлянда. Нишка не е включена — окачват се лесно.",
+      "Отделни букви и орнаменти за гирлянда. Нишката не е включена — окачват се лесно.",
     basePrice: 38,
     options: opts([
       {
@@ -2300,7 +2509,7 @@ const DRAFTS: Draft[] = [
     slug: "komplekt-koledni-ornamenti-semeistvo",
     category: "christmas",
     description:
-      "Комплект орнаменти с имена на всички вкъщи плюс годината. Един макет — различни надписи.",
+      "Комплект орнаменти с имената на всички вкъщи и годината. Един макет — различни надписи.",
     basePrice: 48,
     options: opts([
       {
@@ -2323,11 +2532,11 @@ const DRAFTS: Draft[] = [
 
   // —— Рождени дни ——
   {
-    name: "Топер за рожденденска торта",
+    name: "Топер за торта за рожден ден",
     slug: "toper-rozhdenen",
     category: "birthday",
     description:
-      "Топер с име и възраст или „Честит рожден ден“. За стандартна торта.",
+      "Топер с име и възраст или надпис „Честит рожден ден“. За стандартна торта.",
     basePrice: 22,
     options: opts([
       {
@@ -2377,7 +2586,7 @@ const DRAFTS: Draft[] = [
     slug: "baner-ime-rozhdenen",
     category: "birthday",
     description:
-      "Отделни букви за банер с името на юбиляра. Нишка не е включена.",
+      "Отделни букви за банер с името на юбиляра. Нишката не е включена.",
     basePrice: 35,
     options: opts([
       {
@@ -2423,11 +2632,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Коронка за юбиляр",
+    name: "Коронка за юбиляра",
     slug: "korona-yubilyar",
     category: "birthday",
     description:
-      "Парти коронка от шперплат с гравирано име. Лека и удобна за снимки.",
+      "Коронка за парти от шперплат с гравирано име. Лека и удобна за снимки.",
     basePrice: 18,
     options: opts([
       {
@@ -2452,19 +2661,19 @@ const DRAFTS: Draft[] = [
     slug: "medal-yubilyar",
     category: "birthday",
     description:
-      "Дървен медал с панделка и гравиране. Забавен акцент за рожденика.",
+      "Дървен медал със звезда, панделка и гравиране. Забавен акцент за рожденика.",
     basePrice: 16,
     options: opts([
       {
         label: "Стандарт · 3 мм",
-        sizeLabel: "ø7 см",
+        sizeLabel: "7×7 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Голям · масло",
-        sizeLabel: "ø9 см",
+        sizeLabel: "9×9 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -2473,11 +2682,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Кутия подарък с възраст",
+    name: "Подаръчна кутия с възраст",
     slug: "kutiya-podaruk-vazrast",
     category: "birthday",
     description:
-      "Кутия с голяма цифра на капака и име. За паричен или дребен подарък.",
+      "Кутия с голяма цифра на капака и име. Подходяща за паричен или дребен подарък.",
     basePrice: 36,
     options: opts([
       {
@@ -2498,11 +2707,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Рамка за рожденденска снимка",
+    name: "Рамка за снимка от рожден ден",
     slug: "ramka-rozhdenenska-snimka",
     category: "birthday",
     description:
-      "Рамка с гравирана дата и възраст. Подходяща за 10×15 или 13×18 снимка.",
+      "Рамка с гравирана дата и възраст. Подходяща за снимка 10×15 или 13×18 см.",
     basePrice: 28,
     options: opts([
       {
@@ -2604,7 +2813,7 @@ const DRAFTS: Draft[] = [
     slug: "tabela-danni-razhdane",
     category: "newborn",
     description:
-      "Стенна табела с име, дата, час, тегло и ръст. Класически спомен за детската.",
+      "Стенна табела с име, дата, час, тегло и ръст. Класически спомен за детската стая.",
     basePrice: 42,
     options: opts([
       {
@@ -2625,23 +2834,23 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Кръгла табела с име на бебе",
+    name: "Табела с име на бебе",
     slug: "kragla-tabela-ime-bebe",
     category: "newborn",
     description:
-      "Кръгла именна табела за над креватчето. Нежен шрифт и опционален мотив.",
+      "Правоъгълна именна табела за над креватчето. Нежен шрифт и мотив по желание.",
     basePrice: 36,
     options: opts([
       {
-        label: "ø20 см · 4 мм",
-        sizeLabel: "ø20 см",
+        label: "28×18 см · 4 мм",
+        sizeLabel: "28×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
-        label: "ø30 см · масло",
-        sizeLabel: "ø30 см",
+        label: "35×22 см · масло",
+        sizeLabel: "35×22 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -2650,7 +2859,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Кутия спомени за бебе",
+    name: "Кутия за бебешки спомени",
     slug: "kutiya-spomeni-bebe",
     category: "newborn",
     description:
@@ -2750,11 +2959,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Мобиле звезди и луна",
+    name: "Мобиле „Звезди и луна“",
     slug: "mobile-zvezdi-luna",
     category: "newborn",
     description:
-      "Комплект фигури звезди и луна за мобиле над креватчето. Окачалката е по желание.",
+      "Комплект фигури — звезди и луна — за мобиле над креватчето. Окачалката е по желание.",
     basePrice: 40,
     options: opts([
       {
@@ -2779,7 +2988,7 @@ const DRAFTS: Draft[] = [
     slug: "girlyanda-meseci-bebe",
     category: "newborn",
     description:
-      "Флагчета или кръгчета от 1 до 12 месеца за месечни снимки. Комплект за цялата година.",
+      "Флагчета от 1 до 12 месеца за месечни снимки. Комплект за цялата година.",
     basePrice: 44,
     options: opts([
       {
@@ -2829,7 +3038,7 @@ const DRAFTS: Draft[] = [
     slug: "podarachen-komplekt-novorodeno",
     category: "newborn",
     description:
-      "Комплект: именна табела + ключодържател + картичка. Готов подарък в една поръчка.",
+      "Комплект: именна табела, ключодържател и картичка. Готов подарък в една поръчка.",
     basePrice: 58,
     options: opts([
       {
@@ -2850,11 +3059,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Фигурка мече за детска",
+    name: "Фигурка мече за детска стая",
     slug: "figurka-meche",
     category: "newborn",
     description:
-      "Сглобяемо мече от шперплат за рафт или като топер. Нежен акцент за стаята.",
+      "Сглобяемо мече от шперплат за рафт или като топер. Нежен акцент за детската стая.",
     basePrice: 22,
     options: opts([
       {
@@ -2877,7 +3086,7 @@ const DRAFTS: Draft[] = [
 
   // —— Заведения ——
   {
-    name: "Меню табло за стена",
+    name: "Стенно табло за меню",
     slug: "menu-tablo-stena",
     category: "venues",
     description:
@@ -2927,11 +3136,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Номер за маса — заведение",
+    name: "Номер за маса за заведение",
     slug: "nomer-masa-zavedenie",
     category: "venues",
     description:
-      "Номерирани табели за маси в ресторант, бар или кафене. Комплект по бройка.",
+      "Номерирани табели за маси в ресторант, бар или кафене. Поръчват се на брой.",
     basePrice: 10,
     options: opts([
       {
@@ -2957,7 +3166,7 @@ const DRAFTS: Draft[] = [
     slug: "tabela-rezervirano",
     category: "venues",
     description:
-      "Двустранна или със стойка табела „Резервирано“ за маси. Дискретен и четлив дизайн.",
+      "Двустранна табела „Резервирано“ — със стойка за маса. Дискретен и четлив дизайн.",
     basePrice: 14,
     options: opts([
       {
@@ -3004,11 +3213,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Табела за тоалетни — заведение",
+    name: "Табела за тоалетни в заведение",
     slug: "tabela-toaletni-zavedenie",
     category: "venues",
     description:
-      "Комплект или единични пиктограми за мъже / жени / достъпна тоалетна. Единен стил с бранда.",
+      "Комплект или единични пиктограми за мъже / жени / достъпна тоалетна. В единен стил с вашата марка.",
     basePrice: 22,
     options: opts([
       {
@@ -3058,7 +3267,7 @@ const DRAFTS: Draft[] = [
     slug: "podlozhki-logo-zavedenie",
     category: "venues",
     description:
-      "Комплект подложки с гравирано лого. За бар, кафене и хотелски лоби.",
+      "Комплект подложки с гравирано лого. За бар, кафене и хотелско фоайе.",
     basePrice: 32,
     options: opts([
       {
@@ -3084,7 +3293,7 @@ const DRAFTS: Draft[] = [
     slug: "tabela-ime-zavedenie",
     category: "venues",
     description:
-      "Фасадна или рецепция табела с името на заведението. Работим по векторно лого.",
+      "Табела за фасада или рецепция с името на заведението. Изработваме я по векторно лого.",
     basePrice: 72,
     options: opts([
       {
@@ -3160,7 +3369,7 @@ const DRAFTS: Draft[] = [
     slug: "tabela-wifi-parola",
     category: "venues",
     description:
-      "Настолна или стенна табела с име на мрежата и парола / QR. Удобна за гости.",
+      "Настолна или стенна табела с име на мрежата и парола или QR код. Удобна за гости.",
     basePrice: 16,
     options: opts([
       {
@@ -3177,6 +3386,206 @@ const DRAFTS: Draft[] = [
         laserType: "BOTH",
         finish: "oil",
         priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Дневно меню“",
+    slug: "tabela-dnevno-menu",
+    category: "venues",
+    description:
+      "Стенно табло с гравирани секции за дневни предложения и цени. Подходящо за ресторант, бистро и кафене.",
+    basePrice: 72,
+    options: opts([
+      {
+        label: "A3 · 4 мм",
+        sizeLabel: "30×42 см",
+        thicknessMm: 4,
+        laserType: "ENGRAVE",
+        priceModifier: 0,
+      },
+      {
+        label: "A2 · 6 мм · лак",
+        sizeLabel: "42×60 см",
+        thicknessMm: 6,
+        laserType: "ENGRAVE",
+        finish: "lacquer",
+        priceModifier: 28,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Не се пуши“",
+    slug: "tabela-ne-se-pushi",
+    category: "venues",
+    description:
+      "Указателна табела с надпис „Не се пуши“ и пиктограма. За зала, тераса и вход на заведение.",
+    basePrice: 18,
+    options: opts([
+      {
+        label: "Квадратна · 3 мм",
+        sizeLabel: "15×15 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · лак",
+        sizeLabel: "20×20 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 7,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Бар“",
+    slug: "tabela-bar",
+    category: "venues",
+    description:
+      "Фасадна или стенна табела с надпис „Бар“. Чист шрифт и рамка — четлива от разстояние.",
+    basePrice: 38,
+    options: opts([
+      {
+        label: "Средна · 4 мм",
+        sizeLabel: "30×15 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · лак",
+        sizeLabel: "45×20 см",
+        thicknessMm: 6,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 18,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Изход“",
+    slug: "tabela-izhod",
+    category: "venues",
+    description:
+      "Указателна табела „Изход“ със стрелка. За коридори, зали и аварийни маршрути в заведението.",
+    basePrice: 16,
+    options: opts([
+      {
+        label: "Стандартна · 3 мм",
+        sizeLabel: "20×10 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · лак",
+        sizeLabel: "30×12 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Стойка за сметка",
+    slug: "stoika-smetka",
+    category: "venues",
+    description:
+      "Настолна стойка със слот за сметката. Дискретен аксесоар за маси в ресторант и бар.",
+    basePrice: 14,
+    options: opts([
+      {
+        label: "Стандартна · 4 мм",
+        sizeLabel: "8×12 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С лого · лак",
+        sizeLabel: "9×14 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Табела с алергени",
+    slug: "tabela-alergeni",
+    category: "venues",
+    description:
+      "Информационна табела с икони и надписи за основните алергени. За кухня, бар и витрина.",
+    basePrice: 34,
+    options: opts([
+      {
+        label: "A4 · 3 мм",
+        sizeLabel: "21×30 см",
+        thicknessMm: 3,
+        laserType: "ENGRAVE",
+        priceModifier: 0,
+      },
+      {
+        label: "A3 · лак",
+        sizeLabel: "30×42 см",
+        thicknessMm: 4,
+        laserType: "ENGRAVE",
+        finish: "lacquer",
+        priceModifier: 16,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Вземи поръчката си“",
+    slug: "tabela-vzemi-porachka",
+    category: "venues",
+    description:
+      "Табела за щанд за взимане на поръчки в кафене, пекарна или заведение за бързо хранене.",
+    basePrice: 26,
+    options: opts([
+      {
+        label: "Средна · 3 мм",
+        sizeLabel: "25×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · лак",
+        sizeLabel: "35×15 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 10,
+      },
+    ]),
+  },
+  {
+    name: "Номер за гардероб в заведение",
+    slug: "nomer-garderob-zavedenie",
+    category: "venues",
+    description:
+      "Шестоъгълни номера за гардероб с икона на закачалка. Поръчват се на брой — гравираме желания диапазон.",
+    basePrice: 6,
+    options: opts([
+      {
+        label: "Единичен · 3 мм",
+        sizeLabel: "6×6 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Комплект 20 бр. · масло",
+        sizeLabel: "6×6 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 95,
       },
     ]),
   },
@@ -3299,11 +3708,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Модулен хексагонален панел",
+    name: "Модулен шестоъгълен панел",
     slug: "panel-heksagon-modulen",
     category: "panels",
     description:
-      "Шестоъгълен модул с ажур — комбинира се в големи стенни композиции. Поръчайте по бройка.",
+      "Шестоъгълен модул с ажур — комбинира се в големи стенни композиции. Поръчва се на брой.",
     basePrice: 18,
     options: opts([
       {
@@ -3378,7 +3787,7 @@ const DRAFTS: Draft[] = [
     slug: "panel-trisloen-relef",
     category: "panels",
     description:
-      "Три слоя шперплат за дълбочина и сянка. Премиум стенен декор — монтажът е с дистанционери.",
+      "Три слоя шперплат за дълбочина и сянка. Луксозен стенен декор — монтажът е с дистанционери.",
     basePrice: 89,
     options: opts([
       {
@@ -3401,11 +3810,11 @@ const DRAFTS: Draft[] = [
 
   // —— Авто маниаци ——
   {
-    name: "Ключодържател силует кола",
+    name: "Ключодържател със силует на кола",
     slug: "avto-klyuchodarzhatel-kola",
     category: "auto",
     description:
-      "Лазерно изрязан силует на автомобил с опция за гравирано име или инициали. За ключове от гаража или подарък на шофьор.",
+      "Лазерно изрязан силует на автомобил с опция за гравирано име или инициали. За ключове от гаража или като подарък за шофьор.",
     basePrice: 13,
     options: opts([
       {
@@ -3426,11 +3835,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ключодържател с рег. номер",
+    name: "Ключодържател с регистрационен номер (авто)",
     slug: "avto-klyuchodarzhatel-nomer",
     category: "auto",
     description:
-      "Мини табелка с ваш регистрационен номер или гаражен код. Гравиране по поръчка — ясен шрифт, чисти ръбове.",
+      "Мини табелка с вашия регистрационен номер или гаражен код. Гравиране по поръчка — ясен шрифт и чисти ръбове.",
     basePrice: 14,
     options: opts([
       {
@@ -3452,7 +3861,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ключодържател волан",
+    name: "Ключодържател „Волан“",
     slug: "avto-klyuchodarzhatel-volan",
     category: "auto",
     description:
@@ -3481,7 +3890,7 @@ const DRAFTS: Draft[] = [
     slug: "avto-tabela-garazh",
     category: "auto",
     description:
-      "Стенна табела „Garage“ или с ваше име/номер на бокс. Подходяща за домашен гараж или работилница.",
+      "Стенна табела „Гараж“ или с ваше име и номер на бокс. Подходяща за домашен гараж или работилница.",
     basePrice: 32,
     options: opts([
       {
@@ -3502,11 +3911,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Паркинг табела с име",
+    name: "Табела за паркинг с име",
     slug: "avto-parking-tabela",
     category: "auto",
     description:
-      "Резервирано паркомясто с име или фамилия. Лазерно изрязан текст — ясно четим от разстояние.",
+      "Табела за резервирано паркомясто с име или фамилия. Лазерно изрязан текст — лесно четлив от разстояние.",
     basePrice: 28,
     options: opts([
       {
@@ -3527,7 +3936,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Стенен силует класическа кола",
+    name: "Стенен силует на класическа кола",
     slug: "avto-siluet-klasika",
     category: "auto",
     description:
@@ -3552,11 +3961,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Подложки за чаши — авто",
+    name: "Подложки за чаши с автомобилни мотиви",
     slug: "avto-podlozhki-chashi",
     category: "auto",
     description:
-      "Комплект подложки с автомобилни мотиви (волан, гуми, силуети). Практичен подарък за авто ентусиасти.",
+      "Комплект подложки с автомобилни мотиви (волан, гуми, силуети). Практичен подарък за автоентусиасти.",
     basePrice: 22,
     options: opts([
       {
@@ -3577,11 +3986,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ключодържател за гараж — кука панел",
+    name: "Панел с куки за ключове — гараж",
     slug: "avto-kuka-panel-klyuchove",
     category: "auto",
     description:
-      "Стенен панел с куки за ключове от колата и къщата. Гравиран надпис по избор — „Keys“, „Garage“ или име.",
+      "Стенен панел с куки за ключове от колата и къщата. Гравиран надпис по избор — „Ключове“, „Гараж“ или име.",
     basePrice: 36,
     options: opts([
       {
@@ -3627,7 +4036,7 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Табела модел / двигател",
+    name: "Табела с модел / двигател",
     slug: "avto-tabela-model-dvigatel",
     category: "auto",
     description:

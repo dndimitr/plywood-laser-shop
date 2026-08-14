@@ -1,9 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { AddToCartToast } from "@/components/AddToCartToast";
 import { formatBgn } from "@/lib/pricing";
 import { complexityLabel } from "@/lib/labels";
+import {
+  MAX_LINE_QTY,
+  PRODUCTION_LEAD,
+  QUOTE_QTY_THRESHOLD,
+} from "@/lib/shop-config";
 
 export function CustomUploadForm() {
   const router = useRouter();
@@ -14,11 +21,12 @@ export function CustomUploadForm() {
   const [complexity, setComplexity] = useState("medium");
   const [notes, setNotes] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [rush, setRush] = useState(false);
   const [doubleSided, setDoubleSided] = useState(false);
   const [price, setPrice] = useState<number | null>(null);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [toastOpen, setToastOpen] = useState(false);
+  const closeToast = useCallback(() => setToastOpen(false), []);
 
   useEffect(() => {
     const timer = setTimeout(async () => {
@@ -32,7 +40,7 @@ export function CustomUploadForm() {
             thicknessMm,
             complexity,
             quantity,
-            rush,
+            rush: false,
             doubleSided,
           }),
         });
@@ -44,7 +52,7 @@ export function CustomUploadForm() {
       }
     }, 250);
     return () => clearTimeout(timer);
-  }, [widthCm, heightCm, thicknessMm, complexity, quantity, rush, doubleSided]);
+  }, [widthCm, heightCm, thicknessMm, complexity, quantity, doubleSided]);
 
   async function submit() {
     if (!file) {
@@ -79,7 +87,7 @@ export function CustomUploadForm() {
           thicknessMm,
           complexity,
           quantity,
-          rush,
+          rush: false,
           doubleSided,
           notes,
         }),
@@ -91,7 +99,7 @@ export function CustomUploadForm() {
         );
       }
 
-      router.push("/cart");
+      setToastOpen(true);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Грешка");
@@ -165,10 +173,18 @@ export function CustomUploadForm() {
         <input
           type="number"
           min={1}
-          max={50}
+          max={MAX_LINE_QTY}
           value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value) || 1)}
+          onChange={(e) =>
+            setQuantity(
+              Math.max(1, Math.min(MAX_LINE_QTY, Number(e.target.value) || 1)),
+            )
+          }
         />
+        <span className="muted" style={{ fontSize: "0.85rem" }}>
+          До {MAX_LINE_QTY} бр. Над {QUOTE_QTY_THRESHOLD} бр. —{" "}
+          <Link href="/za-biznes#oferta">заявка за оферта</Link>.
+        </span>
       </label>
 
       <label className="radio">
@@ -179,14 +195,11 @@ export function CustomUploadForm() {
         />
         Двустранна обработка
       </label>
-      <label className="radio">
-        <input
-          type="checkbox"
-          checked={rush}
-          onChange={(e) => setRush(e.target.checked)}
-        />
-        Ускорена изработка (+50%)
-      </label>
+
+      <p className="muted rush-hint">
+        Срок: {PRODUCTION_LEAD.standardLabel}. Ускорено (+
+        {PRODUCTION_LEAD.rushSurchargePercent}%) се избира при поръчката.
+      </p>
 
       <label className="field">
         <span>Бележки</span>
@@ -218,6 +231,8 @@ export function CustomUploadForm() {
       >
         {pending ? "Обработка…" : "Добави в количката"}
       </button>
+
+      <AddToCartToast open={toastOpen} onClose={closeToast} />
     </div>
   );
 }

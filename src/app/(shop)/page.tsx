@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 const faqs = [
   {
     q: "Какъв е срокът за изработка?",
-    a: "Стандартно 2–5 работни дни след потвърждение на поръчката и макета. При ускорена поръчка срокът се съгласува допълнително.",
+    a: "Стандартно 2–5 работни дни след потвърждение на поръчката и макета. Ускорена изработка е 1–2 работни дни и оскъпява изделията с +50%.",
   },
   {
     q: "Какви файлове са подходящи за лазер?",
@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     q: "Трябва ли регистрация?",
-    a: "Не. Поръчвате без акаунт. Можете и да си направите профил за история на поръчките.",
+    a: "Не. Поръчвате без акаунт. Можете да проверите стара поръчка по имейл в раздел „Поръчки“.",
   },
 ];
 
@@ -66,7 +66,7 @@ export default async function HomePage() {
             Точни размери, чисти ръбове и доставка с Еконт или Speedy.
           </p>
           <div className="cta-row">
-            <Link href="#katalog" className="btn btn-primary">
+            <Link href="/katalog" className="btn btn-primary">
               Разгледай каталога
             </Link>
             <Link
@@ -75,6 +75,13 @@ export default async function HomePage() {
               style={{ color: "#f7f1e8" }}
             >
               Поръчай по файл
+            </Link>
+            <Link
+              href="/za-biznes"
+              className="btn btn-ghost"
+              style={{ color: "#f7f1e8" }}
+            >
+              За бизнеса
             </Link>
           </div>
         </div>
@@ -120,6 +127,7 @@ export default async function HomePage() {
           </p>
           <Suspense fallback={<p className="muted">Зареждане…</p>}>
             <CatalogBrowser
+              basePath="/katalog"
               products={products.map((p) => ({
                 id: p.id,
                 name: p.name,

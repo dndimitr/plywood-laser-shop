@@ -17,6 +17,7 @@ import {
   type ThicknessCoefficients,
 } from "@/lib/pricing";
 import { addTemplateCartSchema, customQuoteSchema } from "@/lib/validators";
+import { MAX_LINE_QTY } from "@/lib/shop-config";
 
 export async function GET() {
   const cart = await getCart();
@@ -154,7 +155,10 @@ export async function POST(request: Request) {
     if (!item) {
       return NextResponse.json({ error: "Артикулът липсва" }, { status: 404 });
     }
-    item.quantity = Math.max(1, Math.min(50, Number(body.quantity) || 1));
+    item.quantity = Math.max(
+      1,
+      Math.min(MAX_LINE_QTY, Number(body.quantity) || 1),
+    );
   } else if (body.action === "remove") {
     cart.items = cart.items.filter((i) => i.id !== body.id);
   } else if (body.action === "clear") {

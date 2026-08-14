@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
-import { COURIERS } from "@/lib/shop-config";
+import {
+  COURIERS,
+  FREE_SHIPPING_MIN_EUR,
+  PRODUCTION_LEAD,
+  productionLeadHelp,
+  shippingFeeFor,
+} from "@/lib/shop-config";
 
 type Props = { subtotal: number };
 
@@ -16,6 +22,7 @@ export function CheckoutForm({ subtotal }: Props) {
     customerEmail: "",
     customerPhone: "",
     shippingAddress: "",
+    courierOfficeCode: "",
     shippingNote: "",
     paymentMethod: "CASH_ON_DELIVERY",
     courier: "ECONT",
@@ -30,8 +37,7 @@ export function CheckoutForm({ subtotal }: Props) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  const shippingFee =
-    COURIERS.find((c) => c.id === form.courier)?.fee ?? 0;
+  const shippingFee = shippingFeeFor(form.courier, subtotal);
   const estimatedTotal = Math.round((subtotal + shippingFee) * 100) / 100;
 
   async function submit(e: React.FormEvent) {
@@ -90,8 +96,18 @@ export function CheckoutForm({ subtotal }: Props) {
       </div>
       <h1>Данни за доставка и плащане</h1>
       <p className="muted">
-        Междинна сума: {formatBgn(subtotal)} · Доставка: {formatBgn(shippingFee)} ·{" "}
-        <strong>Общо ~ {formatBgn(estimatedTotal)}</strong>
+        Междинна сума: {formatBgn(subtotal)} · Доставка:{" "}
+        {shippingFee === 0 && form.courier !== "PICKUP"
+          ? "безплатна"
+          : formatBgn(shippingFee)}{" "}
+        · <strong>Общо ~ {formatBgn(estimatedTotal)}</strong>
+        {subtotal < FREE_SHIPPING_MIN_EUR && form.courier !== "PICKUP" ? (
+          <>
+            <br />
+            Безплатна куриерска доставка при поръчка над{" "}
+            {formatBgn(FREE_SHIPPING_MIN_EUR)}.
+          </>
+        ) : null}
       </p>
 
       <label className="field">
@@ -140,15 +156,36 @@ export function CheckoutForm({ subtotal }: Props) {
       </label>
 
       <label className="field">
-        <span>Адрес / офис на куриер</span>
+        <span>
+          {form.courier === "PICKUP"
+            ? "Адрес за бележка (по желание)"
+            : "Адрес за доставка"}
+        </span>
         <textarea
-          required
+          required={form.courier !== "PICKUP"}
           rows={3}
           value={form.shippingAddress}
           onChange={(e) => update("shippingAddress", e.target.value)}
-          placeholder="Град, улица № или офис на Еконт / Speedy"
+          placeholder={
+            form.courier === "PICKUP"
+              ? "По желание — бележка"
+              : "Град, улица № / вход / етаж"
+          }
         />
       </label>
+
+      {form.courier !== "PICKUP" ? (
+        <label className="field">
+          <span>Код / име на офис на куриера (по желание)</span>
+          <input
+            value={form.courierOfficeCode}
+            onChange={(e) => update("courierOfficeCode", e.target.value)}
+            placeholder="Напр. код на офис Еконт или Speedy"
+            maxLength={40}
+          />
+        </label>
+      ) : null}
+
       <label className="field">
         <span>Бележка към куриера (по желание)</span>
         <input
@@ -157,46 +194,56 @@ export function CheckoutForm({ subtotal }: Props) {
         />
       </label>
 
-      <label className="radio">
-        <input
-          type="checkbox"
-          checked={form.rush}
-          onChange={(e) => update("rush", e.target.checked)}
-        />
-        Ускорена изработка (+50% върху изделията)
-      </label>
+      <div className="rush-option">
+        <label className="radio">
+          <input
+            type="checkbox"
+            checked={form.rush}
+            onChange={(e) => update("rush", e.target.checked)}
+          />
+          Ускорена изработка (+{PRODUCTION_LEAD.rushSurchargePercent}% върху
+          изделията) — {PRODUCTION_LEAD.rushLabel}
+        </label>
+        <p className="muted rush-hint">{productionLeadHelp(form.rush)}</p>
+      </div>
 
-      <label className="radio">
-        <input
-          type="checkbox"
-          checked={form.needInvoice}
-          onChange={(e) => update("needInvoice", e.target.checked)}
-        />
-        Искам фактура
-      </label>
+      <fieldset className="payment-methods firm-order-block">
+        <legend>Фирмена поръчка</legend>
+        <label className="radio">
+          <input
+            type="checkbox"
+            checked={form.needInvoice}
+            onChange={(e) => update("needInvoice", e.target.checked)}
+          />
+          Искам фактура за фирма
+        </label>
+        {form.needInvoice ? (
+          <div className="grid-2" style={{ marginTop: "0.75rem" }}>
+            <label className="field">
+              <span>Фирма</span>
+              <input
+                required={form.needInvoice}
+                value={form.companyName}
+                onChange={(e) => update("companyName", e.target.value)}
+              />
+            </label>
+            <label className="field">
+              <span>ЕИК / ДДС номер</span>
+              <input
+                required={form.needInvoice}
+                value={form.vatNumber}
+                onChange={(e) => update("vatNumber", e.target.value)}
+              />
+            </label>
+          </div>
+        ) : (
+          <p className="muted" style={{ margin: "0.5rem 0 0", fontSize: "0.9rem" }}>
+            За заведения и фирми — маркирайте за фактура с ЕИК.
+          </p>
+        )}
+      </fieldset>
 
-      {form.needInvoice ? (
-        <div className="grid-2">
-          <label className="field">
-            <span>Фирма</span>
-            <input
-              required={form.needInvoice}
-              value={form.companyName}
-              onChange={(e) => update("companyName", e.target.value)}
-            />
-          </label>
-          <label className="field">
-            <span>ЕИК / ДДС номер</span>
-            <input
-              required={form.needInvoice}
-              value={form.vatNumber}
-              onChange={(e) => update("vatNumber", e.target.value)}
-            />
-          </label>
-        </div>
-      ) : null}
-
-      <fieldset className="field">
+      <fieldset className="payment-methods">
         <legend>Начин на плащане</legend>
         <label className="radio">
           <input
