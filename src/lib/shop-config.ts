@@ -97,11 +97,17 @@ export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
   "newborn",
   "christmas",
   "decor",
-  "panels",
+  "venues",
+  "corporate",
   "signs",
   "keychains",
-  "auto",
 ] as const;
+
+/** Max quantity per line in cart / configurators */
+export const MAX_LINE_QTY = 500;
+
+/** Above this qty, nudge toward a formal quote request */
+export const QUOTE_QTY_THRESHOLD = 50;
 
 export function categoryById(id: string): CategoryDef | undefined {
   return CATEGORIES.find((c) => c.id === id);

@@ -1,11 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { AddToCartToast } from "@/components/AddToCartToast";
 import { IconCart } from "@/components/Icons";
 import { calculateTemplatePrice, formatBgn } from "@/lib/pricing";
 import { laserTypeLabel } from "@/lib/labels";
-import { PRODUCTION_LEAD, productionLeadHelp } from "@/lib/shop-config";
+import {
+  MAX_LINE_QTY,
+  PRODUCTION_LEAD,
+  QUOTE_QTY_THRESHOLD,
+} from "@/lib/shop-config";
 
 type Option = {
   id: string;
@@ -24,6 +30,7 @@ type Option = {
 type Props = {
   productId: string;
   productName: string;
+  productSlug?: string;
   basePrice: number;
   options: Option[];
 };
@@ -31,6 +38,7 @@ type Props = {
 export function ProductConfigurator({
   productId,
   productName,
+  productSlug,
   basePrice,
   options,
 }: Props) {
@@ -38,9 +46,10 @@ export function ProductConfigurator({
   const [optionId, setOptionId] = useState(options[0]?.id ?? "");
   const [engravingText, setEngravingText] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [rush, setRush] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [toastOpen, setToastOpen] = useState(false);
+  const closeToast = useCallback(() => setToastOpen(false), []);
 
   const selected = useMemo(
     () => options.find((o) => o.id === optionId) ?? options[0],
@@ -53,7 +62,7 @@ export function ProductConfigurator({
         Number(selected.priceModifier),
         quantity,
         {
-          rush,
+          rush: false,
           rushMultiplier: 1.5,
           doubleSided: Boolean(selected.doubleSided),
           quantityDiscounts: [
@@ -78,7 +87,7 @@ export function ProductConfigurator({
           optionId: selected?.id,
           engravingText,
           quantity,
-          rush,
+          rush: false,
         }),
       });
       if (!res.ok) {
@@ -92,7 +101,7 @@ export function ProductConfigurator({
           "Грешка при добавяне";
         throw new Error(message);
       }
-      router.push("/cart");
+      setToastOpen(true);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Грешка");
@@ -158,38 +167,45 @@ export function ProductConfigurator({
             <input
               type="number"
               min={1}
-              max={50}
+              max={MAX_LINE_QTY}
               value={quantity}
               onChange={(e) =>
-                setQuantity(Math.max(1, Math.min(50, Number(e.target.value) || 1)))
+                setQuantity(
+                  Math.max(
+                    1,
+                    Math.min(MAX_LINE_QTY, Number(e.target.value) || 1),
+                  ),
+                )
               }
               aria-label="Количество"
             />
             <button
               type="button"
               aria-label="Увеличи количество"
-              onClick={() => setQuantity((q) => Math.min(50, q + 1))}
+              onClick={() =>
+                setQuantity((q) => Math.min(MAX_LINE_QTY, q + 1))
+              }
             >
               +
             </button>
           </div>
           <span className="muted" style={{ fontSize: "0.85rem" }}>
-            Отстъпка: 5+ бр. −5%, 10+ −10%, 25+ −15%
+            Отстъпка: 5+ бр. −5%, 10+ −10%, 25+ −15%. До {MAX_LINE_QTY} бр.
           </span>
+          {quantity >= QUOTE_QTY_THRESHOLD ? (
+            <p className="muted" style={{ fontSize: "0.85rem", marginTop: "0.35rem" }}>
+              Над {QUOTE_QTY_THRESHOLD} бр. можете и да{" "}
+              <Link href="/za-biznes#oferta">заявите оферта</Link>
+              {productSlug ? ` за този модел` : ""}.
+            </p>
+          ) : null}
         </div>
 
-        <div className="rush-option">
-          <label className="radio">
-            <input
-              type="checkbox"
-              checked={rush}
-              onChange={(e) => setRush(e.target.checked)}
-            />
-            Ускорена изработка (+{PRODUCTION_LEAD.rushSurchargePercent}%) —{" "}
-            {PRODUCTION_LEAD.rushLabel}
-          </label>
-          <p className="muted rush-hint">{productionLeadHelp(rush)}</p>
-        </div>
+        <p className="muted rush-hint" style={{ margin: "0.5rem 0" }}>
+          Срок: {PRODUCTION_LEAD.standardLabel}. Ускорено (+
+          {PRODUCTION_LEAD.rushSurchargePercent}%) се избира на стъпка
+          „Поръчка“.
+        </p>
 
         <p className="price-line desktop-price-line" aria-live="polite">
           Цена: <strong>{formatBgn(lineTotal)}</strong>
@@ -234,6 +250,8 @@ export function ProductConfigurator({
           </button>
         </div>
       </div>
+
+      <AddToCartToast open={toastOpen} onClose={closeToast} />
     </>
   );
 }

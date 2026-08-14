@@ -83,7 +83,7 @@ export async function POST(request: Request) {
         item.quantity,
         {
           quantityDiscounts,
-          rush: parsed.data.rush || Boolean(item.personalization.rush),
+          rush: parsed.data.rush,
           rushMultiplier,
           doubleSided: Boolean(
             item.personalization.doubleSided ?? option.doubleSided,
@@ -102,7 +102,7 @@ export async function POST(request: Request) {
           material: option.material,
           finish: option.finish,
           doubleSided: option.doubleSided,
-          rush: parsed.data.rush || Boolean(item.personalization.rush),
+          rush: parsed.data.rush,
         },
       });
     } else {
@@ -128,7 +128,7 @@ export async function POST(request: Request) {
         minPrice: Number(rule.minPrice),
         quantity: item.quantity,
         quantityDiscounts,
-        rush: parsed.data.rush || Boolean(item.personalization.rush),
+        rush: parsed.data.rush,
         rushMultiplier,
         doubleSided: Boolean(item.personalization.doubleSided),
       });
@@ -141,7 +141,7 @@ export async function POST(request: Request) {
         unitPrice: unitPriceFromTotal(lineTotal, item.quantity),
         personalization: {
           ...item.personalization,
-          rush: parsed.data.rush || Boolean(item.personalization.rush),
+          rush: parsed.data.rush,
         },
       });
     }
@@ -171,6 +171,15 @@ export async function POST(request: Request) {
         ? "PENDING"
         : "PENDING";
 
+  const office = parsed.data.courierOfficeCode?.trim();
+  const addressBase =
+    parsed.data.courier === "PICKUP"
+      ? parsed.data.shippingAddress?.trim() || "Лично получаване"
+      : parsed.data.shippingAddress.trim();
+  const shippingAddress = office
+    ? `${addressBase}\nОфис код: ${office}`
+    : addressBase;
+
   const order = await prisma.order.create({
     data: {
       publicToken,
@@ -180,7 +189,7 @@ export async function POST(request: Request) {
       companyName: parsed.data.companyName || null,
       vatNumber: parsed.data.vatNumber || null,
       needInvoice: parsed.data.needInvoice,
-      shippingAddress: parsed.data.shippingAddress,
+      shippingAddress,
       shippingNote: parsed.data.shippingNote || null,
       courier: parsed.data.courier,
       shippingFee,

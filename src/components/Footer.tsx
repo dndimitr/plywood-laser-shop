@@ -23,7 +23,8 @@ export function Footer() {
           </div>
           <div>
             <h3>Магазин</h3>
-            <Link href="/#katalog">Каталог</Link>
+            <Link href="/katalog">Каталог</Link>
+            <Link href="/za-biznes">За бизнеса</Link>
             <Link href="/custom">Поръчка по файл</Link>
             <Link href="/cart">Количка</Link>
             <Link href="/account">Моите поръчки</Link>
@@ -32,7 +33,7 @@ export function Footer() {
             <h3>Популярни</h3>
             <div className="footer-cats">
               {featured.map((c) => (
-                <Link key={c.id} href={`/?cat=${c.id}#katalog`}>
+                <Link key={c.id} href={`/katalog?cat=${c.id}`}>
                   {c.label}
                 </Link>
               ))}
@@ -53,7 +54,7 @@ export function Footer() {
                   <div key={group.id}>
                     <p className="footer-group-label">{group.label}</p>
                     {categories.map((c) => (
-                      <Link key={c.id} href={`/?cat=${c.id}#katalog`}>
+                      <Link key={c.id} href={`/katalog?cat=${c.id}`}>
                         {c.label}
                       </Link>
                     ))}

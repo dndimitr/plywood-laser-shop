@@ -35,7 +35,7 @@ export function FavoritesView() {
           Все още нямате запазени продукти. Отворете модел и натиснете „Любими“.
         </p>
         <div className="cta-row" style={{ marginTop: "1.25rem" }}>
-          <Link href="/#katalog" className="btn btn-primary">
+          <Link href="/katalog" className="btn btn-primary">
             Към каталога
           </Link>
         </div>

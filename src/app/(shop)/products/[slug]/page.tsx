@@ -55,7 +55,7 @@ export default async function ProductPage({ params }: Props) {
 
       <div className="container">
         <nav className="product-breadcrumb" aria-label="Навигация">
-          <Link href="/#katalog">Каталог</Link>
+          <Link href="/katalog">Каталог</Link>
           <span aria-hidden>/</span>
           <span>{product.name}</span>
         </nav>
@@ -84,6 +84,7 @@ export default async function ProductPage({ params }: Props) {
           <ProductConfigurator
             productId={product.id}
             productName={product.name}
+            productSlug={product.slug}
             basePrice={basePrice}
             options={product.options.map((o) => ({
               id: o.id,

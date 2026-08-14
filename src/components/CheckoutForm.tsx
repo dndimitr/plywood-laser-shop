@@ -22,6 +22,7 @@ export function CheckoutForm({ subtotal }: Props) {
     customerEmail: "",
     customerPhone: "",
     shippingAddress: "",
+    courierOfficeCode: "",
     shippingNote: "",
     paymentMethod: "CASH_ON_DELIVERY",
     courier: "ECONT",
@@ -155,15 +156,36 @@ export function CheckoutForm({ subtotal }: Props) {
       </label>
 
       <label className="field">
-        <span>Адрес / офис на куриер</span>
+        <span>
+          {form.courier === "PICKUP"
+            ? "Адрес за бележка (по желание)"
+            : "Адрес за доставка"}
+        </span>
         <textarea
-          required
+          required={form.courier !== "PICKUP"}
           rows={3}
           value={form.shippingAddress}
           onChange={(e) => update("shippingAddress", e.target.value)}
-          placeholder="Град, улица № или офис на Еконт / Speedy"
+          placeholder={
+            form.courier === "PICKUP"
+              ? "По желание — бележка"
+              : "Град, улица № / вход / етаж"
+          }
         />
       </label>
+
+      {form.courier !== "PICKUP" ? (
+        <label className="field">
+          <span>Код / име на офис на куриера (по желание)</span>
+          <input
+            value={form.courierOfficeCode}
+            onChange={(e) => update("courierOfficeCode", e.target.value)}
+            placeholder="Напр. код на офис Еконт или Speedy"
+            maxLength={40}
+          />
+        </label>
+      ) : null}
+
       <label className="field">
         <span>Бележка към куриера (по желание)</span>
         <input
@@ -185,35 +207,41 @@ export function CheckoutForm({ subtotal }: Props) {
         <p className="muted rush-hint">{productionLeadHelp(form.rush)}</p>
       </div>
 
-      <label className="radio">
-        <input
-          type="checkbox"
-          checked={form.needInvoice}
-          onChange={(e) => update("needInvoice", e.target.checked)}
-        />
-        Искам фактура
-      </label>
-
-      {form.needInvoice ? (
-        <div className="grid-2">
-          <label className="field">
-            <span>Фирма</span>
-            <input
-              required={form.needInvoice}
-              value={form.companyName}
-              onChange={(e) => update("companyName", e.target.value)}
-            />
-          </label>
-          <label className="field">
-            <span>ЕИК / ДДС номер</span>
-            <input
-              required={form.needInvoice}
-              value={form.vatNumber}
-              onChange={(e) => update("vatNumber", e.target.value)}
-            />
-          </label>
-        </div>
-      ) : null}
+      <fieldset className="payment-methods firm-order-block">
+        <legend>Фирмена поръчка</legend>
+        <label className="radio">
+          <input
+            type="checkbox"
+            checked={form.needInvoice}
+            onChange={(e) => update("needInvoice", e.target.checked)}
+          />
+          Искам фактура за фирма
+        </label>
+        {form.needInvoice ? (
+          <div className="grid-2" style={{ marginTop: "0.75rem" }}>
+            <label className="field">
+              <span>Фирма</span>
+              <input
+                required={form.needInvoice}
+                value={form.companyName}
+                onChange={(e) => update("companyName", e.target.value)}
+              />
+            </label>
+            <label className="field">
+              <span>ЕИК / ДДС номер</span>
+              <input
+                required={form.needInvoice}
+                value={form.vatNumber}
+                onChange={(e) => update("vatNumber", e.target.value)}
+              />
+            </label>
+          </div>
+        ) : (
+          <p className="muted" style={{ margin: "0.5rem 0 0", fontSize: "0.9rem" }}>
+            За заведения и фирми — маркирайте за фактура с ЕИК.
+          </p>
+        )}
+      </fieldset>
 
       <fieldset className="payment-methods">
         <legend>Начин на плащане</legend>
