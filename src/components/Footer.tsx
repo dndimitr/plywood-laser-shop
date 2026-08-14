@@ -1,7 +1,13 @@
 import Link from "next/link";
-import { CATEGORIES } from "@/lib/shop-config";
+import {
+  featuredCategories,
+  navCategoryGroups,
+} from "@/lib/shop-config";
 
 export function Footer() {
+  const featured = featuredCategories();
+  const groups = navCategoryGroups();
+
   return (
     <footer className="site-footer">
       <div className="container footer-inner">
@@ -23,9 +29,9 @@ export function Footer() {
             <Link href="/account">Моите поръчки</Link>
           </div>
           <div>
-            <h3>Категории</h3>
+            <h3>Популярни</h3>
             <div className="footer-cats">
-              {CATEGORIES.filter((c) => c.id !== "other").map((c) => (
+              {featured.map((c) => (
                 <Link key={c.id} href={`/?cat=${c.id}#katalog`}>
                   {c.label}
                 </Link>
@@ -38,8 +44,23 @@ export function Footer() {
             <Link href="/legal/privacy">Поверителност</Link>
             <Link href="/legal/returns">Рекламации</Link>
             <p className="muted" style={{ marginTop: "0.75rem" }}>
-              Еконт / Speedy · 2–5 раб. дни
+              Безплатна доставка над 50 € · 2–5 раб. дни
             </p>
+            <details className="footer-all-cats">
+              <summary>Всички категории</summary>
+              <div className="footer-all-cats-grid">
+                {groups.map(({ group, categories }) => (
+                  <div key={group.id}>
+                    <p className="footer-group-label">{group.label}</p>
+                    {categories.map((c) => (
+                      <Link key={c.id} href={`/?cat=${c.id}#katalog`}>
+                        {c.label}
+                      </Link>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </details>
           </div>
         </div>
         <p className="muted" style={{ margin: 0, fontSize: "0.9rem" }}>

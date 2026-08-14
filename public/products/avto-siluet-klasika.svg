@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="640" viewBox="0 0 800 640">
+  <defs>
+    <pattern id="grain5" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#c4a574"/>
+      <path d="M0 10 H40 M0 30 H40" stroke="#a67c52" stroke-width="1" opacity="0.35"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="640" fill="#f3efe8"/>
+  <rect x="48" y="48" width="704" height="544" rx="8" fill="url(#grain5)" stroke="#8b5a2b" stroke-width="3"/>
+  <path d="M260 270h90l30-40h110l40 40h50v70H260z" fill="none" stroke="#3d2b1f" stroke-width="3" opacity="0.55"/>
+  <circle cx="320" cy="340" r="28" fill="none" stroke="#3d2b1f" stroke-width="3" opacity="0.5"/>
+  <circle cx="500" cy="340" r="28" fill="none" stroke="#3d2b1f" stroke-width="3" opacity="0.5"/>
+  <text x="400" y="120" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" letter-spacing="3" fill="#8b5a2b">ЛАЗЕРШПЕРПЛАТ</text>
+  <text x="400" y="395" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#8b5a2b">Авто маниаци</text>
+  <text x="400" y="430" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#3d2b1f">Стенен силует</text>
+<text x="400" y="466" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#3d2b1f">класическа кола</text>
+</svg>

@@ -20,27 +20,17 @@ export function LocaleSwitch() {
   }
 
   return (
-    <div style={{ display: "inline-flex", gap: "0.25rem" }}>
+    <div className="locale-switch" role="group" aria-label="Език">
       <button
         type="button"
-        className="btn btn-ghost"
-        style={{
-          padding: "0.35rem 0.55rem",
-          minHeight: 36,
-          opacity: locale === "bg" ? 1 : 0.55,
-        }}
+        className={`locale-btn${locale === "bg" ? " is-active" : ""}`}
         onClick={() => choose("bg")}
       >
         BG
       </button>
       <button
         type="button"
-        className="btn btn-ghost"
-        style={{
-          padding: "0.35rem 0.55rem",
-          minHeight: 36,
-          opacity: locale === "en" ? 1 : 0.55,
-        }}
+        className={`locale-btn${locale === "en" ? " is-active" : ""}`}
         onClick={() => choose("en")}
       >
         EN

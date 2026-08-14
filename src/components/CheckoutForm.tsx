@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
-import { COURIERS } from "@/lib/shop-config";
+import { COURIERS, FREE_SHIPPING_MIN_EUR, shippingFeeFor } from "@/lib/shop-config";
 
 type Props = { subtotal: number };
 
@@ -30,8 +30,7 @@ export function CheckoutForm({ subtotal }: Props) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
-  const shippingFee =
-    COURIERS.find((c) => c.id === form.courier)?.fee ?? 0;
+  const shippingFee = shippingFeeFor(form.courier, subtotal);
   const estimatedTotal = Math.round((subtotal + shippingFee) * 100) / 100;
 
   async function submit(e: React.FormEvent) {
@@ -90,8 +89,18 @@ export function CheckoutForm({ subtotal }: Props) {
       </div>
       <h1>Данни за доставка и плащане</h1>
       <p className="muted">
-        Междинна сума: {formatBgn(subtotal)} · Доставка: {formatBgn(shippingFee)} ·{" "}
-        <strong>Общо ~ {formatBgn(estimatedTotal)}</strong>
+        Междинна сума: {formatBgn(subtotal)} · Доставка:{" "}
+        {shippingFee === 0 && form.courier !== "PICKUP"
+          ? "безплатна"
+          : formatBgn(shippingFee)}{" "}
+        · <strong>Общо ~ {formatBgn(estimatedTotal)}</strong>
+        {subtotal < FREE_SHIPPING_MIN_EUR && form.courier !== "PICKUP" ? (
+          <>
+            <br />
+            Безплатна куриерска доставка при поръчка над{" "}
+            {formatBgn(FREE_SHIPPING_MIN_EUR)}.
+          </>
+        ) : null}
       </p>
 
       <label className="field">
@@ -196,7 +205,7 @@ export function CheckoutForm({ subtotal }: Props) {
         </div>
       ) : null}
 
-      <fieldset className="field">
+      <fieldset className="payment-methods">
         <legend>Начин на плащане</legend>
         <label className="radio">
           <input
