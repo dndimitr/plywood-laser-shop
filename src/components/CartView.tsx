@@ -111,6 +111,11 @@ export function CartView({ initialCart, subtotal }: Props) {
                   Текст: {item.personalization.engravingText}
                 </p>
               ) : null}
+              {item.personalization.sizeLabel ? (
+                <p className="cart-item-size">
+                  Размер: {item.personalization.sizeLabel}
+                </p>
+              ) : null}
               {item.personalization.optionLabel ? (
                 <p className="muted" style={{ margin: "0.2rem 0" }}>
                   {item.personalization.optionLabel}

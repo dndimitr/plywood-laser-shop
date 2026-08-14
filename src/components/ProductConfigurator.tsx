@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AddToCartToast } from "@/components/AddToCartToast";
@@ -50,11 +50,23 @@ export function ProductConfigurator({
   const [error, setError] = useState<string | null>(null);
   const [toastOpen, setToastOpen] = useState(false);
   const closeToast = useCallback(() => setToastOpen(false), []);
+  const previousSizeRef = useRef<string | null>(null);
+  const [sizeChange, setSizeChange] = useState<string | null>(null);
 
   const selected = useMemo(
     () => options.find((o) => o.id === optionId) ?? options[0],
     [optionId, options],
   );
+
+  useEffect(() => {
+    const next = selected?.sizeLabel;
+    if (!next) return;
+    const prev = previousSizeRef.current;
+    if (prev && prev !== next) {
+      setSizeChange(`от ${prev} → ${next}`);
+    }
+    previousSizeRef.current = next;
+  }, [selected?.sizeLabel]);
 
   const lineTotal = selected
     ? calculateTemplatePrice(
@@ -120,23 +132,41 @@ export function ProductConfigurator({
         <h2>Конфигурация</h2>
         <p className="muted configurator-product-name">{productName}</p>
 
-        <label className="field">
-          <span>Вариант (размер / материал / обработка)</span>
-          <select
-            value={optionId}
-            onChange={(e) => setOptionId(e.target.value)}
-            aria-label="Вариант на продукта"
+        <fieldset className="size-picker">
+          <legend>Размер</legend>
+          <div
+            className="size-picker-grid"
+            role="radiogroup"
+            aria-label="Избор на размер"
           >
-            {options.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.label} (+{formatBgn(Number(o.priceModifier))})
-              </option>
-            ))}
-          </select>
-        </label>
+            {options.map((o) => {
+              const unit = basePrice + Number(o.priceModifier);
+              const active = o.id === selected.id;
+              return (
+                <button
+                  key={o.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  className={`size-card${active ? " is-active" : ""}`}
+                  onClick={() => setOptionId(o.id)}
+                >
+                  <span className="size-card-size">{o.sizeLabel}</span>
+                  <span className="size-card-label">{o.label}</span>
+                  <span className="size-card-price">{formatBgn(unit)}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="size-now" aria-live="polite">
+            Избран размер: <strong>{selected.sizeLabel}</strong>
+            {sizeChange ? (
+              <span className="size-change"> · смяна {sizeChange}</span>
+            ) : null}
+          </p>
+        </fieldset>
 
         <div className="option-meta" aria-live="polite">
-          <span>Размер: {selected.sizeLabel}</span>
           <span>Дебелина: {selected.thicknessMm} мм</span>
           <span>{laserTypeLabel[selected.laserType] ?? selected.laserType}</span>
           <span>Материал: {selected.materialLabel ?? selected.material}</span>

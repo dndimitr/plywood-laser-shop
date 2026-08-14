@@ -1773,6 +1773,84 @@ img {
   outline-offset: 2px;
 }
 
+.cart-item-size {
+  margin: 0.25rem 0 0.15rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.size-picker {
+  border: 0;
+  margin: 0 0 1rem;
+  padding: 0;
+  min-width: 0;
+}
+
+.size-picker legend {
+  font-weight: 650;
+  margin-bottom: 0.55rem;
+  font-size: 0.95rem;
+}
+
+.size-picker-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.55rem;
+}
+
+.size-card {
+  display: grid;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.75rem 0.85rem;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg, #faf6f0);
+  color: inherit;
+  cursor: pointer;
+  min-height: 4.4rem;
+}
+
+.size-card-size {
+  font-family: var(--font-display), Georgia, serif;
+  font-size: clamp(1.25rem, 4.2vw, 1.7rem);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  color: var(--walnut, #3d2b1f);
+}
+
+.size-card-label {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+
+.size-card-price {
+  font-weight: 650;
+  font-size: 0.95rem;
+}
+
+.size-card.is-active {
+  border-color: var(--laser, #c45c26);
+  background: color-mix(in srgb, var(--laser, #c45c26) 10%, var(--surface, #fff));
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--laser, #c45c26) 28%, transparent);
+}
+
+.size-now {
+  margin: 0.65rem 0 0;
+  font-size: 0.95rem;
+}
+
+.size-now strong {
+  font-size: 1.15rem;
+}
+
+.size-change {
+  display: block;
+  margin-top: 0.2rem;
+  color: var(--laser, #c45c26);
+  font-weight: 650;
+}
+
 .option-meta,
 .grid-2 {
   display: grid;
@@ -2341,6 +2419,14 @@ img {
 
   .desktop-price-line {
     display: block;
+  }
+
+  .size-picker-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .size-card-size {
+    font-size: 1.45rem;
   }
 
   .configurator-submit {
