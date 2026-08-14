@@ -1824,6 +1824,56 @@ img {
   min-height: 44px;
 }
 
+.payment-methods {
+  border: 0;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+
+.payment-methods legend {
+  font-weight: 700;
+  margin-bottom: 0.65rem;
+  color: var(--walnut);
+}
+
+.payment-option {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+  margin-bottom: 0.55rem;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid var(--line);
+  background: #fff;
+  min-height: 48px;
+  cursor: pointer;
+}
+
+.payment-option input {
+  margin-top: 0.3rem;
+  flex-shrink: 0;
+}
+
+.payment-option-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.payment-option-body strong {
+  font-weight: 700;
+  color: var(--walnut);
+}
+
+.payment-option.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.payment-hint {
+  margin: -0.35rem 0 1rem;
+  font-size: 0.92rem;
+}
+
 .empty-state {
   text-align: left;
 }

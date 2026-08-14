@@ -31,7 +31,9 @@ export async function sendOrderEmails(order: OrderMail) {
     ${
       order.paymentMethod === "BANK_TRANSFER"
         ? `<p>Банков превод:<br/>${bank.beneficiary}<br/>IBAN: ${bank.iban}<br/>BIC: ${bank.bic}<br/>Основание: ${bank.reasonPrefix} ${order.id}</p>`
-        : ""
+        : order.paymentMethod === "CASH_ON_DELIVERY"
+          ? `<p><strong>Наложен платеж при доставка:</strong> сумата ${formatBgn(order.totalAmount)} се плаща на куриера при получаване на пратката.</p>`
+          : ""
     }
   `;
 

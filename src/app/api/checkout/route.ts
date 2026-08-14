@@ -25,7 +25,17 @@ export async function POST(request: Request) {
   const body = await request.json();
   const parsed = checkoutSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+    const flat = parsed.error.flatten();
+    const firstField =
+      Object.values(flat.fieldErrors).flat().find(Boolean) ??
+      flat.formErrors[0];
+    return NextResponse.json(
+      {
+        error: typeof firstField === "string" ? firstField : flat,
+        details: flat,
+      },
+      { status: 400 },
+    );
   }
 
   const cart = await getCart();

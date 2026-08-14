@@ -5,7 +5,7 @@ import { prisma } from "@/lib/db";
 import { formatBgn } from "@/lib/pricing";
 import {
   courierLabel,
-  paymentMethodLabel,
+  paymentMethodLabelFor,
   paymentStatusLabel,
 } from "@/lib/labels";
 import { getBankDetails } from "@/lib/shop-config";
@@ -71,10 +71,21 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
       </p>
       <p>
         Плащане:{" "}
-        {paymentMethodLabel[order.paymentMethod] ?? order.paymentMethod} ·{" "}
+        {paymentMethodLabelFor(order.paymentMethod, order.courier)} ·{" "}
         {paymentStatusLabel[order.paymentStatus] ?? order.paymentStatus}
       </p>
       {order.rush ? <p className="muted">Ускорена изработка е заявена.</p> : null}
+      {order.paymentMethod === "CASH_ON_DELIVERY" ? (
+        <div className="admin-card" style={{ marginTop: "1rem" }}>
+          <h3 style={{ marginTop: 0 }}>Наложен платеж при доставка</h3>
+          <p style={{ marginBottom: 0 }}>
+            Плащате{" "}
+            <strong>{formatBgn(Number(order.totalAmount))}</strong> на{" "}
+            {courierLabel[order.courier] ?? "куриера"} при получаване на
+            пратката (в брой или с карта при куриера, според услугата).
+          </p>
+        </div>
+      ) : null}
       {order.paymentMethod === "BANK_TRANSFER" ? (
         <div className="admin-card" style={{ marginTop: "1rem" }}>
           <h3 style={{ marginTop: 0 }}>Данни за банков превод</h3>

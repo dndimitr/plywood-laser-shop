@@ -17,9 +17,22 @@ export const orderStatusLabel: Record<string, string> = {
 
 export const paymentMethodLabel: Record<string, string> = {
   BANK_TRANSFER: "Банков превод",
-  CASH_ON_DELIVERY: "Наложен платеж",
+  CASH_ON_DELIVERY: "Наложен платеж при доставка",
   CARD: "Карта (онлайн)",
 };
+
+/** Label that reflects courier: COD vs cash on pickup */
+export function paymentMethodLabelFor(
+  method: string,
+  courier?: string | null,
+): string {
+  if (method === "CASH_ON_DELIVERY") {
+    return courier === "PICKUP"
+      ? "Плащане в брой при получаване"
+      : "Наложен платеж при доставка";
+  }
+  return paymentMethodLabel[method] ?? method;
+}
 
 export const paymentStatusLabel: Record<string, string> = {
   PENDING: "Чака плащане",

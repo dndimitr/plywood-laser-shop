@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { formatBgn } from "@/lib/pricing";
-import { courierLabel, paymentMethodLabel } from "@/lib/labels";
+import { courierLabel, paymentMethodLabelFor } from "@/lib/labels";
 import { getBankDetails } from "@/lib/shop-config";
 
 export const dynamic = "force-dynamic";
@@ -40,7 +40,7 @@ export default async function QuotePage({ params, searchParams }: Props) {
       <p className="muted">{order.shippingAddress}</p>
       <p>
         Куриер: {courierLabel[order.courier] ?? order.courier} · Плащане:{" "}
-        {paymentMethodLabel[order.paymentMethod] ?? order.paymentMethod}
+        {paymentMethodLabelFor(order.paymentMethod, order.courier)}
       </p>
       <table className="admin-table" style={{ marginTop: "1.5rem" }}>
         <thead>
@@ -67,6 +67,11 @@ export default async function QuotePage({ params, searchParams }: Props) {
         {formatBgn(Number(order.shippingFee ?? 0))} ·{" "}
         <strong>Общо: {formatBgn(Number(order.totalAmount))}</strong>
       </p>
+      {order.paymentMethod === "CASH_ON_DELIVERY" ? (
+        <p className="muted">
+          Наложен платеж при доставка — плащане на куриера при получаване.
+        </p>
+      ) : null}
       {order.paymentMethod === "BANK_TRANSFER" ? (
         <p className="muted">
           IBAN {bank.iban} · Основание: {bank.reasonPrefix} {order.id}
