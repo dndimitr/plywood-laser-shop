@@ -169,6 +169,11 @@ const DATA_DIR =
     : path.join(process.cwd(), "data");
 const DB_PATH = path.join(DATA_DIR, "local-db.json");
 
+/** Writable data directory (project `data/` locally, `/tmp/...` on Vercel). */
+export function getDataDir() {
+  return DATA_DIR;
+}
+
 function nowIso() {
   return new Date().toISOString();
 }

@@ -5,6 +5,7 @@ export type CategoryId =
   | "birthday"
   | "newborn"
   | "christmas"
+  | "halloween"
   | "gifts"
   | "decor"
   | "panels"
@@ -36,6 +37,7 @@ export const CATEGORIES: readonly CategoryDef[] = [
   { id: "birthday", label: "Рождени дни", labelEn: "Birthdays" },
   { id: "newborn", label: "Новородени", labelEn: "Newborn" },
   { id: "christmas", label: "Коледа", labelEn: "Christmas" },
+  { id: "halloween", label: "Хелоуин", labelEn: "Halloween" },
   { id: "gifts", label: "Подаръци", labelEn: "Gifts" },
   // Дом и интериор
   { id: "decor", label: "Декор", labelEn: "Decor" },
@@ -69,7 +71,14 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
     id: "occasions",
     label: "Поводи и подаръци",
     labelEn: "Occasions & gifts",
-    categoryIds: ["wedding", "birthday", "newborn", "christmas", "gifts"],
+    categoryIds: [
+      "wedding",
+      "birthday",
+      "newborn",
+      "christmas",
+      "halloween",
+      "gifts",
+    ],
   },
   {
     id: "home",
@@ -98,6 +107,7 @@ export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
   "birthday",
   "newborn",
   "christmas",
+  "halloween",
   "decor",
   "panels",
   "signs",
@@ -139,6 +149,7 @@ export const FINISHES = [
   { id: "lacquer", label: "Лак", labelEn: "Lacquer" },
 ] as const;
 
+/** Default courier labels; live fees come from `shipping-settings`. */
 export const COURIERS = [
   { id: "ECONT", label: "Еконт", fee: 6.9 },
   { id: "SPEEDY", label: "Speedy", fee: 7.5 },
@@ -153,11 +164,6 @@ export function getBankDetails() {
     bankName: process.env.BANK_NAME ?? "Примерна банка",
     reasonPrefix: process.env.BANK_REASON_PREFIX ?? "Поръчка",
   };
-}
-
-export function shippingFeeFor(courier: string) {
-  const found = COURIERS.find((c) => c.id === courier);
-  return found?.fee ?? 6.9;
 }
 
 /** Public contact phone for mobile bottom bar / tel: links */

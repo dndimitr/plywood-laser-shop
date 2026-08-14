@@ -18,7 +18,7 @@ import {
   type ComplexityMultipliers,
   type ThicknessCoefficients,
 } from "@/lib/pricing";
-import { shippingFeeFor } from "@/lib/shop-config";
+import { shippingFeeFor } from "@/lib/shipping-settings";
 import { checkoutSchema } from "@/lib/validators";
 
 export async function POST(request: Request) {
@@ -204,14 +204,41 @@ export async function POST(request: Request) {
   });
 
   try {
+    const designIds = pricedItems
+      .map((i) => i.uploadedDesignId)
+      .filter((id): id is string => Boolean(id));
+    const designs =
+      designIds.length > 0
+        ? await prisma.uploadedDesign.findMany({
+            where: { id: { in: designIds } },
+          })
+        : [];
+    const designById = new Map(designs.map((d) => [d.id, d]));
+
     await sendOrderEmails({
       id: order.id,
       publicToken,
       customerName: parsed.data.customerName,
       customerEmail: parsed.data.customerEmail,
+      customerPhone: parsed.data.customerPhone,
+      shippingAddress: parsed.data.shippingAddress,
       totalAmount,
+      shippingFee,
       paymentMethod: parsed.data.paymentMethod,
+      courier: parsed.data.courier,
       rush: parsed.data.rush,
+      items: pricedItems.map((item) => {
+        const design = item.uploadedDesignId
+          ? designById.get(item.uploadedDesignId)
+          : undefined;
+        return {
+          title: item.title,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+          fileName: design?.originalName ?? null,
+          fileUrl: design?.url ?? null,
+        };
+      }),
     });
   } catch (err) {
     console.error("[email] failed", err);

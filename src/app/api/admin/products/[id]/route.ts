@@ -18,37 +18,31 @@ export async function PUT(request: Request, { params }: Params) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
   }
 
+  const options = parsed.data.options ?? [];
   const product = await prisma.product.update({
     where: { id },
     data: {
       name: parsed.data.name,
       slug: parsed.data.slug,
       description: parsed.data.description,
+      category: parsed.data.category,
       basePrice: parsed.data.basePrice,
       imageUrl: parsed.data.imageUrl || null,
+      galleryUrls: parsed.data.galleryUrls ?? [],
       active: parsed.data.active,
-      ...(Array.isArray(body.options)
-        ? {
-            options: {
-              deleteMany: {},
-              create: body.options.map(
-                (o: {
-                  label: string;
-                  sizeLabel: string;
-                  thicknessMm: number;
-                  laserType: "ENGRAVE" | "CUT" | "BOTH";
-                  priceModifier: number;
-                }) => ({
-                  label: o.label,
-                  sizeLabel: o.sizeLabel,
-                  thicknessMm: Number(o.thicknessMm),
-                  laserType: o.laserType,
-                  priceModifier: Number(o.priceModifier),
-                }),
-              ),
-            },
-          }
-        : {}),
+      options: {
+        deleteMany: {},
+        create: options.map((o) => ({
+          label: o.label,
+          sizeLabel: o.sizeLabel,
+          thicknessMm: o.thicknessMm,
+          laserType: o.laserType,
+          material: o.material,
+          finish: o.finish,
+          doubleSided: o.doubleSided,
+          priceModifier: o.priceModifier,
+        })),
+      },
     },
     include: { options: true },
   });

@@ -3651,6 +3651,509 @@ const DRAFTS: Draft[] = [
       },
     ]),
   },
+,\n\n  // —— Хелоуин ——
+  {
+    name: "Хелоуин декорация „Вещица“",
+    slug: "halloween-veshtica-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — весела вещица с шапка. От 3 мм шперплат, за рафт, маса или витрина. Идеална за Хелоуин и есенен декор.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Мумия“",
+    slug: "halloween-mumiya-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — забавна мумия с големи очи. 3 мм шперплат, за Хелоуин парти и домашен декор.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Вампир“",
+    slug: "halloween-vampyr-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — вампир с наметало. От 3 мм шперплат, със стойка; ярък акцент за Хелоуин.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Франкенщайн“",
+    slug: "halloween-frankenstein-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — класически Франкенщайн. 3 мм шперплат, за рафт или празнична маса.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Зомби“",
+    slug: "halloween-zombi-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — весел зомби. От 3 мм шперплат; подходяща за Хелоуин и колекционерски комплект.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Черна котка“",
+    slug: "halloween-cherna-kotka-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — черна котка с вещическа шапка. 3 мм шперплат, за витрина или рафт.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Върколак“",
+    slug: "halloween-varkolak-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — оранжев върколак. От 3 мм шперплат; част от серията „Весел и подвижен“.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Скелет“",
+    slug: "halloween-skelet-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — усмихнат скелет. 3 мм шперплат, за Хелоуин и есенен интериор.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Тиква“",
+    slug: "halloween-tikva-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — Jack-o'-lantern с костюм. От 3 мм шперплат; класически Хелоуин мотив.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+  {
+    name: "Хелоуин декорация „Плашило“",
+    slug: "halloween-plashilo-wiggly",
+    category: "halloween",
+    description:
+      "Подвижна лазерно изрязана декорация — плашило със сламена коса. 3 мм шперплат, за празнична маса или витрина.",
+    basePrice: 28,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "12×18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · 4 мм · масло",
+        sizeLabel: "16×24 см",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 12,
+      },
+    ]),
+  },
+
+  // —— Новородени: гардероб-касетка ——
+  {
+    name: "Гардероб-касетка „Еленче“",
+    slug: "baby-closet-elen",
+    category: "newborn",
+    description:
+      "Лазерно изрязана касетка-гардеробче за бебешки подарък — флорален мотив и еленче. 3 мм шперплат, с релса за мини закачалки. Подходяща за бебешки душ и кръщене.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Луна и звезди“",
+    slug: "baby-closet-luna",
+    category: "newborn",
+    description:
+      "Бебешка касетка-гардероб с луна и звезди. Лазерно изрязана от 3 мм шперплат — идеален подарък за бебешки душ.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Мече“",
+    slug: "baby-closet-mecho",
+    category: "newborn",
+    description:
+      "Касетка-гардеробче с мече на предния панел и сърце-табелка на релсата. 3 мм шперплат — класика за новородено.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Влакче“",
+    slug: "baby-closet-vlak",
+    category: "newborn",
+    description:
+      "Бебешка касетка с мотив влакче — забавен подарък за момченце. Лазерно изрязана от 3 мм шперплат, с релса за дрехи.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Замък“",
+    slug: "baby-closet-zamak",
+    category: "newborn",
+    description:
+      "Приказна касетка-гардероб във форма на замък. 3 мм шперплат — ефектен бебешки подарък с място за дрехи и изненади.",
+    basePrice: 52,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Балон“",
+    slug: "baby-closet-balon",
+    category: "newborn",
+    description:
+      "Нежна касетка с балон и облаци. Лазерно изрязана от 3 мм шперплат — подходяща за бебешки душ и детска стая.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Лъвче“",
+    slug: "baby-closet-lav",
+    category: "newborn",
+    description:
+      "Сафари касетка-гардероб с лъвче и лапички. 3 мм шперплат — персонализира се с име на бебето.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Тигърче“",
+    slug: "baby-closet-tigar",
+    category: "newborn",
+    description:
+      "Касетка с тигърче на предния панел. Лазерно изрязана от 3 мм шперплат — с релса за мини дрехи и място за подаръци.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Море“",
+    slug: "baby-closet-more",
+    category: "newborn",
+    description:
+      "Морска касетка-гардероб с корабче и котва. 3 мм шперплат — свеж бебешки подарък за душ или кръщене.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Гардероб-касетка „Слънце“",
+    slug: "baby-closet-slantse",
+    category: "newborn",
+    description:
+      "Весела касетка със слънце и облаци. Лазерно изрязана от 3 мм шперплат — персонализира се с име.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Стандарт · 3 мм · изрязване",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · гравиране · масло",
+        sizeLabel: "20×15×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
 ];
 
 export const CATALOG_PRODUCTS: SeedProduct[] = pack(DRAFTS);

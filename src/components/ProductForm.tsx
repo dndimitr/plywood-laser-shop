@@ -2,12 +2,17 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { CATEGORIES, FINISHES, MATERIALS } from "@/lib/shop-config";
+import { DeleteProductButton } from "@/components/DeleteProductButton";
 
 type OptionDraft = {
   label: string;
   sizeLabel: string;
   thicknessMm: number;
   laserType: "ENGRAVE" | "CUT" | "BOTH";
+  material: string;
+  finish: string;
+  doubleSided: boolean;
   priceModifier: number;
 };
 
@@ -16,8 +21,10 @@ type ProductData = {
   name: string;
   slug: string;
   description: string;
+  category: string;
   basePrice: number;
   imageUrl?: string | null;
+  galleryUrls: string[];
   active: boolean;
   options: OptionDraft[];
 };
@@ -27,6 +34,9 @@ const emptyOption = (): OptionDraft => ({
   sizeLabel: "10×10 см",
   thicknessMm: 4,
   laserType: "ENGRAVE",
+  material: "birch-plywood",
+  finish: "raw",
+  doubleSided: false,
   priceModifier: 0,
 });
 
@@ -43,11 +53,16 @@ export function ProductForm({ initial }: Props) {
       name: "",
       slug: "",
       description: "",
+      category: "other",
       basePrice: 20,
       imageUrl: "",
+      galleryUrls: [],
       active: true,
       options: [emptyOption()],
     },
+  );
+  const [galleryText, setGalleryText] = useState(
+    (initial?.galleryUrls ?? []).join("\n"),
   );
 
   function updateOption(index: number, patch: Partial<OptionDraft>) {
@@ -59,23 +74,39 @@ export function ProductForm({ initial }: Props) {
     }));
   }
 
+  function slugifyName(name: string) {
+    return name
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+
   async function save(e: React.FormEvent) {
     e.preventDefault();
     setPending(true);
     setError(null);
     try {
+      const galleryUrls = galleryText
+        .split("\n")
+        .map((s) => s.trim())
+        .filter(Boolean);
+      const payload = { ...form, galleryUrls };
       const endpoint = form.id
         ? `/api/admin/products/${form.id}`
         : "/api/admin/products";
       const res = await fetch(endpoint, {
         method: form.id ? "PUT" : "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify(payload),
       });
       const data = await res.json();
       if (!res.ok) {
         throw new Error(
-          typeof data.error === "string" ? data.error : "Грешка при запис",
+          typeof data.error === "string"
+            ? data.error
+            : "Грешка при запис — проверете полетата",
         );
       }
       router.push("/admin/products");
@@ -94,7 +125,17 @@ export function ProductForm({ initial }: Props) {
         <input
           required
           value={form.name}
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          onChange={(e) => {
+            const name = e.target.value;
+            setForm((prev) => ({
+              ...prev,
+              name,
+              slug:
+                !prev.id && (!prev.slug || prev.slug === slugifyName(prev.name))
+                  ? slugifyName(name)
+                  : prev.slug,
+            }));
+          }}
         />
       </label>
       <label className="field">
@@ -104,6 +145,19 @@ export function ProductForm({ initial }: Props) {
           value={form.slug}
           onChange={(e) => setForm({ ...form, slug: e.target.value })}
         />
+      </label>
+      <label className="field">
+        <span>Категория</span>
+        <select
+          value={form.category}
+          onChange={(e) => setForm({ ...form, category: e.target.value })}
+        >
+          {CATEGORIES.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.label}
+            </option>
+          ))}
+        </select>
       </label>
       <label className="field">
         <span>Описание</span>
@@ -141,16 +195,30 @@ export function ProductForm({ initial }: Props) {
         </label>
       </div>
       <label className="field">
-        <span>URL на изображение</span>
+        <span>URL / път на основно изображение</span>
         <input
+          placeholder="/products/photos/slug.png"
           value={form.imageUrl ?? ""}
           onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+        />
+      </label>
+      <label className="field">
+        <span>Галерия (по един URL/път на ред)</span>
+        <textarea
+          rows={3}
+          value={galleryText}
+          onChange={(e) => setGalleryText(e.target.value)}
+          placeholder="/products/photos/slug.png"
         />
       </label>
 
       <h3>Опции</h3>
       {form.options.map((option, index) => (
-        <div key={index} className="admin-card" style={{ marginBottom: "0.75rem" }}>
+        <div
+          key={index}
+          className="admin-card"
+          style={{ marginBottom: "0.75rem" }}
+        >
           <label className="field">
             <span>Етикет</span>
             <input
@@ -209,6 +277,64 @@ export function ProductForm({ initial }: Props) {
               />
             </label>
           </div>
+          <div className="grid-2">
+            <label className="field">
+              <span>Материал</span>
+              <select
+                value={option.material}
+                onChange={(e) =>
+                  updateOption(index, { material: e.target.value })
+                }
+              >
+                {MATERIALS.map((m) => (
+                  <option key={m.id} value={m.id}>
+                    {m.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="field">
+              <span>Покритие</span>
+              <select
+                value={option.finish}
+                onChange={(e) =>
+                  updateOption(index, { finish: e.target.value })
+                }
+              >
+                {FINISHES.map((f) => (
+                  <option key={f.id} value={f.id}>
+                    {f.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <label className="field">
+            <span>Двустранно</span>
+            <select
+              value={option.doubleSided ? "1" : "0"}
+              onChange={(e) =>
+                updateOption(index, { doubleSided: e.target.value === "1" })
+              }
+            >
+              <option value="0">Не</option>
+              <option value="1">Да</option>
+            </select>
+          </label>
+          {form.options.length > 1 ? (
+            <button
+              type="button"
+              className="btn btn-ghost"
+              onClick={() =>
+                setForm((prev) => ({
+                  ...prev,
+                  options: prev.options.filter((_, i) => i !== index),
+                }))
+              }
+            >
+              Премахни опция
+            </button>
+          ) : null}
         </div>
       ))}
 
@@ -231,6 +357,10 @@ export function ProductForm({ initial }: Props) {
       <button type="submit" className="btn btn-primary" disabled={pending}>
         {pending ? "Запис..." : "Запази"}
       </button>
+
+      {form.id ? (
+        <DeleteProductButton productId={form.id} productName={form.name} />
+      ) : null}
     </form>
   );
 }

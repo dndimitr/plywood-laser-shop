@@ -19,6 +19,7 @@ export default async function AdminLayout({
             <Link href="/admin/orders">Поръчки</Link>
             <Link href="/admin/products">Продукти</Link>
             <Link href="/admin/pricing">Цени</Link>
+            <Link href="/admin/shipping">Доставка</Link>
             <Link href="/">Магазин</Link>
             <form
               action={async () => {

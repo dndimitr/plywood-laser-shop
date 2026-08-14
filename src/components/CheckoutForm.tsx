@@ -3,11 +3,12 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
-import { COURIERS } from "@/lib/shop-config";
 
-type Props = { subtotal: number };
+type CourierOption = { id: string; label: string; fee: number };
 
-export function CheckoutForm({ subtotal }: Props) {
+type Props = { subtotal: number; couriers: CourierOption[] };
+
+export function CheckoutForm({ subtotal, couriers }: Props) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -18,7 +19,7 @@ export function CheckoutForm({ subtotal }: Props) {
     shippingAddress: "",
     shippingNote: "",
     paymentMethod: "CASH_ON_DELIVERY",
-    courier: "ECONT",
+    courier: couriers[0]?.id ?? "ECONT",
     rush: false,
     needInvoice: false,
     companyName: "",
@@ -31,7 +32,7 @@ export function CheckoutForm({ subtotal }: Props) {
   }
 
   const shippingFee =
-    COURIERS.find((c) => c.id === form.courier)?.fee ?? 0;
+    couriers.find((c) => c.id === form.courier)?.fee ?? 0;
   const estimatedTotal = Math.round((subtotal + shippingFee) * 100) / 100;
 
   async function submit(e: React.FormEvent) {
@@ -131,7 +132,7 @@ export function CheckoutForm({ subtotal }: Props) {
           value={form.courier}
           onChange={(e) => update("courier", e.target.value)}
         >
-          {COURIERS.map((c) => (
+          {couriers.map((c) => (
             <option key={c.id} value={c.id}>
               {c.label} ({formatBgn(c.fee)})
             </option>

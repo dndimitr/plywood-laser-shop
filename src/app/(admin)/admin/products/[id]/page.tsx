@@ -18,6 +18,10 @@ export default async function EditProductPage({ params }: Props) {
   });
   if (!product) notFound();
 
+  const galleryUrls = Array.isArray(product.galleryUrls)
+    ? (product.galleryUrls as string[])
+    : [];
+
   return (
     <div className="admin-panel">
       <h1>Редакция: {product.name}</h1>
@@ -27,14 +31,19 @@ export default async function EditProductPage({ params }: Props) {
           name: product.name,
           slug: product.slug,
           description: product.description,
+          category: product.category ?? "other",
           basePrice: Number(product.basePrice),
           imageUrl: product.imageUrl,
+          galleryUrls,
           active: product.active,
           options: product.options.map((o) => ({
             label: o.label,
             sizeLabel: o.sizeLabel,
             thicknessMm: o.thicknessMm,
             laserType: o.laserType,
+            material: o.material ?? "birch-plywood",
+            finish: o.finish ?? "raw",
+            doubleSided: Boolean(o.doubleSided),
             priceModifier: Number(o.priceModifier),
           })),
         }}

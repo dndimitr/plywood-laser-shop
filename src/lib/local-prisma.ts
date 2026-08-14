@@ -480,6 +480,18 @@ export function createLocalPrisma() {
         );
         return design ? toDate(design) : null;
       },
+
+      async findMany(args?: {
+        where?: { id?: { in?: string[] } };
+      }) {
+        await ensureLocalDb();
+        let designs = readLocalDb().uploadedDesigns;
+        if (args?.where?.id?.in) {
+          const set = new Set(args.where.id.in);
+          designs = designs.filter((d) => set.has(d.id));
+        }
+        return designs.map((d) => toDate(d));
+      },
     },
 
     order: {
@@ -591,12 +603,29 @@ export function createLocalPrisma() {
       },
 
       async findMany(args?: {
+        where?: {
+          status?: LocalOrder["status"];
+          designReview?: LocalDesignReview;
+        };
         orderBy?: Record<string, "asc" | "desc">;
-        include?: { items?: boolean };
+        include?: {
+          items?:
+            | boolean
+            | { include?: { uploadedDesign?: boolean; product?: boolean } };
+        };
       }) {
         await ensureLocalDb();
         const db = readLocalDb();
-        const orders = sortBy(db.orders, args?.orderBy ?? { createdAt: "desc" });
+        let orders = db.orders;
+        if (args?.where?.status) {
+          orders = orders.filter((o) => o.status === args.where!.status);
+        }
+        if (args?.where?.designReview) {
+          orders = orders.filter(
+            (o) => o.designReview === args.where!.designReview,
+          );
+        }
+        orders = sortBy(orders, args?.orderBy ?? { createdAt: "desc" });
         if (args?.include?.items) {
           return orders.map((o) => withOrderRelations(db, o));
         }
@@ -634,13 +663,24 @@ export function createLocalPrisma() {
         });
       },
 
-      async count(args?: { where?: { status?: LocalOrder["status"] } }) {
+      async count(args?: {
+        where?: {
+          status?: LocalOrder["status"];
+          designReview?: LocalDesignReview;
+        };
+      }) {
         await ensureLocalDb();
         const db = readLocalDb();
+        let orders = db.orders;
         if (args?.where?.status) {
-          return db.orders.filter((o) => o.status === args.where!.status).length;
+          orders = orders.filter((o) => o.status === args.where!.status);
         }
-        return db.orders.length;
+        if (args?.where?.designReview) {
+          orders = orders.filter(
+            (o) => o.designReview === args.where!.designReview,
+          );
+        }
+        return orders.length;
       },
     },
 

@@ -34,15 +34,40 @@ export const addTemplateCartSchema = z.object({
   rush: z.boolean().optional(),
 });
 
+const mediaPath = z
+  .string()
+  .refine(
+    (v) => v === "" || v.startsWith("/") || /^https?:\/\//i.test(v),
+    "Невалиден път или URL",
+  );
+
+export const productOptionFormSchema = z.object({
+  label: z.string().min(1),
+  sizeLabel: z.string().min(1),
+  thicknessMm: z.coerce.number().int().positive(),
+  laserType: z.enum(["ENGRAVE", "CUT", "BOTH"]),
+  material: z.string().default("birch-plywood"),
+  finish: z.string().default("raw"),
+  doubleSided: z.boolean().default(false),
+  priceModifier: z.coerce.number(),
+});
+
 export const productFormSchema = z.object({
   name: z.string().min(2),
   slug: z.string().min(2).regex(/^[a-z0-9-]+$/),
   description: z.string().min(10),
   category: z.string().default("other"),
   basePrice: z.coerce.number().positive(),
-  imageUrl: z.string().url().optional().or(z.literal("")),
-  galleryUrls: z.array(z.string().url()).optional(),
+  imageUrl: mediaPath.optional().or(z.literal("")),
+  galleryUrls: z.array(mediaPath).optional(),
   active: z.boolean().default(true),
+  options: z.array(productOptionFormSchema).optional(),
+});
+
+export const shippingFeesSchema = z.object({
+  ECONT: z.coerce.number().min(0),
+  SPEEDY: z.coerce.number().min(0),
+  PICKUP: z.coerce.number().min(0),
 });
 
 export const reviewSchema = z.object({

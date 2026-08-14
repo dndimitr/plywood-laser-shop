@@ -3,8 +3,13 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { formatBgn } from "@/lib/pricing";
+import { CATEGORIES } from "@/lib/shop-config";
 
 export const dynamic = "force-dynamic";
+
+const categoryLabel = Object.fromEntries(
+  CATEGORIES.map((c) => [c.id, c.label]),
+);
 
 export default async function AdminProductsPage() {
   const session = await auth();
@@ -27,6 +32,7 @@ export default async function AdminProductsPage() {
         <thead>
           <tr>
             <th>Име</th>
+            <th>Категория</th>
             <th>Цена</th>
             <th>Опции</th>
             <th>Статус</th>
@@ -37,6 +43,9 @@ export default async function AdminProductsPage() {
           {products.map((product) => (
             <tr key={product.id}>
               <td>{product.name}</td>
+              <td>
+                {categoryLabel[product.category] ?? product.category ?? "—"}
+              </td>
               <td>{formatBgn(Number(product.basePrice))}</td>
               <td>{product.options.length}</td>
               <td>{product.active ? "Активен" : "Скрит"}</td>

@@ -1869,6 +1869,63 @@ img {
   gap: 1rem;
 }
 
+.admin-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0 0 0.85rem;
+}
+
+.admin-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink-soft);
+  text-decoration: none;
+  font-size: 0.88rem;
+}
+
+.admin-filter-chip:hover,
+.admin-filter-chip.is-active {
+  border-color: var(--walnut);
+  color: var(--ink);
+  background: #fff;
+}
+
+.badge-rush {
+  color: var(--walnut);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.admin-file-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.admin-file-preview img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: contain;
+  background: #f3efe8;
+  border: 1px solid var(--line);
+}
+
+.admin-file-frame {
+  width: 100%;
+  min-height: 280px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.admin-file-name {
+  margin: 0;
+  word-break: break-word;
+}
+
 .admin-nav {
   display: flex;
   align-items: center;

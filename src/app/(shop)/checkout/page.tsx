@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { CheckoutForm } from "@/components/CheckoutForm";
 import { cartTotals, getCart } from "@/lib/cart";
+import { getCourierOptions } from "@/lib/shipping-settings";
 
 export const dynamic = "force-dynamic";
 
 export default async function CheckoutPage() {
   const cart = await getCart();
   const { subtotal } = cartTotals(cart);
+  const couriers = getCourierOptions();
 
   if (cart.items.length === 0) {
     return (
@@ -22,7 +24,7 @@ export default async function CheckoutPage() {
 
   return (
     <div className="container">
-      <CheckoutForm subtotal={subtotal} />
+      <CheckoutForm subtotal={subtotal} couriers={couriers} />
     </div>
   );
 }
