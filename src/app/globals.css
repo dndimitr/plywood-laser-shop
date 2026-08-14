@@ -1535,6 +1535,8 @@ img {
   background: var(--surface);
   border: 1px solid var(--line);
   padding: 1.1rem;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .configurator {
@@ -1694,11 +1696,11 @@ img {
   margin-bottom: 0.95rem;
 }
 
-.field input,
+.field input:not([type="radio"]):not([type="checkbox"]),
 .field select,
 .field textarea,
 .cart-item-actions input,
-.admin-card input,
+.admin-card input:not([type="radio"]):not([type="checkbox"]),
 .admin-card select,
 .admin-card textarea,
 .qty-control input {
@@ -1714,12 +1716,40 @@ img {
   border-radius: 0;
 }
 
-.field input:focus,
+.field input[type="radio"],
+.field input[type="checkbox"],
+.radio input[type="radio"],
+.radio input[type="checkbox"],
+.admin-card input[type="radio"],
+.admin-card input[type="checkbox"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  min-width: 1.15rem;
+  min-height: 1.15rem;
+  max-width: 1.15rem;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  background: transparent;
+  border: none;
+  accent-color: var(--laser);
+  box-shadow: none;
+  appearance: auto;
+}
+
+.field input:not([type="radio"]):not([type="checkbox"]):focus,
 .field select:focus,
 .field textarea:focus {
   border-color: var(--walnut);
   outline: none;
   box-shadow: 0 0 0 2px rgba(196, 92, 38, 0.2);
+}
+
+.radio input:focus-visible {
+  outline: 2px solid var(--laser);
+  outline-offset: 2px;
 }
 
 .option-meta,
@@ -1818,10 +1848,32 @@ img {
 
 .radio {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  gap: 0.65rem;
+  align-items: flex-start;
   margin-bottom: 0.45rem;
   min-height: 44px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.35rem 0;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.checkout-form fieldset.field,
+.checkout-form fieldset.payment-methods {
+  min-width: 0;
+  max-width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0 0 0.95rem;
+}
+
+.checkout-form fieldset.field legend,
+.checkout-form fieldset.payment-methods legend {
+  padding: 0;
+  margin-bottom: 0.55rem;
+  font-weight: 600;
+  color: var(--walnut);
 }
 
 .empty-state {
@@ -2380,7 +2432,7 @@ img {
     min-height: 44px;
   }
 
-  .field input,
+  .field input:not([type="radio"]):not([type="checkbox"]),
   .field select,
   .field textarea {
     min-height: 44px;
