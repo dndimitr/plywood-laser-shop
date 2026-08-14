@@ -1192,13 +1192,16 @@ img {
 
 .product-card-media {
   position: relative;
-  aspect-ratio: 4 / 3;
-  background: #cfc7b8;
+  aspect-ratio: 1 / 1;
+  background: #ebe4d8;
   overflow: hidden;
 }
 
 .product-card-media img {
+  object-fit: contain !important;
+  object-position: center;
   transition: transform 400ms ease;
+  padding: 0.35rem;
 }
 
 .product-card-placeholder {
@@ -1470,10 +1473,16 @@ img {
 
 .detail-media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: #cfc7b8;
+  background: #ebe4d8;
+}
+
+.detail-media img {
+  object-fit: contain !important;
+  object-position: center;
+  padding: 0.5rem;
 }
 
 .detail-media-empty {
@@ -1499,12 +1508,18 @@ img {
   position: relative;
   flex: 0 0 auto;
   width: 4.5rem;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   border: 2px solid transparent;
   padding: 0;
-  background: #cfc7b8;
+  background: #ebe4d8;
   overflow: hidden;
   cursor: pointer;
+}
+
+.gallery-thumb img {
+  object-fit: contain !important;
+  object-position: center;
+  padding: 0.15rem;
 }
 
 .gallery-thumb.is-active {
@@ -1535,6 +1550,8 @@ img {
   background: var(--surface);
   border: 1px solid var(--line);
   padding: 1.1rem;
+  max-width: 100%;
+  overflow-x: clip;
 }
 
 .configurator {
@@ -1660,9 +1677,15 @@ img {
 
 .recent-card-media {
   position: relative;
-  aspect-ratio: 4 / 3;
-  background: #cfc7b8;
+  aspect-ratio: 1 / 1;
+  background: #ebe4d8;
   overflow: hidden;
+}
+
+.recent-card-media img {
+  object-fit: contain !important;
+  object-position: center;
+  padding: 0.25rem;
 }
 
 .recent-card-body {
@@ -1694,11 +1717,11 @@ img {
   margin-bottom: 0.95rem;
 }
 
-.field input,
+.field input:not([type="radio"]):not([type="checkbox"]),
 .field select,
 .field textarea,
 .cart-item-actions input,
-.admin-card input,
+.admin-card input:not([type="radio"]):not([type="checkbox"]),
 .admin-card select,
 .admin-card textarea,
 .qty-control input {
@@ -1714,12 +1737,40 @@ img {
   border-radius: 0;
 }
 
-.field input:focus,
+.field input[type="radio"],
+.field input[type="checkbox"],
+.radio input[type="radio"],
+.radio input[type="checkbox"],
+.admin-card input[type="radio"],
+.admin-card input[type="checkbox"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  min-width: 1.15rem;
+  min-height: 1.15rem;
+  max-width: 1.15rem;
+  padding: 0;
+  margin: 0;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 0.15rem;
+  background: transparent;
+  border: none;
+  accent-color: var(--laser);
+  box-shadow: none;
+  appearance: auto;
+}
+
+.field input:not([type="radio"]):not([type="checkbox"]):focus,
 .field select:focus,
 .field textarea:focus {
   border-color: var(--walnut);
   outline: none;
   box-shadow: 0 0 0 2px rgba(196, 92, 38, 0.2);
+}
+
+.radio input:focus-visible {
+  outline: 2px solid var(--laser);
+  outline-offset: 2px;
 }
 
 .option-meta,
@@ -1818,10 +1869,51 @@ img {
 
 .radio {
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
+  gap: 0.65rem;
+  align-items: flex-start;
   margin-bottom: 0.45rem;
   min-height: 44px;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.35rem 0;
+  line-height: 1.35;
+  cursor: pointer;
+}
+
+.rush-option {
+  margin-bottom: 0.85rem;
+}
+
+.rush-option .radio {
+  margin-bottom: 0.2rem;
+}
+
+.rush-hint {
+  margin: 0 0 0.25rem;
+  padding-left: 1.8rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.top-info-rush {
+  opacity: 0.92;
+}
+
+.checkout-form fieldset.field,
+.checkout-form fieldset.payment-methods {
+  min-width: 0;
+  max-width: 100%;
+  border: 0;
+  padding: 0;
+  margin: 0 0 0.95rem;
+}
+
+.checkout-form fieldset.field legend,
+.checkout-form fieldset.payment-methods legend {
+  padding: 0;
+  margin-bottom: 0.55rem;
+  font-weight: 600;
+  color: var(--walnut);
 }
 
 .empty-state {
@@ -2380,7 +2472,7 @@ img {
     min-height: 44px;
   }
 
-  .field input,
+  .field input:not([type="radio"]):not([type="checkbox"]),
   .field select,
   .field textarea {
     min-height: 44px;
