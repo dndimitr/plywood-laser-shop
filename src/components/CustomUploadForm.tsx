@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
 import { complexityLabel } from "@/lib/labels";
+import { PRODUCTION_LEAD, productionLeadHelp } from "@/lib/shop-config";
 
 export function CustomUploadForm() {
   const router = useRouter();
@@ -179,14 +180,18 @@ export function CustomUploadForm() {
         />
         Двустранна обработка
       </label>
-      <label className="radio">
-        <input
-          type="checkbox"
-          checked={rush}
-          onChange={(e) => setRush(e.target.checked)}
-        />
-        Ускорена изработка (+50%)
-      </label>
+      <div className="rush-option">
+        <label className="radio">
+          <input
+            type="checkbox"
+            checked={rush}
+            onChange={(e) => setRush(e.target.checked)}
+          />
+          Ускорена изработка (+{PRODUCTION_LEAD.rushSurchargePercent}%) —{" "}
+          {PRODUCTION_LEAD.rushLabel}
+        </label>
+        <p className="muted rush-hint">{productionLeadHelp(rush)}</p>
+      </div>
 
       <label className="field">
         <span>Бележки</span>

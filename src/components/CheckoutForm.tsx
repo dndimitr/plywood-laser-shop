@@ -3,7 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
-import { COURIERS, FREE_SHIPPING_MIN_EUR, shippingFeeFor } from "@/lib/shop-config";
+import {
+  COURIERS,
+  FREE_SHIPPING_MIN_EUR,
+  PRODUCTION_LEAD,
+  productionLeadHelp,
+  shippingFeeFor,
+} from "@/lib/shop-config";
 
 type Props = { subtotal: number };
 
@@ -166,14 +172,18 @@ export function CheckoutForm({ subtotal }: Props) {
         />
       </label>
 
-      <label className="radio">
-        <input
-          type="checkbox"
-          checked={form.rush}
-          onChange={(e) => update("rush", e.target.checked)}
-        />
-        Ускорена изработка (+50% върху изделията)
-      </label>
+      <div className="rush-option">
+        <label className="radio">
+          <input
+            type="checkbox"
+            checked={form.rush}
+            onChange={(e) => update("rush", e.target.checked)}
+          />
+          Ускорена изработка (+{PRODUCTION_LEAD.rushSurchargePercent}% върху
+          изделията) — {PRODUCTION_LEAD.rushLabel}
+        </label>
+        <p className="muted rush-hint">{productionLeadHelp(form.rush)}</p>
+      </div>
 
       <label className="radio">
         <input

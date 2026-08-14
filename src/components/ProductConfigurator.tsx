@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { IconCart } from "@/components/Icons";
 import { calculateTemplatePrice, formatBgn } from "@/lib/pricing";
 import { laserTypeLabel } from "@/lib/labels";
+import { PRODUCTION_LEAD, productionLeadHelp } from "@/lib/shop-config";
 
 type Option = {
   id: string;
@@ -177,14 +178,18 @@ export function ProductConfigurator({
           </span>
         </div>
 
-        <label className="radio">
-          <input
-            type="checkbox"
-            checked={rush}
-            onChange={(e) => setRush(e.target.checked)}
-          />
-          Ускорена изработка (+50%)
-        </label>
+        <div className="rush-option">
+          <label className="radio">
+            <input
+              type="checkbox"
+              checked={rush}
+              onChange={(e) => setRush(e.target.checked)}
+            />
+            Ускорена изработка (+{PRODUCTION_LEAD.rushSurchargePercent}%) —{" "}
+            {PRODUCTION_LEAD.rushLabel}
+          </label>
+          <p className="muted rush-hint">{productionLeadHelp(rush)}</p>
+        </div>
 
         <p className="price-line desktop-price-line" aria-live="polite">
           Цена: <strong>{formatBgn(lineTotal)}</strong>

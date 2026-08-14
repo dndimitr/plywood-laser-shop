@@ -173,4 +173,20 @@ export function getShopPhoneHref() {
   return `tel:${digits}`;
 }
 
+/** Production lead times shown in UI (business days after design confirmation) */
+export const PRODUCTION_LEAD = {
+  standardLabel: "2–5 раб. дни",
+  standardShort: "2–5 раб. дни",
+  rushLabel: "1–2 раб. дни",
+  rushShort: "1–2 раб. дни",
+  rushSurchargePercent: 50,
+} as const;
+
+export function productionLeadHelp(rush: boolean) {
+  if (rush) {
+    return `Ускорена изработка: ${PRODUCTION_LEAD.rushLabel} след потвърждение (+${PRODUCTION_LEAD.rushSurchargePercent}%). Стандартно е ${PRODUCTION_LEAD.standardLabel}.`;
+  }
+  return `Стандартна изработка: ${PRODUCTION_LEAD.standardLabel} след потвърждение на поръчката/макета. Ускорено: ${PRODUCTION_LEAD.rushLabel} (+${PRODUCTION_LEAD.rushSurchargePercent}%).`;
+}
+
 export type QtyDiscount = { minQty: number; percentOff: number };

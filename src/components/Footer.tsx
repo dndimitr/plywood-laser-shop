@@ -44,7 +44,7 @@ export function Footer() {
             <Link href="/legal/privacy">Поверителност</Link>
             <Link href="/legal/returns">Рекламации</Link>
             <p className="muted" style={{ marginTop: "0.75rem" }}>
-              Безплатна доставка над 50 € · 2–5 раб. дни
+              Изработка 2–5 раб. дни · ускорена 1–2 · безплатна доставка над 50 €
             </p>
             <details className="footer-all-cats">
               <summary>Всички категории</summary>

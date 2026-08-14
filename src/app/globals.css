@@ -1192,13 +1192,16 @@ img {
 
 .product-card-media {
   position: relative;
-  aspect-ratio: 4 / 3;
-  background: #cfc7b8;
+  aspect-ratio: 1 / 1;
+  background: #ebe4d8;
   overflow: hidden;
 }
 
 .product-card-media img {
+  object-fit: contain !important;
+  object-position: center;
   transition: transform 400ms ease;
+  padding: 0.35rem;
 }
 
 .product-card-placeholder {
@@ -1470,10 +1473,16 @@ img {
 
 .detail-media {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: #cfc7b8;
+  background: #ebe4d8;
+}
+
+.detail-media img {
+  object-fit: contain !important;
+  object-position: center;
+  padding: 0.5rem;
 }
 
 .detail-media-empty {
@@ -1499,12 +1508,18 @@ img {
   position: relative;
   flex: 0 0 auto;
   width: 4.5rem;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 1 / 1;
   border: 2px solid transparent;
   padding: 0;
-  background: #cfc7b8;
+  background: #ebe4d8;
   overflow: hidden;
   cursor: pointer;
+}
+
+.gallery-thumb img {
+  object-fit: contain !important;
+  object-position: center;
+  padding: 0.15rem;
 }
 
 .gallery-thumb.is-active {
@@ -1662,9 +1677,15 @@ img {
 
 .recent-card-media {
   position: relative;
-  aspect-ratio: 4 / 3;
-  background: #cfc7b8;
+  aspect-ratio: 1 / 1;
+  background: #ebe4d8;
   overflow: hidden;
+}
+
+.recent-card-media img {
+  object-fit: contain !important;
+  object-position: center;
+  padding: 0.25rem;
 }
 
 .recent-card-body {
@@ -1857,6 +1878,25 @@ img {
   padding: 0.35rem 0;
   line-height: 1.35;
   cursor: pointer;
+}
+
+.rush-option {
+  margin-bottom: 0.85rem;
+}
+
+.rush-option .radio {
+  margin-bottom: 0.2rem;
+}
+
+.rush-hint {
+  margin: 0 0 0.25rem;
+  padding-left: 1.8rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.top-info-rush {
+  opacity: 0.92;
 }
 
 .checkout-form fieldset.field,
