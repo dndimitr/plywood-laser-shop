@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LightBurn demo: steering-wheel keychain. Red=Cut, Black=Engrave. Units: mm -->
+<svg xmlns="http://www.w3.org/2000/svg" width="55mm" height="55mm" viewBox="0 0 55 55">
+  <title>avto-klyuchodarzhatel-volan — LightBurn cut file</title>
+  <!-- Hang hole -->
+  <circle cx="27.5" cy="5" r="2.2" fill="none" stroke="#ff0000" stroke-width="0.1"/>
+  <!-- Outer rim -->
+  <circle cx="27.5" cy="30" r="20" fill="none" stroke="#ff0000" stroke-width="0.1"/>
+  <!-- Inner rim -->
+  <circle cx="27.5" cy="30" r="14" fill="none" stroke="#ff0000" stroke-width="0.1"/>
+  <!-- Hub -->
+  <circle cx="27.5" cy="30" r="4.5" fill="none" stroke="#ff0000" stroke-width="0.1"/>
+  <!-- Spokes -->
+  <path fill="none" stroke="#ff0000" stroke-width="0.1" d="M 27.5 25.5 L 27.5 16"/>
+  <path fill="none" stroke="#ff0000" stroke-width="0.1" d="M 23.8 32.2 L 15.5 37.5"/>
+  <path fill="none" stroke="#ff0000" stroke-width="0.1" d="M 31.2 32.2 L 39.5 37.5"/>
+  <!-- Center engrave mark -->
+  <circle cx="27.5" cy="30" r="1.6" fill="#000000" stroke="none"/>
+</svg>

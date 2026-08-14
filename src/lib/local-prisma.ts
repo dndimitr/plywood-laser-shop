@@ -49,6 +49,7 @@ function withProductDefaults(product: LocalProduct) {
     ...product,
     category: product.category ?? "other",
     galleryUrls: product.galleryUrls ?? [],
+    cutFileUrl: product.cutFileUrl ?? null,
   };
 }
 
@@ -262,6 +263,7 @@ export function createLocalPrisma() {
           basePrice: number;
           imageUrl?: string | null;
           galleryUrls?: string[];
+          cutFileUrl?: string | null;
           active?: boolean;
           options?: { create: ProductOptionCreate[] };
         };
@@ -279,6 +281,7 @@ export function createLocalPrisma() {
             basePrice: Number(args.data.basePrice),
             imageUrl: args.data.imageUrl ?? null,
             galleryUrls: args.data.galleryUrls ?? [],
+            cutFileUrl: args.data.cutFileUrl ?? null,
             active: args.data.active ?? true,
             createdAt: ts,
             updatedAt: ts,
@@ -316,6 +319,7 @@ export function createLocalPrisma() {
           basePrice?: number;
           imageUrl?: string | null;
           galleryUrls?: string[];
+          cutFileUrl?: string | null;
           active?: boolean;
           options?: {
             deleteMany?: Record<string, never>;
@@ -340,6 +344,8 @@ export function createLocalPrisma() {
             product.imageUrl = args.data.imageUrl;
           if (args.data.galleryUrls !== undefined)
             product.galleryUrls = args.data.galleryUrls;
+          if (args.data.cutFileUrl !== undefined)
+            product.cutFileUrl = args.data.cutFileUrl;
           if (args.data.active != null) product.active = args.data.active;
           product.updatedAt = ts;
 

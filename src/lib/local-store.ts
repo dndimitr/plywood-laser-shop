@@ -70,6 +70,7 @@ export type LocalProduct = {
   basePrice: number;
   imageUrl: string | null;
   galleryUrls: string[];
+  cutFileUrl: string | null;
   active: boolean;
   createdAt: string;
   updatedAt: string;
@@ -267,6 +268,7 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
     const existing = {
       id: cuid(),
       ...data,
+      cutFileUrl: data.cutFileUrl ?? null,
       active: true,
       createdAt: ts,
       updatedAt: ts,
@@ -342,6 +344,9 @@ export async function ensureLocalDb(): Promise<LocalDb> {
     db.customers = [];
     dirty = true;
   }
+  const cutBySlug = new Map(
+    CATALOG_PRODUCTS.map((p) => [p.slug, p.cutFileUrl ?? null] as const),
+  );
   for (const p of db.products) {
     if (!p.category) {
       p.category = "other";
@@ -349,6 +354,14 @@ export async function ensureLocalDb(): Promise<LocalDb> {
     }
     if (!p.galleryUrls) {
       p.galleryUrls = p.imageUrl ? [p.imageUrl] : [];
+      dirty = true;
+    }
+    const catalogCut = cutBySlug.get(p.slug);
+    if (catalogCut !== undefined && (p.cutFileUrl ?? null) !== catalogCut) {
+      p.cutFileUrl = catalogCut;
+      dirty = true;
+    } else if (p.cutFileUrl === undefined) {
+      p.cutFileUrl = null;
       dirty = true;
     }
   }

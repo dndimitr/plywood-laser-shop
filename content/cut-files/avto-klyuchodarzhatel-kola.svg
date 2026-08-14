@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- LightBurn demo: car silhouette keychain. Red=Cut, Black=Engrave. Units: mm -->
+<svg xmlns="http://www.w3.org/2000/svg" width="70mm" height="35mm" viewBox="0 0 70 35">
+  <title>avto-klyuchodarzhatel-kola — LightBurn cut file</title>
+  <!-- Hang hole -->
+  <circle cx="6" cy="17.5" r="2.2" fill="none" stroke="#ff0000" stroke-width="0.1"/>
+  <!-- Outer car silhouette (closed cut path) -->
+  <path
+    fill="none"
+    stroke="#ff0000"
+    stroke-width="0.1"
+    d="M 12 22
+       L 14 16
+       L 22 14
+       L 28 10
+       L 42 10
+       L 50 14
+       L 58 16
+       L 62 18
+       L 62 22
+       L 58 22
+       A 4 4 0 0 1 50 22
+       L 28 22
+       A 4 4 0 0 1 20 22
+       L 12 22
+       Z"
+  />
+  <!-- Wheel cutouts -->
+  <circle cx="24" cy="22" r="3.2" fill="none" stroke="#ff0000" stroke-width="0.1"/>
+  <circle cx="54" cy="22" r="3.2" fill="none" stroke="#ff0000" stroke-width="0.1"/>
+  <!-- Optional window engrave -->
+  <path
+    fill="#000000"
+    stroke="none"
+    d="M 30 12.5 L 40 12.5 L 44 15.5 L 29 15.5 Z"
+    opacity="0.85"
+  />
+</svg>

@@ -63,6 +63,7 @@ async function seedNeon() {
           basePrice: data.basePrice,
           imageUrl: data.imageUrl,
           galleryUrls: data.galleryUrls,
+          cutFileUrl: data.cutFileUrl ?? null,
           active: true,
           options: {
             deleteMany: {},

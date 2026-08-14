@@ -25,6 +25,8 @@ export type SeedProduct = {
   basePrice: number;
   imageUrl: string;
   galleryUrls: string[];
+  /** Име на файл под content/cut-files/ (SVG за LightBurn) */
+  cutFileUrl?: string | null;
   options: SeedOption[];
 };
 
@@ -59,12 +61,14 @@ type Draft = {
   category: string;
   description: string;
   basePrice: number;
+  cutFileUrl?: string | null;
   options: SeedOption[];
 };
 
 function pack(drafts: Draft[]): SeedProduct[] {
   return drafts.map((d) => ({
     ...d,
+    cutFileUrl: d.cutFileUrl ?? null,
     ...imgs(d.slug),
   }));
 }
@@ -78,6 +82,7 @@ const DRAFTS: Draft[] = [
     description:
       "Персонализиран ключодържател от брезов шперплат с лазерно гравиране на име или инициали. Подходящ за подарък и ежедневна употреба.",
     basePrice: 12,
+    cutFileUrl: "klyuchodarzhatel-ime.svg",
     options: opts([
       {
         label: "Малък · 3 мм · гравиране",
@@ -3407,6 +3412,7 @@ const DRAFTS: Draft[] = [
     description:
       "Лазерно изрязан силует на автомобил с опция за гравирано име или инициали. За ключове от гаража или подарък на шофьор.",
     basePrice: 13,
+    cutFileUrl: "avto-klyuchodarzhatel-kola.svg",
     options: opts([
       {
         label: "Седан · 3 мм",
@@ -3458,6 +3464,7 @@ const DRAFTS: Draft[] = [
     description:
       "Ажурен волан от шперплат — компактен аксесоар за ключове. Добавете инициали в центъра по желание.",
     basePrice: 12,
+    cutFileUrl: "avto-klyuchodarzhatel-volan.svg",
     options: opts([
       {
         label: "Стандартен · 3 мм",

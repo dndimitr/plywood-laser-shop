@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Include LightBurn cut files in serverless bundles for post-purchase downloads
+  outputFileTracingIncludes: {
+    "/api/orders/*/cut-files/*": ["./content/cut-files/**/*"],
+  },
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",

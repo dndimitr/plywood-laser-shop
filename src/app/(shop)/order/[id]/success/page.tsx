@@ -17,10 +17,19 @@ type Props = {
   searchParams: Promise<{ t?: string }>;
 };
 
+type CutDownload = {
+  slug: string;
+  title: string;
+  href: string;
+};
+
 export default async function OrderSuccessPage({ params, searchParams }: Props) {
   const { id } = await params;
   const { t } = await searchParams;
-  const order = await prisma.order.findUnique({ where: { id } });
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: { items: { include: { product: true } } },
+  });
   if (!order) notFound();
 
   const tokenOk =
@@ -48,6 +57,28 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
   }
 
   const bank = getBankDetails();
+  const items = (
+    order as {
+      items?: Array<{
+        title: string;
+        product?: { slug?: string; cutFileUrl?: string | null; name?: string } | null;
+      }>;
+    }
+  ).items;
+
+  const cutDownloads: CutDownload[] = [];
+  const seen = new Set<string>();
+  for (const item of items ?? []) {
+    const slug = item.product?.slug;
+    const cut = item.product?.cutFileUrl;
+    if (!slug || !cut || seen.has(slug)) continue;
+    seen.add(slug);
+    cutDownloads.push({
+      slug,
+      title: item.product?.name ?? item.title,
+      href: `/api/orders/${id}/cut-files/${encodeURIComponent(slug)}?t=${encodeURIComponent(t!)}`,
+    });
+  }
 
   return (
     <div className="container success-page">
@@ -87,6 +118,28 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
           </p>
         </div>
       ) : null}
+
+      {cutDownloads.length > 0 ? (
+        <section className="cut-files-panel" aria-labelledby="cut-files-heading">
+          <h2 id="cut-files-heading" className="cut-files-title">
+            Файлове за LightBurn
+          </h2>
+          <p className="muted cut-files-lead">
+            Готови SVG за изрязване и гравиране. Отворете ги в LightBurn след
+            покупката (червено = Cut, черно = Engrave).
+          </p>
+          <ul className="cut-files-list">
+            {cutDownloads.map((file) => (
+              <li key={file.slug}>
+                <a className="btn btn-ghost cut-file-link" href={file.href} download>
+                  Изтегли · {file.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
+
       <p className="muted">
         Ще се свържем на {order.customerEmail} / {order.customerPhone}, за да
         потвърдим макета и срока за изработка.
