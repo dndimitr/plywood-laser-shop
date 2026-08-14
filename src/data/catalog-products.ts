@@ -1090,6 +1090,206 @@ const DRAFTS: Draft[] = [
       },
     ]),
   },
+  {
+    name: "Фигурка зайче за детска стая",
+    slug: "figurka-zaek",
+    category: "nursery",
+    description:
+      "Лазерно изрязано зайче от шперплат с гравирани детайли. За рафт, стена или като топер за торта.",
+    basePrice: 18,
+    options: opts([
+      {
+        label: "Средно · 3 мм",
+        sizeLabel: "10×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голямо · масло",
+        sizeLabel: "14×16 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 8,
+      },
+    ]),
+  },
+  {
+    name: "Фигурка еднорог за детска стая",
+    slug: "figurka-edinorog",
+    category: "nursery",
+    description:
+      "Силует на еднорог от шперплат с фино гравирана грива. Нежен акцент за детската стая или парти.",
+    basePrice: 20,
+    options: opts([
+      {
+        label: "Среден · 3 мм",
+        sizeLabel: "12×14 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голям · масло",
+        sizeLabel: "16×18 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 9,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Игрална зона“",
+    slug: "tabela-igralna-zona",
+    category: "nursery",
+    description:
+      "Табела за кът за игра у дома или в детски кът на заведение. Ясен надпис с икона на кубчета.",
+    basePrice: 22,
+    options: opts([
+      {
+        label: "Квадратна · 3 мм",
+        sizeLabel: "15×15 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · 4 мм · масло",
+        sizeLabel: "20×20 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 8,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Моята стая“",
+    slug: "tabela-mojata-staya",
+    category: "nursery",
+    description:
+      "Входна табела за детска стая с надпис „Моята стая“ и звезден мотив. Опция за добавяне на име.",
+    basePrice: 24,
+    options: opts([
+      {
+        label: "Стандартна · 3 мм",
+        sizeLabel: "18×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · масло",
+        sizeLabel: "22×14 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 10,
+      },
+    ]),
+  },
+  {
+    name: "Кутия за играчки с име",
+    slug: "kutiya-igrachki-ime",
+    category: "nursery",
+    description:
+      "Сглобяема кутия за дребни играчки с гравирано име на капака. Практичен ред в детската стая.",
+    basePrice: 48,
+    options: opts([
+      {
+        label: "Средна · 4 мм",
+        sizeLabel: "25×18×12 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · масло",
+        sizeLabel: "32×22×15 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 18,
+      },
+    ]),
+  },
+  {
+    name: "Стойка за моливи за детска стая",
+    slug: "stoika-molivi-detska",
+    category: "nursery",
+    description:
+      "Сглобяема стойка за моливи и четчици с гравирани звезди. Подходяща за бюро в детската стая.",
+    basePrice: 16,
+    options: opts([
+      {
+        label: "Компактна · 3 мм",
+        sizeLabel: "8×8×10 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С име · масло",
+        sizeLabel: "9×9×11 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Стенен комплект „Облаци и звезди“",
+    slug: "panel-oblaci-zvezdi",
+    category: "nursery",
+    description:
+      "Комплект от лазерно изрязани облаци и звезди за стенна композиция над креватчето.",
+    basePrice: 36,
+    options: opts([
+      {
+        label: "5 елемента · 3 мм",
+        sizeLabel: "8–18 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "8 елемента · масло",
+        sizeLabel: "8–20 см",
+        thicknessMm: 3,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 14,
+      },
+    ]),
+  },
+  {
+    name: "Стенна азбука от шперплат",
+    slug: "azbuka-stenna",
+    category: "nursery",
+    description:
+      "Лазерно изрязани букви от българската азбука за учене и декорация. Поръчват се по брой или като пълен комплект.",
+    basePrice: 42,
+    options: opts([
+      {
+        label: "6 букви · 4 мм",
+        sizeLabel: "8 см височина",
+        thicknessMm: 4,
+        laserType: "CUT",
+        priceModifier: 0,
+      },
+      {
+        label: "Пълен комплект · масло",
+        sizeLabel: "8 см височина",
+        thicknessMm: 4,
+        laserType: "CUT",
+        finish: "oil",
+        priceModifier: 95,
+      },
+    ]),
+  },
 
   // —— Орнаменти ——
   {
@@ -3186,6 +3386,206 @@ const DRAFTS: Draft[] = [
         laserType: "BOTH",
         finish: "oil",
         priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Дневно меню“",
+    slug: "tabela-dnevno-menu",
+    category: "venues",
+    description:
+      "Стенно табло с гравирани секции за дневни предложения и цени. Подходящо за ресторант, бистро и кафене.",
+    basePrice: 72,
+    options: opts([
+      {
+        label: "A3 · 4 мм",
+        sizeLabel: "30×42 см",
+        thicknessMm: 4,
+        laserType: "ENGRAVE",
+        priceModifier: 0,
+      },
+      {
+        label: "A2 · 6 мм · лак",
+        sizeLabel: "42×60 см",
+        thicknessMm: 6,
+        laserType: "ENGRAVE",
+        finish: "lacquer",
+        priceModifier: 28,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Не се пуши“",
+    slug: "tabela-ne-se-pushi",
+    category: "venues",
+    description:
+      "Указателна табела с надпис „Не се пуши“ и пиктограма. За зала, тераса и вход на заведение.",
+    basePrice: 18,
+    options: opts([
+      {
+        label: "Квадратна · 3 мм",
+        sizeLabel: "15×15 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · лак",
+        sizeLabel: "20×20 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 7,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Бар“",
+    slug: "tabela-bar",
+    category: "venues",
+    description:
+      "Фасадна или стенна табела с надпис „Бар“. Чист шрифт и рамка — четлива от разстояние.",
+    basePrice: 38,
+    options: opts([
+      {
+        label: "Средна · 4 мм",
+        sizeLabel: "30×15 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · лак",
+        sizeLabel: "45×20 см",
+        thicknessMm: 6,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 18,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Изход“",
+    slug: "tabela-izhod",
+    category: "venues",
+    description:
+      "Указателна табела „Изход“ със стрелка. За коридори, зали и аварийни маршрути в заведението.",
+    basePrice: 16,
+    options: opts([
+      {
+        label: "Стандартна · 3 мм",
+        sizeLabel: "20×10 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · лак",
+        sizeLabel: "30×12 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Стойка за сметка",
+    slug: "stoika-smetka",
+    category: "venues",
+    description:
+      "Настолна стойка със слот за сметката. Дискретен аксесоар за маси в ресторант и бар.",
+    basePrice: 14,
+    options: opts([
+      {
+        label: "Стандартна · 4 мм",
+        sizeLabel: "8×12 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "С лого · лак",
+        sizeLabel: "9×14 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 6,
+      },
+    ]),
+  },
+  {
+    name: "Табела с алергени",
+    slug: "tabela-alergeni",
+    category: "venues",
+    description:
+      "Информационна табела с икони и надписи за основните алергени. За кухня, бар и витрина.",
+    basePrice: 34,
+    options: opts([
+      {
+        label: "A4 · 3 мм",
+        sizeLabel: "21×30 см",
+        thicknessMm: 3,
+        laserType: "ENGRAVE",
+        priceModifier: 0,
+      },
+      {
+        label: "A3 · лак",
+        sizeLabel: "30×42 см",
+        thicknessMm: 4,
+        laserType: "ENGRAVE",
+        finish: "lacquer",
+        priceModifier: 16,
+      },
+    ]),
+  },
+  {
+    name: "Табела „Вземи поръчката си“",
+    slug: "tabela-vzemi-porachka",
+    category: "venues",
+    description:
+      "Табела за щанд за взимане на поръчки в кафене, пекарна или заведение за бързо хранене.",
+    basePrice: 26,
+    options: opts([
+      {
+        label: "Средна · 3 мм",
+        sizeLabel: "25×12 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Голяма · лак",
+        sizeLabel: "35×15 см",
+        thicknessMm: 4,
+        laserType: "BOTH",
+        finish: "lacquer",
+        priceModifier: 10,
+      },
+    ]),
+  },
+  {
+    name: "Номер за гардероб в заведение",
+    slug: "nomer-garderob-zavedenie",
+    category: "venues",
+    description:
+      "Шестоъгълни номера за гардероб с икона на закачалка. Поръчват се на брой — гравираме желания диапазон.",
+    basePrice: 6,
+    options: opts([
+      {
+        label: "Единичен · 3 мм",
+        sizeLabel: "6×6 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        priceModifier: 0,
+      },
+      {
+        label: "Комплект 20 бр. · масло",
+        sizeLabel: "6×6 см",
+        thicknessMm: 3,
+        laserType: "BOTH",
+        finish: "oil",
+        priceModifier: 95,
       },
     ]),
   },
