@@ -7,6 +7,7 @@ import { AddToCartToast } from "@/components/AddToCartToast";
 import { formatBgn } from "@/lib/pricing";
 import { complexityLabel } from "@/lib/labels";
 import {
+  MACHINE_BED_MAX_CM,
   MAX_LINE_QTY,
   PRODUCTION_LEAD,
   QUOTE_QTY_THRESHOLD,
@@ -125,9 +126,16 @@ export function CustomUploadForm() {
           <input
             type="number"
             min={1}
-            max={200}
+            max={MACHINE_BED_MAX_CM}
             value={widthCm}
-            onChange={(e) => setWidthCm(Number(e.target.value))}
+            onChange={(e) =>
+              setWidthCm(
+                Math.max(
+                  1,
+                  Math.min(MACHINE_BED_MAX_CM, Number(e.target.value) || 1),
+                ),
+              )
+            }
           />
         </label>
         <label className="field">
@@ -135,12 +143,23 @@ export function CustomUploadForm() {
           <input
             type="number"
             min={1}
-            max={200}
+            max={MACHINE_BED_MAX_CM}
             value={heightCm}
-            onChange={(e) => setHeightCm(Number(e.target.value))}
+            onChange={(e) =>
+              setHeightCm(
+                Math.max(
+                  1,
+                  Math.min(MACHINE_BED_MAX_CM, Number(e.target.value) || 1),
+                ),
+              )
+            }
           />
         </label>
       </div>
+      <p className="muted" style={{ fontSize: "0.85rem", marginTop: "-0.35rem" }}>
+        Максимален размер на парче: {MACHINE_BED_MAX_CM}×{MACHINE_BED_MAX_CM} см
+        (работна площ на машината).
+      </p>
 
       <label className="field">
         <span>Дебелина на шперплата (мм)</span>

@@ -103,6 +103,9 @@ export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
   "keychains",
 ] as const;
 
+/** Max laser bed size (cm) — single-piece cuts */
+export const MACHINE_BED_MAX_CM = 40;
+
 /** Max quantity per line in cart / configurators */
 export const MAX_LINE_QTY = 500;
 

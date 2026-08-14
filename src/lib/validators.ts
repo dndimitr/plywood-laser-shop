@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MAX_LINE_QTY } from "@/lib/shop-config";
+import { MACHINE_BED_MAX_CM, MAX_LINE_QTY } from "@/lib/shop-config";
 
 export const checkoutSchema = z
   .object({
@@ -44,8 +44,8 @@ export const checkoutSchema = z
   });
 
 export const customQuoteSchema = z.object({
-  widthCm: z.coerce.number().positive().max(200),
-  heightCm: z.coerce.number().positive().max(200),
+  widthCm: z.coerce.number().positive().max(MACHINE_BED_MAX_CM),
+  heightCm: z.coerce.number().positive().max(MACHINE_BED_MAX_CM),
   thicknessMm: z.coerce.number().int().positive(),
   complexity: z.enum(["simple", "medium", "complex"]),
   notes: z.string().max(1000).optional(),

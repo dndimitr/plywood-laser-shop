@@ -20,6 +20,7 @@ export default function CustomPage() {
           </p>
           <ul className="muted" style={{ paddingLeft: "1.1rem", lineHeight: 1.7 }}>
             <li>Формати: SVG, PDF, PNG, JPG · до 8 MB</li>
+            <li>Максимален размер на парче: 40×40 см (работна площ)</li>
             <li>За изрязване: затворен векторен контур (предпочтително SVG/PDF)</li>
             <li>След поръчка потвърждаваме макета и срока за изработка</li>
             <li>
