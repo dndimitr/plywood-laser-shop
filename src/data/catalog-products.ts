@@ -6,7 +6,7 @@ import { roundMoney } from "@/lib/currency";
  * not scraped or copied from third-party listings.
  *
  * Draft amounts are authored in EUR (shop display currency).
- * Every size fits a laser bed of max 40×40 cm. Each product has 3 sizes
+ * Every size fits a laser bed of max 35×35 cm. Each product has 3 sizes
  * with market-based prices for the Bulgarian craft market.
  */
 
@@ -349,21 +349,21 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 10,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -381,21 +381,21 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 10,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -413,21 +413,21 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 10,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -445,21 +445,21 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 10,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -477,21 +477,21 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 10,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -510,14 +510,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -525,7 +525,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -544,21 +544,21 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 10,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -576,21 +576,21 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 10,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -609,14 +609,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -624,7 +624,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -642,14 +642,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -657,7 +657,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -675,14 +675,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -690,7 +690,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -708,14 +708,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малка · 3 мм",
-        sizeLabel: "20×14 см",
+        sizeLabel: "18×12 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Средна · 4 мм · масло",
-        sizeLabel: "30×20 см",
+        sizeLabel: "26×18 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -723,7 +723,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -741,14 +741,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Средна · 4 мм · масло",
-        sizeLabel: "35×25 см",
+        sizeLabel: "31×22 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -756,7 +756,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Максимум · 4 мм · масло",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -774,14 +774,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 4 мм",
-        sizeLabel: "25×25 см",
+        sizeLabel: "22×22 см",
         thicknessMm: 4,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -789,7 +789,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 6 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 6,
         laserType: "CUT",
         finish: "oil",
@@ -807,14 +807,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -822,7 +822,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -840,14 +840,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -855,7 +855,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -873,14 +873,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактен · 3 мм",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 3 мм · масло",
-        sizeLabel: "32×24 см",
+        sizeLabel: "28×21 см",
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
@@ -888,7 +888,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×30 см",
+        sizeLabel: "35×26 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -906,14 +906,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "30×10 см",
+        sizeLabel: "26×9 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм · масло",
-        sizeLabel: "35×12 см",
+        sizeLabel: "31×10 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -921,7 +921,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×14 см",
+        sizeLabel: "35×12 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -939,14 +939,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -954,7 +954,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -1036,14 +1036,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Средна · 4 мм",
-        sizeLabel: "30×20 см",
+        sizeLabel: "26×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "35×25 см",
+        sizeLabel: "31×22 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -1051,7 +1051,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Максимум · 6 мм · масло",
-        sizeLabel: "40×30 см",
+        sizeLabel: "35×26 см",
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
@@ -1166,14 +1166,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Средна · 4 мм",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "35×35 см",
+        sizeLabel: "31×31 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -1181,7 +1181,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Максимум · 6 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
@@ -1200,14 +1200,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малко · 6 мм",
-        sizeLabel: "до 25 см ширина",
+        sizeLabel: "до 22 см ширина",
         thicknessMm: 6,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Средно · 6 мм · масло",
-        sizeLabel: "до 35 см ширина",
+        sizeLabel: "до 31 см ширина",
         thicknessMm: 6,
         laserType: "CUT",
         finish: "oil",
@@ -1215,7 +1215,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голямо · 6 мм · масло",
-        sizeLabel: "до 40 см ширина",
+        sizeLabel: "до 35 см ширина",
         thicknessMm: 6,
         laserType: "CUT",
         finish: "oil",
@@ -1297,14 +1297,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "3 сегмента · 4 мм",
-        sizeLabel: "12×40 см ×3",
+        sizeLabel: "10×35 см ×3",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "4 сегмента · 4 мм · масло",
-        sizeLabel: "12×40 см ×4",
+        sizeLabel: "10×35 см ×4",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -1312,7 +1312,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "5 сегмента · 6 мм · масло",
-        sizeLabel: "12×40 см ×5",
+        sizeLabel: "10×35 см ×5",
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
@@ -1522,14 +1522,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Средна · 4 мм",
-        sizeLabel: "25×18×12 см",
+        sizeLabel: "23×17×11 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Голяма · 4 мм · масло",
-        sizeLabel: "32×22×14 см",
+        sizeLabel: "29×20×13 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -1537,7 +1537,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Максимум · 6 мм · масло",
-        sizeLabel: "38×28×15 см",
+        sizeLabel: "35×26×14 см",
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
@@ -1979,14 +1979,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -1994,7 +1994,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -2046,7 +2046,7 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малка · 6 мм · масло",
-        sizeLabel: "25×15 см",
+        sizeLabel: "22×13 см",
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "oil",
@@ -2054,7 +2054,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Средна · 6 мм · масло",
-        sizeLabel: "35×20 см",
+        sizeLabel: "31×18 см",
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "oil",
@@ -2062,7 +2062,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 8 мм · лак",
-        sizeLabel: "40×25 см",
+        sizeLabel: "35×22 см",
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
@@ -2963,14 +2963,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактен · 4 мм",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартен · 4 мм · масло",
-        sizeLabel: "35×35 см",
+        sizeLabel: "31×31 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -2978,7 +2978,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 6 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
@@ -3958,14 +3958,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактно · 4 мм",
-        sizeLabel: "30×40 см",
+        sizeLabel: "26×35 см",
         thicknessMm: 4,
         laserType: "ENGRAVE",
         priceModifier: 0,
       },
       {
         label: "Стандарт · 4 мм · лак",
-        sizeLabel: "35×40 см",
+        sizeLabel: "31×35 см",
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
@@ -3973,7 +3973,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Максимум · 6 мм · лак",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
@@ -4057,14 +4057,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4072,7 +4072,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4090,14 +4090,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4105,7 +4105,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4123,14 +4123,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4138,7 +4138,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4156,14 +4156,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4171,7 +4171,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4222,14 +4222,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Средна · 4 мм",
-        sizeLabel: "30×15 см",
+        sizeLabel: "26×13 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Голяма · 6 мм · лак",
-        sizeLabel: "35×18 см",
+        sizeLabel: "31×16 см",
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4237,7 +4237,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Максимум · 6 мм · лак",
-        sizeLabel: "40×22 см",
+        sizeLabel: "35×19 см",
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4255,14 +4255,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4270,7 +4270,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4288,14 +4288,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4303,7 +4303,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4321,14 +4321,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4336,7 +4336,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4354,14 +4354,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 4 мм",
-        sizeLabel: "25×35 см",
+        sizeLabel: "22×31 см",
         thicknessMm: 4,
         laserType: "ENGRAVE",
         priceModifier: 0,
       },
       {
         label: "Стандарт · 4 мм · лак",
-        sizeLabel: "30×40 см",
+        sizeLabel: "26×35 см",
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
@@ -4369,7 +4369,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Максимум · 6 мм · лак",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
@@ -4387,14 +4387,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4402,7 +4402,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4420,14 +4420,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4435,7 +4435,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4453,14 +4453,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4468,7 +4468,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4519,14 +4519,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4534,7 +4534,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4552,14 +4552,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Компактна · 3 мм",
-        sizeLabel: "15×10 см",
+        sizeLabel: "13×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Стандартна · 4 мм · лак",
-        sizeLabel: "25×18 см",
+        sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4567,7 +4567,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голяма · 4 мм · лак",
-        sizeLabel: "40×28 см",
+        sizeLabel: "35×24 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
@@ -4618,14 +4618,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 3 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
@@ -4633,7 +4633,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -4651,14 +4651,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 3 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
@@ -4666,7 +4666,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -4684,14 +4684,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 3 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
@@ -4699,7 +4699,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -4717,14 +4717,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 3 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
@@ -4732,7 +4732,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -4783,14 +4783,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 3 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
@@ -4798,7 +4798,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -4816,14 +4816,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "20×20 см",
+        sizeLabel: "18×18 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 3 мм · масло",
-        sizeLabel: "30×30 см",
+        sizeLabel: "26×26 см",
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
@@ -4831,7 +4831,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -4849,14 +4849,14 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "25×25 см",
+        sizeLabel: "22×22 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 3 мм · масло",
-        sizeLabel: "32×32 см",
+        sizeLabel: "28×28 см",
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
@@ -4864,7 +4864,7 @@ const DRAFTS: Draft[] = [
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×40 см",
+        sizeLabel: "35×35 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -5043,21 +5043,21 @@ const DRAFTS: Draft[] = [
     options: opts([
       {
         label: "Малък · 3 мм",
-        sizeLabel: "25×10 см",
+        sizeLabel: "22×9 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "Среден · 4 мм",
-        sizeLabel: "35×14 см",
+        sizeLabel: "31×12 см",
         thicknessMm: 4,
         laserType: "CUT",
         priceModifier: 12,
       },
       {
         label: "Голям · 4 мм · масло",
-        sizeLabel: "40×16 см",
+        sizeLabel: "35×14 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
