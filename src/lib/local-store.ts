@@ -2,6 +2,7 @@ import { createHash, randomUUID } from "crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import path from "path";
 import { CATALOG_PRODUCTS } from "../data/catalog-products";
+import { bgnToEur } from "@/lib/currency";
 
 export type LocalLaserType = "ENGRAVE" | "CUT" | "BOTH";
 export type LocalOrderStatus =
@@ -270,7 +271,7 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
 
   const ruleData = {
     name: "default-custom",
-    pricePerCm2: 0.12,
+    pricePerCm2: bgnToEur(0.12),
     thicknessCoefficients: { "3": 1, "4": 1.15, "6": 1.35, default: 1.2 },
     complexityMultipliers: { simple: 1, medium: 1.25, complex: 1.6 },
     quantityDiscounts: [
@@ -279,8 +280,8 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
       { minQty: 25, percentOff: 15 },
     ],
     rushMultiplier: 1.5,
-    minPrice: 18,
-    minOrderAmount: 12,
+    minPrice: bgnToEur(18),
+    minOrderAmount: bgnToEur(12),
     active: true,
   };
   const ruleIdx = db.pricingRules.findIndex((r) => r.name === ruleData.name);
@@ -358,6 +359,7 @@ function catalogNeedsSync(db: LocalDb) {
     const expectedId = stableId("product", product.slug);
     const row = db.products.find((p) => p.slug === product.slug);
     if (!row || row.id !== expectedId) return true;
+    if (Number(row.basePrice) !== Number(product.basePrice)) return true;
 
     for (let index = 0; index < product.options.length; index++) {
       const opt = product.options[index];
@@ -367,6 +369,7 @@ function catalogNeedsSync(db: LocalDb) {
       );
       const optRow = db.productOptions.find((o) => o.id === expectedOptId);
       if (!optRow || optRow.productId !== expectedId) return true;
+      if (Number(optRow.priceModifier) !== Number(opt.priceModifier)) return true;
     }
   }
   return false;
@@ -390,6 +393,21 @@ export async function ensureLocalDb(): Promise<LocalDb> {
   if (!db.customers) {
     db.customers = [];
     dirty = true;
+  }
+  // Migrate legacy BGN pricing rules to EUR (detect old defaults)
+  for (const rule of db.pricingRules) {
+    if (Number(rule.pricePerCm2) === 0.12) {
+      rule.pricePerCm2 = bgnToEur(0.12);
+      dirty = true;
+    }
+    if (Number(rule.minPrice) === 18) {
+      rule.minPrice = bgnToEur(18);
+      dirty = true;
+    }
+    if (Number(rule.minOrderAmount) === 12) {
+      rule.minOrderAmount = bgnToEur(12);
+      dirty = true;
+    }
   }
   for (const p of db.products) {
     if (!p.category) {

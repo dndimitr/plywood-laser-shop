@@ -1,5 +1,3 @@
-/** Shop business config — env-overridable where noted */
-
 export type CategoryId =
   | "wedding"
   | "birthday"
@@ -139,9 +137,12 @@ export const FINISHES = [
   { id: "lacquer", label: "Лак", labelEn: "Lacquer" },
 ] as const;
 
+/** Free courier shipping when order subtotal reaches this EUR amount */
+export const FREE_SHIPPING_MIN_EUR = 50;
+
 export const COURIERS = [
-  { id: "ECONT", label: "Еконт", fee: 6.9 },
-  { id: "SPEEDY", label: "Speedy", fee: 7.5 },
+  { id: "ECONT", label: "Еконт", fee: 3.53 },
+  { id: "SPEEDY", label: "Speedy", fee: 3.83 },
   { id: "PICKUP", label: "Лично получаване", fee: 0 },
 ] as const;
 
@@ -155,9 +156,11 @@ export function getBankDetails() {
   };
 }
 
-export function shippingFeeFor(courier: string) {
+export function shippingFeeFor(courier: string, subtotal = 0) {
+  if (courier === "PICKUP") return 0;
+  if (subtotal >= FREE_SHIPPING_MIN_EUR) return 0;
   const found = COURIERS.find((c) => c.id === courier);
-  return found?.fee ?? 6.9;
+  return found?.fee ?? 3.53;
 }
 
 /** Public contact phone for mobile bottom bar / tel: links */
