@@ -107,11 +107,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Ключодържател сърце",
+    name: "Ключодържател геометрично сърце",
     slug: "klyuchodarzhatel-sarce",
     category: "keychains",
     description:
-      "Ажурно изрязано сърце с опция за гравиран текст отвътре. Класически подарък за Свети Валентин и годишнини.",
+      "Ажурно геометрично сърце с прави линии — типично за лазерно рязане. Опция за гравиран текст.",
     basePrice: 11,
     options: opts([
       {
@@ -544,19 +544,19 @@ const DRAFTS: Draft[] = [
     slug: "mandala-stenen-dekor",
     category: "decor",
     description:
-      "Фино изрязана мандала с концентрични мотиви. Акцент за хол, йога студио или спалня.",
+      "Квадратен ажурен панел с геометрична мандала. Акцент за хол, йога студио или спалня.",
     basePrice: 44,
     options: opts([
       {
-        label: "ø30 см · 3 мм",
-        sizeLabel: "ø30 см",
+        label: "30×30 см · 3 мм",
+        sizeLabel: "30×30 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
-        label: "ø45 см · 4 мм · масло",
-        sizeLabel: "ø45 см",
+        label: "45×45 см · 4 мм · масло",
+        sizeLabel: "45×45 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -619,19 +619,19 @@ const DRAFTS: Draft[] = [
     slug: "stenen-chasovnik",
     category: "decor",
     description:
-      "Лазерно изрязан циферблат с място за стандартен часовников механизъм (не е включен).",
+      "Квадратен лазерно изрязан циферблат с място за стандартен часовников механизъм (не е включен).",
     basePrice: 52,
     options: opts([
       {
-        label: "ø30 см · 4 мм",
-        sizeLabel: "ø30 см",
+        label: "30×30 см · 4 мм",
+        sizeLabel: "30×30 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
-        label: "ø40 см · ажур · масло",
-        sizeLabel: "ø40 см",
+        label: "40×40 см · ажур · масло",
+        sizeLabel: "40×40 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -1216,11 +1216,11 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Валентинско сърце орнамент",
+    name: "Валентински орнамент със сърце",
     slug: "valentinsko-sarce",
     category: "ornaments",
     description:
-      "Сърце с гравирано послание или дата. За Свети Валентин и годишнини.",
+      "Квадратен орнамент с ажурно сърце и място за послание или дата. За Свети Валентин и годишнини.",
     basePrice: 11,
     options: opts([
       {
@@ -1284,8 +1284,8 @@ const DRAFTS: Draft[] = [
         priceModifier: 0,
       },
       {
-        label: "Кръг · 4 мм · лак",
-        sizeLabel: "ø9 см",
+        label: "Квадрат · 4 мм · лак",
+        sizeLabel: "9×9 см",
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
@@ -1478,19 +1478,19 @@ const DRAFTS: Draft[] = [
     slug: "kolie-medalion",
     category: "jewelry",
     description:
-      "Кръгъл или сърцевиден медальон с инициали. Верижка по заявка или само висулката.",
+      "Шестоъгълен медальон с инициали — удобен за лазерно рязане. Верижка по заявка или само висулката.",
     basePrice: 16,
     options: opts([
       {
-        label: "Висулка · 3 мм",
-        sizeLabel: "ø3 см",
+        label: "Шестоъгълник · 3 мм",
+        sizeLabel: "3×3 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Двустранен · масло",
-        sizeLabel: "ø3.5 см",
+        sizeLabel: "3.5×3.5 см",
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
@@ -1530,19 +1530,19 @@ const DRAFTS: Draft[] = [
     slug: "medalion-lubimets",
     category: "pets",
     description:
-      "Лек дървен медальон с име и телефон. Не е заместител на металния чип — декоративен слой.",
+      "Лек шестоъгълен дървен таг с име. Не е заместител на металния чип — декоративен слой.",
     basePrice: 12,
     options: opts([
       {
-        label: "Костен · 3 мм",
-        sizeLabel: "4×2.5 см",
+        label: "Шестоъгълник · 3 мм",
+        sizeLabel: "3.5×3.5 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
-        label: "Кръгъл · двустранен",
-        sizeLabel: "ø3.5 см",
+        label: "Шестоъгълник · двустранен",
+        sizeLabel: "3.5×3.5 см",
         thicknessMm: 3,
         laserType: "BOTH",
         doubleSided: true,
@@ -2082,23 +2082,23 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Коледен венец ажурен",
+    name: "Коледен стенен орнамент",
     slug: "koleden-venets",
     category: "christmas",
     description:
-      "Кръгъл ажурен венец с зимни мотиви. За врата или стена — лек и декоративен.",
+      "Квадратен ажурен коледен орнамент със зимна сцена. За врата или стена — лек и декоративен.",
     basePrice: 42,
     options: opts([
       {
-        label: "ø30 см · 3 мм",
-        sizeLabel: "ø30 см",
+        label: "30×30 см · 3 мм",
+        sizeLabel: "30×30 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
-        label: "ø40 см · масло",
-        sizeLabel: "ø40 см",
+        label: "40×40 см · масло",
+        sizeLabel: "40×40 см",
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
@@ -2461,19 +2461,19 @@ const DRAFTS: Draft[] = [
     slug: "medal-yubilyar",
     category: "birthday",
     description:
-      "Дървен медал с панделка и гравиране. Забавен акцент за рожденика.",
+      "Звезден дървен медал с панделка и гравиране. Забавен акцент за рожденика.",
     basePrice: 16,
     options: opts([
       {
         label: "Стандарт · 3 мм",
-        sizeLabel: "ø7 см",
+        sizeLabel: "7×7 см",
         thicknessMm: 3,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
         label: "Голям · масло",
-        sizeLabel: "ø9 см",
+        sizeLabel: "9×9 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
@@ -2634,23 +2634,23 @@ const DRAFTS: Draft[] = [
     ]),
   },
   {
-    name: "Кръгла табела с име на бебе",
+    name: "Табела с име на бебе",
     slug: "kragla-tabela-ime-bebe",
     category: "newborn",
     description:
-      "Кръгла именна табела за над креватчето. Нежен шрифт и опционален мотив.",
+      "Правоъгълна именна табела за над креватчето. Нежен шрифт и опционален мотив.",
     basePrice: 36,
     options: opts([
       {
-        label: "ø20 см · 4 мм",
-        sizeLabel: "ø20 см",
+        label: "28×18 см · 4 мм",
+        sizeLabel: "28×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
         priceModifier: 0,
       },
       {
-        label: "ø30 см · масло",
-        sizeLabel: "ø30 см",
+        label: "35×22 см · масло",
+        sizeLabel: "35×22 см",
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
