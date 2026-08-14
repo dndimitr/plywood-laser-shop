@@ -1,4 +1,5 @@
 import { IconPackage, IconTruck } from "@/components/Icons";
+import { FREE_SHIPPING_MIN_EUR } from "@/lib/shop-config";
 
 export function TopInfoBar() {
   return (
@@ -16,7 +17,7 @@ export function TopInfoBar() {
         <p className="top-info-item">
           <IconTruck size={15} aria-hidden />
           <span>
-            Доставка <strong>Еконт / Speedy</strong>
+            Безплатна доставка над <strong>{FREE_SHIPPING_MIN_EUR} €</strong>
           </span>
         </p>
       </div>

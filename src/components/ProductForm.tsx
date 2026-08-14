@@ -43,7 +43,7 @@ export function ProductForm({ initial }: Props) {
       name: "",
       slug: "",
       description: "",
-      basePrice: 20,
+      basePrice: 10,
       imageUrl: "",
       active: true,
       options: [emptyOption()],
@@ -116,7 +116,7 @@ export function ProductForm({ initial }: Props) {
       </label>
       <div className="grid-2">
         <label className="field">
-          <span>Базова цена</span>
+          <span>Базова цена (€)</span>
           <input
             type="number"
             min={1}
@@ -196,7 +196,7 @@ export function ProductForm({ initial }: Props) {
               </select>
             </label>
             <label className="field">
-              <span>Модификатор цена</span>
+              <span>Модификатор цена (€)</span>
               <input
                 type="number"
                 step="0.01"
