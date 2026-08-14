@@ -88,7 +88,7 @@ const DRAFTS: Draft[] = [
     category: "keychains",
     description:
       "Персонализиран ключодържател от брезов шперплат с лазерно гравиране на име или инициали. Подходящ за подарък и ежедневна употреба.",
-    basePrice: 9,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -102,7 +102,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "5×8 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -110,7 +110,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -120,7 +120,7 @@ const DRAFTS: Draft[] = [
     category: "keychains",
     description:
       "Ажурно геометрично сърце с прави линии и чисти ръбове. Опция за гравиран текст отвътре.",
-    basePrice: 9,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -134,7 +134,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "5×8 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -142,7 +142,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -152,7 +152,7 @@ const DRAFTS: Draft[] = [
     category: "keychains",
     description:
       "Правоъгълен таг с гравиран регистрационен номер или гаражен код. За автомобилни ключове и автоподаръци.",
-    basePrice: 9,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -166,7 +166,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "5×8 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -174,7 +174,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -184,7 +184,7 @@ const DRAFTS: Draft[] = [
     category: "keychains",
     description:
       "Силует на зодия с фино гравиране. Изберете знак и по желание дата на раждане.",
-    basePrice: 9,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -198,7 +198,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "5×8 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -206,7 +206,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -216,7 +216,7 @@ const DRAFTS: Draft[] = [
     category: "keychains",
     description:
       "Миниатюрна къща с гравиран уличен адрес или име на семейство. Подарък при нанасяне в нов дом.",
-    basePrice: 9,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -230,7 +230,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "5×8 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -238,7 +238,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -248,7 +248,7 @@ const DRAFTS: Draft[] = [
     category: "keychains",
     description:
       "Силует на куче или котка по порода или по ваш контур. Добавете име на любимеца.",
-    basePrice: 9,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -262,7 +262,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "5×8 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -270,7 +270,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -280,7 +280,7 @@ const DRAFTS: Draft[] = [
     category: "keychains",
     description:
       "Гравиран QR код към сайт, визитка или Wi‑Fi мрежа. Практичен корпоративен и личен аксесоар.",
-    basePrice: 9,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -294,7 +294,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "5×8 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -302,7 +302,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -312,7 +312,7 @@ const DRAFTS: Draft[] = [
     category: "keychains",
     description:
       "Мини ключодържатели за сватбени или фирмени гости. Еднакъв макет с индивидуални инициали по желание.",
-    basePrice: 55,
+    basePrice: 28,
     options: opts([
       {
         label: "Комплект 10 · 3 мм",
@@ -326,7 +326,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "4×6 см",
         thicknessMm: 3,
         laserType: "ENGRAVE",
-        priceModifier: 40,
+        priceModifier: 20,
       },
       {
         label: "Комплект 30 · масло",
@@ -334,7 +334,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 80,
+        priceModifier: 40,
       },
     ]),
   },
@@ -345,7 +345,7 @@ const DRAFTS: Draft[] = [
     category: "signs",
     description:
       "Табела от шперплат с гравиран текст по ваш избор. За дом, офис или входна врата.",
-    basePrice: 18,
+    basePrice: 9,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -359,7 +359,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 7,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -367,7 +367,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 17,
       },
     ]),
   },
@@ -377,7 +377,7 @@ const DRAFTS: Draft[] = [
     category: "signs",
     description:
       "Класическа стенна табела с фамилия и година на основаване на дома. Популярен модел за хол и вход.",
-    basePrice: 18,
+    basePrice: 9,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -391,7 +391,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 7,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -399,7 +399,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 17,
       },
     ]),
   },
@@ -409,7 +409,7 @@ const DRAFTS: Draft[] = [
     category: "signs",
     description:
       "Декоративна входна табела с надпис „Добре дошли“ и ажурен орнамент. За врата, коридор или тераса.",
-    basePrice: 18,
+    basePrice: 9,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -423,7 +423,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 7,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -431,7 +431,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 17,
       },
     ]),
   },
@@ -441,7 +441,7 @@ const DRAFTS: Draft[] = [
     category: "signs",
     description:
       "Професионална табела с име, длъжност или кабинет. Чист шрифт и опция за лого.",
-    basePrice: 18,
+    basePrice: 9,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -455,7 +455,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 7,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -463,7 +463,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 17,
       },
     ]),
   },
@@ -473,7 +473,7 @@ const DRAFTS: Draft[] = [
     category: "signs",
     description:
       "Външна адресна табела с номер и улица. Препоръчваме лак за по-добра устойчивост.",
-    basePrice: 18,
+    basePrice: 9,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -487,7 +487,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 7,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -495,7 +495,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 17,
       },
     ]),
   },
@@ -506,7 +506,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Двустранна или въртяща се табела за магазин и кафене. Гравиран текст на български или английски.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -521,7 +521,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -529,7 +529,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -540,7 +540,7 @@ const DRAFTS: Draft[] = [
     category: "signs",
     description:
       "Дискретна пиктограма или текст за тоалетна и баня. Подходяща за дом, хотел и офис.",
-    basePrice: 18,
+    basePrice: 9,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -554,7 +554,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 7,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -562,7 +562,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 17,
       },
     ]),
   },
@@ -572,7 +572,7 @@ const DRAFTS: Draft[] = [
     category: "signs",
     description:
       "Вежлива входна табела с икона на обувки. За дом, Airbnb и студио.",
-    basePrice: 18,
+    basePrice: 9,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -586,7 +586,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 7,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -594,7 +594,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 17,
       },
     ]),
   },
@@ -605,7 +605,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Лазерно изрязан ажурен детайл от шперплат. За интериор, стена или подаръчна кутия.",
-    basePrice: 26,
+    basePrice: 14,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -620,7 +620,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -628,7 +628,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 22,
       },
     ]),
   },
@@ -638,7 +638,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Модулен геометричен панел — шестоъгълници, линии или ромбове. Монтира се самостоятелно или в композиция.",
-    basePrice: 26,
+    basePrice: 14,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -653,7 +653,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -661,7 +661,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 22,
       },
     ]),
   },
@@ -671,7 +671,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Квадратен ажурен панел с геометрична мандала. Акцент за хол, студио за йога или спалня.",
-    basePrice: 26,
+    basePrice: 14,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -686,7 +686,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -694,7 +694,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 22,
       },
     ]),
   },
@@ -704,7 +704,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Контур на България с опция за маркиране на град. Стенна декорация с национален акцент.",
-    basePrice: 22,
+    basePrice: 12,
     options: opts([
       {
         label: "Малка · 3 мм",
@@ -719,7 +719,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 8,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -727,7 +727,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 30,
+        priceModifier: 20,
       },
     ]),
   },
@@ -737,7 +737,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Многослоен макет на световна карта от шперплат. Ефектен стенен акцент за офис и хол.",
-    basePrice: 45,
+    basePrice: 28,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -752,7 +752,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 23,
+        priceModifier: 14,
       },
       {
         label: "Максимум · 4 мм · масло",
@@ -760,7 +760,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 43,
+        priceModifier: 27,
       },
     ]),
   },
@@ -770,7 +770,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Квадратен лазерно изрязан циферблат с място за стандартен часовников механизъм (не е включен).",
-    basePrice: 35,
+    basePrice: 22,
     options: opts([
       {
         label: "Малък · 4 мм",
@@ -785,7 +785,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 13,
+        priceModifier: 10,
       },
       {
         label: "Голям · 6 мм · масло",
@@ -793,7 +793,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 33,
+        priceModifier: 23,
       },
     ]),
   },
@@ -803,7 +803,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Рамка с декоративен контур за снимка 10×15 или 13×18. Подарък с опция за гравиран надпис.",
-    basePrice: 26,
+    basePrice: 12,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -818,7 +818,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -826,7 +826,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 16,
       },
     ]),
   },
@@ -836,7 +836,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Стенна кутия с кукички и гравиран надпис. Сглобяем комплект от лазерно изрязани детайли.",
-    basePrice: 26,
+    basePrice: 18,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -851,7 +851,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -859,7 +859,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 22,
       },
     ]),
   },
@@ -869,7 +869,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Многослоен планински или горски пейзаж с дълбочина. Готов за окачване; канал за светлинна лента — по заявка.",
-    basePrice: 48,
+    basePrice: 28,
     options: opts([
       {
         label: "Компактен · 3 мм",
@@ -884,7 +884,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 14,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -892,7 +892,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 44,
+        priceModifier: 30,
       },
     ]),
   },
@@ -902,7 +902,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Силует на избран град (София, Пловдив, Варна или по ваш файл). Хоризонтален стенен акцент.",
-    basePrice: 28,
+    basePrice: 16,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -917,7 +917,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -925,7 +925,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 30,
+        priceModifier: 18,
       },
     ]),
   },
@@ -935,7 +935,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Свободно стоящ или стенен надпис с избрана дума — „дом“, „любов“ или ваш текст. Шрифт по избор.",
-    basePrice: 26,
+    basePrice: 14,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -950,7 +950,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -958,7 +958,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 22,
       },
     ]),
   },
@@ -968,7 +968,7 @@ const DRAFTS: Draft[] = [
     category: "decor",
     description:
       "Ажурна стойка или подложка за саксия. Сглобяем комплект — стабилен и лек.",
-    basePrice: 14,
+    basePrice: 8,
     options: opts([
       {
         label: "Малка · 3 мм",
@@ -982,7 +982,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "18×18 см",
         thicknessMm: 4,
         laserType: "CUT",
-        priceModifier: 8,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -990,7 +990,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 14,
       },
     ]),
   },
@@ -1001,7 +1001,7 @@ const DRAFTS: Draft[] = [
     category: "wedding",
     description:
       "Декоративен топер за торта с имена на младоженците и дата. За стандартна или многоетажна торта.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Компактен · 3 мм",
@@ -1015,14 +1015,14 @@ const DRAFTS: Draft[] = [
         sizeLabel: "16×14 см",
         thicknessMm: 3,
         laserType: "CUT",
-        priceModifier: 6,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм",
         sizeLabel: "22×18 см",
         thicknessMm: 4,
         laserType: "CUT",
-        priceModifier: 14,
+        priceModifier: 9,
       },
     ]),
   },
@@ -1032,7 +1032,7 @@ const DRAFTS: Draft[] = [
     category: "wedding",
     description:
       "Голяма табела за посрещане на гостите с имена и дата. Ажурна рамка по избор.",
-    basePrice: 42,
+    basePrice: 24,
     options: opts([
       {
         label: "Средна · 4 мм",
@@ -1047,7 +1047,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 12,
       },
       {
         label: "Максимум · 6 мм · масло",
@@ -1055,7 +1055,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -1065,7 +1065,7 @@ const DRAFTS: Draft[] = [
     category: "wedding",
     description:
       "Индивидуални дървени картички с име на гост. Поръчват се на брой — подходящи за масите.",
-    basePrice: 3.5,
+    basePrice: 1.8,
     options: opts([
       {
         label: "Единична · 3 мм",
@@ -1079,7 +1079,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "8×4 см",
         thicknessMm: 3,
         laserType: "ENGRAVE",
-        priceModifier: 28.5,
+        priceModifier: 14.2,
       },
       {
         label: "Комплект 20 · масло",
@@ -1087,7 +1087,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 54.5,
+        priceModifier: 26.2,
       },
     ]),
   },
@@ -1097,7 +1097,7 @@ const DRAFTS: Draft[] = [
     category: "wedding",
     description:
       "Мини кутия за брачните халки — алтернатива на класическата възглавничка. С гравирани инициали и дата.",
-    basePrice: 28,
+    basePrice: 16,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -1112,7 +1112,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Премиум · лак",
@@ -1120,7 +1120,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 20,
+        priceModifier: 12,
       },
     ]),
   },
@@ -1130,7 +1130,7 @@ const DRAFTS: Draft[] = [
     category: "wedding",
     description:
       "Номер за сватбена или банкетна маса. Комплект от 1 до 20 — по заявка.",
-    basePrice: 9,
+    basePrice: 5.5,
     options: opts([
       {
         label: "Единична · 3 мм",
@@ -1144,7 +1144,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "10×12 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 69,
+        priceModifier: 42.5,
       },
       {
         label: "Комплект 20 · масло",
@@ -1152,7 +1152,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 136,
+        priceModifier: 79.5,
       },
     ]),
   },
@@ -1162,7 +1162,7 @@ const DRAFTS: Draft[] = [
     category: "wedding",
     description:
       "Голяма табела или пъзел, върху която гостите оставят подписи и пожелания. Алтернатива на книгата за гости.",
-    basePrice: 55,
+    basePrice: 32,
     options: opts([
       {
         label: "Средна · 4 мм",
@@ -1177,7 +1177,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 17,
+        priceModifier: 12,
       },
       {
         label: "Максимум · 6 мм · масло",
@@ -1185,7 +1185,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 40,
+        priceModifier: 26,
       },
     ]),
   },
@@ -1196,7 +1196,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Букви или цяло име за детска стая. Шрифт, размер и покритие (суров или с масло) по избор.",
-    basePrice: 32,
+    basePrice: 18,
     options: opts([
       {
         label: "Малко · 6 мм",
@@ -1211,7 +1211,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 13,
+        priceModifier: 8,
       },
       {
         label: "Голямо · 6 мм · масло",
@@ -1219,7 +1219,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 26,
+        priceModifier: 18,
       },
     ]),
   },
@@ -1229,7 +1229,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Комплект картички за месечни снимки на бебето (1–12 месеца). Гравирани надписи на български.",
-    basePrice: 36,
+    basePrice: 18,
     options: opts([
       {
         label: "12 бр. · 3 мм",
@@ -1243,7 +1243,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "10×10 см",
         thicknessMm: 3,
         laserType: "ENGRAVE",
-        priceModifier: 9,
+        priceModifier: 6,
       },
       {
         label: "12 бр. + кутия · масло",
@@ -1251,7 +1251,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 26,
+        priceModifier: 14,
       },
     ]),
   },
@@ -1261,7 +1261,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Лазерно изрязани животни за бебешко мобиле. Комплект фигури и пръстени; окачалката е по желание.",
-    basePrice: 32,
+    basePrice: 18,
     options: opts([
       {
         label: "5 фигури · 3 мм",
@@ -1275,7 +1275,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "6–8 см",
         thicknessMm: 3,
         laserType: "CUT",
-        priceModifier: 13,
+        priceModifier: 6,
       },
       {
         label: "8 фигури · масло",
@@ -1283,7 +1283,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 26,
+        priceModifier: 14,
       },
     ]),
   },
@@ -1293,7 +1293,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Дървен растежен метър с гравирана скала в см. Опция за име на детето.",
-    basePrice: 38,
+    basePrice: 22,
     options: opts([
       {
         label: "3 сегмента · 4 мм",
@@ -1308,7 +1308,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 8,
       },
       {
         label: "5 сегмента · 6 мм · масло",
@@ -1316,7 +1316,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 30,
+        priceModifier: 16,
       },
     ]),
   },
@@ -1326,7 +1326,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Рамка с място за отпечатък на ръчичка/краче и гравирани данни за раждането.",
-    basePrice: 18,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1340,7 +1340,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1348,7 +1348,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -1358,7 +1358,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Табела за врата на родителска или детска стая. Вежлив надпис с икона.",
-    basePrice: 18,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1372,7 +1372,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1380,7 +1380,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -1390,7 +1390,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Лазерно изрязано зайче от шперплат с гравирани детайли. За рафт, стена или като топер за торта.",
-    basePrice: 18,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1404,7 +1404,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1412,7 +1412,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 10,
       },
     ]),
   },
@@ -1422,7 +1422,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Силует на еднорог от шперплат с фино гравирана грива. Нежен акцент за детската стая или парти.",
-    basePrice: 18,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1436,7 +1436,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1444,7 +1444,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 10,
       },
     ]),
   },
@@ -1454,7 +1454,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Табела за кът за игра у дома или в детски кът на заведение. Ясен надпис с икона на кубчета.",
-    basePrice: 18,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1468,7 +1468,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1476,7 +1476,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -1486,7 +1486,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Входна табела за детска стая с надпис „Моята стая“ и звезден мотив. Опция за добавяне на име.",
-    basePrice: 18,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1500,7 +1500,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1508,7 +1508,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -1518,7 +1518,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Сглобяема кутия за дребни играчки с гравирано име на капака. Практичен ред в детската стая.",
-    basePrice: 42,
+    basePrice: 24,
     options: opts([
       {
         label: "Средна · 4 мм",
@@ -1533,7 +1533,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Максимум · 6 мм · масло",
@@ -1541,7 +1541,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -1551,7 +1551,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Сглобяема стойка за моливи и четчици с гравирани звезди. Подходяща за бюро в детската стая.",
-    basePrice: 18,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1565,7 +1565,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "22×18 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1573,7 +1573,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 8,
       },
     ]),
   },
@@ -1583,7 +1583,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Комплект от лазерно изрязани облаци и звезди за стенна композиция над креватчето.",
-    basePrice: 26,
+    basePrice: 14,
     options: opts([
       {
         label: "5 елемента · 3 мм",
@@ -1597,7 +1597,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "8–20 см",
         thicknessMm: 3,
         laserType: "CUT",
-        priceModifier: 12,
+        priceModifier: 6,
       },
       {
         label: "8 елемента · масло",
@@ -1605,7 +1605,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 26,
+        priceModifier: 14,
       },
     ]),
   },
@@ -1615,7 +1615,7 @@ const DRAFTS: Draft[] = [
     category: "nursery",
     description:
       "Лазерно изрязани букви от българската азбука за учене и декорация. Поръчват се по брой или като пълен комплект.",
-    basePrice: 28,
+    basePrice: 16,
     options: opts([
       {
         label: "6 букви · 4 мм",
@@ -1630,7 +1630,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 12,
       },
       {
         label: "Пълен комплект · 4 мм · масло",
@@ -1638,7 +1638,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 67,
+        priceModifier: 36,
       },
     ]),
   },
@@ -1649,7 +1649,7 @@ const DRAFTS: Draft[] = [
     category: "ornaments",
     description:
       "Плоска „топка“ от шперплат с гравирано име и година. Комплекти за цялото семейство.",
-    basePrice: 8,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1663,7 +1663,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "9×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1671,7 +1671,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -1681,7 +1681,7 @@ const DRAFTS: Draft[] = [
     category: "ornaments",
     description:
       "Специален орнамент за бебешка първа Коледа или първи дом. Персонализация с имена.",
-    basePrice: 8,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1695,7 +1695,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "9×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1703,7 +1703,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -1713,7 +1713,7 @@ const DRAFTS: Draft[] = [
     category: "ornaments",
     description:
       "Фино изрязана снежинка за елха или прозорец. Продава се поотделно или в комплект.",
-    basePrice: 8,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1727,7 +1727,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "9×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1735,7 +1735,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -1745,7 +1745,7 @@ const DRAFTS: Draft[] = [
     category: "ornaments",
     description:
       "Деликатен ангел с опция за име и дата. Подходящ за спомен и подарък.",
-    basePrice: 8,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1759,7 +1759,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "9×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1767,7 +1767,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -1777,7 +1777,7 @@ const DRAFTS: Draft[] = [
     category: "ornaments",
     description:
       "Ажурно яйце с пролетни мотиви. За великденска украса и подаръчни комплекти.",
-    basePrice: 8,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1791,7 +1791,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "9×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1799,7 +1799,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -1809,7 +1809,7 @@ const DRAFTS: Draft[] = [
     category: "ornaments",
     description:
       "Квадратен орнамент с ажурно сърце и място за послание или дата. За Свети Валентин и годишнини.",
-    basePrice: 8,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -1823,7 +1823,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "9×9 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 3,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -1831,7 +1831,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 7,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -1841,7 +1841,7 @@ const DRAFTS: Draft[] = [
     category: "ornaments",
     description:
       "Комплект орнаменти с имената на всички в семейството и годината. Един макет — различни надписи.",
-    basePrice: 28,
+    basePrice: 16,
     options: opts([
       {
         label: "3 бр. · 3 мм",
@@ -1856,7 +1856,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 17,
+        priceModifier: 10,
       },
       {
         label: "8 бр. · 4 мм · масло",
@@ -1864,7 +1864,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 40,
+        priceModifier: 22,
       },
     ]),
   },
@@ -1875,7 +1875,7 @@ const DRAFTS: Draft[] = [
     category: "kitchen",
     description:
       "Комплект от 4 гравирани подложки с общ мотив или монограм. Препоръчваме масло или лак.",
-    basePrice: 18,
+    basePrice: 12,
     options: opts([
       {
         label: "Комплект 4 · 3 мм",
@@ -1890,7 +1890,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Комплект 6 · 4 мм · лак",
@@ -1898,7 +1898,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 18,
+        priceModifier: 10,
       },
     ]),
   },
@@ -1908,7 +1908,7 @@ const DRAFTS: Draft[] = [
     category: "kitchen",
     description:
       "Ажурна подставка за тенджери и тигани. Здрава конструкция от по-дебел шперплат.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малка · 4 мм",
@@ -1923,7 +1923,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 8,
+        priceModifier: 5,
       },
       {
         label: "Голяма · 6 мм · масло",
@@ -1931,7 +1931,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 13,
       },
     ]),
   },
@@ -1941,7 +1941,7 @@ const DRAFTS: Draft[] = [
     category: "kitchen",
     description:
       "Сглобяема кутия за рецептурни карти с гравиран надпис „Рецепти“ или фамилия.",
-    basePrice: 16,
+    basePrice: 14,
     options: opts([
       {
         label: "Малък · 4 мм",
@@ -1956,7 +1956,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 8,
       },
       {
         label: "Голям · 6 мм · масло",
@@ -1964,7 +1964,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 16,
       },
     ]),
   },
@@ -1975,7 +1975,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Декоративна кухненска табела за кафен кът. Текст и икони по ваш избор.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -1990,7 +1990,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -1998,7 +1998,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -2009,7 +2009,7 @@ const DRAFTS: Draft[] = [
     category: "kitchen",
     description:
       "Ажурна стойка за салфетки — сглобяем комплект. За маса и бюфет.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 4 мм",
@@ -2024,7 +2024,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 5,
       },
       {
         label: "Голям · 6 мм · масло",
@@ -2032,7 +2032,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 11,
       },
     ]),
   },
@@ -2042,7 +2042,7 @@ const DRAFTS: Draft[] = [
     category: "kitchen",
     description:
       "Дъска за сервиране на сирена и мезета с гравиран монограм. Само за презентация — не е предназначена за рязане.",
-    basePrice: 28,
+    basePrice: 16,
     options: opts([
       {
         label: "Малка · 6 мм · масло",
@@ -2058,7 +2058,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 8,
       },
       {
         label: "Голяма · 8 мм · лак",
@@ -2066,7 +2066,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 30,
+        priceModifier: 16,
       },
     ]),
   },
@@ -2077,7 +2077,7 @@ const DRAFTS: Draft[] = [
     category: "jewelry",
     description:
       "Леки геометрични обеци от 3 мм шперплат. Включени са стоманени кукички.",
-    basePrice: 12,
+    basePrice: 7,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2091,7 +2091,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "4×5 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 4,
+        priceModifier: 3,
       },
       {
         label: "Голям · 3 мм · масло",
@@ -2099,7 +2099,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 7,
       },
     ]),
   },
@@ -2109,7 +2109,7 @@ const DRAFTS: Draft[] = [
     category: "jewelry",
     description:
       "Силует на лист или цвете с фини детайли. Лек и характерен аксесоар от шперплат.",
-    basePrice: 12,
+    basePrice: 7,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2123,7 +2123,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "4×5 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 4,
+        priceModifier: 3,
       },
       {
         label: "Голям · 3 мм · масло",
@@ -2131,7 +2131,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 7,
       },
     ]),
   },
@@ -2141,7 +2141,7 @@ const DRAFTS: Draft[] = [
     category: "jewelry",
     description:
       "Шестоъгълен медальон с инициали. Верижка по заявка или само висулката.",
-    basePrice: 12,
+    basePrice: 7,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2155,7 +2155,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "4×5 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 4,
+        priceModifier: 3,
       },
       {
         label: "Голям · 3 мм · масло",
@@ -2163,7 +2163,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 7,
       },
     ]),
   },
@@ -2173,7 +2173,7 @@ const DRAFTS: Draft[] = [
     category: "jewelry",
     description:
       "Декоративна брошка с щипка. Форми: геометрични, животни или лого по ваш файл.",
-    basePrice: 12,
+    basePrice: 7,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2187,7 +2187,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "4×5 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 4,
+        priceModifier: 3,
       },
       {
         label: "Голям · 3 мм · масло",
@@ -2195,7 +2195,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 7,
       },
     ]),
   },
@@ -2206,7 +2206,7 @@ const DRAFTS: Draft[] = [
     category: "pets",
     description:
       "Лек шестоъгълен дървен таг с име. Декоративен аксесоар — не замества металния идентификационен чип.",
-    basePrice: 10,
+    basePrice: 5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2220,7 +2220,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "12×10 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 5,
+        priceModifier: 2.5,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2228,7 +2228,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 7,
       },
     ]),
   },
@@ -2238,7 +2238,7 @@ const DRAFTS: Draft[] = [
     category: "pets",
     description:
       "Именна табела за къщичка или зона на любимеца. Водоустойчив лак по желание.",
-    basePrice: 10,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2252,7 +2252,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "12×10 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 5,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2260,7 +2260,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 10,
       },
     ]),
   },
@@ -2270,7 +2270,7 @@ const DRAFTS: Draft[] = [
     category: "pets",
     description:
       "Изработка на силует по ваша снимка (векторизираме макета). Стенен декор или ключодържател.",
-    basePrice: 10,
+    basePrice: 12,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2284,7 +2284,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "12×10 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 5,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2292,7 +2292,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 20,
       },
     ]),
   },
@@ -2302,7 +2302,7 @@ const DRAFTS: Draft[] = [
     category: "pets",
     description:
       "Декоративен етикет или табела за кутия с храна или лакомства. Включва името на любимеца.",
-    basePrice: 10,
+    basePrice: 4,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2316,7 +2316,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "12×10 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 5,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2324,7 +2324,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 5,
       },
     ]),
   },
@@ -2335,7 +2335,7 @@ const DRAFTS: Draft[] = [
     category: "corporate",
     description:
       "Сглобяем визитник с гравирано лого. Елегантен корпоративен подарък и аксесоар за бюро.",
-    basePrice: 24,
+    basePrice: 14,
     options: opts([
       {
         label: "Компактна · 4 мм",
@@ -2350,7 +2350,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 8,
       },
       {
         label: "Голяма · 6 мм · лак",
@@ -2358,7 +2358,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 31,
+        priceModifier: 18,
       },
     ]),
   },
@@ -2368,7 +2368,7 @@ const DRAFTS: Draft[] = [
     category: "corporate",
     description:
       "Табела за рецепция или офис с фирмено лого. Работим по векторни файлове SVG, AI или PDF.",
-    basePrice: 24,
+    basePrice: 18,
     options: opts([
       {
         label: "Компактна · 4 мм",
@@ -2383,7 +2383,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 10,
       },
       {
         label: "Голяма · 6 мм · лак",
@@ -2391,7 +2391,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 31,
+        priceModifier: 24,
       },
     ]),
   },
@@ -2401,7 +2401,7 @@ const DRAFTS: Draft[] = [
     category: "corporate",
     description:
       "Награден плакет с текст и лого. За служители, партньори и фирмени събития.",
-    basePrice: 24,
+    basePrice: 16,
     options: opts([
       {
         label: "Компактна · 4 мм",
@@ -2416,7 +2416,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 8,
       },
       {
         label: "Голяма · 6 мм · лак",
@@ -2424,7 +2424,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 31,
+        priceModifier: 20,
       },
     ]),
   },
@@ -2434,7 +2434,7 @@ const DRAFTS: Draft[] = [
     category: "corporate",
     description:
       "Лек бейдж с име и длъжност. За конференции, хотели и екипи. Клипс или магнит — по заявка.",
-    basePrice: 24,
+    basePrice: 6,
     options: opts([
       {
         label: "Компактна · 4 мм",
@@ -2449,7 +2449,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 3,
       },
       {
         label: "Голяма · 6 мм · лак",
@@ -2457,7 +2457,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 31,
+        priceModifier: 6,
       },
     ]),
   },
@@ -2467,7 +2467,7 @@ const DRAFTS: Draft[] = [
     category: "corporate",
     description:
       "Мини кутийка или плъзгащ се капак за USB памет с лого. Подарък за клиенти и партньори.",
-    basePrice: 24,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 4 мм",
@@ -2482,7 +2482,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 14,
+        priceModifier: 4,
       },
       {
         label: "Голяма · 6 мм · лак",
@@ -2490,7 +2490,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 31,
+        priceModifier: 8,
       },
     ]),
   },
@@ -2500,7 +2500,7 @@ const DRAFTS: Draft[] = [
     category: "corporate",
     description:
       "Комплект: визитник, ключодържател и подложки с общо лого. Минимална поръчка — 10 комплекта.",
-    basePrice: 180,
+    basePrice: 95,
     options: opts([
       {
         label: "Стартов · 10 комплекта",
@@ -2515,7 +2515,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 210,
+        priceModifier: 115,
       },
       {
         label: "Премиум · 50 комплекта · лак",
@@ -2523,7 +2523,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 540,
+        priceModifier: 285,
       },
     ]),
   },
@@ -2534,7 +2534,7 @@ const DRAFTS: Draft[] = [
     category: "gifts",
     description:
       "Тънък книгоразделител с име, цитат или илюстрация. Лек и практичен подарък.",
-    basePrice: 16,
+    basePrice: 4,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2549,7 +2549,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2557,7 +2557,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -2567,7 +2567,7 @@ const DRAFTS: Draft[] = [
     category: "gifts",
     description:
       "Дървен магнит с гравиране. Добавяме магнитна лента отзад.",
-    basePrice: 16,
+    basePrice: 4.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2582,7 +2582,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2590,7 +2590,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -2600,7 +2600,7 @@ const DRAFTS: Draft[] = [
     category: "gifts",
     description:
       "Сглобяема кутия с ажурен капак и прегради по желание. Подарък с гравирани инициали.",
-    basePrice: 16,
+    basePrice: 18,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2623,7 +2623,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 22,
       },
     ]),
   },
@@ -2633,7 +2633,7 @@ const DRAFTS: Draft[] = [
     category: "gifts",
     description:
       "Сглобяем органайзер за химикали и дребни предмети. С лого или име.",
-    basePrice: 16,
+    basePrice: 14,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2648,7 +2648,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2656,7 +2656,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 18,
       },
     ]),
   },
@@ -2666,7 +2666,7 @@ const DRAFTS: Draft[] = [
     category: "gifts",
     description:
       "Минималистична стойка за смартфон — във вертикална и хоризонтална ориентация. Сглобява се без лепило.",
-    basePrice: 12,
+    basePrice: 7,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -2680,7 +2680,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "9×12 см",
         thicknessMm: 4,
         laserType: "CUT",
-        priceModifier: 4,
+        priceModifier: 3,
       },
       {
         label: "С гравиране · масло",
@@ -2688,7 +2688,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 7,
       },
     ]),
   },
@@ -2713,7 +2713,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2721,7 +2721,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 18,
       },
     ]),
   },
@@ -2731,7 +2731,7 @@ const DRAFTS: Draft[] = [
     category: "gifts",
     description:
       "Пъзел с гравирана илюстрация, карта или послание. Брой части по избор.",
-    basePrice: 16,
+    basePrice: 12,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2746,7 +2746,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2754,7 +2754,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 20,
       },
     ]),
   },
@@ -2764,7 +2764,7 @@ const DRAFTS: Draft[] = [
     category: "gifts",
     description:
       "Ажурна кутия-лампа за LED светлинна лента (лентата не е включена). Топъл акцент за спалня и детска стая.",
-    basePrice: 42,
+    basePrice: 24,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -2778,7 +2778,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "16×16×16 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голяма · 4 мм · масло",
@@ -2786,7 +2786,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 22,
       },
     ]),
   },
@@ -2811,7 +2811,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2819,7 +2819,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 18,
       },
     ]),
   },
@@ -2829,7 +2829,7 @@ const DRAFTS: Draft[] = [
     category: "gifts",
     description:
       "Твърда „картичка“ с гравирано послание — за специални поводи. Плик не е включен.",
-    basePrice: 16,
+    basePrice: 5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2844,7 +2844,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 10,
+        priceModifier: 2.5,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2852,7 +2852,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 6,
       },
     ]),
   },
@@ -2863,7 +2863,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Празнична стенна табела с гравиран надпис и зимен орнамент. За вход, хол или витрина.",
-    basePrice: 12,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2877,7 +2877,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2885,7 +2885,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
     ]),
   },
@@ -2895,7 +2895,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Сглобяема ажурна елхичка за маса или рафт. Стабилна основа, без лепило.",
-    basePrice: 12,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2909,7 +2909,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2917,7 +2917,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
     ]),
   },
@@ -2927,7 +2927,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Квадратен ажурен коледен орнамент със зимна сцена. За врата или стена — лек и декоративен.",
-    basePrice: 12,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -2941,7 +2941,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -2949,7 +2949,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
     ]),
   },
@@ -2959,7 +2959,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Календар с 24 вратички или джобчета от шперплат. Персонализация с година и име на семейството.",
-    basePrice: 55,
+    basePrice: 32,
     options: opts([
       {
         label: "Компактен · 4 мм",
@@ -2974,7 +2974,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 12,
       },
       {
         label: "Голям · 6 мм · масло",
@@ -2982,7 +2982,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 43,
+        priceModifier: 26,
       },
     ]),
   },
@@ -2992,7 +2992,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Сглобяема фигурка на Дядо Коледа от шперплат. За маса, рафт или витрина.",
-    basePrice: 12,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3006,7 +3006,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3014,7 +3014,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
     ]),
   },
@@ -3024,7 +3024,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Ажурен снежен човек за елхата с опция за гравирано име. Лек и здрав.",
-    basePrice: 12,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3038,7 +3038,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3046,7 +3046,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
     ]),
   },
@@ -3056,7 +3056,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Мини коледна шапка от шперплат с гравиране. За елха или украса на подаръчни пакети.",
-    basePrice: 12,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3070,7 +3070,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3078,7 +3078,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
     ]),
   },
@@ -3088,7 +3088,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Отделни букви и орнаменти за гирлянда. Нишката не е включена — окачват се лесно.",
-    basePrice: 28,
+    basePrice: 16,
     options: opts([
       {
         label: "Букви · 3 мм",
@@ -3102,7 +3102,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "вис. 10 см",
         thicknessMm: 3,
         laserType: "CUT",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Разширен комплект · масло",
@@ -3110,7 +3110,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -3120,7 +3120,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Стенна лента с кукички и гравирани имена за семейните чорапи. Сглобяем комплект.",
-    basePrice: 12,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3134,7 +3134,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3142,7 +3142,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
     ]),
   },
@@ -3152,7 +3152,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Ажурна кутия с капак — за лакомства или дребен подарък. Гравирани имена и година.",
-    basePrice: 12,
+    basePrice: 10,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3166,7 +3166,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3174,7 +3174,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 14,
       },
     ]),
   },
@@ -3184,7 +3184,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Голям ажурен ангел за стена или врата. Деликатни крила и опция за име.",
-    basePrice: 12,
+    basePrice: 6,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3198,7 +3198,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3206,7 +3206,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
     ]),
   },
@@ -3216,7 +3216,7 @@ const DRAFTS: Draft[] = [
     category: "christmas",
     description:
       "Комплект орнаменти с имената на всички вкъщи и годината. Един макет — различни надписи.",
-    basePrice: 28,
+    basePrice: 16,
     options: opts([
       {
         label: "3 бр. · 3 мм",
@@ -3231,7 +3231,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 10,
       },
       {
         label: "8 бр. · масло",
@@ -3239,7 +3239,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 44,
+        priceModifier: 22,
       },
     ]),
   },
@@ -3250,7 +3250,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Топер с име и възраст или надпис „Честит рожден ден“. За стандартна торта.",
-    basePrice: 14,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактен · 3 мм",
@@ -3264,14 +3264,14 @@ const DRAFTS: Draft[] = [
         sizeLabel: "16×14 см",
         thicknessMm: 3,
         laserType: "CUT",
-        priceModifier: 6,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм",
         sizeLabel: "20×18 см",
         thicknessMm: 4,
         laserType: "CUT",
-        priceModifier: 14,
+        priceModifier: 8,
       },
     ]),
   },
@@ -3281,7 +3281,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Празнична табела за украса на партито с опция за име на юбиляра.",
-    basePrice: 14,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3295,7 +3295,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "18×14 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 5,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3303,7 +3303,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 12,
       },
     ]),
   },
@@ -3313,7 +3313,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Отделни букви за банер с името на юбиляра. Нишката не е включена.",
-    basePrice: 22,
+    basePrice: 14,
     options: opts([
       {
         label: "До 5 букви · 3 мм",
@@ -3327,7 +3327,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "вис. 12 см",
         thicknessMm: 4,
         laserType: "CUT",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "До 12 букви · 4 мм · масло",
@@ -3335,7 +3335,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 23,
+        priceModifier: 14,
       },
     ]),
   },
@@ -3345,7 +3345,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Цифри за възраст (1–99) като топер или украса. Чисти ръбове, стабилна стойка.",
-    basePrice: 10,
+    basePrice: 5,
     options: opts([
       {
         label: "Малки · 3 мм",
@@ -3359,14 +3359,14 @@ const DRAFTS: Draft[] = [
         sizeLabel: "вис. 12 см",
         thicknessMm: 4,
         laserType: "CUT",
-        priceModifier: 4,
+        priceModifier: 2,
       },
       {
         label: "Големи · 4 мм",
         sizeLabel: "вис. 18 см",
         thicknessMm: 4,
         laserType: "CUT",
-        priceModifier: 10,
+        priceModifier: 5,
       },
     ]),
   },
@@ -3376,7 +3376,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Коронка за парти от шперплат с гравирано име. Лека и удобна за снимки.",
-    basePrice: 14,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3390,7 +3390,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "18×14 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 5,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3398,7 +3398,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 12,
       },
     ]),
   },
@@ -3408,7 +3408,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Дървен медал със звезда, панделка и гравиране. Забавен акцент за рожденика.",
-    basePrice: 14,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3422,7 +3422,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "18×14 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 5,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3430,7 +3430,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 12,
       },
     ]),
   },
@@ -3440,7 +3440,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Кутия с голяма цифра на капака и име. Подходяща за паричен или дребен подарък.",
-    basePrice: 14,
+    basePrice: 12,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3454,7 +3454,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "18×14 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3462,7 +3462,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 14,
       },
     ]),
   },
@@ -3472,7 +3472,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Рамка с гравирана дата и възраст. Подходяща за снимка 10×15 или 13×18 см.",
-    basePrice: 14,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3486,7 +3486,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "18×14 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 5,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3494,7 +3494,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 12,
       },
     ]),
   },
@@ -3504,7 +3504,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Ключодържател с цифра на възрастта и име. Практичен спомен от партито.",
-    basePrice: 14,
+    basePrice: 5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3518,7 +3518,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "18×14 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 2,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3526,7 +3526,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 4.5,
       },
     ]),
   },
@@ -3536,7 +3536,7 @@ const DRAFTS: Draft[] = [
     category: "birthday",
     description:
       "Декоративна табела за 18, 30, 40, 50 и други кръгли годишнини. Текст по избор.",
-    basePrice: 14,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3550,7 +3550,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "18×14 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 8,
+        priceModifier: 5,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3558,7 +3558,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 20,
+        priceModifier: 12,
       },
     ]),
   },
@@ -3569,7 +3569,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Празнична табела за посрещане на новороденото с име и дата на раждане.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3583,7 +3583,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3591,7 +3591,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 13,
       },
     ]),
   },
@@ -3601,7 +3601,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Стенна табела с име, дата, час, тегло и ръст. Класически спомен за детската стая.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3615,7 +3615,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3623,7 +3623,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 13,
       },
     ]),
   },
@@ -3633,7 +3633,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Правоъгълна именна табела за над креватчето. Нежен шрифт и мотив по желание.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3647,7 +3647,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3655,7 +3655,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 13,
       },
     ]),
   },
@@ -3679,7 +3679,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3687,7 +3687,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 18,
       },
     ]),
   },
@@ -3697,7 +3697,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Мини кутийка за първото зъбче с гравирано име. Нежен подарък за кръщене или рожден ден.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3711,7 +3711,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 3,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3719,7 +3719,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 7,
       },
     ]),
   },
@@ -3729,7 +3729,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Компактна табела с име на бебето за вратата на стаята. Лека за окачване.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3743,7 +3743,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3751,7 +3751,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 13,
       },
     ]),
   },
@@ -3761,7 +3761,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Рамка с място за отпечатък на краче и гравирани данни. Мастилото не е включено.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3775,7 +3775,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3783,7 +3783,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 13,
       },
     ]),
   },
@@ -3793,7 +3793,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Комплект фигури — звезди и луна — за мобиле над креватчето. Окачалката е по желание.",
-    basePrice: 28,
+    basePrice: 16,
     options: opts([
       {
         label: "Базов · 3 мм",
@@ -3807,7 +3807,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "елементи до 12 см",
         thicknessMm: 3,
         laserType: "CUT",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Премиум · масло",
@@ -3815,7 +3815,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -3825,7 +3825,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Флагчета от 1 до 12 месеца за месечни снимки. Комплект за цялата година.",
-    basePrice: 32,
+    basePrice: 16,
     options: opts([
       {
         label: "12 флагчета · 3 мм",
@@ -3839,7 +3839,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "10×12 см",
         thicknessMm: 3,
         laserType: "ENGRAVE",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "12 бр. · масло",
@@ -3847,7 +3847,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 23,
+        priceModifier: 12,
       },
     ]),
   },
@@ -3857,7 +3857,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Детска закачалка с гравирано име. Практичен подарък за новородено и кръщене.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3871,7 +3871,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3879,7 +3879,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 13,
       },
     ]),
   },
@@ -3889,7 +3889,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Комплект: именна табела, ключодържател и картичка. Готов подарък в една поръчка.",
-    basePrice: 16,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3903,7 +3903,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3911,7 +3911,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 13,
       },
     ]),
   },
@@ -3921,7 +3921,7 @@ const DRAFTS: Draft[] = [
     category: "newborn",
     description:
       "Сглобяемо мече от шперплат за рафт или като топер. Нежен акцент за детската стая.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -3935,7 +3935,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "20×15 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 10,
+        priceModifier: 4,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -3943,7 +3943,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 22,
+        priceModifier: 10,
       },
     ]),
   },
@@ -3954,7 +3954,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Голямо стенно табло за дневни предложения и цени. Работим по ваш макет или списък.",
-    basePrice: 48,
+    basePrice: 28,
     options: opts([
       {
         label: "Компактно · 4 мм",
@@ -3969,7 +3969,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 20,
+        priceModifier: 14,
       },
       {
         label: "Максимум · 6 мм · лак",
@@ -3977,7 +3977,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 44,
+        priceModifier: 30,
       },
     ]),
   },
@@ -3987,7 +3987,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Настолна стойка с гравиран QR код към дигитално меню. За маси в ресторант и кафене.",
-    basePrice: 14,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 4 мм",
@@ -4002,7 +4002,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 6,
+        priceModifier: 4,
       },
       {
         label: "Голяма · лак",
@@ -4010,7 +4010,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 14,
+        priceModifier: 8,
       },
     ]),
   },
@@ -4020,7 +4020,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Номерирани табели за маси в ресторант, бар или кафене. Поръчват се на брой.",
-    basePrice: 8,
+    basePrice: 5,
     options: opts([
       {
         label: "Единична · 4 мм",
@@ -4035,7 +4035,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 64,
+        priceModifier: 37,
       },
       {
         label: "Комплект 20 · лак",
@@ -4043,7 +4043,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 127,
+        priceModifier: 73,
       },
     ]),
   },
@@ -4053,7 +4053,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Двустранна табела „Резервирано“ — със стойка за маса. Дискретен и четлив дизайн.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4068,7 +4068,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4076,7 +4076,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -4086,7 +4086,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Входна табела с гравирано работно време. Подходяща за ресторант, бар, салон и магазин.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4101,7 +4101,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4109,7 +4109,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -4119,7 +4119,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Комплект или единични пиктограми за мъже / жени / достъпна тоалетна. В единен стил с вашата марка.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4134,7 +4134,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4142,7 +4142,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -4152,7 +4152,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Здрава ажурна стойка за салфетки с опция за лого на заведението.",
-    basePrice: 16,
+    basePrice: 10,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4167,7 +4167,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4175,7 +4175,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 12,
       },
     ]),
   },
@@ -4185,7 +4185,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Комплект подложки с гравирано лого. За бар, кафене и хотелско фоайе.",
-    basePrice: 22,
+    basePrice: 14,
     options: opts([
       {
         label: "Комплект 4 · 3 мм",
@@ -4200,7 +4200,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 12,
+        priceModifier: 6,
       },
       {
         label: "Комплект 10 · 4 мм · лак",
@@ -4208,7 +4208,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 30,
+        priceModifier: 14,
       },
     ]),
   },
@@ -4218,7 +4218,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Табела за фасада или рецепция с името на заведението. Изработваме я по векторно лого.",
-    basePrice: 45,
+    basePrice: 28,
     options: opts([
       {
         label: "Средна · 4 мм",
@@ -4233,7 +4233,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 20,
+        priceModifier: 14,
       },
       {
         label: "Максимум · 6 мм · лак",
@@ -4241,7 +4241,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 43,
+        priceModifier: 27,
       },
     ]),
   },
@@ -4251,7 +4251,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Указателна табела за тераса, градина или външна зона на заведението.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4266,7 +4266,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4274,7 +4274,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -4284,7 +4284,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Сглобяема кутия за бакшиши с гравиран надпис и процеп. За бар и рецепция.",
-    basePrice: 16,
+    basePrice: 12,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4299,7 +4299,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4307,7 +4307,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -4317,7 +4317,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Настолна или стенна табела с име на мрежата и парола или QR код. Удобна за гости.",
-    basePrice: 16,
+    basePrice: 7,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4332,7 +4332,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 4,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4340,7 +4340,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 9,
       },
     ]),
   },
@@ -4350,7 +4350,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Стенно табло с гравирани секции за дневни предложения и цени. Подходящо за ресторант, бистро и кафене.",
-    basePrice: 42,
+    basePrice: 24,
     options: opts([
       {
         label: "Компактна · 4 мм",
@@ -4365,7 +4365,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 16,
+        priceModifier: 12,
       },
       {
         label: "Максимум · 6 мм · лак",
@@ -4373,7 +4373,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 6,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -4383,7 +4383,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Указателна табела с надпис „Не се пуши“ и пиктограма. За зала, тераса и вход на заведение.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4398,7 +4398,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 5,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4406,7 +4406,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 12,
       },
     ]),
   },
@@ -4416,7 +4416,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Фасадна или стенна табела с надпис „Бар“. Чист шрифт и рамка — четлива от разстояние.",
-    basePrice: 16,
+    basePrice: 14,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4431,7 +4431,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 8,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4439,7 +4439,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 20,
       },
     ]),
   },
@@ -4449,7 +4449,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Указателна табела „Изход“ със стрелка. За коридори, зали и аварийни маршрути в заведението.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4464,7 +4464,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 5,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4472,7 +4472,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 12,
       },
     ]),
   },
@@ -4482,7 +4482,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Настолна стойка със слот за сметката. Дискретен аксесоар за маси в ресторант и бар.",
-    basePrice: 12,
+    basePrice: 7,
     options: opts([
       {
         label: "Стандартна · 4 мм",
@@ -4497,7 +4497,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 6,
+        priceModifier: 3,
       },
       {
         label: "Премиум · лак",
@@ -4505,7 +4505,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 12,
+        priceModifier: 7,
       },
     ]),
   },
@@ -4515,7 +4515,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Информационна табела с икони и надписи за основните алергени. За кухня, бар и витрина.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4530,7 +4530,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4538,7 +4538,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -4548,7 +4548,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Табела за щанд за взимане на поръчки в кафене, пекарна или заведение за бързо хранене.",
-    basePrice: 16,
+    basePrice: 8,
     options: opts([
       {
         label: "Компактна · 3 мм",
@@ -4563,7 +4563,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 10,
+        priceModifier: 6,
       },
       {
         label: "Голяма · 4 мм · лак",
@@ -4571,7 +4571,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "lacquer",
-        priceModifier: 24,
+        priceModifier: 14,
       },
     ]),
   },
@@ -4581,7 +4581,7 @@ const DRAFTS: Draft[] = [
     category: "venues",
     description:
       "Шестоъгълни номера за гардероб с икона на закачалка. Поръчват се на брой — гравираме желания диапазон.",
-    basePrice: 5,
+    basePrice: 2.5,
     options: opts([
       {
         label: "Единичен · 3 мм",
@@ -4595,7 +4595,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "6×6 см",
         thicknessMm: 3,
         laserType: "BOTH",
-        priceModifier: 70,
+        priceModifier: 35.5,
       },
       {
         label: "Комплект 50 · масло",
@@ -4603,7 +4603,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 160,
+        priceModifier: 82.5,
       },
     ]),
   },
@@ -4614,7 +4614,7 @@ const DRAFTS: Draft[] = [
     category: "panels",
     description:
       "Квадратен ажурен панел с лабиринтен геометричен мотив в четири квадранта. За стена, преграда или врата — 3 мм шперплат.",
-    basePrice: 32,
+    basePrice: 16,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4629,7 +4629,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4637,7 +4637,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -4647,7 +4647,7 @@ const DRAFTS: Draft[] = [
     category: "panels",
     description:
       "Повтаряща се решетка с флорални арки и звезди. Класически лазерно изрязан мотив за хол, коридор или заведение.",
-    basePrice: 32,
+    basePrice: 16,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4662,7 +4662,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4670,7 +4670,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -4680,7 +4680,7 @@ const DRAFTS: Draft[] = [
     category: "panels",
     description:
       "Стенен панел с меандър / гръцки ключ. Чисти прави линии, симетричен ритъм — модерен интериорен акцент.",
-    basePrice: 32,
+    basePrice: 16,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4695,7 +4695,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4703,7 +4703,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -4713,7 +4713,7 @@ const DRAFTS: Draft[] = [
     category: "panels",
     description:
       "Ориенталска решетка с островърхи арки и розети. Подходяща за стена, ширма или декоративна врата.",
-    basePrice: 32,
+    basePrice: 16,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4728,7 +4728,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4736,7 +4736,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -4746,7 +4746,7 @@ const DRAFTS: Draft[] = [
     category: "panels",
     description:
       "Шестоъгълен модул с ажур — комбинира се в големи стенни композиции. Поръчва се на брой.",
-    basePrice: 14,
+    basePrice: 7,
     options: opts([
       {
         label: "Единичен · 3 мм",
@@ -4761,7 +4761,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 71,
+        priceModifier: 35,
       },
       {
         label: "Комплект 19 · 4 мм · масло",
@@ -4769,7 +4769,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 196,
+        priceModifier: 103,
       },
     ]),
   },
@@ -4779,7 +4779,7 @@ const DRAFTS: Draft[] = [
     category: "panels",
     description:
       "Минималистичен панел с паралелни вълни. Лек визуален ритъм за модерен хол или офис.",
-    basePrice: 32,
+    basePrice: 16,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4794,7 +4794,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4802,7 +4802,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -4812,7 +4812,7 @@ const DRAFTS: Draft[] = [
     category: "panels",
     description:
       "Геометрична мрежа от ромбове с различен мащаб. Добър акцент зад диван или рецепция.",
-    basePrice: 32,
+    basePrice: 16,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4827,7 +4827,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 16,
+        priceModifier: 10,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4835,7 +4835,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 36,
+        priceModifier: 24,
       },
     ]),
   },
@@ -4845,7 +4845,7 @@ const DRAFTS: Draft[] = [
     category: "panels",
     description:
       "Три слоя шперплат за дълбочина и сянка. Луксозен стенен декор — монтажът е с дистанционери.",
-    basePrice: 55,
+    basePrice: 28,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4860,7 +4860,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 3,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 23,
+        priceModifier: 14,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4868,7 +4868,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 50,
+        priceModifier: 30,
       },
     ]),
   },
@@ -4879,7 +4879,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Лазерно изрязан силует на автомобил с опция за гравирано име или инициали. За ключове от гаража или като подарък за шофьор.",
-    basePrice: 11,
+    basePrice: 5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4893,7 +4893,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×10 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 7,
+        priceModifier: 3,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4901,7 +4901,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 21,
+        priceModifier: 7,
       },
     ]),
   },
@@ -4911,7 +4911,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Мини табелка с вашия регистрационен номер или гаражен код. Гравиране по поръчка — ясен шрифт и чисти ръбове.",
-    basePrice: 11,
+    basePrice: 5.5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4925,7 +4925,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×10 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 7,
+        priceModifier: 3,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4933,7 +4933,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 21,
+        priceModifier: 6.5,
       },
     ]),
   },
@@ -4943,7 +4943,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Ажурен волан от шперплат — компактен аксесоар за ключове. Добавете инициали в центъра по желание.",
-    basePrice: 11,
+    basePrice: 5,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4957,7 +4957,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×10 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 7,
+        priceModifier: 3,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -4965,7 +4965,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 21,
+        priceModifier: 7,
       },
     ]),
   },
@@ -4975,7 +4975,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Стенна табела „Гараж“ или с ваше име и номер на бокс. Подходяща за домашен гараж или работилница.",
-    basePrice: 11,
+    basePrice: 9,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -4997,7 +4997,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 21,
+        priceModifier: 17,
       },
     ]),
   },
@@ -5007,7 +5007,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Табела за резервирано паркомясто с име или фамилия. Лазерно изрязан текст — лесно четлив от разстояние.",
-    basePrice: 11,
+    basePrice: 10,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -5021,7 +5021,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×10 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 7,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -5029,7 +5029,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 21,
+        priceModifier: 14,
       },
     ]),
   },
@@ -5039,7 +5039,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Декоративен силует на класически автомобил за стена в гараж, кабинет или шоурум. Чист контур, готов за окачване.",
-    basePrice: 22,
+    basePrice: 14,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -5053,7 +5053,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "31×12 см",
         thicknessMm: 4,
         laserType: "CUT",
-        priceModifier: 12,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -5061,7 +5061,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "CUT",
         finish: "oil",
-        priceModifier: 26,
+        priceModifier: 18,
       },
     ]),
   },
@@ -5071,7 +5071,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Комплект подложки с автомобилни мотиви (волан, гуми, силуети). Практичен подарък за автоентусиасти.",
-    basePrice: 18,
+    basePrice: 12,
     options: opts([
       {
         label: "Комплект 4 · 3 мм",
@@ -5086,7 +5086,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "oil",
-        priceModifier: 8,
+        priceModifier: 4,
       },
       {
         label: "Комплект 6 · 4 мм · лак",
@@ -5094,7 +5094,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "ENGRAVE",
         finish: "lacquer",
-        priceModifier: 18,
+        priceModifier: 10,
       },
     ]),
   },
@@ -5104,7 +5104,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Стенен панел с куки за ключове от колата и къщата. Гравиран надпис по избор — „Ключове“, „Гараж“ или име.",
-    basePrice: 11,
+    basePrice: 14,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -5118,7 +5118,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×10 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 7,
+        priceModifier: 8,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -5126,7 +5126,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 21,
+        priceModifier: 20,
       },
     ]),
   },
@@ -5136,7 +5136,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Споменен плакет с дата и текст за първата кола или важна покупка. Подходящ подарък за шофьорски изпит или юбилей.",
-    basePrice: 11,
+    basePrice: 12,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -5150,7 +5150,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×10 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 7,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -5158,7 +5158,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 21,
+        priceModifier: 16,
       },
     ]),
   },
@@ -5168,7 +5168,7 @@ const DRAFTS: Draft[] = [
     category: "auto",
     description:
       "Декоративна табела с модел, година или тип двигател — за стена до колекцията или в гаража. Текстът е по ваш макет.",
-    basePrice: 11,
+    basePrice: 10,
     options: opts([
       {
         label: "Малък · 3 мм",
@@ -5182,7 +5182,7 @@ const DRAFTS: Draft[] = [
         sizeLabel: "15×10 см",
         thicknessMm: 4,
         laserType: "BOTH",
-        priceModifier: 7,
+        priceModifier: 6,
       },
       {
         label: "Голям · 4 мм · масло",
@@ -5190,7 +5190,7 @@ const DRAFTS: Draft[] = [
         thicknessMm: 4,
         laserType: "BOTH",
         finish: "oil",
-        priceModifier: 21,
+        priceModifier: 16,
       },
     ]),
   },
