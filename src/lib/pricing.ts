@@ -1,7 +1,16 @@
 import type { QtyDiscount } from "@/lib/shop-config";
+import { formatMoney, roundMoney } from "@/lib/currency";
 
 export type ThicknessCoefficients = Record<string, number>;
 export type ComplexityMultipliers = Record<string, number>;
+
+export {
+  BGN_PER_EUR,
+  SHOP_CURRENCY,
+  bgnToEur,
+  formatMoney,
+  roundMoney,
+} from "@/lib/currency";
 
 export type CustomPricingInput = {
   widthCm: number;
@@ -78,14 +87,7 @@ function applyQuantityDiscount(
   return amount * (1 - hit.percentOff / 100);
 }
 
-export function roundMoney(value: number) {
-  return Math.round((value + Number.EPSILON) * 100) / 100;
-}
-
+/** @deprecated Use formatMoney — shop currency is EUR */
 export function formatBgn(value: number | string) {
-  const num = typeof value === "string" ? Number(value) : value;
-  return new Intl.NumberFormat("bg-BG", {
-    style: "currency",
-    currency: "BGN",
-  }).format(num);
+  return formatMoney(value);
 }

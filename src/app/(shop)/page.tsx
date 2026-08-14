@@ -17,7 +17,7 @@ export const dynamic = "force-dynamic";
 const faqs = [
   {
     q: "Какъв е срокът за изработка?",
-    a: "Стандартно 2–5 работни дни след потвърждение на поръчката и макета. При ускорена поръчка срокът се съгласува допълнително.",
+    a: "Стандартно 2–5 работни дни след потвърждение на поръчката и макета. Ускорена изработка е 1–2 работни дни и оскъпява изделията с +50%.",
   },
   {
     q: "Какви файлове са подходящи за лазер?",
@@ -114,10 +114,9 @@ export default async function HomePage() {
 
       <section id="katalog" className="section section-alt" style={{ scrollMarginTop: "var(--header-h)" }}>
         <div className="container">
-          <h2>Каталог — готови модели</h2>
+          <h2>Каталог</h2>
           <p className="section-lead">
-            Продуктите са групирани по категории. Изберете категория от менюто
-            или филтрирайте тук.
+            Готови модели по поводи, дом, бизнес и аксесоари.
           </p>
           <Suspense fallback={<p className="muted">Зареждане…</p>}>
             <CatalogBrowser
@@ -148,26 +147,19 @@ export default async function HomePage() {
               Качи файл за оферта
             </Link>
           </div>
-          <div
-            className="trust"
-            style={{ gridTemplateColumns: "1fr 1fr", color: "#f7f1e8" }}
-          >
+          <div className="trust trust-on-dark">
             <div className="trust-item">
               <IconPencil size={22} aria-hidden />
               <div>
                 <strong>Гравиране</strong>
-                <span style={{ color: "rgba(247,241,232,0.75)" }}>
-                  Текст, логотипи, орнаменти
-                </span>
+                <span>Текст, логотипи, орнаменти</span>
               </div>
             </div>
             <div className="trust-item">
               <IconScales size={22} aria-hidden />
               <div>
                 <strong>Изрязване</strong>
-                <span style={{ color: "rgba(247,241,232,0.75)" }}>
-                  Контур по векторен файл
-                </span>
+                <span>Контур по векторен файл</span>
               </div>
             </div>
           </div>
@@ -241,15 +233,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-
-      <div className="mobile-cta" aria-label="Бързи действия">
-        <Link href="#katalog" className="btn btn-dark">
-          Каталог
-        </Link>
-        <Link href="/custom" className="btn btn-primary">
-          По файл
-        </Link>
-      </div>
     </>
   );
 }

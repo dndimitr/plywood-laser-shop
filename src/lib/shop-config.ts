@@ -1,24 +1,129 @@
-/** Shop business config — env-overridable where noted */
+export type CategoryId =
+  | "wedding"
+  | "birthday"
+  | "newborn"
+  | "christmas"
+  | "gifts"
+  | "decor"
+  | "panels"
+  | "ornaments"
+  | "kitchen"
+  | "nursery"
+  | "signs"
+  | "venues"
+  | "corporate"
+  | "keychains"
+  | "jewelry"
+  | "pets"
+  | "auto"
+  | "other";
 
-export const CATEGORIES = [
-  { id: "keychains", label: "Ключодържатели", labelEn: "Keychains" },
-  { id: "signs", label: "Табели", labelEn: "Signs" },
-  { id: "decor", label: "Декор", labelEn: "Decor" },
-  { id: "panels", label: "Стенни панели", labelEn: "Wall panels" },
+export type CategoryDef = {
+  id: CategoryId;
+  label: string;
+  labelEn: string;
+};
+
+/**
+ * Display order for catalog sections and lists.
+ * Grouped: occasions → home → business → accessories → other.
+ */
+export const CATEGORIES: readonly CategoryDef[] = [
+  // Поводи и подаръци
   { id: "wedding", label: "Сватба", labelEn: "Wedding" },
-  { id: "venues", label: "Заведения", labelEn: "Venues" },
-  { id: "christmas", label: "Коледа", labelEn: "Christmas" },
   { id: "birthday", label: "Рождени дни", labelEn: "Birthdays" },
   { id: "newborn", label: "Новородени", labelEn: "Newborn" },
-  { id: "nursery", label: "Детска", labelEn: "Nursery" },
+  { id: "christmas", label: "Коледа", labelEn: "Christmas" },
+  { id: "gifts", label: "Подаръци", labelEn: "Gifts" },
+  // Дом и интериор
+  { id: "decor", label: "Декор", labelEn: "Decor" },
+  { id: "panels", label: "Стенни панели", labelEn: "Wall panels" },
   { id: "ornaments", label: "Орнаменти", labelEn: "Ornaments" },
   { id: "kitchen", label: "Кухня", labelEn: "Kitchen" },
+  { id: "nursery", label: "Детска", labelEn: "Nursery" },
+  // Бизнес
+  { id: "signs", label: "Табели", labelEn: "Signs" },
+  { id: "venues", label: "Заведения", labelEn: "Venues" },
+  { id: "corporate", label: "Корпоративни", labelEn: "Corporate" },
+  // Аксесоари
+  { id: "keychains", label: "Ключодържатели", labelEn: "Keychains" },
   { id: "jewelry", label: "Бижута", labelEn: "Jewelry" },
   { id: "pets", label: "Домашни любимци", labelEn: "Pets" },
-  { id: "corporate", label: "Корпоративни", labelEn: "Corporate" },
-  { id: "gifts", label: "Подаръци", labelEn: "Gifts" },
+  { id: "auto", label: "Авто маниаци", labelEn: "Car enthusiasts" },
+  // Fallback
   { id: "other", label: "Други", labelEn: "Other" },
 ] as const;
+
+export type CategoryGroup = {
+  id: string;
+  label: string;
+  labelEn: string;
+  categoryIds: CategoryId[];
+};
+
+/** Logical groups for menus, drawer, and catalog filters */
+export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
+  {
+    id: "occasions",
+    label: "Поводи и подаръци",
+    labelEn: "Occasions & gifts",
+    categoryIds: ["wedding", "birthday", "newborn", "christmas", "gifts"],
+  },
+  {
+    id: "home",
+    label: "Дом и интериор",
+    labelEn: "Home & interior",
+    categoryIds: ["decor", "panels", "ornaments", "kitchen", "nursery"],
+  },
+  {
+    id: "business",
+    label: "Бизнес и табели",
+    labelEn: "Business & signs",
+    categoryIds: ["signs", "venues", "corporate"],
+  },
+  {
+    id: "accessories",
+    label: "Аксесоари",
+    labelEn: "Accessories",
+    categoryIds: ["keychains", "jewelry", "pets", "auto"],
+  },
+] as const;
+
+/** Compact top bar — most browsed / clear entry points */
+export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
+  "gifts",
+  "wedding",
+  "birthday",
+  "newborn",
+  "christmas",
+  "decor",
+  "panels",
+  "signs",
+  "keychains",
+  "auto",
+] as const;
+
+export function categoryById(id: string): CategoryDef | undefined {
+  return CATEGORIES.find((c) => c.id === id);
+}
+
+export function featuredCategories(): CategoryDef[] {
+  return FEATURED_CATEGORY_IDS.map(
+    (id) => CATEGORIES.find((c) => c.id === id)!,
+  ).filter(Boolean);
+}
+
+export function navCategoryGroups(): {
+  group: CategoryGroup;
+  categories: CategoryDef[];
+}[] {
+  return CATEGORY_GROUPS.map((group) => ({
+    group,
+    categories: group.categoryIds
+      .map((id) => CATEGORIES.find((c) => c.id === id)!)
+      .filter(Boolean),
+  }));
+}
 
 export const MATERIALS = [
   { id: "birch-plywood", label: "Брезов шперплат", labelEn: "Birch plywood" },
@@ -32,9 +137,12 @@ export const FINISHES = [
   { id: "lacquer", label: "Лак", labelEn: "Lacquer" },
 ] as const;
 
+/** Free courier shipping when order subtotal reaches this EUR amount */
+export const FREE_SHIPPING_MIN_EUR = 50;
+
 export const COURIERS = [
-  { id: "ECONT", label: "Еконт", fee: 6.9 },
-  { id: "SPEEDY", label: "Speedy", fee: 7.5 },
+  { id: "ECONT", label: "Еконт", fee: 3.53 },
+  { id: "SPEEDY", label: "Speedy", fee: 3.83 },
   { id: "PICKUP", label: "Лично получаване", fee: 0 },
 ] as const;
 
@@ -48,9 +156,37 @@ export function getBankDetails() {
   };
 }
 
-export function shippingFeeFor(courier: string) {
+export function shippingFeeFor(courier: string, subtotal = 0) {
+  if (courier === "PICKUP") return 0;
+  if (subtotal >= FREE_SHIPPING_MIN_EUR) return 0;
   const found = COURIERS.find((c) => c.id === courier);
-  return found?.fee ?? 6.9;
+  return found?.fee ?? 3.53;
+}
+
+/** Public contact phone for mobile bottom bar / tel: links */
+export function getShopPhone() {
+  return process.env.NEXT_PUBLIC_SHOP_PHONE ?? "0888123456";
+}
+
+export function getShopPhoneHref() {
+  const digits = getShopPhone().replace(/[^\d+]/g, "");
+  return `tel:${digits}`;
+}
+
+/** Production lead times shown in UI (business days after design confirmation) */
+export const PRODUCTION_LEAD = {
+  standardLabel: "2–5 раб. дни",
+  standardShort: "2–5 раб. дни",
+  rushLabel: "1–2 раб. дни",
+  rushShort: "1–2 раб. дни",
+  rushSurchargePercent: 50,
+} as const;
+
+export function productionLeadHelp(rush: boolean) {
+  if (rush) {
+    return `Ускорена изработка: ${PRODUCTION_LEAD.rushLabel} след потвърждение (+${PRODUCTION_LEAD.rushSurchargePercent}%). Стандартно е ${PRODUCTION_LEAD.standardLabel}.`;
+  }
+  return `Стандартна изработка: ${PRODUCTION_LEAD.standardLabel} след потвърждение на поръчката/макета. Ускорено: ${PRODUCTION_LEAD.rushLabel} (+${PRODUCTION_LEAD.rushSurchargePercent}%).`;
 }
 
 export type QtyDiscount = { minQty: number; percentOff: number };

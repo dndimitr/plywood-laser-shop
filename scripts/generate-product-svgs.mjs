@@ -28,6 +28,7 @@ const categories = {
   kitchen: "Кухня",
   jewelry: "Бижу",
   pets: "Любимец",
+  auto: "Авто",
   corporate: "Корпоративно",
   gifts: "Подарък",
   other: "Модел",
@@ -112,6 +113,16 @@ const products = [
   { slug: "led-noshtna-lampa", name: "LED лампа", category: "gifts" },
   { slug: "kutiya-spomen", name: "Кутия спомен", category: "gifts" },
   { slug: "poshtenska-kartichka", name: "Дървена картичка", category: "gifts" },
+  { slug: "avto-klyuchodarzhatel-kola", name: "Силует кола", category: "auto" },
+  { slug: "avto-klyuchodarzhatel-nomer", name: "Рег. номер авто", category: "auto" },
+  { slug: "avto-klyuchodarzhatel-volan", name: "Волан", category: "auto" },
+  { slug: "avto-tabela-garazh", name: "Табела гараж", category: "auto" },
+  { slug: "avto-parking-tabela", name: "Паркинг табела", category: "auto" },
+  { slug: "avto-siluet-klasika", name: "Класическа кола", category: "auto" },
+  { slug: "avto-podlozhki-chashi", name: "Подложки авто", category: "auto" },
+  { slug: "avto-kuka-panel-klyuchove", name: "Кука панел", category: "auto" },
+  { slug: "avto-plaket-parva-kola", name: "Първа кола", category: "auto" },
+  { slug: "avto-tabela-model-dvigatel", name: "Модел / двигател", category: "auto" },
 ];
 
 function escapeXml(s) {

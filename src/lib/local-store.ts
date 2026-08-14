@@ -1,7 +1,8 @@
-import { randomUUID } from "crypto";
+import { createHash, randomUUID } from "crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import path from "path";
 import { CATALOG_PRODUCTS } from "../data/catalog-products";
+import { bgnToEur } from "@/lib/currency";
 
 export type LocalLaserType = "ENGRAVE" | "CUT" | "BOTH";
 export type LocalOrderStatus =
@@ -212,6 +213,43 @@ export function cuid() {
   return randomUUID().replace(/-/g, "").slice(0, 24);
 }
 
+/** Deterministic 24-char ids so every serverless instance shares the same catalog keys. */
+export function stableId(namespace: string, key: string) {
+  return createHash("sha256")
+    .update(`${namespace}:${key}`)
+    .digest("hex")
+    .slice(0, 24);
+}
+
+function syncCatalogFromSource(db: LocalDb, ts = nowIso()) {
+  const prevBySlug = new Map(db.products.map((p) => [p.slug, p]));
+  db.products = [];
+  db.productOptions = [];
+
+  for (const product of CATALOG_PRODUCTS) {
+    const { options, ...data } = product;
+    const prev = prevBySlug.get(data.slug);
+    const productId = stableId("product", data.slug);
+    db.products.push({
+      id: productId,
+      ...data,
+      active: true,
+      createdAt: prev?.createdAt ?? ts,
+      updatedAt: ts,
+    });
+
+    options.forEach((opt, index) => {
+      db.productOptions.push({
+        id: stableId("option", `${data.slug}:${index}:${opt.label}`),
+        productId,
+        ...opt,
+        createdAt: ts,
+        updatedAt: ts,
+      });
+    });
+  }
+}
+
 export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
   const bcrypt = await import("bcryptjs");
   const ts = nowIso();
@@ -221,7 +259,7 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
 
   const adminIdx = db.adminUsers.findIndex((u) => u.email === adminEmail);
   const admin: LocalAdminUser = {
-    id: adminIdx >= 0 ? db.adminUsers[adminIdx].id : cuid(),
+    id: adminIdx >= 0 ? db.adminUsers[adminIdx].id : stableId("admin", adminEmail),
     email: adminEmail,
     passwordHash,
     name: "Администратор",
@@ -233,7 +271,7 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
 
   const ruleData = {
     name: "default-custom",
-    pricePerCm2: 0.12,
+    pricePerCm2: bgnToEur(0.12),
     thicknessCoefficients: { "3": 1, "4": 1.15, "6": 1.35, default: 1.2 },
     complexityMultipliers: { simple: 1, medium: 1.25, complex: 1.6 },
     quantityDiscounts: [
@@ -242,8 +280,8 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
       { minQty: 25, percentOff: 15 },
     ],
     rushMultiplier: 1.5,
-    minPrice: 18,
-    minOrderAmount: 12,
+    minPrice: bgnToEur(18),
+    minOrderAmount: bgnToEur(12),
     active: true,
   };
   const ruleIdx = db.pricingRules.findIndex((r) => r.name === ruleData.name);
@@ -254,39 +292,21 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
       updatedAt: ts,
     };
   } else {
-    db.pricingRules.push({ id: cuid(), ...ruleData, createdAt: ts, updatedAt: ts });
-  }
-
-  // Full catalog replace on every seed
-  db.products = [];
-  db.productOptions = [];
-  const products = CATALOG_PRODUCTS;
-
-  for (const product of products) {
-    const { options, ...data } = product;
-    const existing = {
-      id: cuid(),
-      ...data,
-      active: true,
+    db.pricingRules.push({
+      id: stableId("pricing", ruleData.name),
+      ...ruleData,
       createdAt: ts,
       updatedAt: ts,
-    };
-    db.products.push(existing);
-
-    for (const opt of options) {
-      db.productOptions.push({
-        id: cuid(),
-        productId: existing.id,
-        ...opt,
-        createdAt: ts,
-        updatedAt: ts,
-      });
-    }
+    });
   }
 
+  syncCatalogFromSource(db, ts);
+
+  const weddingId =
+    db.products.find((p) => p.category === "wedding")?.id ?? null;
   db.reviews = [
     {
-      id: cuid(),
+      id: stableId("review", "maria-k"),
       productId: db.products[0]?.id ?? null,
       authorName: "Мария К.",
       rating: 5,
@@ -295,7 +315,7 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
       createdAt: ts,
     },
     {
-      id: cuid(),
+      id: stableId("review", "ivan-p"),
       productId: db.products[1]?.id ?? null,
       authorName: "Иван П.",
       rating: 5,
@@ -304,8 +324,8 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
       createdAt: ts,
     },
     {
-      id: cuid(),
-      productId: db.products.find((p) => p.category === "wedding")?.id ?? null,
+      id: stableId("review", "nikoleta-d"),
+      productId: weddingId,
       authorName: "Николета Д.",
       rating: 5,
       body: "Топерът за тортата и картичките за местата бяха хитови на сватбата. Препоръчвам.",
@@ -313,7 +333,7 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
       createdAt: ts,
     },
     {
-      id: cuid(),
+      id: stableId("review", "georgi-s"),
       productId: null,
       authorName: "Георги С.",
       rating: 4,
@@ -327,10 +347,42 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
   return db;
 }
 
+function catalogNeedsSync(db: LocalDb) {
+  if (db.products.length !== CATALOG_PRODUCTS.length) return true;
+  if (
+    db.productOptions.length !==
+    CATALOG_PRODUCTS.reduce((n, p) => n + p.options.length, 0)
+  ) {
+    return true;
+  }
+  for (const product of CATALOG_PRODUCTS) {
+    const expectedId = stableId("product", product.slug);
+    const row = db.products.find((p) => p.slug === product.slug);
+    if (!row || row.id !== expectedId) return true;
+    if (Number(row.basePrice) !== Number(product.basePrice)) return true;
+
+    for (let index = 0; index < product.options.length; index++) {
+      const opt = product.options[index];
+      const expectedOptId = stableId(
+        "option",
+        `${product.slug}:${index}:${opt.label}`,
+      );
+      const optRow = db.productOptions.find((o) => o.id === expectedOptId);
+      if (!optRow || optRow.productId !== expectedId) return true;
+      if (Number(optRow.priceModifier) !== Number(opt.priceModifier)) return true;
+    }
+  }
+  return false;
+}
+
 export async function ensureLocalDb(): Promise<LocalDb> {
   let db = readLocalDb();
-  if (db.products.length === 0 || db.adminUsers.length === 0) {
+  if (db.adminUsers.length === 0) {
     db = await seedLocalDb(db);
+  } else if (catalogNeedsSync(db)) {
+    // Re-sync catalog with stable ids (fixes cross-instance /tmp drift on Vercel)
+    syncCatalogFromSource(db);
+    writeLocalDb(db);
   }
   // migrate older local DBs missing new arrays/fields
   let dirty = false;
@@ -341,6 +393,21 @@ export async function ensureLocalDb(): Promise<LocalDb> {
   if (!db.customers) {
     db.customers = [];
     dirty = true;
+  }
+  // Migrate legacy BGN pricing rules to EUR (detect old defaults)
+  for (const rule of db.pricingRules) {
+    if (Number(rule.pricePerCm2) === 0.12) {
+      rule.pricePerCm2 = bgnToEur(0.12);
+      dirty = true;
+    }
+    if (Number(rule.minPrice) === 18) {
+      rule.minPrice = bgnToEur(18);
+      dirty = true;
+    }
+    if (Number(rule.minOrderAmount) === 12) {
+      rule.minOrderAmount = bgnToEur(12);
+      dirty = true;
+    }
   }
   for (const p of db.products) {
     if (!p.category) {

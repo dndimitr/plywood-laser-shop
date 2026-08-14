@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { IconCart } from "@/components/Icons";
 import { calculateTemplatePrice, formatBgn } from "@/lib/pricing";
 import { laserTypeLabel } from "@/lib/labels";
+import { PRODUCTION_LEAD, productionLeadHelp } from "@/lib/shop-config";
 
 type Option = {
   id: string;
@@ -81,8 +82,15 @@ export function ProductConfigurator({
         }),
       });
       if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.error?.formErrors?.[0] ?? "Грешка при добавяне");
+        const data = await res.json().catch(() => ({}));
+        const err = data?.error;
+        const message =
+          (typeof err === "string" && err) ||
+          err?.formErrors?.[0] ||
+          err?.fieldErrors?.optionId?.[0] ||
+          err?.fieldErrors?.productId?.[0] ||
+          "Грешка при добавяне";
+        throw new Error(message);
       }
       router.push("/cart");
       router.refresh();
@@ -101,9 +109,7 @@ export function ProductConfigurator({
     <>
       <div className="configurator">
         <h2>Конфигурация</h2>
-        <p className="muted" style={{ marginTop: "-0.35rem", marginBottom: "1rem" }}>
-          {productName}
-        </p>
+        <p className="muted configurator-product-name">{productName}</p>
 
         <label className="field">
           <span>Вариант (размер / материал / обработка)</span>
@@ -172,16 +178,20 @@ export function ProductConfigurator({
           </span>
         </div>
 
-        <label className="radio">
-          <input
-            type="checkbox"
-            checked={rush}
-            onChange={(e) => setRush(e.target.checked)}
-          />
-          Ускорена изработка (+50%)
-        </label>
+        <div className="rush-option">
+          <label className="radio">
+            <input
+              type="checkbox"
+              checked={rush}
+              onChange={(e) => setRush(e.target.checked)}
+            />
+            Ускорена изработка (+{PRODUCTION_LEAD.rushSurchargePercent}%) —{" "}
+            {PRODUCTION_LEAD.rushLabel}
+          </label>
+          <p className="muted rush-hint">{productionLeadHelp(rush)}</p>
+        </div>
 
-        <p className="price-line" aria-live="polite">
+        <p className="price-line desktop-price-line" aria-live="polite">
           Цена: <strong>{formatBgn(lineTotal)}</strong>
         </p>
 
@@ -193,26 +203,36 @@ export function ProductConfigurator({
 
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary configurator-submit"
           disabled={pending}
           onClick={addToCart}
-          style={{ width: "100%" }}
         >
           <IconCart size={18} aria-hidden />
           {pending ? "Добавяне…" : "Добави в количката"}
         </button>
       </div>
 
-      <div className="mobile-cta" aria-label="Добавяне в количката">
-        <button
-          type="button"
-          className="btn btn-primary"
-          disabled={pending}
-          onClick={addToCart}
-          style={{ width: "100%" }}
-        >
-          {pending ? "Добавяне…" : `Добави · ${formatBgn(lineTotal)}`}
-        </button>
+      <div className="product-mobile-cta" aria-label="Добавяне в количката">
+        {error ? (
+          <p className="error product-mobile-cta-error" role="alert">
+            {error}
+          </p>
+        ) : null}
+        <div className="product-mobile-cta-row">
+          <div className="product-mobile-cta-price">
+            <span className="muted">Общо</span>
+            <strong>{formatBgn(lineTotal)}</strong>
+          </div>
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={pending}
+            onClick={addToCart}
+          >
+            <IconCart size={18} aria-hidden />
+            {pending ? "…" : "Добави"}
+          </button>
+        </div>
       </div>
     </>
   );

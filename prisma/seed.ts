@@ -8,6 +8,7 @@ import {
   seedLocalDb,
 } from "../src/lib/local-store";
 import { CATALOG_PRODUCTS } from "../src/data/catalog-products";
+import { bgnToEur } from "../src/lib/currency";
 
 async function seedNeon() {
   const connectionString = process.env.DATABASE_URL;
@@ -36,18 +37,18 @@ async function seedNeon() {
     await prisma.pricingRule.upsert({
       where: { name: "default-custom" },
       update: {
-        pricePerCm2: 0.12,
+        pricePerCm2: bgnToEur(0.12),
         thicknessCoefficients: { "3": 1, "4": 1.15, "6": 1.35, default: 1.2 },
         complexityMultipliers: { simple: 1, medium: 1.25, complex: 1.6 },
-        minPrice: 18,
+        minPrice: bgnToEur(18),
         active: true,
       },
       create: {
         name: "default-custom",
-        pricePerCm2: 0.12,
+        pricePerCm2: bgnToEur(0.12),
         thicknessCoefficients: { "3": 1, "4": 1.15, "6": 1.35, default: 1.2 },
         complexityMultipliers: { simple: 1, medium: 1.25, complex: 1.6 },
-        minPrice: 18,
+        minPrice: bgnToEur(18),
         active: true,
       },
     });
