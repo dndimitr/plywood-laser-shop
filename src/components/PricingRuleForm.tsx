@@ -60,7 +60,7 @@ export function PricingRuleForm({ rule }: { rule: Rule }) {
       <h3>{rule.name}</h3>
       <div className="grid-2">
         <label className="field">
-          <span>Цена на см²</span>
+          <span>Цена на см² (€)</span>
           <input
             type="number"
             step="0.0001"
@@ -71,7 +71,7 @@ export function PricingRuleForm({ rule }: { rule: Rule }) {
           />
         </label>
         <label className="field">
-          <span>Минимална цена</span>
+          <span>Минимална цена (€)</span>
           <input
             type="number"
             step="0.01"
