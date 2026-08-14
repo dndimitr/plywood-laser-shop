@@ -95,6 +95,11 @@ export function CartView({ initialCart, subtotal }: Props) {
                   см · {item.personalization.thicknessMm} мм
                 </p>
               ) : null}
+              {item.personalization.rush ? (
+                <p className="muted" style={{ margin: "0.2rem 0" }}>
+                  Ускорена изработка · 1–2 раб. дни
+                </p>
+              ) : null}
             </div>
             <div className="cart-item-actions">
               <div className="qty-control">

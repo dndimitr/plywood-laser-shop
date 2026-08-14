@@ -1,5 +1,3 @@
-/** Shop business config — env-overridable where noted */
-
 export type CategoryId =
   | "wedding"
   | "birthday"
@@ -139,9 +137,12 @@ export const FINISHES = [
   { id: "lacquer", label: "Лак", labelEn: "Lacquer" },
 ] as const;
 
+/** Free courier shipping when order subtotal reaches this EUR amount */
+export const FREE_SHIPPING_MIN_EUR = 50;
+
 export const COURIERS = [
-  { id: "ECONT", label: "Еконт", fee: 6.9 },
-  { id: "SPEEDY", label: "Speedy", fee: 7.5 },
+  { id: "ECONT", label: "Еконт", fee: 3.53 },
+  { id: "SPEEDY", label: "Speedy", fee: 3.83 },
   { id: "PICKUP", label: "Лично получаване", fee: 0 },
 ] as const;
 
@@ -155,9 +156,11 @@ export function getBankDetails() {
   };
 }
 
-export function shippingFeeFor(courier: string) {
+export function shippingFeeFor(courier: string, subtotal = 0) {
+  if (courier === "PICKUP") return 0;
+  if (subtotal >= FREE_SHIPPING_MIN_EUR) return 0;
   const found = COURIERS.find((c) => c.id === courier);
-  return found?.fee ?? 6.9;
+  return found?.fee ?? 3.53;
 }
 
 /** Public contact phone for mobile bottom bar / tel: links */
@@ -168,6 +171,22 @@ export function getShopPhone() {
 export function getShopPhoneHref() {
   const digits = getShopPhone().replace(/[^\d+]/g, "");
   return `tel:${digits}`;
+}
+
+/** Production lead times shown in UI (business days after design confirmation) */
+export const PRODUCTION_LEAD = {
+  standardLabel: "2–5 раб. дни",
+  standardShort: "2–5 раб. дни",
+  rushLabel: "1–2 раб. дни",
+  rushShort: "1–2 раб. дни",
+  rushSurchargePercent: 50,
+} as const;
+
+export function productionLeadHelp(rush: boolean) {
+  if (rush) {
+    return `Ускорена изработка: ${PRODUCTION_LEAD.rushLabel} след потвърждение (+${PRODUCTION_LEAD.rushSurchargePercent}%). Стандартно е ${PRODUCTION_LEAD.standardLabel}.`;
+  }
+  return `Стандартна изработка: ${PRODUCTION_LEAD.standardLabel} след потвърждение на поръчката/макета. Ускорено: ${PRODUCTION_LEAD.rushLabel} (+${PRODUCTION_LEAD.rushSurchargePercent}%).`;
 }
 
 export type QtyDiscount = { minQty: number; percentOff: number };
