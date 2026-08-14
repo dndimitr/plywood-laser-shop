@@ -49,7 +49,13 @@ function ProductGrid({ products }: { products: Product[] }) {
   );
 }
 
-export function CatalogBrowser({ products }: { products: Product[] }) {
+export function CatalogBrowser({
+  products,
+  basePath = "/katalog",
+}: {
+  products: Product[];
+  basePath?: string;
+}) {
   const router = useRouter();
   const params = useSearchParams();
   const [q, setQ] = useState(params.get("q") ?? "");
@@ -137,7 +143,12 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
     if (nextQ.trim()) sp.set("q", nextQ.trim());
     if (nextCat !== "all") sp.set("cat", nextCat);
     const qs = sp.toString();
-    router.replace(qs ? `/?${qs}#katalog` : "/#katalog", { scroll: false });
+    const path = basePath === "/" ? "/" : basePath;
+    if (basePath === "/") {
+      router.replace(qs ? `/?${qs}#katalog` : "/#katalog", { scroll: false });
+    } else {
+      router.replace(qs ? `${path}?${qs}` : path, { scroll: false });
+    }
   }
 
   function selectCategory(nextCat: string, closeSheet = false) {

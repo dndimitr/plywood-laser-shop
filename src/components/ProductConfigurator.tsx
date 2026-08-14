@@ -1,10 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { AddToCartToast } from "@/components/AddToCartToast";
 import { IconCart } from "@/components/Icons";
 import { calculateTemplatePrice, formatBgn } from "@/lib/pricing";
 import { laserTypeLabel } from "@/lib/labels";
+import {
+  MAX_LINE_QTY,
+  PRODUCTION_LEAD,
+  QUOTE_QTY_THRESHOLD,
+} from "@/lib/shop-config";
 
 type Option = {
   id: string;
@@ -23,6 +30,7 @@ type Option = {
 type Props = {
   productId: string;
   productName: string;
+  productSlug?: string;
   basePrice: number;
   options: Option[];
 };
@@ -30,6 +38,7 @@ type Props = {
 export function ProductConfigurator({
   productId,
   productName,
+  productSlug,
   basePrice,
   options,
 }: Props) {
@@ -37,14 +46,27 @@ export function ProductConfigurator({
   const [optionId, setOptionId] = useState(options[0]?.id ?? "");
   const [engravingText, setEngravingText] = useState("");
   const [quantity, setQuantity] = useState(1);
-  const [rush, setRush] = useState(false);
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [toastOpen, setToastOpen] = useState(false);
+  const closeToast = useCallback(() => setToastOpen(false), []);
+  const previousSizeRef = useRef<string | null>(null);
+  const [sizeChange, setSizeChange] = useState<string | null>(null);
 
   const selected = useMemo(
     () => options.find((o) => o.id === optionId) ?? options[0],
     [optionId, options],
   );
+
+  useEffect(() => {
+    const next = selected?.sizeLabel;
+    if (!next) return;
+    const prev = previousSizeRef.current;
+    if (prev && prev !== next) {
+      setSizeChange(`от ${prev} → ${next}`);
+    }
+    previousSizeRef.current = next;
+  }, [selected?.sizeLabel]);
 
   const lineTotal = selected
     ? calculateTemplatePrice(
@@ -52,7 +74,7 @@ export function ProductConfigurator({
         Number(selected.priceModifier),
         quantity,
         {
-          rush,
+          rush: false,
           rushMultiplier: 1.5,
           doubleSided: Boolean(selected.doubleSided),
           quantityDiscounts: [
@@ -77,7 +99,7 @@ export function ProductConfigurator({
           optionId: selected?.id,
           engravingText,
           quantity,
-          rush,
+          rush: false,
         }),
       });
       if (!res.ok) {
@@ -91,7 +113,7 @@ export function ProductConfigurator({
           "Грешка при добавяне";
         throw new Error(message);
       }
-      router.push("/cart");
+      setToastOpen(true);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Грешка");
@@ -110,23 +132,41 @@ export function ProductConfigurator({
         <h2>Конфигурация</h2>
         <p className="muted configurator-product-name">{productName}</p>
 
-        <label className="field">
-          <span>Вариант (размер / материал / обработка)</span>
-          <select
-            value={optionId}
-            onChange={(e) => setOptionId(e.target.value)}
-            aria-label="Вариант на продукта"
+        <fieldset className="size-picker">
+          <legend>Размер</legend>
+          <div
+            className="size-picker-grid"
+            role="radiogroup"
+            aria-label="Избор на размер"
           >
-            {options.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.label} (+{formatBgn(Number(o.priceModifier))})
-              </option>
-            ))}
-          </select>
-        </label>
+            {options.map((o) => {
+              const unit = basePrice + Number(o.priceModifier);
+              const active = o.id === selected.id;
+              return (
+                <button
+                  key={o.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={active}
+                  className={`size-card${active ? " is-active" : ""}`}
+                  onClick={() => setOptionId(o.id)}
+                >
+                  <span className="size-card-size">{o.sizeLabel}</span>
+                  <span className="size-card-label">{o.label}</span>
+                  <span className="size-card-price">{formatBgn(unit)}</span>
+                </button>
+              );
+            })}
+          </div>
+          <p className="size-now" aria-live="polite">
+            Избран размер: <strong>{selected.sizeLabel}</strong>
+            {sizeChange ? (
+              <span className="size-change"> · смяна {sizeChange}</span>
+            ) : null}
+          </p>
+        </fieldset>
 
         <div className="option-meta" aria-live="polite">
-          <span>Размер: {selected.sizeLabel}</span>
           <span>Дебелина: {selected.thicknessMm} мм</span>
           <span>{laserTypeLabel[selected.laserType] ?? selected.laserType}</span>
           <span>Материал: {selected.materialLabel ?? selected.material}</span>
@@ -157,34 +197,45 @@ export function ProductConfigurator({
             <input
               type="number"
               min={1}
-              max={50}
+              max={MAX_LINE_QTY}
               value={quantity}
               onChange={(e) =>
-                setQuantity(Math.max(1, Math.min(50, Number(e.target.value) || 1)))
+                setQuantity(
+                  Math.max(
+                    1,
+                    Math.min(MAX_LINE_QTY, Number(e.target.value) || 1),
+                  ),
+                )
               }
               aria-label="Количество"
             />
             <button
               type="button"
               aria-label="Увеличи количество"
-              onClick={() => setQuantity((q) => Math.min(50, q + 1))}
+              onClick={() =>
+                setQuantity((q) => Math.min(MAX_LINE_QTY, q + 1))
+              }
             >
               +
             </button>
           </div>
           <span className="muted" style={{ fontSize: "0.85rem" }}>
-            Отстъпка: 5+ бр. −5%, 10+ −10%, 25+ −15%
+            Отстъпка: 5+ бр. −5%, 10+ −10%, 25+ −15%. До {MAX_LINE_QTY} бр.
           </span>
+          {quantity >= QUOTE_QTY_THRESHOLD ? (
+            <p className="muted" style={{ fontSize: "0.85rem", marginTop: "0.35rem" }}>
+              Над {QUOTE_QTY_THRESHOLD} бр. можете и да{" "}
+              <Link href="/za-biznes#oferta">заявите оферта</Link>
+              {productSlug ? ` за този модел` : ""}.
+            </p>
+          ) : null}
         </div>
 
-        <label className="radio">
-          <input
-            type="checkbox"
-            checked={rush}
-            onChange={(e) => setRush(e.target.checked)}
-          />
-          Ускорена изработка (+50%)
-        </label>
+        <p className="muted rush-hint" style={{ margin: "0.5rem 0" }}>
+          Срок: {PRODUCTION_LEAD.standardLabel}. Ускорено (+
+          {PRODUCTION_LEAD.rushSurchargePercent}%) се избира на стъпка
+          „Поръчка“.
+        </p>
 
         <p className="price-line desktop-price-line" aria-live="polite">
           Цена: <strong>{formatBgn(lineTotal)}</strong>
@@ -229,6 +280,8 @@ export function ProductConfigurator({
           </button>
         </div>
       </div>
+
+      <AddToCartToast open={toastOpen} onClose={closeToast} />
     </>
   );
 }

@@ -1,4 +1,5 @@
 import { IconPackage, IconTruck } from "@/components/Icons";
+import { FREE_SHIPPING_MIN_EUR, PRODUCTION_LEAD } from "@/lib/shop-config";
 
 export function TopInfoBar() {
   return (
@@ -7,7 +8,11 @@ export function TopInfoBar() {
         <p className="top-info-item">
           <IconPackage size={15} aria-hidden />
           <span>
-            Изработка <strong>2–5 раб. дни</strong>
+            Изработка <strong>{PRODUCTION_LEAD.standardLabel}</strong>
+            <span className="top-info-rush">
+              {" "}
+              · ускорена <strong>{PRODUCTION_LEAD.rushLabel}</strong>
+            </span>
           </span>
         </p>
         <span className="top-info-sep" aria-hidden>
@@ -16,7 +21,7 @@ export function TopInfoBar() {
         <p className="top-info-item">
           <IconTruck size={15} aria-hidden />
           <span>
-            Доставка <strong>Еконт / Speedy</strong>
+            Безплатна доставка над <strong>{FREE_SHIPPING_MIN_EUR} €</strong>
           </span>
         </p>
       </div>

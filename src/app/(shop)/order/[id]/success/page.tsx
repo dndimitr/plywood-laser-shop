@@ -74,7 +74,15 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
         {paymentMethodLabel[order.paymentMethod] ?? order.paymentMethod} ·{" "}
         {paymentStatusLabel[order.paymentStatus] ?? order.paymentStatus}
       </p>
-      {order.rush ? <p className="muted">Ускорена изработка е заявена.</p> : null}
+      {order.rush ? (
+        <p className="muted">
+          Ускорена изработка е заявена (ориентир 1–2 раб. дни след потвърждение).
+        </p>
+      ) : (
+        <p className="muted">
+          Стандартна изработка: 2–5 раб. дни след потвърждение.
+        </p>
+      )}
       {order.paymentMethod === "BANK_TRANSFER" ? (
         <div className="admin-card" style={{ marginTop: "1rem" }}>
           <h3 style={{ marginTop: 0 }}>Данни за банков превод</h3>

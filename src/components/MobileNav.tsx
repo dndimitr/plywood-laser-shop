@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
-import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { navCategoryGroups } from "@/lib/shop-config";
 
 type Props = {
@@ -78,14 +77,20 @@ export function MobileNav({ cartCount }: Props) {
 
         <div className="mobile-drawer-body">
           <div className="mobile-drawer-links">
-            <Link href="/#katalog" onClick={() => setOpen(false)}>
+            <Link href="/katalog" onClick={() => setOpen(false)}>
               Каталог
+            </Link>
+            <Link href="/za-biznes" onClick={() => setOpen(false)}>
+              За бизнеса
             </Link>
             <Link href="/#kak-raboti" onClick={() => setOpen(false)}>
               Как работи
             </Link>
             <Link href="/custom" onClick={() => setOpen(false)}>
               Поръчка по файл
+            </Link>
+            <Link href="/favorites" onClick={() => setOpen(false)}>
+              Любими
             </Link>
             <Link href="/account" onClick={() => setOpen(false)}>
               Моите поръчки
@@ -98,7 +103,7 @@ export function MobileNav({ cartCount }: Props) {
           <div className="mobile-drawer-section">
             <p className="mobile-drawer-label">Категории</p>
             <Link
-              href="/#katalog"
+              href="/katalog"
               className="mobile-drawer-all"
               onClick={() => setOpen(false)}
             >
@@ -111,7 +116,7 @@ export function MobileNav({ cartCount }: Props) {
                   {categories.map((c) => (
                     <Link
                       key={c.id}
-                      href={`/?cat=${c.id}#katalog`}
+                      href={`/katalog?cat=${c.id}`}
                       onClick={() => setOpen(false)}
                     >
                       {c.label}
@@ -120,10 +125,6 @@ export function MobileNav({ cartCount }: Props) {
                 </div>
               </div>
             ))}
-          </div>
-
-          <div className="mobile-drawer-locale">
-            <LocaleSwitch />
           </div>
         </div>
       </nav>
