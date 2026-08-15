@@ -1703,10 +1703,10 @@ img {
   padding: 1rem 0 3rem;
 }
 
+/* Clear sticky mobile CTA only — shop-main already clears bottom nav */
 .product-detail {
-  padding-bottom: calc(
-    var(--bottom-nav-h) + 5.5rem + env(safe-area-inset-bottom)
-  );
+  --product-cta-h: 4.75rem;
+  padding-bottom: calc(var(--product-cta-h) + 1rem);
 }
 
 .product-breadcrumb {
@@ -2019,15 +2019,16 @@ img {
 .product-mobile-cta {
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.35rem;
   position: fixed;
   inset-inline: 0;
   bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom));
   z-index: 30;
-  padding: 0.75rem 1rem;
-  background: rgba(255, 252, 247, 0.96);
+  padding: 0.65rem 1rem;
+  background: rgba(255, 252, 247, 0.97);
   border-top: 1px solid var(--line);
   backdrop-filter: blur(12px);
+  box-shadow: 0 -6px 24px rgba(61, 42, 28, 0.06);
 }
 
 .product-mobile-cta-row {
@@ -2062,69 +2063,107 @@ img {
 }
 
 .recently-viewed {
-  margin-top: 2.25rem;
-  padding-top: 0.25rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+  padding: 1.15rem 0 0.25rem;
+  border-top: 1px solid var(--line);
   overflow-x: clip;
   max-width: 100%;
 }
 
+.recently-viewed-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.9rem;
+}
+
 .recently-viewed-head h2 {
   font-family: var(--font-display), Georgia, serif;
-  font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+  font-size: clamp(1.2rem, 4.2vw, 1.55rem);
+  font-weight: 700;
   color: var(--walnut);
-  margin: 0 0 0.85rem;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.recently-viewed-head .muted {
+  margin: 0;
+  font-size: 0.82rem;
+  white-space: nowrap;
 }
 
 .recently-viewed-scroller {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.7rem;
   overflow-x: auto;
-  padding-bottom: 0.35rem;
+  padding-bottom: 0.15rem;
   margin-inline: calc(var(--page-pad) * -1);
   padding-inline: var(--page-pad);
-  scrollbar-width: thin;
+  scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   scroll-snap-type: x mandatory;
   overscroll-behavior-x: contain;
   touch-action: pan-x;
 }
 
+.recently-viewed-scroller::-webkit-scrollbar {
+  display: none;
+}
+
 .recent-card {
   flex: 0 0 auto;
-  width: min(42vw, 10.5rem);
+  width: min(44vw, 9.75rem);
   background: var(--surface);
-  border: 1px solid var(--line);
+  border: 1px solid color-mix(in srgb, var(--line) 85%, var(--walnut));
   overflow: hidden;
   scroll-snap-align: start;
   display: flex;
   flex-direction: column;
-  transition: transform 200ms ease, box-shadow 200ms ease;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 200ms ease, box-shadow 200ms ease, border-color 200ms ease;
 }
 
 @media (hover: hover) {
   .recent-card:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 28px rgba(61, 42, 28, 0.1);
+    border-color: var(--walnut);
   }
 }
 
 .recent-card-media {
   position: relative;
-  aspect-ratio: 4 / 3;
-  background: #cfc7b8;
+  aspect-ratio: 1;
+  background:
+    linear-gradient(160deg, #ebe4d8 0%, #d9d0c2 100%);
   overflow: hidden;
 }
 
+.recent-card-media img {
+  transition: transform 280ms ease;
+}
+
+@media (hover: hover) {
+  .recent-card:hover .recent-card-media img {
+    transform: scale(1.04);
+  }
+}
+
 .recent-card-body {
-  padding: 0.65rem 0.7rem 0.8rem;
+  padding: 0.55rem 0.6rem 0.7rem;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.2rem;
+  min-height: 3.6rem;
 }
 
 .recent-card-title {
   font-family: var(--font-display), Georgia, serif;
-  font-size: 0.95rem;
+  font-size: 0.86rem;
+  font-weight: 650;
   line-height: 1.25;
   color: var(--walnut);
   display: -webkit-box;
@@ -2134,7 +2173,9 @@ img {
 }
 
 .recent-card-body .price {
-  font-size: 0.88rem;
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--ink);
 }
 
 .field {
@@ -2739,7 +2780,7 @@ img {
   }
 
   .product-detail {
-    padding-bottom: 4rem;
+    padding-bottom: 3.5rem;
   }
 
   .product-breadcrumb span:last-child {
@@ -2767,7 +2808,8 @@ img {
   }
 
   .recently-viewed {
-    margin-top: 3rem;
+    margin-top: 2.5rem;
+    padding-top: 1.35rem;
   }
 
   .recently-viewed-scroller {
@@ -2775,6 +2817,7 @@ img {
     padding-inline: 0;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
     overflow: visible;
     scroll-snap-type: none;
   }
