@@ -117,6 +117,26 @@ export function MarketingSettingsForm({ initial }: Props) {
         />
       </label>
       <label className="field">
+        <span>Meta CAPI access token (server-side, iOS 14+)</span>
+        <input
+          type="password"
+          placeholder="EAA… или оставете маскираната стойност"
+          value={form.metaCapiAccessToken}
+          onChange={(e) => setField("metaCapiAccessToken", e.target.value)}
+          autoComplete="new-password"
+        />
+      </label>
+      <label className="field">
+        <span>Meta CAPI test event code (по желание)</span>
+        <input
+          type="text"
+          placeholder="TEST12345"
+          value={form.metaCapiTestEventCode}
+          onChange={(e) => setField("metaCapiTestEventCode", e.target.value)}
+          autoComplete="off"
+        />
+      </label>
+      <label className="field">
         <span>URL на Facebook страницата</span>
         <input
           type="url"
@@ -139,9 +159,12 @@ export function MarketingSettingsForm({ initial }: Props) {
       </label>
 
       <p className="muted marketing-form-hint">
-        Промените влизат в сила веднага. Маркетинговите скриптове се зареждат
-        само след съгласие за бисквитки. Оставете поле празно, за да изключите
-        съответния таг.
+        Pixel + Conversions API (CAPI) с общ event_id за дедупликация —
+        задължително при iOS 14+ attribution loss. Събития: PageView,
+        ViewContent, AddToCart, InitiateCheckout, Purchase. UTM параметрите се
+        записват за GA4 cross-check. Маркетинговите скриптове се зареждат само
+        след съгласие за бисквитки. Маскираният CAPI токен се запазва при
+        запис; празно поле го изчиства. Env: META_CAPI_ACCESS_TOKEN.
       </p>
 
       {error ? <p className="error">{error}</p> : null}

@@ -138,8 +138,10 @@ export default async function ProductPage({ params }: Props) {
 
           <ProductConfigurator
             productId={product.id}
+            productSlug={product.slug}
             productName={product.name}
             basePrice={basePrice}
+            gaMeasurementId={marketing.gaMeasurementId || null}
             options={product.options.map((o) => ({
               id: o.id,
               label: o.label,

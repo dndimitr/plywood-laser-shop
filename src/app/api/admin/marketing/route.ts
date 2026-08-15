@@ -33,6 +33,8 @@ export async function PUT(request: Request) {
     gtmId: parsed.data.gtmId ?? "",
     googleSiteVerification: parsed.data.googleSiteVerification ?? "",
     metaPixelId: parsed.data.metaPixelId ?? "",
+    metaCapiAccessToken: parsed.data.metaCapiAccessToken ?? "",
+    metaCapiTestEventCode: parsed.data.metaCapiTestEventCode ?? "",
     facebookPageUrl: parsed.data.facebookPageUrl ?? "",
     facebookShareEnabled: parsed.data.facebookShareEnabled ?? true,
   });

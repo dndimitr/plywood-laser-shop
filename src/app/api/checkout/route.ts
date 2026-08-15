@@ -20,6 +20,12 @@ import {
 } from "@/lib/pricing";
 import { shippingFeeFor } from "@/lib/shipping-settings";
 import { checkoutSchema } from "@/lib/validators";
+import {
+  clientIpFromRequest,
+  parseCookie,
+  purchaseEventId,
+  sendMetaCapiEvent,
+} from "@/lib/meta-capi";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -250,6 +256,42 @@ export async function POST(request: Request) {
     sameSite: "lax",
     path: "/",
   });
+
+  // Server-side Meta CAPI Purchase (same event_id as browser Pixel for dedup)
+  try {
+    const cookieHeader = request.headers.get("cookie");
+    const contentIds = pricedItems.map(
+      (item) => item.productId || item.uploadedDesignId || item.title,
+    );
+    await sendMetaCapiEvent({
+      eventName: "Purchase",
+      eventId: purchaseEventId(order.id),
+      eventSourceUrl: request.headers.get("referer") ?? undefined,
+      user: {
+        email: parsed.data.customerEmail,
+        phone: parsed.data.customerPhone,
+        clientIp: clientIpFromRequest(request),
+        userAgent: request.headers.get("user-agent"),
+        fbp: parseCookie(cookieHeader, "_fbp"),
+        fbc: parseCookie(cookieHeader, "_fbc"),
+      },
+      customData: {
+        value: totalAmount,
+        currency: "EUR",
+        content_ids: contentIds,
+        content_type: "product",
+        num_items: pricedItems.reduce((s, i) => s + i.quantity, 0),
+        order_id: order.id,
+        contents: pricedItems.map((item) => ({
+          id: item.productId || item.uploadedDesignId || item.title,
+          quantity: item.quantity,
+          item_price: item.unitPrice,
+        })),
+      },
+    });
+  } catch (err) {
+    console.error("[meta-capi] purchase", err);
+  }
 
   return NextResponse.json({
     orderId: order.id,

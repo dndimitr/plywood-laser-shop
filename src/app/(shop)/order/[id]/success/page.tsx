@@ -34,7 +34,10 @@ export const metadata: Metadata = buildPageMetadata({
 export default async function OrderSuccessPage({ params, searchParams }: Props) {
   const { id } = await params;
   const { t } = await searchParams;
-  const order = await prisma.order.findUnique({ where: { id } });
+  const order = await prisma.order.findUnique({
+    where: { id },
+    include: { items: true },
+  });
   if (!order) notFound();
 
   const tokenOk =
@@ -71,6 +74,11 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
         orderId={order.id}
         value={total}
         currency="EUR"
+        contentIds={order.items.map(
+          (item) => item.productId || item.uploadedDesignId || item.title,
+        )}
+        email={order.customerEmail}
+        phone={order.customerPhone}
         gaMeasurementId={marketing.gaMeasurementId || null}
         adsConversionSendTo={adsConversionSendTo(marketing)}
         metaPixelId={marketing.metaPixelId || null}

@@ -1,32 +1,35 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { CONSENT_STORAGE_KEY, type ConsentChoice } from "@/lib/seo-client";
-
-declare global {
-  interface Window {
-    gtag?: (...args: unknown[]) => void;
-    fbq?: (...args: unknown[]) => void;
-  }
-}
+import {
+  hasMarketingConsent,
+  trackPurchaseBrowser,
+} from "@/lib/tracking-client";
 
 type Props = {
   orderId: string;
   value: number;
   currency?: string;
+  contentIds?: string[];
+  email?: string | null;
+  phone?: string | null;
   gaMeasurementId?: string | null;
   adsConversionSendTo?: string | null;
   metaPixelId?: string | null;
 };
 
 /**
- * Fires GA4 purchase, Google Ads conversion, and Meta Purchase once per order
- * when consent is granted.
+ * Fires GA4 purchase, Google Ads conversion, and Meta Purchase (Pixel + CAPI)
+ * once per order when consent is granted. Uses event_id = purchase_{orderId}
+ * for Pixel ↔ CAPI deduplication (iOS 14+).
  */
 export function PurchaseConversion({
   orderId,
   value,
   currency = "EUR",
+  contentIds,
+  email,
+  phone,
   gaMeasurementId,
   adsConversionSendTo,
   metaPixelId,
@@ -36,18 +39,8 @@ export function PurchaseConversion({
   useEffect(() => {
     if (sent.current) return;
 
-    function fire() {
+    async function fire() {
       if (sent.current) return;
-      let consent: ConsentChoice | null = null;
-      try {
-        consent = localStorage.getItem(
-          CONSENT_STORAGE_KEY,
-        ) as ConsentChoice | null;
-      } catch {
-        return;
-      }
-      if (consent !== "accepted") return;
-
       const key = `lsp_purchase_tracked_${orderId}`;
       try {
         if (sessionStorage.getItem(key)) {
@@ -58,43 +51,25 @@ export function PurchaseConversion({
         /* continue */
       }
 
-      let fired = false;
-
-      if (gaMeasurementId && typeof window.gtag === "function") {
-        window.gtag("event", "purchase", {
-          transaction_id: orderId,
-          value,
-          currency,
-          send_to: gaMeasurementId,
-        });
-        fired = true;
-      }
-
-      if (adsConversionSendTo && typeof window.gtag === "function") {
-        window.gtag("event", "conversion", {
-          send_to: adsConversionSendTo,
-          value,
-          currency,
-          transaction_id: orderId,
-        });
-        fired = true;
-      }
-
-      if (metaPixelId && typeof window.fbq === "function") {
-        window.fbq("track", "Purchase", {
-          value,
-          currency,
-          content_ids: [orderId],
-          content_type: "product",
-        });
-        fired = true;
-      }
-
-      if (!fired && !gaMeasurementId && !adsConversionSendTo && !metaPixelId) {
+      const hasTargets = Boolean(
+        gaMeasurementId || adsConversionSendTo || metaPixelId,
+      );
+      if (!hasTargets) {
         sent.current = true;
         return;
       }
-      if (!fired) return;
+      if (!hasMarketingConsent()) return;
+
+      await trackPurchaseBrowser({
+        orderId,
+        value,
+        currency,
+        contentIds,
+        email: email ?? undefined,
+        phone: phone ?? undefined,
+        gaId: gaMeasurementId,
+        adsSendTo: adsConversionSendTo,
+      });
 
       try {
         sessionStorage.setItem(key, "1");
@@ -104,10 +79,10 @@ export function PurchaseConversion({
       sent.current = true;
     }
 
-    fire();
-    const onStorage = () => fire();
+    void fire();
+    const onStorage = () => void fire();
     window.addEventListener("storage", onStorage);
-    const t = window.setInterval(fire, 800);
+    const t = window.setInterval(() => void fire(), 800);
     const stop = window.setTimeout(() => window.clearInterval(t), 15000);
     return () => {
       window.removeEventListener("storage", onStorage);
@@ -118,6 +93,9 @@ export function PurchaseConversion({
     orderId,
     value,
     currency,
+    contentIds,
+    email,
+    phone,
     gaMeasurementId,
     adsConversionSendTo,
     metaPixelId,

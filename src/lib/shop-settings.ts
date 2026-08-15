@@ -18,6 +18,10 @@ export type MarketingSettings = {
   gtmId: string;
   googleSiteVerification: string;
   metaPixelId: string;
+  /** Meta Conversions API access token (server-only; never expose to storefront). */
+  metaCapiAccessToken: string;
+  /** Optional Meta Events Manager test event code. */
+  metaCapiTestEventCode: string;
   /** Публичен URL на Facebook страницата (за линк и споделяне) */
   facebookPageUrl: string;
   /** Показвай бутон „Сподели във Facebook“ на продуктовите страници */
@@ -50,9 +54,23 @@ function marketingEnvDefaults(): MarketingSettings {
     googleSiteVerification:
       process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ?? "",
     metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() ?? "",
+    metaCapiAccessToken: process.env.META_CAPI_ACCESS_TOKEN?.trim() ?? "",
+    metaCapiTestEventCode: process.env.META_CAPI_TEST_EVENT_CODE?.trim() ?? "",
     facebookPageUrl: process.env.NEXT_PUBLIC_FACEBOOK_PAGE_URL?.trim() ?? "",
     facebookShareEnabled: true,
   };
+}
+
+/** Mask secrets for admin UI (keep last 4 chars). */
+export function maskSecret(value: string): string {
+  const v = value.trim();
+  if (!v) return "";
+  if (v.length <= 4) return "••••";
+  return `••••••••${v.slice(-4)}`;
+}
+
+export function looksLikeMaskedSecret(value: string): boolean {
+  return value.includes("•");
 }
 
 function settingsPath() {
@@ -154,6 +172,8 @@ function normalizeMarketing(
     gtmId: String(pick("gtmId") ?? ""),
     googleSiteVerification: String(pick("googleSiteVerification") ?? ""),
     metaPixelId: String(pick("metaPixelId") ?? ""),
+    metaCapiAccessToken: String(pick("metaCapiAccessToken") ?? ""),
+    metaCapiTestEventCode: String(pick("metaCapiTestEventCode") ?? ""),
     facebookPageUrl: String(pick("facebookPageUrl") ?? ""),
     facebookShareEnabled:
       typeof partial?.facebookShareEnabled === "boolean"
@@ -197,6 +217,14 @@ export function getMarketingSettings(): MarketingSettings {
       "metaPixelId" in fileKeys
         ? String(raw.metaPixelId ?? "").trim()
         : env.metaPixelId,
+    metaCapiAccessToken:
+      "metaCapiAccessToken" in fileKeys
+        ? String(raw.metaCapiAccessToken ?? "").trim()
+        : env.metaCapiAccessToken,
+    metaCapiTestEventCode:
+      "metaCapiTestEventCode" in fileKeys
+        ? String(raw.metaCapiTestEventCode ?? "").trim()
+        : env.metaCapiTestEventCode,
     facebookPageUrl:
       "facebookPageUrl" in fileKeys
         ? String(raw.facebookPageUrl ?? "").trim()
@@ -208,8 +236,9 @@ export function getMarketingSettings(): MarketingSettings {
   };
 }
 
-/** Raw admin form values (what is stored / edited), with env shown as placeholders via defaults. */
+/** Raw admin form values (secrets masked). Env used as fallback for empty file slots. */
 export function getMarketingSettingsForAdmin(): MarketingSettings {
+  const effective = getMarketingSettings();
   const env = marketingEnvDefaults();
   const raw = readRaw().marketing ?? {};
   return {
@@ -223,6 +252,10 @@ export function getMarketingSettingsForAdmin(): MarketingSettings {
       raw.googleSiteVerification ?? env.googleSiteVerification,
     ),
     metaPixelId: String(raw.metaPixelId ?? env.metaPixelId),
+    metaCapiAccessToken: maskSecret(effective.metaCapiAccessToken),
+    metaCapiTestEventCode: String(
+      raw.metaCapiTestEventCode ?? env.metaCapiTestEventCode,
+    ),
     facebookPageUrl: String(raw.facebookPageUrl ?? env.facebookPageUrl),
     facebookShareEnabled:
       typeof raw.facebookShareEnabled === "boolean"
@@ -233,6 +266,12 @@ export function getMarketingSettingsForAdmin(): MarketingSettings {
 
 export function setMarketingSettings(input: MarketingSettings) {
   const raw = readRaw();
+  const previous = getMarketingSettings();
+  const incomingToken = input.metaCapiAccessToken.trim();
+  const tokenToStore = looksLikeMaskedSecret(incomingToken)
+    ? previous.metaCapiAccessToken
+    : incomingToken;
+
   writeRaw({
     ...raw,
     marketing: {
@@ -242,6 +281,8 @@ export function setMarketingSettings(input: MarketingSettings) {
       gtmId: input.gtmId.trim(),
       googleSiteVerification: input.googleSiteVerification.trim(),
       metaPixelId: input.metaPixelId.trim(),
+      metaCapiAccessToken: tokenToStore,
+      metaCapiTestEventCode: input.metaCapiTestEventCode.trim(),
       facebookPageUrl: input.facebookPageUrl.trim(),
       facebookShareEnabled: Boolean(input.facebookShareEnabled),
     },

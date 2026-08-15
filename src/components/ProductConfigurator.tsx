@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { IconCart } from "@/components/Icons";
 import { calculateTemplatePrice, formatBgn } from "@/lib/pricing";
 import { laserTypeLabel } from "@/lib/labels";
+import { trackAddToCart } from "@/lib/tracking-client";
 
 type Option = {
   id: string;
@@ -22,16 +23,20 @@ type Option = {
 
 type Props = {
   productId: string;
+  productSlug: string;
   productName: string;
   basePrice: number;
   options: Option[];
+  gaMeasurementId?: string | null;
 };
 
 export function ProductConfigurator({
   productId,
+  productSlug,
   productName,
   basePrice,
   options,
+  gaMeasurementId,
 }: Props) {
   const router = useRouter();
   const [optionId, setOptionId] = useState(options[0]?.id ?? "");
@@ -91,6 +96,13 @@ export function ProductConfigurator({
           "Грешка при добавяне";
         throw new Error(message);
       }
+      void trackAddToCart({
+        contentId: productSlug || productId,
+        contentName: productName,
+        value: lineTotal,
+        quantity,
+        gaId: gaMeasurementId,
+      });
       router.push("/cart");
       router.refresh();
     } catch (err) {

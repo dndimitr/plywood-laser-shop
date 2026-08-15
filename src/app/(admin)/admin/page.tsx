@@ -31,6 +31,9 @@ export default async function AdminHomePage() {
     marketing.googleAdsId && "Ads",
     marketing.gtmId && "GTM",
     marketing.metaPixelId && "Meta Pixel",
+    marketing.metaPixelId &&
+      marketing.metaCapiAccessToken &&
+      "Meta CAPI",
   ].filter(Boolean);
 
   return (

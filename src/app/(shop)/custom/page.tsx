@@ -3,6 +3,7 @@ import { CustomUploadForm } from "@/components/CustomUploadForm";
 import { JsonLd } from "@/components/JsonLd";
 import { MACHINE_BED_MAX_CM } from "@/lib/shop-config";
 import { breadcrumbJsonLd, buildPageMetadata } from "@/lib/seo";
+import { getMarketingSettings } from "@/lib/shop-settings";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Поръчка по ваш дизайн",
@@ -12,6 +13,8 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default function CustomPage() {
+  const marketing = getMarketingSettings();
+
   return (
     <div className="container custom-page">
       <JsonLd
@@ -37,7 +40,7 @@ export default function CustomPage() {
             <li>След поръчка потвърждаваме макета и срока за изработка</li>
           </ul>
         </div>
-        <CustomUploadForm />
+        <CustomUploadForm gaMeasurementId={marketing.gaMeasurementId || null} />
       </div>
     </div>
   );
