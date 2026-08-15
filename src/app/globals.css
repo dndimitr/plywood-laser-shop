@@ -1390,6 +1390,81 @@ img {
   color: var(--ink-soft);
 }
 
+/* Occasion landing pages (/svatba, /rozhden-den, …) */
+.occasion-page {
+  padding-bottom: 2rem;
+}
+
+.occasion-hero {
+  padding: 1.5rem 0 2rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 0%, rgba(196, 165, 116, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 20%, rgba(139, 90, 43, 0.1), transparent 50%),
+    linear-gradient(180deg, var(--bg) 0%, var(--surface) 100%);
+  border-bottom: 1px solid var(--line);
+}
+
+.occasion-intro {
+  max-width: 40rem;
+}
+
+.occasion-bullets {
+  margin: 1rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+  max-width: 36rem;
+}
+
+.occasion-bullets li {
+  position: relative;
+  padding-left: 1.15rem;
+  color: var(--ink-soft);
+  line-height: 1.45;
+}
+
+.occasion-bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: var(--laser);
+  border-radius: 1px;
+}
+
+.occasion-catalog h2 {
+  margin-bottom: 0.35rem;
+}
+
+.occasion-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.occasion-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.45rem 0.95rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.occasion-chip:hover {
+  border-color: var(--walnut);
+  background: var(--bg);
+}
+
 .checkout-steps {
   display: flex;
   gap: 0.4rem;

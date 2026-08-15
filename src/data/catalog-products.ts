@@ -4,6 +4,8 @@
  * not scraped or copied from third-party listings.
  */
 
+import { OCCASION_EXPANSION_DRAFTS } from "./catalog-occasion-expansion";
+
 export type SeedLaserType = "ENGRAVE" | "CUT" | "BOTH";
 
 export type SeedOption = {
@@ -31,6 +33,11 @@ export type SeedProduct = {
 function imgs(slug: string): { imageUrl: string; galleryUrls: string[] } {
   const photo = `/products/photos/${slug}.png`;
   return { imageUrl: photo, galleryUrls: [photo] };
+}
+
+function imgsSvg(slug: string): { imageUrl: string; galleryUrls: string[] } {
+  const svg = `/products/${slug}.svg`;
+  return { imageUrl: svg, galleryUrls: [svg] };
 }
 
 function opts(
@@ -4157,4 +4164,10 @@ const DRAFTS: Draft[] = [
   },
 ];
 
-export const CATALOG_PRODUCTS: SeedProduct[] = pack(DRAFTS);
+export const CATALOG_PRODUCTS: SeedProduct[] = [
+  ...pack(DRAFTS),
+  ...OCCASION_EXPANSION_DRAFTS.map((d) => ({
+    ...d,
+    ...imgsSvg(d.slug),
+  })),
+];

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { occasionByCategoryId, occasionPath } from "@/lib/occasions";
 import { CATEGORIES, type CategoryId, categoryById } from "@/lib/shop-config";
 import {
   adsConversionSendTo,
@@ -110,6 +111,14 @@ export function categorySeo(catId: string | undefined): {
   path: string;
 } | null {
   if (!catId) return null;
+  const occasion = occasionByCategoryId(catId);
+  if (occasion) {
+    return {
+      title: occasion.title,
+      description: truncateMeta(occasion.description),
+      path: occasionPath(occasion.slug),
+    };
+  }
   const cat = categoryById(catId as CategoryId);
   if (!cat) return null;
   return {

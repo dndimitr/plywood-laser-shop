@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import {
   IconPackage,
   IconPencil,
@@ -13,6 +14,7 @@ import {
 import { CatalogBrowser } from "@/components/CatalogBrowser";
 import { JsonLd } from "@/components/JsonLd";
 import { prisma } from "@/lib/db";
+import { occasionByCategoryId, occasionPath } from "@/lib/occasions";
 import {
   buildPageMetadata,
   categorySeo,
@@ -74,7 +76,13 @@ export async function generateMetadata({
   });
 }
 
-export default async function HomePage() {
+export default async function HomePage({ searchParams }: HomeProps) {
+  const { cat } = await searchParams;
+  if (cat) {
+    const occasion = occasionByCategoryId(cat);
+    if (occasion) redirect(occasionPath(occasion.slug));
+  }
+
   const [products, reviews] = await Promise.all([
     prisma.product.findMany({
       where: { active: true },

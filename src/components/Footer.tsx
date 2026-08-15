@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { categoryHref } from "@/lib/occasions";
 import {
   featuredCategories,
   navCategoryGroups,
@@ -45,7 +46,7 @@ export function Footer() {
             <h3>Популярни</h3>
             <div className="footer-cats">
               {featured.map((c) => (
-                <Link key={c.id} href={`/?cat=${c.id}#katalog`}>
+                <Link key={c.id} href={categoryHref(c.id)}>
                   {c.label}
                 </Link>
               ))}
@@ -66,7 +67,7 @@ export function Footer() {
                   <div key={group.id}>
                     <p className="footer-group-label">{group.label}</p>
                     {categories.map((c) => (
-                      <Link key={c.id} href={`/?cat=${c.id}#katalog`}>
+                      <Link key={c.id} href={categoryHref(c.id)}>
                         {c.label}
                       </Link>
                     ))}

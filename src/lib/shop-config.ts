@@ -4,6 +4,9 @@ export type CategoryId =
   | "wedding"
   | "birthday"
   | "newborn"
+  | "baptism"
+  | "anniversary"
+  | "valentines"
   | "christmas"
   | "halloween"
   | "gifts"
@@ -36,6 +39,9 @@ export const CATEGORIES: readonly CategoryDef[] = [
   { id: "wedding", label: "Сватба", labelEn: "Wedding" },
   { id: "birthday", label: "Рождени дни", labelEn: "Birthdays" },
   { id: "newborn", label: "Новородени", labelEn: "Newborn" },
+  { id: "baptism", label: "Кръщене", labelEn: "Baptism" },
+  { id: "anniversary", label: "Годишнини", labelEn: "Anniversaries" },
+  { id: "valentines", label: "Свети Валентин", labelEn: "Valentine's" },
   { id: "christmas", label: "Коледа", labelEn: "Christmas" },
   { id: "halloween", label: "Хелоуин", labelEn: "Halloween" },
   { id: "gifts", label: "Подаръци", labelEn: "Gifts" },
@@ -75,6 +81,9 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
       "wedding",
       "birthday",
       "newborn",
+      "baptism",
+      "anniversary",
+      "valentines",
       "christmas",
       "halloween",
       "gifts",
@@ -102,17 +111,17 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
 
 /** Compact top bar — most browsed / clear entry points */
 export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
-  "gifts",
   "wedding",
   "birthday",
   "newborn",
+  "baptism",
+  "anniversary",
+  "valentines",
   "christmas",
+  "gifts",
   "halloween",
   "decor",
-  "panels",
-  "signs",
   "keychains",
-  "auto",
 ] as const;
 
 export function categoryById(id: string): CategoryDef | undefined {

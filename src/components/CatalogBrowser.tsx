@@ -9,6 +9,7 @@ import {
   categoryById,
   navCategoryGroups,
 } from "@/lib/shop-config";
+import { categoryHref, occasionByCategoryId } from "@/lib/occasions";
 
 type Product = {
   id: string;
@@ -141,6 +142,11 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
   }
 
   function selectCategory(nextCat: string, closeSheet = false) {
+    if (nextCat !== "all" && occasionByCategoryId(nextCat)) {
+      if (closeSheet) setFiltersOpen(false);
+      router.push(categoryHref(nextCat));
+      return;
+    }
     setCategory(nextCat);
     syncUrl(q, nextCat);
     if (closeSheet) setFiltersOpen(false);
