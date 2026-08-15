@@ -40,6 +40,7 @@ export function Footer() {
           <div>
             <h3>Магазин</h3>
             <Link href="/#katalog">Каталог</Link>
+            <Link href="/blog">Блог</Link>
             <Link href="/custom">Поръчка по дизайн</Link>
             <Link href="/cart">Количка</Link>
             <Link href="/account">Моите поръчки</Link>

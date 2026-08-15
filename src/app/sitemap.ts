@@ -1,7 +1,15 @@
 import type { MetadataRoute } from "next";
+import {
+  allCategoryLandingSlugs,
+  categoryLandingPath,
+} from "@/lib/category-landings";
 import { prisma } from "@/lib/db";
+import {
+  blogIndexPath,
+  giftGuidePath,
+  giftGuidesNewestFirst,
+} from "@/lib/gift-guides";
 import { OCCASIONS, occasionPath } from "@/lib/occasions";
-import { CATEGORIES } from "@/lib/shop-config";
 import { absoluteUrl } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
@@ -17,6 +25,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     {
       url: absoluteUrl("/custom"),
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: absoluteUrl(blogIndexPath()),
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.9,
@@ -48,15 +62,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.9,
   }));
 
-  const occasionCategoryIds = new Set(OCCASIONS.map((o) => o.categoryId));
-  const categoryEntries: MetadataRoute.Sitemap = CATEGORIES.filter(
-    (c) => c.id !== "other" && !occasionCategoryIds.has(c.id),
-  ).map((c) => ({
-    url: absoluteUrl(`/?cat=${c.id}`),
-    lastModified: now,
-    changeFrequency: "weekly" as const,
-    priority: 0.7,
-  }));
+  const categoryEntries: MetadataRoute.Sitemap = allCategoryLandingSlugs().map(
+    (slug) => ({
+      url: absoluteUrl(categoryLandingPath(slug)),
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    }),
+  );
+
+  const guideEntries: MetadataRoute.Sitemap = giftGuidesNewestFirst().map(
+    (g) => ({
+      url: absoluteUrl(giftGuidePath(g.slug)),
+      lastModified: new Date(g.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }),
+  );
 
   let productEntries: MetadataRoute.Sitemap = [];
   try {
@@ -79,6 +101,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...staticEntries,
     ...occasionEntries,
     ...categoryEntries,
+    ...guideEntries,
     ...productEntries,
   ];
 }

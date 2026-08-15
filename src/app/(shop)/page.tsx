@@ -14,6 +14,7 @@ import {
 import { CatalogBrowser } from "@/components/CatalogBrowser";
 import { JsonLd } from "@/components/JsonLd";
 import { ProductSlider } from "@/components/ProductSlider";
+import { categoryLandingById, categoryLandingPath } from "@/lib/category-landings";
 import { prisma } from "@/lib/db";
 import {
   OCCASIONS,
@@ -21,6 +22,7 @@ import {
   occasionPath,
 } from "@/lib/occasions";
 import {
+  breadcrumbJsonLd,
   buildPageMetadata,
   categorySeo,
   DEFAULT_DESCRIPTION,
@@ -86,6 +88,8 @@ export default async function HomePage({ searchParams }: HomeProps) {
   if (cat) {
     const occasion = occasionByCategoryId(cat);
     if (occasion) redirect(occasionPath(occasion.slug));
+    const landing = categoryLandingById(cat);
+    if (landing) redirect(categoryLandingPath(landing.slug));
   }
 
   const [products, reviews] = await Promise.all([
@@ -106,7 +110,12 @@ export default async function HomePage({ searchParams }: HomeProps) {
 
   return (
     <>
-      <JsonLd data={faqJsonLd(faqs)} />
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([{ name: "Начало", path: "/" }]),
+          faqJsonLd(faqs),
+        ]}
+      />
       <section className="hero" aria-label="Начало">
         <div className="hero-media hero-media--product">
           <Image

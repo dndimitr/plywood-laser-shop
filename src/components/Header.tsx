@@ -57,6 +57,7 @@ export async function Header() {
             </div>
           </div>
           <Link href="/#kak-raboti">Как работи</Link>
+          <Link href="/blog">Блог</Link>
           <Link href="/custom">По файл</Link>
           <Link href="/account">Поръчки</Link>
           <LocaleSwitch />

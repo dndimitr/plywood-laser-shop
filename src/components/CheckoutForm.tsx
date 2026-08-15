@@ -186,7 +186,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
           checked={form.rush}
           onChange={(e) => update("rush", e.target.checked)}
         />
-        Ускорена изработка (+50% върху изделията)
+        <span>Ускорена изработка (+50% върху изделията)</span>
       </label>
 
       <label className="radio">
@@ -195,7 +195,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
           checked={form.needInvoice}
           onChange={(e) => update("needInvoice", e.target.checked)}
         />
-        Искам фактура
+        <span>Искам фактура</span>
       </label>
 
       {form.needInvoice ? (
@@ -219,7 +219,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
         </div>
       ) : null}
 
-      <fieldset className="field">
+      <fieldset className="field payment-methods">
         <legend>Начин на плащане</legend>
         <label className="radio">
           <input
@@ -228,7 +228,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
             checked={form.paymentMethod === "CASH_ON_DELIVERY"}
             onChange={() => update("paymentMethod", "CASH_ON_DELIVERY")}
           />
-          Наложен платеж
+          <span>Наложен платеж</span>
         </label>
         <label className="radio">
           <input
@@ -237,7 +237,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
             checked={form.paymentMethod === "BANK_TRANSFER"}
             onChange={() => update("paymentMethod", "BANK_TRANSFER")}
           />
-          Банков превод
+          <span>Банков превод</span>
         </label>
         <label className="radio">
           <input
@@ -246,7 +246,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
             checked={form.paymentMethod === "CARD"}
             onChange={() => update("paymentMethod", "CARD")}
           />
-          Карта онлайн (Stripe)
+          <span>Карта онлайн (Stripe)</span>
         </label>
       </fieldset>
 

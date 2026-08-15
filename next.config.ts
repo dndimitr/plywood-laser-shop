@@ -20,6 +20,12 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      { source: "/idei", destination: "/blog", permanent: true },
+      { source: "/idei/:slug", destination: "/blog/:slug", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

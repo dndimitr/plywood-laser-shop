@@ -14,12 +14,12 @@ import {
 import { prisma } from "@/lib/db";
 import { formatBgn } from "@/lib/pricing";
 import { finishLabel, materialLabel } from "@/lib/labels";
+import { buildProductSeo } from "@/lib/product-seo";
 import {
   absoluteUrl,
   breadcrumbJsonLd,
   buildPageMetadata,
   productJsonLd,
-  truncateMeta,
 } from "@/lib/seo";
 import { getMarketingSettings } from "@/lib/shop-settings";
 
@@ -37,16 +37,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       noIndex: true,
     });
   }
-  const description = truncateMeta(product.description);
-  return {
-    ...buildPageMetadata({
-      title: product.name,
-      description,
-      path: `/products/${product.slug}`,
-      image: product.imageUrl,
-      type: "website",
-    }),
-  };
+  const seo = buildProductSeo({
+    name: product.name,
+    description: product.description,
+    slug: product.slug,
+    category: product.category,
+  });
+  return buildPageMetadata({
+    title: seo.title,
+    description: seo.metaDescription,
+    path: `/products/${product.slug}`,
+    image: product.imageUrl,
+    type: "product",
+  });
 }
 
 export default async function ProductPage({ params }: Props) {
@@ -68,6 +71,21 @@ export default async function ProductPage({ params }: Props) {
   const basePrice = Number(product.basePrice);
   const marketing = getMarketingSettings();
   const productUrl = absoluteUrl(`/products/${product.slug}`);
+  const seo = buildProductSeo({
+    name: product.name,
+    description: product.description,
+    slug: product.slug,
+    category: product.category,
+  });
+
+  const crumbs: Array<{ name: string; path: string }> = [
+    { name: "Начало", path: "/" },
+    { name: "Каталог", path: "/#katalog" },
+  ];
+  if (seo.categoryLabel && seo.categoryHref) {
+    crumbs.push({ name: seo.categoryLabel, path: seo.categoryHref });
+  }
+  crumbs.push({ name: product.name, path: `/products/${product.slug}` });
 
   return (
     <div className="product-detail">
@@ -75,17 +93,13 @@ export default async function ProductPage({ params }: Props) {
         data={[
           productJsonLd({
             name: product.name,
-            description: product.description,
+            description: seo.schemaDescription,
             slug: product.slug,
             imageUrl: product.imageUrl ?? gallery[0] ?? null,
             price: basePrice,
             category: product.category,
           }),
-          breadcrumbJsonLd([
-            { name: "Начало", path: "/" },
-            { name: "Каталог", path: "/#katalog" },
-            { name: product.name, path: `/products/${product.slug}` },
-          ]),
+          breadcrumbJsonLd(crumbs),
         ]}
       />
       <TrackProductView
@@ -104,6 +118,12 @@ export default async function ProductPage({ params }: Props) {
       <div className="container">
         <nav className="product-breadcrumb" aria-label="Навигация">
           <Link href="/#katalog">Каталог</Link>
+          {seo.categoryLabel && seo.categoryHref ? (
+            <>
+              <span aria-hidden>/</span>
+              <Link href={seo.categoryHref}>{seo.categoryLabel}</Link>
+            </>
+          ) : null}
           <span aria-hidden>/</span>
           <span>{product.name}</span>
         </nav>
@@ -125,7 +145,11 @@ export default async function ProductPage({ params }: Props) {
                   basePrice={basePrice}
                 />
               </div>
-              <p className="product-detail-desc">{product.description}</p>
+              <div className="product-detail-desc">
+                {seo.bodyParagraphs.map((p) => (
+                  <p key={p.slice(0, 48)}>{p}</p>
+                ))}
+              </div>
               {marketing.facebookShareEnabled ? (
                 <FacebookShareButton
                   url={productUrl}
