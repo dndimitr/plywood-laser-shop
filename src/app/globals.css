@@ -1859,6 +1859,12 @@ img {
   font-family: var(--font-display), sans-serif;
 }
 
+.guide-list-date {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.85rem;
+}
+
 .guide-list-link p {
   margin: 0 0 0.65rem;
   font-size: 0.95rem;

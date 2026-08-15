@@ -373,5 +373,6 @@ export const OCCASION_RESERVED_PATHS = new Set([
   "legal",
   "kategoriya",
   "idei",
+  "blog",
   "manifest.webmanifest",
 ]);

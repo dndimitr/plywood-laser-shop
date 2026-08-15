@@ -4,7 +4,11 @@ import {
   categoryLandingPath,
 } from "@/lib/category-landings";
 import { prisma } from "@/lib/db";
-import { GIFT_GUIDES, giftGuidePath } from "@/lib/gift-guides";
+import {
+  blogIndexPath,
+  giftGuidePath,
+  giftGuidesNewestFirst,
+} from "@/lib/gift-guides";
 import { OCCASIONS, occasionPath } from "@/lib/occasions";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -26,10 +30,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: absoluteUrl("/idei"),
+      url: absoluteUrl(blogIndexPath()),
       lastModified: now,
       changeFrequency: "weekly",
-      priority: 0.85,
+      priority: 0.9,
     },
     {
       url: absoluteUrl("/legal/terms"),
@@ -67,12 +71,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
   );
 
-  const guideEntries: MetadataRoute.Sitemap = GIFT_GUIDES.map((g) => ({
-    url: absoluteUrl(giftGuidePath(g.slug)),
-    lastModified: new Date(g.publishedAt),
-    changeFrequency: "monthly" as const,
-    priority: 0.75,
-  }));
+  const guideEntries: MetadataRoute.Sitemap = giftGuidesNewestFirst().map(
+    (g) => ({
+      url: absoluteUrl(giftGuidePath(g.slug)),
+      lastModified: new Date(g.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    }),
+  );
 
   let productEntries: MetadataRoute.Sitemap = [];
   try {
