@@ -25,6 +25,7 @@ export type CategoryId =
   | "jewelry"
   | "pets"
   | "auto"
+  | "personalized"
   | "other";
 
 export type CategoryDef = {
@@ -51,6 +52,7 @@ export const CATEGORIES: readonly CategoryDef[] = [
   { id: "newyear", label: "Нова година", labelEn: "New Year" },
   { id: "spring", label: "Баба Марта и 8 март", labelEn: "Spring occasions" },
   { id: "gifts", label: "Подаръци", labelEn: "Gifts" },
+  { id: "personalized", label: "Персонализирани", labelEn: "Personalized" },
   // Дом и интериор
   { id: "decor", label: "Декор", labelEn: "Decor" },
   { id: "panels", label: "Стенни панели", labelEn: "Wall panels" },
@@ -96,6 +98,7 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
       "newyear",
       "spring",
       "gifts",
+      "personalized",
     ],
   },
   {
@@ -131,6 +134,7 @@ export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
   "newyear",
   "spring",
   "gifts",
+  "personalized",
   "halloween",
   "decor",
   "keychains",
