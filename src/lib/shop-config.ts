@@ -9,6 +9,9 @@ export type CategoryId =
   | "valentines"
   | "christmas"
   | "halloween"
+  | "school"
+  | "newyear"
+  | "spring"
   | "gifts"
   | "decor"
   | "panels"
@@ -44,6 +47,9 @@ export const CATEGORIES: readonly CategoryDef[] = [
   { id: "valentines", label: "Свети Валентин", labelEn: "Valentine's" },
   { id: "christmas", label: "Коледа", labelEn: "Christmas" },
   { id: "halloween", label: "Хелоуин", labelEn: "Halloween" },
+  { id: "school", label: "Училище", labelEn: "School" },
+  { id: "newyear", label: "Нова година", labelEn: "New Year" },
+  { id: "spring", label: "Баба Марта и 8 март", labelEn: "Spring occasions" },
   { id: "gifts", label: "Подаръци", labelEn: "Gifts" },
   // Дом и интериор
   { id: "decor", label: "Декор", labelEn: "Decor" },
@@ -86,6 +92,9 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
       "valentines",
       "christmas",
       "halloween",
+      "school",
+      "newyear",
+      "spring",
       "gifts",
     ],
   },
@@ -118,6 +127,9 @@ export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
   "anniversary",
   "valentines",
   "christmas",
+  "school",
+  "newyear",
+  "spring",
   "gifts",
   "halloween",
   "decor",
