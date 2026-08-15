@@ -8,6 +8,7 @@
 
 import { bgnToEur } from "@/lib/currency";
 import { OCCASION_EXPANSION_DRAFTS } from "./catalog-occasion-expansion";
+import { SEASONAL_2026_DRAFTS } from "./catalog-seasonal-2026";
 
 export type SeedLaserType = "ENGRAVE" | "CUT" | "BOTH";
 
@@ -4170,4 +4171,7 @@ const DRAFTS: Draft[] = [
 export const CATALOG_PRODUCTS: SeedProduct[] = [
   ...pack(DRAFTS),
   ...pack(OCCASION_EXPANSION_DRAFTS),
+  ...pack(
+    SEASONAL_2026_DRAFTS.map(({ photoText: _photoText, ...draft }) => draft),
+  ),
 ];
