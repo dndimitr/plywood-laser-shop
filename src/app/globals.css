@@ -1810,6 +1810,97 @@ img {
   line-height: 1.55;
 }
 
+.product-detail-desc p {
+  margin: 0 0 0.75rem;
+}
+
+.product-detail-desc p:last-child {
+  margin-bottom: 0;
+}
+
+/* ——— Gift idea guides ——— */
+
+.guide-index,
+.guide-article {
+  padding-block: 1.5rem 3rem;
+  max-width: 46rem;
+}
+
+.guide-list {
+  list-style: none;
+  margin: 1.75rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.guide-list-item {
+  margin: 0;
+}
+
+.guide-list-link {
+  display: block;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.guide-list-link:hover {
+  border-color: var(--walnut);
+  background: var(--bg);
+}
+
+.guide-list-link h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.15rem;
+  font-family: var(--font-display), sans-serif;
+}
+
+.guide-list-link p {
+  margin: 0 0 0.65rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.guide-list-cta {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--walnut);
+}
+
+.guide-article-header {
+  margin-bottom: 2rem;
+}
+
+.guide-article-date {
+  margin: 0 0 0.5rem;
+  font-size: 0.9rem;
+}
+
+.guide-article-body {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.guide-section h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.2rem;
+}
+
+.guide-section p {
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.65;
+}
+
+.guide-faq,
+.guide-more {
+  margin-top: 2.5rem;
+}
+
 .configurator,
 .checkout-form,
 .admin-card {

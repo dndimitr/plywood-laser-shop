@@ -1,4 +1,9 @@
 import type { Metadata } from "next";
+import {
+  categoryLandingById,
+  categoryLandingPath,
+  genericCategoryMeta,
+} from "@/lib/category-landings";
 import { occasionByCategoryId, occasionPath } from "@/lib/occasions";
 import { CATEGORIES, type CategoryId, categoryById } from "@/lib/shop-config";
 import {
@@ -122,13 +127,20 @@ export function categorySeo(catId: string | undefined): {
       path: occasionPath(occasion.slug),
     };
   }
+  const landing = categoryLandingById(catId);
+  if (landing) {
+    return {
+      title: landing.title,
+      description: truncateMeta(landing.description),
+      path: categoryLandingPath(landing.slug),
+    };
+  }
+  const fallback = genericCategoryMeta(catId);
   const cat = categoryById(catId as CategoryId);
-  if (!cat) return null;
+  if (!fallback || !cat) return null;
   return {
-    title: `${cat.label} — персонализирани подаръци`,
-    description: truncateMeta(
-      `Персонализирани продукти в категория „${cat.label}“ — гравиране по име и послание, ясна цена и доставка в България от ${SITE_NAME}.`,
-    ),
+    title: fallback.title,
+    description: truncateMeta(fallback.description),
     path: `/?cat=${encodeURIComponent(cat.id)}`,
   };
 }
@@ -346,14 +358,17 @@ export function productJsonLd(opts: {
   const cat = opts.category
     ? CATEGORIES.find((c) => c.id === opts.category)?.label
     : undefined;
+  const url = absoluteUrl(`/products/${opts.slug}`);
 
   return {
     "@context": "https://schema.org",
     "@type": "Product",
+    "@id": `${url}#product`,
     name: opts.name,
     description: opts.description,
     image: images,
     sku: opts.slug,
+    mpn: opts.slug,
     category: cat,
     brand: {
       "@type": "Brand",
@@ -361,14 +376,35 @@ export function productJsonLd(opts: {
     },
     offers: {
       "@type": "Offer",
-      url: absoluteUrl(`/products/${opts.slug}`),
+      "@id": `${url}#offer`,
+      url,
       priceCurrency: opts.currency ?? "EUR",
       price: opts.price.toFixed(2),
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",
+      priceValidUntil: new Date(Date.now() + 1000 * 60 * 60 * 24 * 180)
+        .toISOString()
+        .slice(0, 10),
       seller: {
         "@type": "Organization",
         name: SITE_NAME,
+        url: getSiteUrl(),
+      },
+      shippingDetails: {
+        "@type": "OfferShippingDetails",
+        shippingDestination: {
+          "@type": "DefinedRegion",
+          addressCountry: "BG",
+        },
+        deliveryTime: {
+          "@type": "ShippingDeliveryTime",
+          handlingTime: {
+            "@type": "QuantitativeValue",
+            minValue: 2,
+            maxValue: 5,
+            unitCode: "DAY",
+          },
+        },
       },
     },
   };

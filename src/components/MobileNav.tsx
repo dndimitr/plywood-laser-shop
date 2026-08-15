@@ -85,6 +85,9 @@ export function MobileNav({ cartCount }: Props) {
             <Link href="/#kak-raboti" onClick={() => setOpen(false)}>
               Как работи
             </Link>
+            <Link href="/idei" onClick={() => setOpen(false)}>
+              Идеи за подаръци
+            </Link>
             <Link href="/custom" onClick={() => setOpen(false)}>
               Поръчка по дизайн
             </Link>

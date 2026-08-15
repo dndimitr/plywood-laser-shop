@@ -1,4 +1,8 @@
 import type { CategoryId } from "@/lib/shop-config";
+import {
+  categoryLandingById,
+  categoryLandingPath,
+} from "@/lib/category-landings";
 
 export type OccasionDef = {
   /** URL slug: /svatba */
@@ -341,10 +345,13 @@ export function occasionPath(slug: string): string {
   return `/${slug}`;
 }
 
-/** Prefer SEO occasion landing; otherwise home catalog filter. */
+/** Prefer SEO occasion landing; else category landing; else home filter. */
 export function categoryHref(categoryId: string): string {
   const occasion = occasionByCategoryId(categoryId);
-  return occasion ? occasionPath(occasion.slug) : `/?cat=${categoryId}#katalog`;
+  if (occasion) return occasionPath(occasion.slug);
+  const landing = categoryLandingById(categoryId);
+  if (landing) return categoryLandingPath(landing.slug);
+  return `/?cat=${categoryId}#katalog`;
 }
 
 export function allOccasionSlugs(): string[] {
@@ -364,4 +371,7 @@ export const OCCASION_RESERVED_PATHS = new Set([
   "favorites",
   "order",
   "legal",
+  "kategoriya",
+  "idei",
+  "manifest.webmanifest",
 ]);
