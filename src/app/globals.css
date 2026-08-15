@@ -3066,8 +3066,21 @@ fieldset.field .radio {
   margin-top: 1rem;
 }
 
-.fb-share-btn {
+.fb-share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.fb-share-btn,
+.fb-copy-btn {
   width: auto;
+}
+
+.fb-share-hint {
+  margin: 0;
+  font-size: 0.85rem;
 }
 
 .fb-page-link {
