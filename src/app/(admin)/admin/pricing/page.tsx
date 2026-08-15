@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { PricingRuleForm } from "@/components/PricingRuleForm";
+import { ADMIN_CATALOG_PRICE_NOTES } from "@/lib/admin-changelog";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 
@@ -10,12 +11,18 @@ export default async function AdminPricingPage() {
   if (!session?.user) redirect("/admin/login");
 
   const rules = await prisma.pricingRule.findMany({ orderBy: { name: "asc" } });
+  const { discountPercent, lowPriceBumpPercent, lowPriceMaxEur } =
+    ADMIN_CATALOG_PRICE_NOTES;
 
   return (
     <div className="admin-panel">
       <h1>Ценови правила</h1>
       <p className="muted">
-        Формула: площ(см²) × цена/см² × коеф. дебелина × множител сложност
+        Формула за къстъм: площ(см²) × цена/см² × коеф. дебелина × множител
+        сложност. Каталожните цени се управляват от seed каталога (−
+        {discountPercent}% базова корекция; +{lowPriceBumpPercent}% за
+        продукти до {lowPriceMaxEur} €). Минимумите по-долу се синхронизират с
+        тази политика.
       </p>
       <div className="admin-grid">
         {rules.map((rule) => (
