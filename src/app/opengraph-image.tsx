@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "ЛазерШперплат — лазерно изрязване и гравиране на шперплат";
+export const alt = "ЛазерШперплат — персонализирани подаръци и украси";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -32,7 +32,7 @@ export default function OpenGraphImage() {
             fontFamily: "system-ui, sans-serif",
           }}
         >
-          Лазер · Шперплат · България
+          Персонализирани подаръци · България
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div
@@ -57,8 +57,8 @@ export default function OpenGraphImage() {
               fontWeight: 400,
             }}
           >
-            Лазерно изрязване и гравиране на шперплат — готови модели и поръчка
-            по ваш файл
+            Персонализирани подаръци и украси — с име, дата или послание за
+            всеки повод
           </div>
         </div>
         <div

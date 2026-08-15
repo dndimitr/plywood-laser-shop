@@ -127,7 +127,7 @@ export default async function OccasionPage({ params }: Props) {
             : products.length < 5
               ? "модела"
               : "модела"}{" "}
-          от брезов шперплат — изберете и добавете персонализация.
+          с опция за персонализация — изберете и добавете име, дата или послание.
         </p>
         {products.length === 0 ? (
           <p className="muted">Скоро ще добавим модели в тази колекция.</p>

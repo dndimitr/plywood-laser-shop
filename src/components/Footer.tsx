@@ -20,8 +20,8 @@ export function Footer() {
               ЛазерШперплат
             </p>
             <p className="muted">
-              Лазерно гравиране и изрязване на шперплат — по готов модел или
-              ваш производствен файл.
+              Персонализирани подаръци и украси с гравиране — по готов модел
+              или ваш дизайн, с доставка в цяла България.
             </p>
             {facebookPageUrl ? (
               <p style={{ marginTop: "0.75rem" }}>
@@ -38,7 +38,7 @@ export function Footer() {
           <div>
             <h3>Магазин</h3>
             <Link href="/#katalog">Каталог</Link>
-            <Link href="/custom">Поръчка по файл</Link>
+            <Link href="/custom">Поръчка по дизайн</Link>
             <Link href="/cart">Количка</Link>
             <Link href="/account">Моите поръчки</Link>
           </div>
