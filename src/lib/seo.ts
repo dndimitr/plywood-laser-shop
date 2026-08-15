@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { occasionByCategoryId, occasionPath } from "@/lib/occasions";
 import { CATEGORIES, type CategoryId, categoryById } from "@/lib/shop-config";
 import {
   adsConversionSendTo,
@@ -9,20 +10,20 @@ import {
 /** Brand & site-wide SEO defaults (Bulgarian storefront) */
 export const SITE_NAME = "ЛазерШперплат";
 export const SITE_NAME_LEGAL = "ЛазерШперплат ЕООД";
-export const SITE_TAGLINE =
-  "Лазерно изрязване и гравиране на шперплат";
+export const SITE_TAGLINE = "Персонализирани подаръци и украси";
 export const DEFAULT_DESCRIPTION =
-  "Лазерно гравиране и изрязване на шперплат по готов модел или ваш файл. Персонализация, ясна цена и доставка с Еконт или Speedy в цяла България.";
+  "Персонализирани подаръци и украси с гравиране — за сватба, рожден ден, кръщене и още. Готови модели или ваш дизайн, ясна цена и доставка в цяла България.";
 
 export const SEO_KEYWORDS = [
-  "лазерно изрязване",
-  "лазерно гравиране",
-  "шперплат",
-  "ключодържатели",
-  "сватбени табели",
   "персонализирани подаръци",
-  "лазер шперплат България",
-  "поръчка по SVG",
+  "гравирани подаръци",
+  "подарък с име",
+  "сватбени украси",
+  "подарък за рожден ден",
+  "подарък за кръщене",
+  "персонализирана декорация",
+  "украси по поръчка",
+  "гравиране България",
 ] as const;
 
 const META_DESCRIPTION_MAX = 160;
@@ -110,12 +111,20 @@ export function categorySeo(catId: string | undefined): {
   path: string;
 } | null {
   if (!catId) return null;
+  const occasion = occasionByCategoryId(catId);
+  if (occasion) {
+    return {
+      title: occasion.title,
+      description: truncateMeta(occasion.description),
+      path: occasionPath(occasion.slug),
+    };
+  }
   const cat = categoryById(catId as CategoryId);
   if (!cat) return null;
   return {
-    title: `${cat.label} от шперплат`,
+    title: `${cat.label} — персонализирани подаръци`,
     description: truncateMeta(
-      `Лазерно изрязани и гравирани продукти в категория „${cat.label}“ — персонализация, ясна цена и доставка в България от ${SITE_NAME}.`,
+      `Персонализирани продукти в категория „${cat.label}“ — гравиране по име и послание, ясна цена и доставка в България от ${SITE_NAME}.`,
     ),
     path: `/?cat=${encodeURIComponent(cat.id)}`,
   };
@@ -210,7 +219,7 @@ export function rootMetadata(): Metadata {
           url: absoluteUrl("/opengraph-image"),
           width: 1200,
           height: 630,
-          alt: `${SITE_NAME} — лазерно изрязване на шперплат`,
+          alt: `${SITE_NAME} — ${SITE_TAGLINE}`,
         },
       ],
     },
@@ -350,7 +359,7 @@ export function productJsonLd(opts: {
     offers: {
       "@type": "Offer",
       url: absoluteUrl(`/products/${opts.slug}`),
-      priceCurrency: opts.currency ?? "BGN",
+      priceCurrency: opts.currency ?? "EUR",
       price: opts.price.toFixed(2),
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",

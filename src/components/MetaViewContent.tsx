@@ -22,7 +22,7 @@ export function MetaViewContent({
   contentId,
   contentName,
   value,
-  currency = "BGN",
+  currency = "EUR",
   enabled = true,
 }: Props) {
   const sent = useRef(false);

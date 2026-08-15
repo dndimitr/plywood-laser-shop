@@ -81,7 +81,7 @@ export function RecentlyViewed({ excludeSlug }: { excludeSlug?: string }) {
                   alt={item.name}
                   fill
                   sizes="(max-width:639px) 42vw, 160px"
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "contain" }}
                   unoptimized={item.imageUrl.endsWith(".svg")}
                 />
               ) : (

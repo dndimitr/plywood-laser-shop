@@ -23,8 +23,8 @@ export function ProductCard({ product }: Props) {
             alt={product.name}
             fill
             sizes="(max-width:639px) 100vw, (max-width:899px) 50vw, 33vw"
-            className="object-cover"
-            style={{ objectFit: "cover" }}
+            className="object-contain"
+            style={{ objectFit: "contain" }}
             unoptimized={product.imageUrl.endsWith(".svg")}
           />
         ) : (

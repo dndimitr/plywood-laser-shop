@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { prisma } from "@/lib/db";
+import { OCCASIONS, occasionPath } from "@/lib/occasions";
 import { CATEGORIES } from "@/lib/shop-config";
 import { absoluteUrl } from "@/lib/seo";
 
@@ -40,8 +41,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
+  const occasionEntries: MetadataRoute.Sitemap = OCCASIONS.map((o) => ({
+    url: absoluteUrl(occasionPath(o.slug)),
+    lastModified: now,
+    changeFrequency: "weekly" as const,
+    priority: 0.9,
+  }));
+
+  const occasionCategoryIds = new Set(OCCASIONS.map((o) => o.categoryId));
   const categoryEntries: MetadataRoute.Sitemap = CATEGORIES.filter(
-    (c) => c.id !== "other",
+    (c) => c.id !== "other" && !occasionCategoryIds.has(c.id),
   ).map((c) => ({
     url: absoluteUrl(`/?cat=${c.id}`),
     lastModified: now,
@@ -66,5 +75,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     /* DB unavailable at build — static + categories still emitted */
   }
 
-  return [...staticEntries, ...categoryEntries, ...productEntries];
+  return [
+    ...staticEntries,
+    ...occasionEntries,
+    ...categoryEntries,
+    ...productEntries,
+  ];
 }

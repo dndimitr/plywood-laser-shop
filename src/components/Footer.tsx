@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { categoryHref } from "@/lib/occasions";
 import {
   featuredCategories,
   navCategoryGroups,
@@ -19,8 +20,8 @@ export function Footer() {
               ЛазерШперплат
             </p>
             <p className="muted">
-              Лазерно гравиране и изрязване на шперплат — по готов модел или
-              ваш производствен файл.
+              Персонализирани подаръци и украси с гравиране — по готов модел
+              или ваш дизайн, с доставка в цяла България.
             </p>
             {facebookPageUrl ? (
               <p style={{ marginTop: "0.75rem" }}>
@@ -37,7 +38,7 @@ export function Footer() {
           <div>
             <h3>Магазин</h3>
             <Link href="/#katalog">Каталог</Link>
-            <Link href="/custom">Поръчка по файл</Link>
+            <Link href="/custom">Поръчка по дизайн</Link>
             <Link href="/cart">Количка</Link>
             <Link href="/account">Моите поръчки</Link>
           </div>
@@ -45,7 +46,7 @@ export function Footer() {
             <h3>Популярни</h3>
             <div className="footer-cats">
               {featured.map((c) => (
-                <Link key={c.id} href={`/?cat=${c.id}#katalog`}>
+                <Link key={c.id} href={categoryHref(c.id)}>
                   {c.label}
                 </Link>
               ))}
@@ -66,7 +67,7 @@ export function Footer() {
                   <div key={group.id}>
                     <p className="footer-group-label">{group.label}</p>
                     {categories.map((c) => (
-                      <Link key={c.id} href={`/?cat=${c.id}#katalog`}>
+                      <Link key={c.id} href={categoryHref(c.id)}>
                         {c.label}
                       </Link>
                     ))}

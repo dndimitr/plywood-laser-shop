@@ -154,13 +154,13 @@ export async function POST(request: Request) {
   if (subtotalAmount < minOrderAmount) {
     return NextResponse.json(
       {
-        error: `Минималната стойност на поръчката е ${minOrderAmount.toFixed(2)} лв.`,
+        error: `Минималната стойност на поръчката е ${minOrderAmount.toFixed(2)} €.`,
       },
       { status: 400 },
     );
   }
 
-  const shippingFee = shippingFeeFor(parsed.data.courier);
+  const shippingFee = shippingFeeFor(parsed.data.courier, subtotalAmount);
   const totalAmount = roundMoney(subtotalAmount + shippingFee);
   const publicToken = randomUUID().replace(/-/g, "");
 

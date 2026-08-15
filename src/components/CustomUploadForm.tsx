@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
 import { complexityLabel } from "@/lib/labels";
+import { MACHINE_BED_MAX_CM, MAX_LINE_QTY } from "@/lib/shop-config";
 
 export function CustomUploadForm() {
   const router = useRouter();
@@ -117,7 +118,7 @@ export function CustomUploadForm() {
           <input
             type="number"
             min={1}
-            max={200}
+            max={MACHINE_BED_MAX_CM}
             value={widthCm}
             onChange={(e) => setWidthCm(Number(e.target.value))}
           />
@@ -127,7 +128,7 @@ export function CustomUploadForm() {
           <input
             type="number"
             min={1}
-            max={200}
+            max={MACHINE_BED_MAX_CM}
             value={heightCm}
             onChange={(e) => setHeightCm(Number(e.target.value))}
           />
@@ -165,7 +166,7 @@ export function CustomUploadForm() {
         <input
           type="number"
           min={1}
-          max={50}
+          max={MAX_LINE_QTY}
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value) || 1)}
         />

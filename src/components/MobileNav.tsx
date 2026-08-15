@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
+import { categoryHref } from "@/lib/occasions";
 import { navCategoryGroups } from "@/lib/shop-config";
 
 type Props = {
@@ -85,7 +86,7 @@ export function MobileNav({ cartCount }: Props) {
               Как работи
             </Link>
             <Link href="/custom" onClick={() => setOpen(false)}>
-              Поръчка по файл
+              Поръчка по дизайн
             </Link>
             <Link href="/account" onClick={() => setOpen(false)}>
               Моите поръчки
@@ -111,7 +112,7 @@ export function MobileNav({ cartCount }: Props) {
                   {categories.map((c) => (
                     <Link
                       key={c.id}
-                      href={`/?cat=${c.id}#katalog`}
+                      href={categoryHref(c.id)}
                       onClick={() => setOpen(false)}
                     >
                       {c.label}

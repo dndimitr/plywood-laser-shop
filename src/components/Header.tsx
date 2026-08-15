@@ -4,6 +4,7 @@ import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { MobileNav } from "@/components/MobileNav";
 import { TopInfoBar } from "@/components/TopInfoBar";
 import { cartTotals, getCart } from "@/lib/cart";
+import { categoryHref } from "@/lib/occasions";
 import {
   featuredCategories,
   navCategoryGroups,
@@ -42,7 +43,7 @@ export async function Header() {
                     {categories.map((c) => (
                       <Link
                         key={c.id}
-                        href={`/?cat=${c.id}#katalog`}
+                        href={categoryHref(c.id)}
                         role="menuitem"
                       >
                         {c.label}
@@ -83,7 +84,7 @@ export async function Header() {
           {featured.map((c) => (
             <Link
               key={c.id}
-              href={`/?cat=${c.id}#katalog`}
+              href={categoryHref(c.id)}
               className="category-bar-link"
             >
               {c.label}

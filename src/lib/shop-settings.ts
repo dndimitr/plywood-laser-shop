@@ -1,5 +1,7 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import path from "path";
+import { bgnToEur } from "@/lib/currency";
+import { FREE_SHIPPING_MIN_EUR } from "@/lib/shop-config";
 import { getDataDir } from "@/lib/local-store";
 
 export type ShippingFees = {
@@ -32,8 +34,8 @@ const SETTINGS_FILE = "shop-settings.json";
 
 function shippingDefaults(): ShippingFees {
   return {
-    ECONT: Number(process.env.SHIPPING_FEE_ECONT) || 6.9,
-    SPEEDY: Number(process.env.SHIPPING_FEE_SPEEDY) || 7.5,
+    ECONT: Number(process.env.SHIPPING_FEE_ECONT) || bgnToEur(6.9),
+    SPEEDY: Number(process.env.SHIPPING_FEE_SPEEDY) || bgnToEur(7.5),
     PICKUP: Number(process.env.SHIPPING_FEE_PICKUP) || 0,
   };
 }
@@ -80,11 +82,28 @@ function writeRaw(next: ShopSettingsFile) {
 export function getShippingFees(): ShippingFees {
   const base = shippingDefaults();
   const raw = readRaw();
-  return {
-    ECONT: Number(raw.shippingFees?.ECONT ?? base.ECONT),
-    SPEEDY: Number(raw.shippingFees?.SPEEDY ?? base.SPEEDY),
-    PICKUP: Number(raw.shippingFees?.PICKUP ?? base.PICKUP),
-  };
+  let ECONT = Number(raw.shippingFees?.ECONT ?? base.ECONT);
+  let SPEEDY = Number(raw.shippingFees?.SPEEDY ?? base.SPEEDY);
+  const PICKUP = Number(raw.shippingFees?.PICKUP ?? base.PICKUP);
+
+  // One-time migrate legacy BGN defaults persisted before EUR switch
+  let dirty = false;
+  if (ECONT === 6.9) {
+    ECONT = base.ECONT;
+    dirty = true;
+  }
+  if (SPEEDY === 7.5) {
+    SPEEDY = base.SPEEDY;
+    dirty = true;
+  }
+  if (dirty) {
+    writeRaw({
+      ...raw,
+      shippingFees: { ECONT, SPEEDY, PICKUP },
+    });
+  }
+
+  return { ECONT, SPEEDY, PICKUP };
 }
 
 export function setShippingFees(fees: ShippingFees) {
@@ -99,9 +118,11 @@ export function setShippingFees(fees: ShippingFees) {
   });
 }
 
-export function shippingFeeFor(courier: string) {
+export function shippingFeeFor(courier: string, subtotal = 0) {
+  if (courier === "PICKUP") return 0;
+  if (subtotal >= FREE_SHIPPING_MIN_EUR) return 0;
   const fees = getShippingFees();
-  if (courier === "ECONT" || courier === "SPEEDY" || courier === "PICKUP") {
+  if (courier === "ECONT" || courier === "SPEEDY") {
     return fees[courier];
   }
   return fees.ECONT;
