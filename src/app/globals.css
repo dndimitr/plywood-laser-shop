@@ -1705,8 +1705,8 @@ img {
 
 /* Clear sticky mobile CTA only — shop-main already clears bottom nav */
 .product-detail {
-  --product-cta-h: 4.75rem;
-  padding-bottom: calc(var(--product-cta-h) + 1rem);
+  --product-cta-h: 4.5rem;
+  padding-bottom: calc(var(--product-cta-h) + 0.75rem);
 }
 
 .product-breadcrumb {

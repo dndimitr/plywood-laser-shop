@@ -427,16 +427,32 @@ export async function ensureLocalDb(): Promise<LocalDb> {
     }
   }
   for (const rule of db.pricingRules) {
+    const nextPerCm2 = bgnToEur(0.12 * CATALOG_PRICE_FACTOR);
+    const nextMinPrice = bgnToEur(18 * CATALOG_PRICE_FACTOR);
+    const nextMinOrder = bgnToEur(12 * CATALOG_PRICE_FACTOR);
+    // Legacy BGN → EUR one-time migrate
     if (Number(rule.pricePerCm2) === 0.12) {
-      rule.pricePerCm2 = bgnToEur(0.12);
+      rule.pricePerCm2 = nextPerCm2;
       dirty = true;
     }
     if (Number(rule.minPrice) === 18) {
-      rule.minPrice = bgnToEur(18);
+      rule.minPrice = nextMinPrice;
       dirty = true;
     }
     if (Number(rule.minOrderAmount) === 12) {
-      rule.minOrderAmount = bgnToEur(12);
+      rule.minOrderAmount = nextMinOrder;
+      dirty = true;
+    }
+    // Keep custom pricing aligned with catalog price factor
+    if (
+      rule.name === "default-custom" &&
+      (Number(rule.pricePerCm2) !== nextPerCm2 ||
+        Number(rule.minPrice) !== nextMinPrice ||
+        Number(rule.minOrderAmount) !== nextMinOrder)
+    ) {
+      rule.pricePerCm2 = nextPerCm2;
+      rule.minPrice = nextMinPrice;
+      rule.minOrderAmount = nextMinOrder;
       dirty = true;
     }
   }
