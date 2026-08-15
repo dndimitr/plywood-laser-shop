@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Рекламации и връщане" };
+export const metadata: Metadata = buildPageMetadata({
+  title: "Рекламации и връщане",
+  description:
+    "Условия за рекламации и връщане на персонализирани лазерни изделия от ЛазерШперплат.",
+  path: "/legal/returns",
+});
 
 export default function ReturnsPage() {
   return (

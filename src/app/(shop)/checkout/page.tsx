@@ -1,9 +1,18 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { CheckoutForm } from "@/components/CheckoutForm";
 import { cartTotals, getCart } from "@/lib/cart";
 import { getCourierOptions } from "@/lib/shipping-settings";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Поръчка",
+  description: "Завършете поръчката — доставка, плащане и данни за контакт.",
+  path: "/checkout",
+  noIndex: true,
+});
 
 export default async function CheckoutPage() {
   const cart = await getCart();

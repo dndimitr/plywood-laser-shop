@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import {
   IconPackage,
   IconPencil,
@@ -10,7 +11,15 @@ import {
   IconUpload,
 } from "@/components/Icons";
 import { CatalogBrowser } from "@/components/CatalogBrowser";
+import { JsonLd } from "@/components/JsonLd";
 import { prisma } from "@/lib/db";
+import {
+  buildPageMetadata,
+  categorySeo,
+  faqJsonLd,
+  SITE_NAME,
+  SITE_TAGLINE,
+} from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -33,6 +42,38 @@ const faqs = [
   },
 ];
 
+type HomeProps = {
+  searchParams: Promise<{ cat?: string; q?: string }>;
+};
+
+export async function generateMetadata({
+  searchParams,
+}: HomeProps): Promise<Metadata> {
+  const { cat, q } = await searchParams;
+  if (q?.trim()) {
+    return buildPageMetadata({
+      title: `Търсене: ${q.trim()}`,
+      description: `Резултати от каталога на ${SITE_NAME} за „${q.trim()}“.`,
+      path: `/?q=${encodeURIComponent(q.trim())}`,
+      noIndex: true,
+    });
+  }
+  const catMeta = categorySeo(cat);
+  if (catMeta) {
+    return buildPageMetadata({
+      title: catMeta.title,
+      description: catMeta.description,
+      path: catMeta.path,
+    });
+  }
+  return buildPageMetadata({
+    title: SITE_TAGLINE,
+    description:
+      "Каталог с готови модели и поръчка по ваш файл. Лазерно изрязване и гравиране на шперплат с персонализация и доставка в България.",
+    path: "/",
+  });
+}
+
 export default async function HomePage() {
   const [products, reviews] = await Promise.all([
     prisma.product.findMany({
@@ -47,6 +88,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={faqJsonLd(faqs)} />
       <section className="hero" aria-label="Начало">
         <div className="hero-media">
           <Image

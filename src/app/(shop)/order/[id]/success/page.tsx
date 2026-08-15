@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
 import { IconCheck } from "@/components/Icons";
+import { PurchaseConversion } from "@/components/PurchaseConversion";
 import { prisma } from "@/lib/db";
 import { formatBgn } from "@/lib/pricing";
 import {
@@ -9,6 +11,7 @@ import {
   paymentStatusLabel,
 } from "@/lib/labels";
 import { getBankDetails } from "@/lib/shop-config";
+import { buildPageMetadata } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -16,6 +19,13 @@ type Props = {
   params: Promise<{ id: string }>;
   searchParams: Promise<{ t?: string }>;
 };
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Поръчката е приета",
+  description: "Потвърждение на поръчка в ЛазерШперплат.",
+  path: "/order",
+  noIndex: true,
+});
 
 export default async function OrderSuccessPage({ params, searchParams }: Props) {
   const { id } = await params;
@@ -48,9 +58,11 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
   }
 
   const bank = getBankDetails();
+  const total = Number(order.totalAmount);
 
   return (
     <div className="container success-page">
+      <PurchaseConversion orderId={order.id} value={total} currency="BGN" />
       <div className="checkout-steps" aria-label="Стъпки на поръчката">
         <span>1. Количка</span>
         <span>2. Поръчка</span>
@@ -64,10 +76,16 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
       <p>
         Номер на поръчка: <strong>{order.id}</strong>
       </p>
-      <p>Междинна сума: {formatBgn(Number(order.subtotalAmount ?? order.totalAmount))}</p>
-      <p>Доставка ({courierLabel[order.courier] ?? order.courier}): {formatBgn(Number(order.shippingFee ?? 0))}</p>
       <p>
-        Общо: <strong>{formatBgn(Number(order.totalAmount))}</strong>
+        Междинна сума:{" "}
+        {formatBgn(Number(order.subtotalAmount ?? order.totalAmount))}
+      </p>
+      <p>
+        Доставка ({courierLabel[order.courier] ?? order.courier}):{" "}
+        {formatBgn(Number(order.shippingFee ?? 0))}
+      </p>
+      <p>
+        Общо: <strong>{formatBgn(total)}</strong>
       </p>
       <p>
         Плащане:{" "}
@@ -79,11 +97,16 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
         <div className="admin-card" style={{ marginTop: "1rem" }}>
           <h3 style={{ marginTop: 0 }}>Данни за банков превод</h3>
           <p>{bank.beneficiary}</p>
-          <p>IBAN: <strong>{bank.iban}</strong></p>
+          <p>
+            IBAN: <strong>{bank.iban}</strong>
+          </p>
           <p>BIC: {bank.bic}</p>
           <p>Банка: {bank.bankName}</p>
           <p>
-            Основание: <strong>{bank.reasonPrefix} {order.id}</strong>
+            Основание:{" "}
+            <strong>
+              {bank.reasonPrefix} {order.id}
+            </strong>
           </p>
         </div>
       ) : null}

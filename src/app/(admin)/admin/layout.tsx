@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { auth, signOut } from "@/lib/auth";
+
+export const metadata: Metadata = {
+  title: "Админ",
+  robots: { index: false, follow: false, nocache: true },
+};
 
 export default async function AdminLayout({
   children,

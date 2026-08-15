@@ -1,15 +1,24 @@
 import type { Metadata } from "next";
 import { CustomUploadForm } from "@/components/CustomUploadForm";
+import { JsonLd } from "@/components/JsonLd";
+import { breadcrumbJsonLd, buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Поръчка по файл",
+export const metadata: Metadata = buildPageMetadata({
+  title: "Поръчка по ваш файл",
   description:
-    "Качете SVG, PDF, PNG или JPG и получете ориентировъчна цена за лазерна изработка от шперплат.",
-};
+    "Качете SVG, PDF, PNG или JPG и получете ориентировъчна цена за лазерно изрязване или гравиране на шперплат. Без регистрация.",
+  path: "/custom",
+});
 
 export default function CustomPage() {
   return (
     <div className="container custom-page">
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Начало", path: "/" },
+          { name: "Поръчка по файл", path: "/custom" },
+        ])}
+      />
       <div className="custom-grid">
         <div>
           <h1 className="page-title">Поръчка по ваш файл</h1>

@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Общи условия" };
+export const metadata: Metadata = buildPageMetadata({
+  title: "Общи условия",
+  description:
+    "Общи условия за поръчки за лазерно гравиране и изрязване на шперплат чрез ЛазерШперплат.",
+  path: "/legal/terms",
+});
 
 export default function TermsPage() {
   return (

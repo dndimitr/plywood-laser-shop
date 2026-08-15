@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { FavoriteToggle } from "@/components/FavoriteToggle";
+import { JsonLd } from "@/components/JsonLd";
 import { ProductConfigurator } from "@/components/ProductConfigurator";
 import { ProductGallery } from "@/components/ProductGallery";
 import {
@@ -11,6 +12,12 @@ import {
 import { prisma } from "@/lib/db";
 import { formatBgn } from "@/lib/pricing";
 import { finishLabel, materialLabel } from "@/lib/labels";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+  productJsonLd,
+  truncateMeta,
+} from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -19,10 +26,22 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await prisma.product.findUnique({ where: { slug } });
-  if (!product) return { title: "Продукт" };
+  if (!product) {
+    return buildPageMetadata({
+      title: "Продуктът не е намерен",
+      path: `/products/${slug}`,
+      noIndex: true,
+    });
+  }
+  const description = truncateMeta(product.description);
   return {
-    title: product.name,
-    description: product.description,
+    ...buildPageMetadata({
+      title: product.name,
+      description,
+      path: `/products/${product.slug}`,
+      image: product.imageUrl,
+      type: "website",
+    }),
   };
 }
 
@@ -46,6 +65,23 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <div className="product-detail">
+      <JsonLd
+        data={[
+          productJsonLd({
+            name: product.name,
+            description: product.description,
+            slug: product.slug,
+            imageUrl: product.imageUrl ?? gallery[0] ?? null,
+            price: basePrice,
+            category: product.category,
+          }),
+          breadcrumbJsonLd([
+            { name: "Начало", path: "/" },
+            { name: "Каталог", path: "/#katalog" },
+            { name: product.name, path: `/products/${product.slug}` },
+          ]),
+        ]}
+      />
       <TrackProductView
         slug={product.slug}
         name={product.name}

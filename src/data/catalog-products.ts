@@ -3651,7 +3651,8 @@ const DRAFTS: Draft[] = [
       },
     ]),
   },
-,\n\n  // —— Хелоуин ——
+
+  // —— Хелоуин ——
   {
     name: "Хелоуин декорация „Вещица“",
     slug: "halloween-veshtica-wiggly",

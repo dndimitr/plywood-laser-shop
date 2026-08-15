@@ -1,4 +1,12 @@
+import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "Страницата не е намерена",
+  description: "Тази страница не съществува или е премахната.",
+  noIndex: true,
+});
 
 export default function NotFound() {
   return (
