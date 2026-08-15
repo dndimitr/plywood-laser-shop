@@ -8,11 +8,14 @@ import {
 } from "@/lib/shop-settings";
 
 /** Brand & site-wide SEO defaults (Bulgarian storefront) */
-export const SITE_NAME = "ЛазерШперплат";
+export const SITE_NAME = "Studio Breza";
+/** Legal / bank entity — keep until company rename is registered */
 export const SITE_NAME_LEGAL = "ЛазерШперплат ЕООД";
 export const SITE_TAGLINE = "Персонализирани подаръци и украси";
 export const DEFAULT_DESCRIPTION =
   "Персонализирани подаръци и украси с гравиране — за сватба, рожден ден, кръщене и още. Готови модели или ваш дизайн, ясна цена и доставка в цяла България.";
+export const BRAND_LOGO_PATH = "/brand/studio-breza-logo-header.png";
+export const BRAND_MARK_PATH = "/brand/studio-breza-mark-512.png";
 
 export const SEO_KEYWORDS = [
   "персонализирани подаръци",

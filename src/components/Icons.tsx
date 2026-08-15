@@ -48,6 +48,22 @@ export function IconArrowRight(props: IconProps) {
   );
 }
 
+export function IconChevronLeft(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M160 48l-80 80 80 80" />
+    </svg>
+  );
+}
+
+export function IconChevronRight(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M96 48l80 80-80 80" />
+    </svg>
+  );
+}
+
 export function IconPackage(props: IconProps) {
   return (
     <svg {...baseProps(props)}>

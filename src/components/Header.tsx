@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/BrandLogo";
 import { IconCart } from "@/components/Icons";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { MobileNav } from "@/components/MobileNav";
@@ -9,6 +10,7 @@ import {
   featuredCategories,
   navCategoryGroups,
 } from "@/lib/shop-config";
+import { SITE_NAME } from "@/lib/seo";
 
 export async function Header() {
   const cart = await getCart();
@@ -20,8 +22,8 @@ export async function Header() {
     <header className="site-header">
       <TopInfoBar />
       <div className="container header-inner">
-        <Link href="/" className="brand" aria-label="ЛазерШперплат — начало">
-          ЛазерШперплат
+        <Link href="/" className="brand brand--logo" aria-label={`${SITE_NAME} — начало`}>
+          <BrandLogo variant="header" priority />
         </Link>
 
         <nav className="nav desktop-nav" aria-label="Основна навигация">

@@ -11,8 +11,10 @@ import {
   IconTruck,
   IconUpload,
 } from "@/components/Icons";
+import { BrandLogo } from "@/components/BrandLogo";
 import { CatalogBrowser } from "@/components/CatalogBrowser";
 import { JsonLd } from "@/components/JsonLd";
+import { ProductSlider } from "@/components/ProductSlider";
 import { prisma } from "@/lib/db";
 import {
   OCCASIONS,
@@ -98,6 +100,11 @@ export default async function HomePage({ searchParams }: HomeProps) {
     }),
   ]);
 
+  const featuredSlider = pickRandomProducts(
+    products.filter((p) => Boolean(p.imageUrl)),
+    8,
+  );
+
   return (
     <>
       <JsonLd data={faqJsonLd(faqs)} />
@@ -113,7 +120,9 @@ export default async function HomePage({ searchParams }: HomeProps) {
           <div className="hero-scrim" />
         </div>
         <div className="container hero-copy">
-          <p className="hero-brand">ЛазерШперплат</p>
+          <p className="hero-brand">
+            <BrandLogo variant="hero" priority />
+          </p>
           <h1>Персонализирани подаръци и украси</h1>
           <p>
             С име, дата или послание — за сватба, рожден ден, кръщене и всеки
@@ -136,8 +145,30 @@ export default async function HomePage({ searchParams }: HomeProps) {
       </section>
 
       <section
-        id="povodi"
+        id="izbrani"
         className="section container"
+        aria-labelledby="izbrani-heading"
+      >
+        <h2 id="izbrani-heading">Избрани модели</h2>
+        <p className="section-lead">
+          Случайна селекция от каталога — персонализирайте с име, дата или
+          послание.
+        </p>
+        <ProductSlider
+          products={featuredSlider.map((p) => ({
+            id: p.id,
+            name: p.name,
+            slug: p.slug,
+            description: p.description,
+            basePrice: Number(p.basePrice),
+            imageUrl: p.imageUrl,
+          }))}
+        />
+      </section>
+
+      <section
+        id="povodi"
+        className="section section-alt container"
         aria-labelledby="povodi-heading"
       >
         <h2 id="povodi-heading">Поводи</h2>
@@ -157,7 +188,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
         </div>
       </section>
 
-      <section id="kak-raboti" className="section section-alt container">
+      <section id="kak-raboti" className="section container">
         <h2>Как протича поръчката</h2>
         <p className="section-lead">
           От идея до готов подарък — в три стъпки.
@@ -317,4 +348,16 @@ export default async function HomePage({ searchParams }: HomeProps) {
       </section>
     </>
   );
+}
+
+function pickRandomProducts<T>(items: T[], count: number): T[] {
+  if (items.length <= count) return [...items];
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = copy[i]!;
+    copy[i] = copy[j]!;
+    copy[j] = tmp;
+  }
+  return copy.slice(0, count);
 }
