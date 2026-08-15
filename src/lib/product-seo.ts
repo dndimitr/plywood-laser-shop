@@ -19,6 +19,7 @@ const CATEGORY_LONG_TAIL: Partial<Record<CategoryId, string>> = {
   newyear: "новогодишен подарък с гравиране",
   spring: "подарък за Баба Марта или 8 март",
   gifts: "персонализиран подарък с име",
+  personalized: "супер персонализиран подарък с име и дата",
   decor: "декор за дома с гравиране",
   panels: "стенен панел с имена",
   ornaments: "орнамент с име",

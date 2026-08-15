@@ -10,6 +10,7 @@
 
 import { bgnToEur, roundMoney } from "@/lib/currency";
 import { OCCASION_EXPANSION_DRAFTS } from "./catalog-occasion-expansion";
+import { PERSONALIZED_EVERGREEN_DRAFTS } from "./catalog-personalized-evergreen";
 import { SEASONAL_2026_DRAFTS } from "./catalog-seasonal-2026";
 
 /** Multiply authored BGN drafts by this before EUR conversion (−35%). */
@@ -4189,5 +4190,10 @@ export const CATALOG_PRODUCTS: SeedProduct[] = [
   ...pack(OCCASION_EXPANSION_DRAFTS),
   ...pack(
     SEASONAL_2026_DRAFTS.map(({ photoText: _photoText, ...draft }) => draft),
+  ),
+  ...pack(
+    PERSONALIZED_EVERGREEN_DRAFTS.map(
+      ({ photoText: _photoText, ...draft }) => draft,
+    ),
   ),
 ];
