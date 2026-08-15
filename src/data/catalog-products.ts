@@ -3,12 +3,16 @@
  * (Etsy / handmade marketplaces). Names, copy and SKUs are original —
  * not scraped or copied from third-party listings.
  *
- * Draft amounts below are authored in BGN and converted to EUR in `pack()`.
+ * Draft amounts below are authored in BGN and converted to EUR in `pack()`,
+ * then scaled by CATALOG_PRICE_FACTOR (35% reduction).
  */
 
 import { bgnToEur } from "@/lib/currency";
 import { OCCASION_EXPANSION_DRAFTS } from "./catalog-occasion-expansion";
 import { SEASONAL_2026_DRAFTS } from "./catalog-seasonal-2026";
+
+/** Multiply authored BGN drafts by this before EUR conversion (−35%). */
+export const CATALOG_PRICE_FACTOR = 0.65;
 
 export type SeedLaserType = "ENGRAVE" | "CUT" | "BOTH";
 
@@ -71,10 +75,10 @@ type Draft = {
 function pack(drafts: Draft[]): SeedProduct[] {
   return drafts.map((d) => ({
     ...d,
-    basePrice: bgnToEur(d.basePrice),
+    basePrice: bgnToEur(d.basePrice * CATALOG_PRICE_FACTOR),
     options: d.options.map((o) => ({
       ...o,
-      priceModifier: bgnToEur(o.priceModifier),
+      priceModifier: bgnToEur(o.priceModifier * CATALOG_PRICE_FACTOR),
     })),
     ...imgs(d.slug),
   }));
