@@ -1,6 +1,8 @@
 /**
  * Extra occasion catalog drafts — wedding, birthday, newborn, baptism,
  * anniversary, Valentine's, christmas, halloween, gifts expansions.
+ *
+ * Names and descriptions are storefront Bulgarian copy.
  */
 
 type SeedLaserType = "ENGRAVE" | "CUT" | "BOTH";
@@ -72,11 +74,11 @@ function std2(
 export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
   // —— Сватба (разширение) ——
   {
-    name: "Сватбен топер Mr & Mrs",
+    name: "Топер за сватбена торта „Mr & Mrs“",
     slug: "svatba-toper-mr-mrs",
     category: "wedding",
     description:
-      "Класически топер „Mr & Mrs“ от шперплат за сватбената торта. Опция за гравирани фамилия и дата.",
+      "Класически топер с надпис „Mr & Mrs“ от брезов шперплат. По желание гравираме фамилия и дата на сватбата.",
     basePrice: 18,
     options: std2(
       { label: "Стандарт · 3 мм", size: "15×10 см" },
@@ -88,7 +90,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "svatba-kutiya-pari",
     category: "wedding",
     description:
-      "Ажурна кутия за пликове и парични подаръци с гравирани имена на младоженците. Централен акцент на подаръчната маса.",
+      "Ажурна кутия за пликове и парични подаръци с гравирани имена на младоженците. Подходяща за подаръчната маса.",
     basePrice: 42,
     options: std2(
       { label: "Средна · 4 мм", size: "25×18×8 см", mm: 4 },
@@ -100,7 +102,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "svatba-etiketi-gosti",
     category: "wedding",
     description:
-      "Комплект лазерно изрязани етикети/тагчета за подаръчета на гостите — с инициали или дата на сватбата.",
+      "Комплект лазерно изрязани етикети за подаръчетата на гостите. Гравираме инициали или дата на сватбата.",
     basePrice: 28,
     options: opts([
       {
@@ -121,11 +123,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ]),
   },
   {
-    name: "Табела „Нашите имена“ за арка",
+    name: "Табела с имена за сватбена арка",
     slug: "svatba-tabela-arka-imena",
     category: "wedding",
     description:
-      "Голяма ажурна табела с имена за сватбена арка или фотозона. Чист силует, подходящ за окачване.",
+      "Голяма ажурна табела с имената на младоженците — за арка, фотозона или стена. Чист силует, готов за окачване.",
     basePrice: 55,
     options: std2(
       { label: "Средна · 4 мм", size: "50×25 см", mm: 4 },
@@ -133,41 +135,41 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Поставка за седнали имена",
+    name: "Табелки за местата на младоженците",
     slug: "svatba-postavka-sednali",
     category: "wedding",
     description:
-      "Мини табелки „Младоженец / Младоженка“ или с имена за местата на почетната маса.",
+      "Комплект от две мини табелки за почетната маса — „Младоженец“ и „Младоженка“ или с вашите имена.",
     basePrice: 16,
     options: std2(
       { label: "Комплект 2 бр.", size: "10×6 см" },
-      { label: "Комплект + масло", size: "12×7 см", price: 6 },
+      { label: "Комплект · масло", size: "12×7 см", price: 6 },
     ),
   },
   {
-    name: "Сватбена кутия за бутилка вино",
+    name: "Кутия за бутилка вино — сватбен подарък",
     slug: "svatba-kutiya-vino",
     category: "wedding",
     description:
-      "Дървена кутия/облицовка за бутилка с гравирани имена и дата — подарък за кумове или за младоженците.",
+      "Кутия от шперплат за бутилка вино с гравирани имена и дата. Подходяща за кумове или за младоженците.",
     basePrice: 36,
     options: std2(
-      { label: "Стандарт · 4 мм", size: "под бутилка 0.75 л", mm: 4 },
-      { label: "Премиум · масло", size: "под бутилка 0.75 л", mm: 4, price: 10 },
+      { label: "Стандарт · 4 мм", size: "за бутилка 0,75 л", mm: 4 },
+      { label: "Премиум · масло", size: "за бутилка 0,75 л", mm: 4, price: 10 },
     ),
   },
 
   // —— Рожден ден (разширение) ——
   {
-    name: "Голяма цифра за рожден ден (стена/фотозона)",
+    name: "Голяма цифра за рожден ден",
     slug: "rozhden-golyama-cifra",
     category: "birthday",
     description:
-      "Лазерно изрязана голяма цифра от шперплат за фотозона или торта-маса. Изберете възраст при поръчка.",
+      "Лазерно изрязана цифра от шперплат за фотозона или декорация около тортата. Посочете възрастта при поръчка.",
     basePrice: 24,
     options: std2(
-      { label: "40 см · 4 мм", size: "височина ~40 см", mm: 4 },
-      { label: "60 см · 6 мм", size: "височина ~60 см", mm: 6, price: 16 },
+      { label: "40 см · 4 мм", size: "височина около 40 см", mm: 4 },
+      { label: "60 см · 6 мм", size: "височина около 60 см", mm: 6, price: 16 },
     ),
   },
   {
@@ -175,7 +177,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "rozhden-kutiya-pari",
     category: "birthday",
     description:
-      "Ажурна кутия за паричен подарък с надпис и опция за име на юбиляря.",
+      "Ажурна кутия за паричен подарък с поздрав. По желание добавяме името на юбиляря.",
     basePrice: 32,
     options: std2(
       { label: "Стандарт · 4 мм", size: "18×12×6 см", mm: 4 },
@@ -183,11 +185,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Топер с име и години",
+    name: "Топер за торта с име и години",
     slug: "rozhden-toper-ime-godini",
     category: "birthday",
     description:
-      "Персонализиран топер за торта с име и възраст — ясен силует, стабилен шип за торта.",
+      "Персонализиран топер от шперплат с име и възраст. Ясен силует и стабилен щифт за торта.",
     basePrice: 16,
     options: std2(
       { label: "Стандарт · 3 мм", size: "14×12 см" },
@@ -199,7 +201,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "rozhden-baner-yubiley",
     category: "birthday",
     description:
-      "Надпис-банер за юбилей от шперплат — за стена или фотозона. Гравиране на години по желание.",
+      "Надпис от шперплат за юбилей — за стена или фотозона. По желание гравираме години.",
     basePrice: 38,
     options: std2(
       { label: "Среден · 4 мм", size: "60×15 см", mm: 4 },
@@ -211,7 +213,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "rozhden-plaket-ime",
     category: "birthday",
     description:
-      "Настолен плакет с поздрав и име — подходящ като самостоятелен подарък или допълнение към букет.",
+      "Настолен плакет с поздрав и име. Подходящ като самостоятелен подарък или към букет.",
     basePrice: 22,
     options: std2(
       { label: "Стандарт · 4 мм", size: "18×12 см", mm: 4 },
@@ -225,7 +227,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "novorodeno-tabela-izpisvane",
     category: "newborn",
     description:
-      "Табела за изписване от болницата с име на бебето — лек шперплат, чисти ръбове, готов за снимки.",
+      "Табела за изписване от болницата с името на бебето. Лек шперплат, чисти ръбове — готова за снимки.",
     basePrice: 26,
     options: std2(
       { label: "Кръгла · 3 мм", size: "Ø 20 см" },
@@ -233,23 +235,23 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Гирлянда с име на бебето",
+    name: "Гирлянда с името на бебето",
     slug: "novorodeno-girlyanda-ime",
     category: "newborn",
     description:
-      "Букви от шперплат за гирлянда с името на бебето — за детска стая или парти за изписване.",
+      "Букви от шперплат за гирлянда с името на бебето. За детската стая или партито за изписване.",
     basePrice: 34,
     options: opts([
       {
         label: "До 6 букви · 3 мм",
-        sizeLabel: "буква ~10 см",
+        sizeLabel: "буква около 10 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "До 10 букви · 4 мм",
-        sizeLabel: "буква ~12 см",
+        sizeLabel: "буква около 12 см",
         thicknessMm: 4,
         laserType: "CUT",
         priceModifier: 14,
@@ -261,7 +263,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "novorodeno-kutiya-parvi-spomeni",
     category: "newborn",
     description:
-      "Кутия с разделители за първите спомени — тестове, гривничка, снимки. Гравиране на име и дата.",
+      "Кутия с разделители за първите спомени — тестове, гривничка, снимки. Гравираме име и дата.",
     basePrice: 48,
     options: std2(
       { label: "Стандарт · 4 мм", size: "25×18×8 см", mm: 4 },
@@ -269,15 +271,15 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Мобиле облак / звезди",
+    name: "Мобил с облаци и звезди",
     slug: "novorodeno-mobile-oblaci",
     category: "newborn",
     description:
-      "Леко мобиле от шперплат с облаци и звезди — над креватчето или за фотозона.",
+      "Лек висящ мобил от шперплат с облаци и звезди. За над креватчето или за фотозона.",
     basePrice: 42,
     options: std2(
-      { label: "Стандарт · 3 мм", size: "Ø ~30 см" },
-      { label: "Голямо · 4 мм", size: "Ø ~40 см", mm: 4, price: 12 },
+      { label: "Стандарт · 3 мм", size: "Ø около 30 см" },
+      { label: "Голям · 4 мм", size: "Ø около 40 см", mm: 4, price: 12 },
     ),
   },
   {
@@ -285,7 +287,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "novorodeno-ramka-otpechatak",
     category: "newborn",
     description:
-      "Рамка от шперплат с място за отпечатък и гравирано име — спомен за цял живот.",
+      "Рамка от шперплат с място за отпечатък и гравирано име — траен спомен от първите дни.",
     basePrice: 28,
     options: std2(
       { label: "Стандарт · 4 мм", size: "20×25 см", mm: 4 },
@@ -297,7 +299,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "novorodeno-tabela-bebe-spi",
     category: "newborn",
     description:
-      "Дискретна табела за врата „Бебе спи“ / „Тишина“ — практичен подарък за родители.",
+      "Дискретна табела за вратата с надпис „Бебе спи“ или „Тишина“. Практичен подарък за родителите.",
     basePrice: 16,
     options: std2(
       { label: "Стандарт · 3 мм", size: "15×8 см" },
@@ -311,7 +313,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "krashtene-toper-ime",
     category: "baptism",
     description:
-      "Топер за торта при кръщене с име на кръщелника и деликатен кръст/орнамент от шперплат.",
+      "Топер за тортата при кръщене с името на кръщелника и деликатен кръст от шперплат.",
     basePrice: 17,
     options: std2(
       { label: "Стандарт · 3 мм", size: "14×12 см" },
@@ -323,7 +325,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "krashtene-kutiya-krastche",
     category: "baptism",
     description:
-      "Малка ажурна кутия за кръстче и аксесоари от ритуала — с гравирано име.",
+      "Малка ажурна кутия за кръстчето и аксесоарите от ритуала. С гравирано име по желание.",
     basePrice: 28,
     options: std2(
       { label: "Стандарт · 4 мм", size: "12×12×5 см", mm: 4 },
@@ -335,7 +337,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "krashtene-tabela-ime",
     category: "baptism",
     description:
-      "Декоративна табела с името на кръщелника за масата или фотозоната.",
+      "Декоративна табела с името на кръщелника — за масата или фотозоната.",
     basePrice: 24,
     options: std2(
       { label: "Средна · 3 мм", size: "25×12 см" },
@@ -347,7 +349,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "krashtene-etiketi-gosti",
     category: "baptism",
     description:
-      "Комплект малки етикети/спомени за гостите с име или дата на кръщенето.",
+      "Комплект малки етикети за гостите с име или дата на кръщенето.",
     basePrice: 26,
     options: opts([
       {
@@ -367,15 +369,15 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ]),
   },
   {
-    name: "Рамка спомен от кръщене",
+    name: "Рамка — спомен от кръщенето",
     slug: "krashtene-ramka-spomen",
     category: "baptism",
     description:
       "Рамка от шперплат за снимка от кръщенето с гравирани име и дата.",
     basePrice: 30,
     options: std2(
-      { label: "10×15 снимка · 4 мм", size: "рамка под 10×15", mm: 4 },
-      { label: "13×18 · масло", size: "рамка под 13×18", mm: 4, price: 10 },
+      { label: "За снимка 10×15 · 4 мм", size: "рамка за 10×15", mm: 4 },
+      { label: "За снимка 13×18 · масло", size: "рамка за 13×18", mm: 4, price: 10 },
     ),
   },
   {
@@ -383,11 +385,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "krashtene-postavka-svesht",
     category: "baptism",
     description:
-      "Декоративна поставка/облицовка за ритуална свещ с ажурен мотив и име.",
+      "Декоративна поставка за ритуалната свещ с ажурен мотив и място за име.",
     basePrice: 20,
     options: std2(
-      { label: "Стандарт · 3 мм", size: "Ø ~8 см" },
-      { label: "С масло", size: "Ø ~9 см", mm: 4, price: 6 },
+      { label: "Стандарт · 3 мм", size: "Ø около 8 см" },
+      { label: "С масло", size: "Ø около 9 см", mm: 4, price: 6 },
     ),
   },
   {
@@ -395,7 +397,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "krashtene-kutiya-pari",
     category: "baptism",
     description:
-      "Кутия за парични подаръци при кръщене с поздрав и опция за име.",
+      "Кутия за парични подаръци при кръщене с поздрав. По желание добавяме име.",
     basePrice: 34,
     options: std2(
       { label: "Стандарт · 4 мм", size: "18×12×6 см", mm: 4 },
@@ -407,7 +409,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "krashtene-nadpis",
     category: "baptism",
     description:
-      "Стенен/настолен надпис за украса на залата — чист шрифт от шперплат.",
+      "Надпис от шперплат за украса на залата — стенен или настолен, с чист шрифт.",
     basePrice: 36,
     options: std2(
       { label: "Среден · 4 мм", size: "50×12 см", mm: 4 },
@@ -421,7 +423,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "godishnina-plaket-godini",
     category: "anniversary",
     description:
-      "Класически плакет от шперплат за юбилей — гравиране на години, имена и поздрав.",
+      "Класически плакет от шперплат за юбилей. Гравираме години, имена и поздрав.",
     basePrice: 28,
     options: std2(
       { label: "25×17 см · 4 мм", size: "25×17 см", mm: 4 },
@@ -445,7 +447,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "godishnina-kutiya-spomen",
     category: "anniversary",
     description:
-      "Кутия за писма, билети и малки спомени — гравирани години и инициали.",
+      "Кутия за писма, билети и малки спомени с гравирани години и инициали.",
     basePrice: 40,
     options: std2(
       { label: "Стандарт · 4 мм", size: "22×16×7 см", mm: 4 },
@@ -457,7 +459,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "godishnina-sarce-godini",
     category: "anniversary",
     description:
-      "Ажурно сърце с гравирани години „заедно“ — настолна декорация или стенен акцент.",
+      "Ажурно сърце с гравирани години заедно — за маса или като стенен акцент.",
     basePrice: 18,
     options: std2(
       { label: "Стандарт · 3 мм", size: "15×14 см" },
@@ -469,7 +471,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "godishnina-plaket-10",
     category: "anniversary",
     description:
-      "Готов мотив за 10-та годишнина с място за имена — други годишнини по заявка.",
+      "Плакет за десетата годишнина с място за имена. Други годишнини изработваме по заявка.",
     basePrice: 26,
     options: std2(
       { label: "Стандарт · 4 мм", size: "22×15 см", mm: 4 },
@@ -481,7 +483,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "godishnina-kalendar-data",
     category: "anniversary",
     description:
-      "Декоративен вечен/настолен акцент с гравирана важна дата — годишнина или годеж.",
+      "Настолна декорация с гравирана важна дата — годишнина, годеж или друга лична дата.",
     basePrice: 24,
     options: std2(
       { label: "Стандарт · 4 мм", size: "16×12 см", mm: 4 },
@@ -507,7 +509,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "valentin-klyuchodarzhateli-dvoika",
     category: "valentines",
     description:
-      "Комплект от два ключа/сърца, които пасват едно в друго — с инициали.",
+      "Комплект от два ключодържателя във форма на сърца, които се пасват едно в друго. С инициали по желание.",
     basePrice: 18,
     options: std2(
       { label: "Комплект · 3 мм", size: "6×4 см" },
@@ -519,11 +521,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "valentin-ramka-obicham-te",
     category: "valentines",
     description:
-      "Рамка от шперплат с надпис и място за снимка — подарък с послание.",
+      "Рамка от шперплат с надпис и място за снимка — подарък с лично послание.",
     basePrice: 28,
     options: std2(
-      { label: "10×15 · 4 мм", size: "под 10×15", mm: 4 },
-      { label: "С масло", size: "под 10×15", mm: 4, price: 8 },
+      { label: "За 10×15 · 4 мм", size: "за снимка 10×15", mm: 4 },
+      { label: "С масло", size: "за снимка 10×15", mm: 4, price: 8 },
     ),
   },
   {
@@ -531,7 +533,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "valentin-toper-sarce",
     category: "valentines",
     description:
-      "Малък топер сърце за торта или десерт — с инициали по желание.",
+      "Малък топер във форма на сърце за торта или десерт. По желание с инициали.",
     basePrice: 12,
     options: std2(
       { label: "Стандарт · 3 мм", size: "10×9 см" },
@@ -539,11 +541,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Кутия за пръстен / малък подарък",
+    name: "Кутия за пръстен или малък подарък",
     slug: "valentin-kutiya-prasten",
     category: "valentines",
     description:
-      "Мини кутия от шперплат за пръстен или бижу — гравиране на инициали.",
+      "Мини кутия от шперплат за пръстен или бижу. Гравираме инициали по желание.",
     basePrice: 22,
     options: std2(
       { label: "Стандарт · 4 мм", size: "8×8×4 см", mm: 4 },
@@ -551,11 +553,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Табела „Ти + Аз“",
+    name: "Табела „Ти и аз“",
     slug: "valentin-tabela-ti-az",
     category: "valentines",
     description:
-      "Настолна табела с надпис за двойка — имена или „Ти + Аз“ с дата.",
+      "Настолна табела за двойка — с имена, дата или надпис „Ти и аз“.",
     basePrice: 20,
     options: std2(
       { label: "Стандарт · 3 мм", size: "18×10 см" },
@@ -565,7 +567,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
 
   // —— Коледа (разширение) ——
   {
-    name: "Орнамент с име на семейството",
+    name: "Орнамент с имената на семейството",
     slug: "koleda-ornament-semeistvo",
     category: "christmas",
     description:
@@ -581,7 +583,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "koleda-tabela-familiya",
     category: "christmas",
     description:
-      "Стенна/входна табела с поздрав и фамилия — коледен акцент за дома.",
+      "Табела за стена или вход с поздрав и фамилия — коледен акцент за дома.",
     basePrice: 30,
     options: std2(
       { label: "Средна · 4 мм", size: "35×15 см", mm: 4 },
@@ -593,7 +595,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "koleda-kutiya-sladki",
     category: "christmas",
     description:
-      "Ажурна кутия за сладки и малки подаръци — гравиране на име по желание.",
+      "Ажурна кутия за сладки и малки подаръци. По желание гравираме име.",
     basePrice: 26,
     options: std2(
       { label: "Стандарт · 3 мм", size: "15×15×5 см" },
@@ -605,11 +607,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "koleda-nastolna-elhichka",
     category: "christmas",
     description:
-      "Сглобяема настолна елхичка — ажурен силует за маса или рафт.",
+      "Сглобяема настолна елхичка с ажурен силует — за маса или рафт.",
     basePrice: 22,
     options: std2(
-      { label: "Средна · 3 мм", size: "височина ~20 см" },
-      { label: "Голяма · 4 мм", size: "височина ~28 см", mm: 4, price: 8 },
+      { label: "Средна · 3 мм", size: "височина около 20 см" },
+      { label: "Голяма · 4 мм", size: "височина около 28 см", mm: 4, price: 8 },
     ),
   },
   {
@@ -617,7 +619,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "koleda-advent-kalendar",
     category: "christmas",
     description:
-      "Адвент рамка/календар с прозорчета за малки изненади — персонализация с име.",
+      "Адвент календар с прозорчета за малки изненади. По желание персонализираме с име.",
     basePrice: 48,
     options: std2(
       { label: "24 клетки · 4 мм", size: "40×30 см", mm: 4 },
@@ -629,11 +631,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "koleda-venets",
     category: "christmas",
     description:
-      "Ажурен коледен венец за врата или стена — с опция за гравирана фамилия.",
+      "Ажурен коледен венец за врата или стена. По желание с гравирана фамилия.",
     basePrice: 34,
     options: std2(
-      { label: "Ø30 см · 4 мм", size: "диаметър ~30 см", mm: 4 },
-      { label: "Ø40 см · масло", size: "диаметър ~40 см", mm: 4, price: 12 },
+      { label: "Ø 30 см · 4 мм", size: "диаметър около 30 см", mm: 4 },
+      { label: "Ø 40 см · масло", size: "диаметър около 40 см", mm: 4, price: 12 },
     ),
   },
   {
@@ -641,7 +643,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "koleda-komplekt-ornamenti-imena",
     category: "christmas",
     description:
-      "Комплект от няколко орнамента с различни имена — идеален семеен подарък.",
+      "Комплект орнаменти с различни имена — подходящ семеен коледен подарък.",
     basePrice: 36,
     options: opts([
       {
@@ -664,11 +666,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
 
   // —— Хелоуин (разширение) ——
   {
-    name: "Хелоуин банер „Happy Halloween“",
+    name: "Банер „Честит Хелоуин“",
     slug: "helouin-baner",
     category: "halloween",
     description:
-      "Надпис-банер за хелоуин парти или витрина — ажурни букви от шперплат.",
+      "Надпис-банер от шперплат за хелоуин парти или витрина — ажурни букви.",
     basePrice: 32,
     options: std2(
       { label: "Среден · 3 мм", size: "55×12 см" },
@@ -676,11 +678,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Тиква свещник (ажурна)",
+    name: "Ажурна тиква свещник",
     slug: "helouin-tikva-sveshtnik",
     category: "halloween",
     description:
-      "Ажурна тиква-свещник от шперплат за LED свещ — атмосфера без открит пламък.",
+      "Ажурна тиква-свещник от шперплат за LED свещ — уютна атмосфера без открит пламък.",
     basePrice: 19,
     options: std2(
       { label: "Стандарт · 3 мм", size: "12×12 см" },
@@ -688,23 +690,23 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Скелет подвижна фигурка",
+    name: "Фигурка скелет за Хелоуин",
     slug: "helouin-skelet",
     category: "halloween",
     description:
-      "Ажурен скелет от шперплат — настолна или окачваща декорация за парти.",
+      "Ажурен скелет от шперплат — за маса или за окачване на парти.",
     basePrice: 21,
     options: std2(
-      { label: "Среден · 3 мм", size: "височина ~25 см" },
-      { label: "Голям · 4 мм", size: "височина ~35 см", mm: 4, price: 8 },
+      { label: "Среден · 3 мм", size: "височина около 25 см" },
+      { label: "Голям · 4 мм", size: "височина около 35 см", mm: 4, price: 8 },
     ),
   },
   {
-    name: "Вещица силует",
+    name: "Силует на вещица",
     slug: "helouin-veshtica",
     category: "halloween",
     description:
-      "Силует на вещица за прозорец, стена или фотозона — лек и ефектен.",
+      "Силует на вещица от шперплат за прозорец, стена или фотозона — лек и ефектен.",
     basePrice: 18,
     options: std2(
       { label: "Средна · 3 мм", size: "20×25 см" },
@@ -712,11 +714,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Призрак / дух фигурка",
+    name: "Фигурка дух за Хелоуин",
     slug: "helouin-duh",
     category: "halloween",
     description:
-      "Мила или страшна фигурка на дух — за маса, рафт или витрина.",
+      "Фигурка на дух от шперплат — за маса, рафт или витрина. Изберете по-мил или по-страшен вариант при поръчка.",
     basePrice: 14,
     options: std2(
       { label: "Стандарт · 3 мм", size: "12×15 см" },
@@ -724,23 +726,23 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     ),
   },
   {
-    name: "Хелоуин комплект фигурки",
+    name: "Комплект фигурки за Хелоуин",
     slug: "helouin-komplekt-figurki",
     category: "halloween",
     description:
-      "Комплект от няколко хелоуин героя (тиква, дух, прилеп) — готов сет за декорация.",
+      "Комплект хелоуински фигурки — тиква, дух и прилеп. Готов набор за декорация.",
     basePrice: 38,
     options: opts([
       {
         label: "3 бр. · 3 мм",
-        sizeLabel: "микс ~12 см",
+        sizeLabel: "микс около 12 см",
         thicknessMm: 3,
         laserType: "CUT",
         priceModifier: 0,
       },
       {
         label: "5 бр. · 4 мм",
-        sizeLabel: "микс ~14 см",
+        sizeLabel: "микс около 14 см",
         thicknessMm: 4,
         laserType: "CUT",
         priceModifier: 14,
@@ -750,7 +752,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
 
   // —— Универсални подаръци (разширение) ——
   {
-    name: "Гравирана дъска за мезета с текст",
+    name: "Гравирана дъска за мезета",
     slug: "podaraci-daska-mezeta",
     category: "gifts",
     description:
@@ -766,7 +768,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "podaraci-plik-pari",
     category: "gifts",
     description:
-      "Оригинален „плик“ от шперплат за паричен подарък — с поздрав и име.",
+      "Оригинален плик от шперплат за паричен подарък — с поздрав и име по желание.",
     basePrice: 16,
     options: std2(
       { label: "Стандарт · 3 мм", size: "18×10 см" },
@@ -778,11 +780,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "podaraci-stoika-vino",
     category: "gifts",
     description:
-      "Мини стойка/облицовка за бутилка с гравирани имена — универсален подарък.",
+      "Стойка за бутилка вино с гравирани имена — универсален подарък за всякакъв повод.",
     basePrice: 29,
     options: std2(
-      { label: "Стандарт · 4 мм", size: "под 0.75 л", mm: 4 },
-      { label: "Премиум · масло", size: "под 0.75 л", mm: 4, price: 9 },
+      { label: "Стандарт · 4 мм", size: "за бутилка 0,75 л", mm: 4 },
+      { label: "Премиум · масло", size: "за бутилка 0,75 л", mm: 4, price: 9 },
     ),
   },
   {
@@ -790,7 +792,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "podaraci-kartichka-darvena",
     category: "gifts",
     description:
-      "Дървена картичка с поздрав — по-траен жест от хартиена. Текст по ваш избор.",
+      "Картичка от шперплат с поздрав — по-траен жест от хартиена. Текст по ваш избор.",
     basePrice: 14,
     options: std2(
       { label: "Стандарт · 3 мм", size: "15×10 см" },
