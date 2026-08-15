@@ -35,11 +35,6 @@ function imgs(slug: string): { imageUrl: string; galleryUrls: string[] } {
   return { imageUrl: photo, galleryUrls: [photo] };
 }
 
-function imgsSvg(slug: string): { imageUrl: string; galleryUrls: string[] } {
-  const svg = `/products/${slug}.svg`;
-  return { imageUrl: svg, galleryUrls: [svg] };
-}
-
 function opts(
   variants: Array<{
     label: string;
@@ -4168,6 +4163,6 @@ export const CATALOG_PRODUCTS: SeedProduct[] = [
   ...pack(DRAFTS),
   ...OCCASION_EXPANSION_DRAFTS.map((d) => ({
     ...d,
-    ...imgsSvg(d.slug),
+    ...imgs(d.slug),
   })),
 ];
