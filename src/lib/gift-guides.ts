@@ -1,5 +1,10 @@
 import { SITE_NAME } from "@/lib/seo";
 
+export type GuideImage = {
+  src: string;
+  alt: string;
+};
+
 export type GiftGuide = {
   slug: string;
   title: string;
@@ -9,7 +14,15 @@ export type GiftGuide = {
   /** Related occasion or category path */
   relatedHref: string;
   relatedLabel: string;
-  sections: Array<{ heading: string; body: string }>;
+  /** Hero / OG image for the article */
+  coverImage: GuideImage;
+  /** In-article product photos (shown as gallery) */
+  gallery: GuideImage[];
+  sections: Array<{
+    heading: string;
+    body: string;
+    image?: GuideImage;
+  }>;
   faqs: Array<{ q: string; a: string }>;
   publishedAt: string;
 };
@@ -29,19 +42,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "Кръщенето е един от първите големи празници на семейството. Персонализиран подарък с името на кръщелника се ползва на масата, на тортата и години по-късно като спомен в детската стая.",
     relatedHref: "/krashtene",
     relatedLabel: "Колекция кръщене",
+    coverImage: {
+      src: "/products/photos/krashtene-tabela-ime.png",
+      alt: "Табела за кръщене с гравирано име на бебе",
+    },
+    gallery: [
+      {
+        src: "/products/photos/krashtene-toper-ime.png",
+        alt: "Топер за торта с име за кръщене",
+      },
+      {
+        src: "/products/photos/krashtene-kutiya-krastche.png",
+        alt: "Кутия за кръстче с персонализация",
+      },
+      {
+        src: "/products/photos/krashtene-etiketi-gosti.png",
+        alt: "Етикети спомени за гости на кръщене",
+      },
+    ],
     publishedAt: "2026-08-15",
     sections: [
       {
         heading: "Табела с име на кръщелника",
         body: "Табела с име, дата на кръщенето или кръстни имена е класически избор. Поставя се на масата за подаръци или във фотозоната. При поръчка напишете точното изписване на името — ние гравираме по вашия текст и при нужда потвърждаваме макета.",
+        image: {
+          src: "/products/photos/krashtene-tabela-ime.png",
+          alt: "Персонализирана табела с име за кръщене",
+        },
       },
       {
         heading: "Топер за тортата",
         body: "Топер с име или „Честито кръщене“ прави тортата разпознаваема на снимките. Комбинира се добре с табела в същия шрифт и стил, за да изглежда всичко единен комплект.",
+        image: {
+          src: "/products/photos/krashtene-toper-ime.png",
+          alt: "Топер с име за торта на кръщене",
+        },
       },
       {
         heading: "Кутия за кръстче и спомени за гостите",
         body: "Кутия за кръстчето и малки етикети или спомени с име са практични за родителите и гостите. Поръчайте няколко дни предварително — стандартната изработка е 2–5 работни дни плюс доставка.",
+        image: {
+          src: "/products/photos/krashtene-kutiya-krastche.png",
+          alt: "Кутия за кръстче и спомени",
+        },
       },
       {
         heading: "Как да поръчате",
@@ -69,19 +112,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "Най-търсените подаръци за изписване са табели с име и данни за раждането. Те стоят в детската години напред и носят лична история за семейството.",
     relatedHref: "/novorodeno",
     relatedLabel: "Колекция новородено",
+    coverImage: {
+      src: "/products/photos/novorodeno-tabela-izpisvane.png",
+      alt: "Табела за новородено с име и данни за раждането",
+    },
+    gallery: [
+      {
+        src: "/products/photos/novorodeno-kutiya-parvi-spomeni.png",
+        alt: "Кутия първи спомени за бебе",
+      },
+      {
+        src: "/products/photos/novorodeno-girlyanda-ime.png",
+        alt: "Гирлянда с име на новородено",
+      },
+      {
+        src: "/products/photos/novorodeno-ramka-otpechatak.png",
+        alt: "Рамка за отпечатък на бебе",
+      },
+    ],
     publishedAt: "2026-08-14",
     sections: [
       {
         heading: "Табела с име, дата, час и тегло",
         body: "Класическата табела за новородено включва име, дата, час, тегло и ръст. Пращате данните при поръчка — уточняваме подредбата, ако е нужно, преди да започнем изработката.",
+        image: {
+          src: "/products/photos/kragla-tabela-ime-bebe.png",
+          alt: "Кръгла табела с име на бебе",
+        },
       },
       {
         heading: "Кутия спомени и рамка",
         body: "Кутия за първите спомени и рамка за отпечатък са подарък, който родителите пазят. Добре се комбинира с табела в същия стил за цялостен комплект.",
+        image: {
+          src: "/products/photos/novorodeno-kutiya-parvi-spomeni.png",
+          alt: "Кутия за първи спомени",
+        },
       },
       {
         heading: "Декорация за детската стая",
         body: "Мобили и малки табели с името на бебето допълват интериора. Изберете размер според стената и леглото — при съмнение ни пишете с приблизителни мерки.",
+        image: {
+          src: "/products/photos/novorodeno-mobile-oblaci.png",
+          alt: "Мобиле облаци за детската стая",
+        },
       },
       {
         heading: "Кога да поръчате за изписване",
@@ -109,19 +182,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "Персонализацията прави сватбения ден разпознаваем на снимките: имена на младоженците, дата и детайли за масата и фотозоната.",
     relatedHref: "/svatba",
     relatedLabel: "Колекция сватба",
+    coverImage: {
+      src: "/products/photos/svatbena-welcome.png",
+      alt: "Сватбена welcome табела с имена на младоженците",
+    },
+    gallery: [
+      {
+        src: "/products/photos/svatba-tabela-arka-imena.png",
+        alt: "Табела за арка с имена",
+      },
+      {
+        src: "/products/photos/svatba-toper-mr-mrs.png",
+        alt: "Сватбен топер Mr & Mrs",
+      },
+      {
+        src: "/products/photos/place-cards-svatba.png",
+        alt: "Place cards за сватбена маса",
+      },
+    ],
     publishedAt: "2026-08-13",
     sections: [
       {
         heading: "Welcome табела и фотозона",
         body: "Welcome табела с имена и дата посреща гостите и е естествен фон за снимки. Изберете размер според арката или входа на залата — по-големите формати се четат по-добре от разстояние.",
+        image: {
+          src: "/products/photos/svatbena-welcome.png",
+          alt: "Welcome табела за сватба",
+        },
       },
       {
         heading: "Топер, place cards и номера на маси",
         body: "Топер за тортата, place cards и номера на маси създават единен стил. Поръчайте комплект с еднакъв шрифт, за да изглежда всичко съгласувано на снимките.",
+        image: {
+          src: "/products/photos/place-cards-svatba.png",
+          alt: "Place cards и сватбен декор",
+        },
       },
       {
         heading: "Кутия за халки и спомени",
         body: "Кутия за халки и малки спомени за гостите са детайли, които гостите запомнят. Добавете инициали или датата на сватбата при персонализацията.",
+        image: {
+          src: "/products/photos/svatba-etiketi-gosti.png",
+          alt: "Етикети спомени за сватбени гости",
+        },
       },
       {
         heading: "Срок преди сватбата",
@@ -149,19 +252,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "Името на юбиляря върху топер или табела прави партито лично. Подходящо за детски рождени дни и за възрастни юбилеи.",
     relatedHref: "/rozhden-den",
     relatedLabel: "Колекция рожден ден",
+    coverImage: {
+      src: "/products/photos/rozhden-toper-ime-godini.png",
+      alt: "Топер за рожден ден с име и години",
+    },
+    gallery: [
+      {
+        src: "/products/photos/baner-ime-rozhdenen.png",
+        alt: "Банер с име за рожден ден",
+      },
+      {
+        src: "/products/photos/tabela-chestit-rozhdenen.png",
+        alt: "Табела Честит рожден ден",
+      },
+      {
+        src: "/products/photos/rozhden-golyama-cifra.png",
+        alt: "Голяма цифра за рожден ден",
+      },
+    ],
     publishedAt: "2026-08-12",
     sections: [
       {
         heading: "Топер и цифри за тортата",
         body: "Топер с име и години е най-бързият начин да персонализирате тортата. Добавете възраст или поздрав при поръчка — текстът се гравира или изрязва според модела.",
+        image: {
+          src: "/products/photos/toper-rozhdenen.png",
+          alt: "Топер за рожден денска торта",
+        },
       },
       {
         heading: "Банер и табела за фотозона",
         body: "Банер с име и табела „Честит рожден ден“ оформят фотозоната. Добре стоят заедно с цифри в същия материал за единен вид.",
+        image: {
+          src: "/products/photos/baner-ime-rozhdenen.png",
+          alt: "Банер с име за фотозона",
+        },
       },
       {
         heading: "Малък подарък за гостите",
         body: "Ключодържатели или етикети с име и дата са практични спомени за гостите. Поръчайте количество според броя на поканените.",
+        image: {
+          src: "/products/photos/klyuchodarzhatel-ime.png",
+          alt: "Ключодържател с гравирано име",
+        },
       },
       {
         heading: "За детски и възрастни партита",
@@ -189,15 +322,41 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "Гравиран подарък с име или послание работи за почти всеки повод — стига текстът да е ясен и срокът да е реалистичен.",
     relatedHref: "/podaraci",
     relatedLabel: "Всички подаръци",
+    coverImage: {
+      src: "/products/photos/klyuchodarzhatel-ime.png",
+      alt: "Персонализиран ключодържател с гравирано име",
+    },
+    gallery: [
+      {
+        src: "/products/photos/adresna-tabela.png",
+        alt: "Адресна табела с гравиране",
+      },
+      {
+        src: "/products/photos/cake-topper-imena.png",
+        alt: "Топер с имена",
+      },
+      {
+        src: "/products/photos/dekorativen-nadpis.png",
+        alt: "Декоративен надпис с гравиране",
+      },
+    ],
     publishedAt: "2026-08-11",
     sections: [
       {
         heading: "Започнете от повода",
         body: "Сватба, кръщене, рожден ден, новородено или корпоративен жест — всяка колекция има готови модели. Така по-лесно избирате размер, стил и бюджет.",
+        image: {
+          src: "/products/photos/svatbena-welcome.png",
+          alt: "Пример за персонализиран подарък по повод",
+        },
       },
       {
         heading: "Какъв текст да гравирате",
         body: "Име, инициали, дата или едно кратко изречение са най-четливи. Избягвайте твърде дълги цитати на малки повърхности — при съмнение ни пратете текста предварително.",
+        image: {
+          src: "/products/photos/klyuchodarzhatel-ime.png",
+          alt: "Гравирано име върху ключодържател",
+        },
       },
       {
         heading: "Срокове и доставка",
@@ -206,6 +365,10 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       {
         heading: "Ваш дизайн",
         body: "Ако имате готов файл (SVG, PDF, PNG, JPG), качете го в „По файл“ — калкулаторът дава ориентировъчна цена преди количката.",
+        image: {
+          src: "/products/photos/dekorativen-nadpis.png",
+          alt: "Изработка по ваш дизайн и текст",
+        },
       },
     ],
     faqs: [
@@ -229,19 +392,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "Годишнината заслужава нещо повече от стандартен букет. Гравирани имена, дата на сватбата или кратко послание правят подаръка личен и траен.",
     relatedHref: "/godishnina",
     relatedLabel: "Колекция годишнина",
+    coverImage: {
+      src: "/products/photos/godishnina-plaket-godini.png",
+      alt: "Плакет за годишнина с години и имена",
+    },
+    gallery: [
+      {
+        src: "/products/photos/godishnina-sarce-godini.png",
+        alt: "Сърце с години за годишнина",
+      },
+      {
+        src: "/products/photos/godishnina-kalendar-data.png",
+        alt: "Календар с дата на годишнината",
+      },
+      {
+        src: "/products/photos/godishnina-kutiya-spomen.png",
+        alt: "Кутия спомен за годишнина",
+      },
+    ],
     publishedAt: "2026-08-10",
     sections: [
       {
         heading: "Плакет или табела с имена и дата",
         body: "Плакет с имената на двойката и датата на сватбата е класика. Стои на рафт или бюро и се връща към спомена всеки път, когато го видят.",
+        image: {
+          src: "/products/photos/godishnina-plaket-10.png",
+          alt: "Плакет за 10 години заедно",
+        },
       },
       {
         heading: "Комплект ключодържатели",
         body: "Два ключодържателя с инициали или имена са практически подарък за ежедневието. Леки са за доставка и подходящи като допълнение към по-голям жест.",
+        image: {
+          src: "/products/photos/valentin-klyuchodarzhateli-dvoika.png",
+          alt: "Чифт ключодържатели за двойка",
+        },
       },
       {
         heading: "Кухненски подарък с послание",
         body: "Дъска или поставка с гравирано послание е подарък, който се ползва. Изберете кратък текст — дългите цитати са по-трудни за четене върху малка площ.",
+        image: {
+          src: "/products/photos/godishnina-tabela-chestita.png",
+          alt: "Табела Честита годишнина",
+        },
       },
       {
         heading: "Как да изберете текста",
@@ -265,19 +458,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "На 14 февруари личният жест се помни повече от опаковката. Гравирано име, инициали или кратък поздрав правят дори малък подарък специален.",
     relatedHref: "/sveti-valentin",
     relatedLabel: "Колекция Свети Валентин",
+    coverImage: {
+      src: "/products/photos/valentin-sarce-imena.png",
+      alt: "Сърце с гравирани имена за Свети Валентин",
+    },
+    gallery: [
+      {
+        src: "/products/photos/valentinsko-sarce.png",
+        alt: "Валентинско сърце от шперплат",
+      },
+      {
+        src: "/products/photos/valentin-klyuchodarzhateli-dvoika.png",
+        alt: "Ключодържатели за двойка",
+      },
+      {
+        src: "/products/photos/valentin-ramka-obicham-te.png",
+        alt: "Рамка Обичам те",
+      },
+    ],
     publishedAt: "2026-08-09",
     sections: [
       {
         heading: "Сърце с имена или инициали",
         body: "Ажурно или плътно сърце с гравирани имена е класически валентински подарък. Подходящо като висулка, орнамент или самостоятелен спомен.",
+        image: {
+          src: "/products/photos/valentin-sarce-imena.png",
+          alt: "Сърце с имена",
+        },
       },
       {
         heading: "Ключодържател за двама",
         body: "Чифт ключодържатели с инициали е практичен и бюджетен жест. Лесен за доставка и подходящ като допълнение към по-голям подарък.",
+        image: {
+          src: "/products/photos/valentin-klyuchodarzhateli-dvoika.png",
+          alt: "Чифт валентински ключодържатели",
+        },
       },
       {
         heading: "Табела или плакет с послание",
         body: "Кратко послание върху табела стои на бюрото или рафта. Избягвайте дълги текстове — една фраза се чете по-добре.",
+        image: {
+          src: "/products/photos/valentin-tabela-ti-az.png",
+          alt: "Табела Ти + Аз",
+        },
       },
       {
         heading: "Поръчайте преди 14 февруари",
@@ -301,19 +524,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "Орнамент с име или година се връща на елхата отново и отново. Това е подарък, който създава традиция, а не се изхвърля след празниците.",
     relatedHref: "/koleda",
     relatedLabel: "Колекция Коледа",
+    coverImage: {
+      src: "/products/photos/koledna-topka-ime.png",
+      alt: "Коледна топка / орнамент с гравирано име",
+    },
+    gallery: [
+      {
+        src: "/products/photos/koleda-komplekt-ornamenti-imena.png",
+        alt: "Комплект коледни орнаменти с имена",
+      },
+      {
+        src: "/products/photos/koleda-tabela-familiya.png",
+        alt: "Коледна табела с фамилия",
+      },
+      {
+        src: "/products/photos/koleda-nastolna-elhichka.png",
+        alt: "Настолна елхичка от шперплат",
+      },
+    ],
     publishedAt: "2026-08-08",
     sections: [
       {
         heading: "Орнаменти с име и година",
         body: "Гравирано име + годината прави орнамента личен. Подходящ за деца, кръстници, колеги и семейни комплекти с няколко имена.",
+        image: {
+          src: "/products/photos/koledna-topka-ime.png",
+          alt: "Орнамент с име за елхата",
+        },
       },
       {
         heading: "Семеен комплект",
         body: "Поръчайте няколко орнамента с имената на всички вкъщи. Еднакъв стил изглежда добре на елхата и е лесен подарък за гостите около Коледа.",
+        image: {
+          src: "/products/photos/komplekt-koledni-ornamenti-semeistvo.png",
+          alt: "Семеен комплект коледни орнаменти",
+        },
       },
       {
         heading: "Табели и празничен декор",
         body: "Малка табела „Весела Коледа“ с имена допълва масата или входа. Комбинира се с орнаменти в същия материал.",
+        image: {
+          src: "/products/photos/tabela-vesela-koleda.png",
+          alt: "Табела Весела Коледа",
+        },
       },
       {
         heading: "Срокове преди Коледа",
@@ -337,19 +590,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "В началото и края на учебната година родителите търсят смислен жест за учителя. Гравирано име, клас или кратко послание изглежда внимателно, без да е прекалено лично.",
     relatedHref: "/uchilishte",
     relatedLabel: "Колекция училище",
+    coverImage: {
+      src: "/products/photos/uchen-plaket-uchitelka.png",
+      alt: "Плакет за учителка с гравиране",
+    },
+    gallery: [
+      {
+        src: "/products/photos/uchitel-plaket-lyubim.png",
+        alt: "Плакет любим учител",
+      },
+      {
+        src: "/products/photos/uchen-molivnik-ime.png",
+        alt: "Моливник с име за ученик",
+      },
+      {
+        src: "/products/photos/uchen-lineika-ime.png",
+        alt: "Линийка с гравирано име",
+      },
+    ],
     publishedAt: "2026-08-07",
     sections: [
       {
         heading: "Плакет или табела за учителя",
         body: "Плакет с име на учителя, клас и учебна година е подходящ за края на годината или за 15 септември. Текстът да е кратък и четлив.",
+        image: {
+          src: "/products/photos/uchen-plaket-uchitelka.png",
+          alt: "Плакет за учителка",
+        },
       },
       {
         heading: "Ключодържатели за класа",
         body: "Еднакви ключодържатели с инициали или номер на класа са бюджетен спомен за всички ученици. Поръчайте количество според списъка.",
+        image: {
+          src: "/products/photos/uchen-klyuch-bukva.png",
+          alt: "Ключодържател с буква за ученик",
+        },
       },
       {
         heading: "Първи учебен ден",
         body: "За първокласници често се търсят табели с име или малки аксесоари за раницата. Поръчайте няколко дни преди 15 септември.",
+        image: {
+          src: "/products/photos/uchen-tabela-uchi-tuk.png",
+          alt: "Училищна табела Учи тук",
+        },
       },
       {
         heading: "Как да формулирате посланието",
@@ -373,19 +656,49 @@ export const GIFT_GUIDES: readonly GiftGuide[] = [
       "Поръчката с гравиране е проста, ако знаете три неща: модел, точен текст и реалистичен срок. Ето как минава процесът в Studio Breza.",
     relatedHref: "/custom",
     relatedLabel: "Поръчка по файл",
+    coverImage: {
+      src: "/products/photos/dekorativen-nadpis.png",
+      alt: "Персонализиран декоративен надпис по поръчка",
+    },
+    gallery: [
+      {
+        src: "/products/photos/cake-topper-imena.png",
+        alt: "Топер с имена от каталога",
+      },
+      {
+        src: "/products/photos/adresna-tabela.png",
+        alt: "Адресна табела с гравиран текст",
+      },
+      {
+        src: "/products/photos/klyuchodarzhatel-ime.png",
+        alt: "Ключодържател с име — готов за поръчка",
+      },
+    ],
     publishedAt: "2026-08-06",
     sections: [
       {
         heading: "1. Изберете модел или качете файл",
         body: "Разгледайте каталога по повод или категория. Ако имате готов дизайн, използвайте „По файл“ — калкулаторът показва ориентировъчна цена преди количката.",
+        image: {
+          src: "/products/photos/svatbena-welcome.png",
+          alt: "Готов модел от каталога",
+        },
       },
       {
         heading: "2. Напишете текста за гравиране",
         body: "Име, дата, инициали или кратко послание. Проверете правописа — гравираме точно това, което сте написали. При сложен макет можем да потвърдим преди изработка.",
+        image: {
+          src: "/products/photos/krashtene-tabela-ime.png",
+          alt: "Пример за гравиран текст върху табела",
+        },
       },
       {
         heading: "3. Завършете поръчката без регистрация",
         body: "Добавете в количката, попълнете данни за доставка и изберете плащане (банков превод, наложен платеж или карта, когато е активна). Профил не е задължителен.",
+        image: {
+          src: "/products/photos/klyuchodarzhatel-ime.png",
+          alt: "Продукт готов за добавяне в количката",
+        },
       },
       {
         heading: "4. Изработка и доставка",

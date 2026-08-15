@@ -1839,18 +1839,47 @@ img {
 }
 
 .guide-list-link {
-  display: block;
-  padding: 1.15rem 1.25rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  padding: 0;
   border: 1px solid var(--line);
   background: var(--surface);
   text-decoration: none;
   color: inherit;
+  overflow: hidden;
   transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+@media (min-width: 640px) {
+  .guide-list-link {
+    grid-template-columns: 180px 1fr;
+    align-items: stretch;
+  }
 }
 
 .guide-list-link:hover {
   border-color: var(--walnut);
   background: var(--bg);
+}
+
+.guide-list-thumb {
+  display: block;
+  aspect-ratio: 1;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+.guide-list-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.guide-list-copy {
+  display: block;
+  padding: 0.9rem 1.1rem 1.1rem;
 }
 
 .guide-list-link h2 {
@@ -1878,7 +1907,7 @@ img {
 }
 
 .guide-article-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
 }
 
 .guide-article-date {
@@ -1886,9 +1915,48 @@ img {
   font-size: 0.9rem;
 }
 
+.guide-cover {
+  margin: 0 0 1.25rem;
+}
+
+.guide-cover-img,
+.guide-section-img,
+.guide-gallery-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.guide-cover figcaption,
+.guide-section-figure figcaption,
+.guide-gallery-item figcaption {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  line-height: 1.35;
+}
+
+.guide-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.65rem;
+  margin: 0 0 2rem;
+}
+
+.guide-gallery-item {
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  .guide-gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
 .guide-article-body {
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
 }
 
 .guide-section h2 {
@@ -1900,6 +1968,10 @@ img {
   margin: 0;
   color: var(--ink-soft);
   line-height: 1.65;
+}
+
+.guide-section-figure {
+  margin: 0.9rem 0 0;
 }
 
 .guide-faq,

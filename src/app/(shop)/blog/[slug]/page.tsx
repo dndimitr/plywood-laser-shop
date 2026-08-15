@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
@@ -33,6 +34,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: guide.title,
     description: guide.description,
     path: giftGuidePath(guide.slug),
+    image: guide.coverImage.src,
     type: "article",
   });
 }
@@ -45,6 +47,7 @@ export default async function BlogPostPage({ params }: Props) {
   const others = giftGuidesNewestFirst()
     .filter((g) => g.slug !== guide.slug)
     .slice(0, 6);
+  const coverUrl = absoluteUrl(guide.coverImage.src);
 
   return (
     <article className="container guide-article">
@@ -80,7 +83,7 @@ export default async function BlogPostPage({ params }: Props) {
                 url: absoluteUrl("/opengraph-image"),
               },
             },
-            image: absoluteUrl("/opengraph-image"),
+            image: [coverUrl, ...guide.gallery.map((g) => absoluteUrl(g.src))],
           },
         ]}
       />
@@ -116,11 +119,53 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </header>
 
+      <figure className="guide-cover">
+        <Image
+          src={guide.coverImage.src}
+          alt={guide.coverImage.alt}
+          width={1024}
+          height={1024}
+          priority
+          sizes="(max-width: 720px) 100vw, 720px"
+          className="guide-cover-img"
+        />
+        <figcaption className="muted">{guide.coverImage.alt}</figcaption>
+      </figure>
+
+      <div className="guide-gallery" aria-label="Примери от колекцията">
+        {guide.gallery.map((img) => (
+          <figure key={img.src} className="guide-gallery-item">
+            <Image
+              src={img.src}
+              alt={img.alt}
+              width={512}
+              height={512}
+              sizes="(max-width: 720px) 33vw, 220px"
+              className="guide-gallery-img"
+            />
+            <figcaption className="muted">{img.alt}</figcaption>
+          </figure>
+        ))}
+      </div>
+
       <div className="guide-article-body">
         {guide.sections.map((section) => (
           <section key={section.heading} className="guide-section">
             <h2>{section.heading}</h2>
             <p>{section.body}</p>
+            {section.image ? (
+              <figure className="guide-section-figure">
+                <Image
+                  src={section.image.src}
+                  alt={section.image.alt}
+                  width={800}
+                  height={800}
+                  sizes="(max-width: 720px) 100vw, 640px"
+                  className="guide-section-img"
+                />
+                <figcaption className="muted">{section.image.alt}</figcaption>
+              </figure>
+            ) : null}
           </section>
         ))}
       </div>

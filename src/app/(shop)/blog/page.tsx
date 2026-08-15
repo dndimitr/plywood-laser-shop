@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { JsonLd } from "@/components/JsonLd";
@@ -45,6 +46,7 @@ export default function BlogIndexPage() {
               description: g.description,
               datePublished: g.publishedAt,
               url: absoluteUrl(giftGuidePath(g.slug)),
+              image: absoluteUrl(g.coverImage.src),
               inLanguage: "bg-BG",
             })),
           },
@@ -68,19 +70,30 @@ export default function BlogIndexPage() {
         {posts.map((g) => (
           <li key={g.slug} className="guide-list-item">
             <Link href={giftGuidePath(g.slug)} className="guide-list-link">
-              <time
-                className="muted guide-list-date"
-                dateTime={g.publishedAt}
-              >
-                {new Date(g.publishedAt).toLocaleDateString("bg-BG", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </time>
-              <h2>{g.headline}</h2>
-              <p className="muted">{g.description}</p>
-              <span className="guide-list-cta">Прочети статията →</span>
+              <span className="guide-list-thumb">
+                <Image
+                  src={g.coverImage.src}
+                  alt={g.coverImage.alt}
+                  width={320}
+                  height={320}
+                  sizes="(max-width: 640px) 100vw, 280px"
+                />
+              </span>
+              <span className="guide-list-copy">
+                <time
+                  className="muted guide-list-date"
+                  dateTime={g.publishedAt}
+                >
+                  {new Date(g.publishedAt).toLocaleDateString("bg-BG", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+                <h2>{g.headline}</h2>
+                <p className="muted">{g.description}</p>
+                <span className="guide-list-cta">Прочети статията →</span>
+              </span>
             </Link>
           </li>
         ))}
