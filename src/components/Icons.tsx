@@ -167,3 +167,16 @@ export function IconPhone(props: IconProps) {
     </svg>
   );
 }
+
+export function IconShare(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <circle cx="64" cy="128" r="24" />
+      <circle cx="176" cy="64" r="24" />
+      <circle cx="176" cy="192" r="24" />
+      <path d="M88 116l64-40" />
+      <path d="M88 140l64 40" />
+    </svg>
+  );
+}
+

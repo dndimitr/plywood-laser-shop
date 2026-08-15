@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
 import { CATEGORIES, type CategoryId, categoryById } from "@/lib/shop-config";
+import {
+  adsConversionSendTo,
+  getMarketingSettings,
+  hasActiveMarketingScripts,
+} from "@/lib/shop-settings";
 
 /** Brand & site-wide SEO defaults (Bulgarian storefront) */
 export const SITE_NAME = "ЛазерШперплат";
@@ -65,36 +70,38 @@ export type AnalyticsConfig = {
   googleAdsConversionLabel: string | null;
   gtmId: string | null;
   googleSiteVerification: string | null;
+  metaPixelId: string | null;
+  facebookPageUrl: string | null;
+  facebookShareEnabled: boolean;
 };
 
+function nonEmpty(value: string | null | undefined): string | null {
+  const v = value?.trim();
+  return v ? v : null;
+}
+
+/** Effective analytics config from admin settings (env fallback). */
 export function getAnalyticsConfig(): AnalyticsConfig {
-  const ga = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || null;
-  const ads = process.env.NEXT_PUBLIC_GOOGLE_ADS_ID?.trim() || null;
-  const label =
-    process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL?.trim() || null;
-  const gtm = process.env.NEXT_PUBLIC_GTM_ID?.trim() || null;
-  const verify =
-    process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() || null;
+  const m = getMarketingSettings();
   return {
-    gaMeasurementId: ga && /^G-[A-Z0-9]+$/i.test(ga) ? ga : ga,
-    googleAdsId: ads && /^AW-\d+$/i.test(ads) ? ads : ads,
-    googleAdsConversionLabel: label,
-    gtmId: gtm && /^GTM-[A-Z0-9]+$/i.test(gtm) ? gtm : gtm,
-    googleSiteVerification: verify,
+    gaMeasurementId: nonEmpty(m.gaMeasurementId),
+    googleAdsId: nonEmpty(m.googleAdsId),
+    googleAdsConversionLabel: nonEmpty(m.googleAdsConversionLabel),
+    gtmId: nonEmpty(m.gtmId),
+    googleSiteVerification: nonEmpty(m.googleSiteVerification),
+    metaPixelId: nonEmpty(m.metaPixelId),
+    facebookPageUrl: nonEmpty(m.facebookPageUrl),
+    facebookShareEnabled: m.facebookShareEnabled !== false,
   };
 }
 
 export function hasMarketingScripts(): boolean {
-  const c = getAnalyticsConfig();
-  return Boolean(c.gaMeasurementId || c.googleAdsId || c.gtmId);
+  return hasActiveMarketingScripts();
 }
 
 /** Conversion send_to for gtag (AW-XXX/label) */
 export function getAdsConversionSendTo(): string | null {
-  const { googleAdsId, googleAdsConversionLabel } = getAnalyticsConfig();
-  if (!googleAdsId || !googleAdsConversionLabel) return null;
-  if (googleAdsConversionLabel.includes("/")) return googleAdsConversionLabel;
-  return `${googleAdsId}/${googleAdsConversionLabel}`;
+  return adsConversionSendTo();
 }
 
 export function categorySeo(catId: string | undefined): {
@@ -355,5 +362,8 @@ export function productJsonLd(opts: {
   };
 }
 
-export const CONSENT_STORAGE_KEY = "lsp_cookie_consent_v1";
-export type ConsentChoice = "accepted" | "rejected";
+export {
+  CONSENT_STORAGE_KEY,
+  facebookShareUrl,
+  type ConsentChoice,
+} from "@/lib/seo-client";

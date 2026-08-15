@@ -8,6 +8,7 @@ import {
   rootMetadata,
   websiteJsonLd,
 } from "@/lib/seo";
+import { hasActiveMarketingScripts } from "@/lib/shop-settings";
 import "./globals.css";
 
 /** Onest — съвременен display с пълна кирилица (вкл. българска) */
@@ -31,13 +32,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const marketingEnabled = hasActiveMarketingScripts();
+
   return (
     <html lang="bg">
       <body className={`${display.variable} ${body.variable} antialiased`}>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         {children}
         <Analytics />
-        <CookieConsent />
+        <CookieConsent enabled={marketingEnabled} />
       </body>
     </html>
   );

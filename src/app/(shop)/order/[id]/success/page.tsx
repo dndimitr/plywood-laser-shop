@@ -12,6 +12,10 @@ import {
 } from "@/lib/labels";
 import { getBankDetails } from "@/lib/shop-config";
 import { buildPageMetadata } from "@/lib/seo";
+import {
+  adsConversionSendTo,
+  getMarketingSettings,
+} from "@/lib/shop-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -59,10 +63,18 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
 
   const bank = getBankDetails();
   const total = Number(order.totalAmount);
+  const marketing = getMarketingSettings();
 
   return (
     <div className="container success-page">
-      <PurchaseConversion orderId={order.id} value={total} currency="BGN" />
+      <PurchaseConversion
+        orderId={order.id}
+        value={total}
+        currency="BGN"
+        gaMeasurementId={marketing.gaMeasurementId || null}
+        adsConversionSendTo={adsConversionSendTo(marketing)}
+        metaPixelId={marketing.metaPixelId || null}
+      />
       <div className="checkout-steps" aria-label="Стъпки на поръчката">
         <span>1. Количка</span>
         <span>2. Поръчка</span>

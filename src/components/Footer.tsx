@@ -3,10 +3,12 @@ import {
   featuredCategories,
   navCategoryGroups,
 } from "@/lib/shop-config";
+import { getMarketingSettings } from "@/lib/shop-settings";
 
 export function Footer() {
   const featured = featuredCategories();
   const groups = navCategoryGroups();
+  const { facebookPageUrl } = getMarketingSettings();
 
   return (
     <footer className="site-footer">
@@ -20,6 +22,17 @@ export function Footer() {
               Лазерно гравиране и изрязване на шперплат — по готов модел или
               ваш производствен файл.
             </p>
+            {facebookPageUrl ? (
+              <p style={{ marginTop: "0.75rem" }}>
+                <a
+                  href={facebookPageUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook страница
+                </a>
+              </p>
+            ) : null}
           </div>
           <div>
             <h3>Магазин</h3>
