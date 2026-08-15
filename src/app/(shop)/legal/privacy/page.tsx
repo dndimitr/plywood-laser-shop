@@ -5,7 +5,7 @@ import { buildPageMetadata, hasMarketingScripts } from "@/lib/seo";
 export const metadata: Metadata = buildPageMetadata({
   title: "Поверителност",
   description:
-    "Политика за поверителност на ЛазерШперплат — как обработваме лични данни, поръчки и маркетингови бисквитки.",
+    "Политика за поверителност на Studio Breza — как обработваме лични данни, поръчки и маркетингови бисквитки.",
   path: "/legal/privacy",
 });
 

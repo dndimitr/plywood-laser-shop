@@ -26,7 +26,7 @@ type Props = {
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Поръчката е приета",
-  description: "Потвърждение на поръчка в ЛазерШперплат.",
+  description: "Потвърждение на поръчка в Studio Breza.",
   path: "/order",
   noIndex: true,
 });

@@ -4,7 +4,7 @@ import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
   title: "Любими",
-  description: "Запазени продукти от каталога на ЛазерШперплат.",
+  description: "Запазени продукти от каталога на Studio Breza.",
   path: "/favorites",
   noIndex: true,
 });

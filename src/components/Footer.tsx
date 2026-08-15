@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/BrandLogo";
 import { categoryHref } from "@/lib/occasions";
 import {
   featuredCategories,
   navCategoryGroups,
 } from "@/lib/shop-config";
 import { getMarketingSettings } from "@/lib/shop-settings";
+import { SITE_NAME } from "@/lib/seo";
 
 export function Footer() {
   const featured = featuredCategories();
@@ -16,8 +18,8 @@ export function Footer() {
       <div className="container footer-inner">
         <div className="footer-grid">
           <div>
-            <p className="brand" style={{ marginBottom: "0.75rem" }}>
-              ЛазерШперплат
+            <p className="brand brand--logo" style={{ marginBottom: "0.75rem" }}>
+              <BrandLogo variant="footer" />
             </p>
             <p className="muted">
               Персонализирани подаръци и украси с гравиране — по готов модел
@@ -78,7 +80,7 @@ export function Footer() {
           </div>
         </div>
         <p className="muted" style={{ margin: 0, fontSize: "0.9rem" }}>
-          © {new Date().getFullYear()} ЛазерШперплат
+          © {new Date().getFullYear()} {SITE_NAME}
         </p>
       </div>
     </footer>

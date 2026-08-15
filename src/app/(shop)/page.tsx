@@ -11,6 +11,7 @@ import {
   IconTruck,
   IconUpload,
 } from "@/components/Icons";
+import { BrandLogo } from "@/components/BrandLogo";
 import { CatalogBrowser } from "@/components/CatalogBrowser";
 import { JsonLd } from "@/components/JsonLd";
 import { prisma } from "@/lib/db";
@@ -113,7 +114,9 @@ export default async function HomePage({ searchParams }: HomeProps) {
           <div className="hero-scrim" />
         </div>
         <div className="container hero-copy">
-          <p className="hero-brand">ЛазерШперплат</p>
+          <p className="hero-brand">
+            <BrandLogo variant="hero" priority />
+          </p>
           <h1>Персонализирани подаръци и украси</h1>
           <p>
             С име, дата или послание — за сватба, рожден ден, кръщене и всеки

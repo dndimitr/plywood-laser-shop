@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "ЛазерШперплат — персонализирани подаръци и украси";
+export const alt = "Studio Breza — персонализирани подаръци и украси";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -25,26 +25,27 @@ export default function OpenGraphImage() {
         <div
           style={{
             display: "flex",
-            fontSize: 28,
-            letterSpacing: "0.12em",
+            fontSize: 26,
+            letterSpacing: "0.18em",
             textTransform: "uppercase",
-            opacity: 0.85,
+            opacity: 0.8,
             fontFamily: "system-ui, sans-serif",
+            color: "#a8c0b0",
           }}
         >
-          Персонализирани подаръци · България
+          Studio · България
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
           <div
             style={{
               display: "flex",
-              fontSize: 72,
+              fontSize: 78,
               fontWeight: 700,
-              lineHeight: 1.05,
+              lineHeight: 1.02,
               letterSpacing: "-0.02em",
             }}
           >
-            ЛазерШперплат
+            Studio Breza
           </div>
           <div
             style={{
