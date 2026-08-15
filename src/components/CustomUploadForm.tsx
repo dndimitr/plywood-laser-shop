@@ -5,8 +5,13 @@ import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
 import { complexityLabel } from "@/lib/labels";
 import { MACHINE_BED_MAX_CM, MAX_LINE_QTY } from "@/lib/shop-config";
+import { trackAddToCart } from "@/lib/tracking-client";
 
-export function CustomUploadForm() {
+type Props = {
+  gaMeasurementId?: string | null;
+};
+
+export function CustomUploadForm({ gaMeasurementId }: Props) {
   const router = useRouter();
   const [file, setFile] = useState<File | null>(null);
   const [widthCm, setWidthCm] = useState(20);
@@ -91,6 +96,14 @@ export function CustomUploadForm() {
           typeof data.error === "string" ? data.error : "Грешка при количката",
         );
       }
+
+      void trackAddToCart({
+        contentId: uploadData.id || "custom",
+        contentName: `Изработка по файл · ${file.name}`,
+        value: price,
+        quantity,
+        gaId: gaMeasurementId,
+      });
 
       router.push("/cart");
       router.refresh();

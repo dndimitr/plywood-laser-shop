@@ -3,6 +3,7 @@ import { Onest, Source_Sans_3 } from "next/font/google";
 import { Analytics } from "@/components/Analytics";
 import { CookieConsent } from "@/components/CookieConsent";
 import { JsonLd } from "@/components/JsonLd";
+import { UtmCapture } from "@/components/UtmCapture";
 import {
   organizationJsonLd,
   rootMetadata,
@@ -40,6 +41,7 @@ export default function RootLayout({
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         {children}
         <Analytics />
+        <UtmCapture />
         <CookieConsent enabled={marketingEnabled} />
       </body>
     </html>

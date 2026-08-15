@@ -95,6 +95,9 @@ export const marketingSettingsSchema = z.object({
     .regex(/^(\d{5,20})?$/, "Meta Pixel ID е само цифри")
     .optional()
     .default(""),
+  /** Full token, masked •••• value (keep existing), or empty to clear. */
+  metaCapiAccessToken: z.string().max(512).optional().default(""),
+  metaCapiTestEventCode: z.string().max(64).optional().default(""),
   facebookPageUrl: z
     .string()
     .max(300)
