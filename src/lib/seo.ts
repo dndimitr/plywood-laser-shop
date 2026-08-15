@@ -359,7 +359,7 @@ export function productJsonLd(opts: {
     offers: {
       "@type": "Offer",
       url: absoluteUrl(`/products/${opts.slug}`),
-      priceCurrency: opts.currency ?? "BGN",
+      priceCurrency: opts.currency ?? "EUR",
       price: opts.price.toFixed(2),
       availability: "https://schema.org/InStock",
       itemCondition: "https://schema.org/NewCondition",

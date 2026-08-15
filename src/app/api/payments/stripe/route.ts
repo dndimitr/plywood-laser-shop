@@ -23,7 +23,7 @@ export async function POST(request: Request) {
         {
           quantity: 1,
           price_data: {
-            currency: "bgn",
+            currency: "eur",
             unit_amount: Math.round(Number(body.amount) * 100),
             product_data: { name: `Поръчка ${body.orderId}` },
           },

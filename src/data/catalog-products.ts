@@ -2,8 +2,11 @@
  * Original shop catalog inspired by popular laser-cut plywood categories
  * (Etsy / handmade marketplaces). Names, copy and SKUs are original —
  * not scraped or copied from third-party listings.
+ *
+ * Draft amounts below are authored in BGN and converted to EUR in `pack()`.
  */
 
+import { bgnToEur } from "@/lib/currency";
 import { OCCASION_EXPANSION_DRAFTS } from "./catalog-occasion-expansion";
 
 export type SeedLaserType = "ENGRAVE" | "CUT" | "BOTH";
@@ -67,6 +70,11 @@ type Draft = {
 function pack(drafts: Draft[]): SeedProduct[] {
   return drafts.map((d) => ({
     ...d,
+    basePrice: bgnToEur(d.basePrice),
+    options: d.options.map((o) => ({
+      ...o,
+      priceModifier: bgnToEur(o.priceModifier),
+    })),
     ...imgs(d.slug),
   }));
 }
@@ -4161,8 +4169,5 @@ const DRAFTS: Draft[] = [
 
 export const CATALOG_PRODUCTS: SeedProduct[] = [
   ...pack(DRAFTS),
-  ...OCCASION_EXPANSION_DRAFTS.map((d) => ({
-    ...d,
-    ...imgs(d.slug),
-  })),
+  ...pack(OCCASION_EXPANSION_DRAFTS),
 ];

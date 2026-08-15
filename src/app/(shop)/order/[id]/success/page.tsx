@@ -70,7 +70,7 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
       <PurchaseConversion
         orderId={order.id}
         value={total}
-        currency="BGN"
+        currency="EUR"
         gaMeasurementId={marketing.gaMeasurementId || null}
         adsConversionSendTo={adsConversionSendTo(marketing)}
         metaPixelId={marketing.metaPixelId || null}

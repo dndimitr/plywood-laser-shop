@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
+import { FREE_SHIPPING_MIN_EUR } from "@/lib/shop-config";
 
 type CourierOption = { id: string; label: string; fee: number };
 
@@ -31,8 +32,11 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
+  const baseFee = couriers.find((c) => c.id === form.courier)?.fee ?? 0;
   const shippingFee =
-    couriers.find((c) => c.id === form.courier)?.fee ?? 0;
+    form.courier === "PICKUP" || subtotal >= FREE_SHIPPING_MIN_EUR
+      ? 0
+      : baseFee;
   const estimatedTotal = Math.round((subtotal + shippingFee) * 100) / 100;
 
   async function submit(e: React.FormEvent) {
@@ -91,8 +95,18 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
       </div>
       <h1>Данни за доставка и плащане</h1>
       <p className="muted">
-        Междинна сума: {formatBgn(subtotal)} · Доставка: {formatBgn(shippingFee)} ·{" "}
-        <strong>Общо ~ {formatBgn(estimatedTotal)}</strong>
+        Междинна сума: {formatBgn(subtotal)} · Доставка:{" "}
+        {shippingFee === 0 && form.courier !== "PICKUP"
+          ? "безплатна"
+          : formatBgn(shippingFee)}{" "}
+        · <strong>Общо ~ {formatBgn(estimatedTotal)}</strong>
+        {subtotal < FREE_SHIPPING_MIN_EUR && form.courier !== "PICKUP" ? (
+          <>
+            <br />
+            Безплатна куриерска доставка при поръчка над{" "}
+            {formatBgn(FREE_SHIPPING_MIN_EUR)}.
+          </>
+        ) : null}
       </p>
 
       <label className="field">
@@ -132,11 +146,19 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
           value={form.courier}
           onChange={(e) => update("courier", e.target.value)}
         >
-          {couriers.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.label} ({formatBgn(c.fee)})
-            </option>
-          ))}
+          {couriers.map((c) => {
+            const fee =
+              c.id === "PICKUP" || subtotal >= FREE_SHIPPING_MIN_EUR ? 0 : c.fee;
+            return (
+              <option key={c.id} value={c.id}>
+                {c.label} (
+                {fee === 0 && c.id !== "PICKUP"
+                  ? "безплатна"
+                  : formatBgn(fee)}
+                )
+              </option>
+            );
+          })}
         </select>
       </label>
 

@@ -26,7 +26,7 @@ type Props = {
 export function PurchaseConversion({
   orderId,
   value,
-  currency = "BGN",
+  currency = "EUR",
   gaMeasurementId,
   adsConversionSendTo,
   metaPixelId,

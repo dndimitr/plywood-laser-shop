@@ -1,6 +1,7 @@
 import { createHash, randomUUID } from "crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import path from "path";
+import { bgnToEur } from "@/lib/currency";
 import { CATALOG_PRODUCTS } from "../data/catalog-products";
 
 export type LocalLaserType = "ENGRAVE" | "CUT" | "BOTH";
@@ -275,7 +276,7 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
 
   const ruleData = {
     name: "default-custom",
-    pricePerCm2: 0.12,
+    pricePerCm2: bgnToEur(0.12),
     thicknessCoefficients: { "3": 1, "4": 1.15, "6": 1.35, default: 1.2 },
     complexityMultipliers: { simple: 1, medium: 1.25, complex: 1.6 },
     quantityDiscounts: [
@@ -284,8 +285,8 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
       { minQty: 25, percentOff: 15 },
     ],
     rushMultiplier: 1.5,
-    minPrice: 18,
-    minOrderAmount: 12,
+    minPrice: bgnToEur(18),
+    minOrderAmount: bgnToEur(12),
     active: true,
   };
   const ruleIdx = db.pricingRules.findIndex((r) => r.name === ruleData.name);
@@ -417,6 +418,20 @@ export async function ensureLocalDb(): Promise<LocalDb> {
     }
     if (o.doubleSided == null) {
       o.doubleSided = false;
+      dirty = true;
+    }
+  }
+  for (const rule of db.pricingRules) {
+    if (Number(rule.pricePerCm2) === 0.12) {
+      rule.pricePerCm2 = bgnToEur(0.12);
+      dirty = true;
+    }
+    if (Number(rule.minPrice) === 18) {
+      rule.minPrice = bgnToEur(18);
+      dirty = true;
+    }
+    if (Number(rule.minOrderAmount) === 12) {
+      rule.minOrderAmount = bgnToEur(12);
       dirty = true;
     }
   }
