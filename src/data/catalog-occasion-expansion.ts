@@ -3,6 +3,7 @@
  * anniversary, Valentine's, christmas, halloween, gifts expansions.
  *
  * Names and descriptions are storefront Bulgarian copy.
+ * All single-piece sizes fit the laser bed (≤ 40×40 cm).
  */
 
 type SeedLaserType = "ENGRAVE" | "CUT" | "BOTH";
@@ -127,11 +128,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "svatba-tabela-arka-imena",
     category: "wedding",
     description:
-      "Голяма ажурна табела с имената на младоженците — за арка, фотозона или стена. Чист силует, готов за окачване.",
+      "Голяма ажурна табела с имената на младоженците — за арка, фотозона или стена. Чист силует до 40×40 см, готов за окачване.",
     basePrice: 55,
     options: std2(
-      { label: "Средна · 4 мм", size: "50×25 см", mm: 4 },
-      { label: "Голяма · 6 мм", size: "70×35 см", mm: 6, price: 20 },
+      { label: "Средна · 4 мм", size: "40×20 см", mm: 4 },
+      { label: "Голяма · 6 мм", size: "40×25 см", mm: 6, price: 20 },
     ),
   },
   {
@@ -165,11 +166,11 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     slug: "rozhden-golyama-cifra",
     category: "birthday",
     description:
-      "Лазерно изрязана цифра от шперплат за фотозона или декорация около тортата. Посочете възрастта при поръчка.",
+      "Лазерно изрязана цифра от шперплат за фотозона или декорация около тортата (до 40 см). Посочете възрастта при поръчка.",
     basePrice: 24,
     options: std2(
-      { label: "40 см · 4 мм", size: "височина около 40 см", mm: 4 },
-      { label: "60 см · 6 мм", size: "височина около 60 см", mm: 6, price: 16 },
+      { label: "30 см · 4 мм", size: "височина около 30 см", mm: 4 },
+      { label: "40 см · 6 мм", size: "височина около 40 см", mm: 6, price: 16 },
     ),
   },
   {
@@ -204,8 +205,8 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
       "Надпис от шперплат за юбилей — за стена или фотозона. По желание гравираме години.",
     basePrice: 38,
     options: std2(
-      { label: "Среден · 4 мм", size: "60×15 см", mm: 4 },
-      { label: "Голям · 6 мм", size: "80×18 см", mm: 6, price: 14 },
+      { label: "Среден · 4 мм", size: "40×12 см", mm: 4 },
+      { label: "Голям · 6 мм", size: "40×18 см", mm: 6, price: 14 },
     ),
   },
   {
@@ -412,8 +413,8 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
       "Надпис от шперплат за украса на залата — стенен или настолен, с чист шрифт.",
     basePrice: 36,
     options: std2(
-      { label: "Среден · 4 мм", size: "50×12 см", mm: 4 },
-      { label: "Голям · 6 мм", size: "70×15 см", mm: 6, price: 14 },
+      { label: "Среден · 4 мм", size: "40×10 см", mm: 4 },
+      { label: "Голям · 6 мм", size: "40×15 см", mm: 6, price: 14 },
     ),
   },
 
@@ -587,7 +588,7 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
     basePrice: 30,
     options: std2(
       { label: "Средна · 4 мм", size: "35×15 см", mm: 4 },
-      { label: "Голяма · масло", size: "45×18 см", mm: 4, price: 12 },
+      { label: "Голяма · масло", size: "40×18 см", mm: 4, price: 12 },
     ),
   },
   {
@@ -673,8 +674,8 @@ export const OCCASION_EXPANSION_DRAFTS: OccasionDraft[] = [
       "Надпис-банер от шперплат за хелоуин парти или витрина — ажурни букви.",
     basePrice: 32,
     options: std2(
-      { label: "Среден · 3 мм", size: "55×12 см" },
-      { label: "Голям · 4 мм", size: "75×15 см", mm: 4, price: 12 },
+      { label: "Среден · 3 мм", size: "40×10 см" },
+      { label: "Голям · 4 мм", size: "40×15 см", mm: 4, price: 12 },
     ),
   },
   {

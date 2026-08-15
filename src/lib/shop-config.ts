@@ -204,4 +204,10 @@ export function productionLeadHelp(rush: boolean) {
   return `Стандартна изработка: ${PRODUCTION_LEAD.standardLabel} след потвърждение на поръчката/макета. Ускорено: ${PRODUCTION_LEAD.rushLabel} (+${PRODUCTION_LEAD.rushSurchargePercent}%).`;
 }
 
+/** Max laser bed size (cm) — single-piece cuts */
+export const MACHINE_BED_MAX_CM = 40;
+
+/** Max quantity per line in cart / configurators */
+export const MAX_LINE_QTY = 50;
+
 export type QtyDiscount = { minQty: number; percentOff: number };
