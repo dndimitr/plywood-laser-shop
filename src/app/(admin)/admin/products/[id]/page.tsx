@@ -27,7 +27,7 @@ export default async function EditProductPage({ params }: Props) {
 
   const marketing = getMarketingSettings();
   const storeUrl = absoluteUrl(`/products/${product.slug}`);
-  const shareHref = facebookShareUrl(storeUrl);
+  const shareHref = facebookShareUrl(storeUrl, product.name);
 
   return (
     <div className="admin-panel">
@@ -38,7 +38,7 @@ export default async function EditProductPage({ params }: Props) {
         </Link>
         {" · "}
         <a href={shareHref} target="_blank" rel="noopener noreferrer">
-          Сподели във Facebook като пост
+          Facebook sharer с линк към продукта
         </a>
         {marketing.facebookPageUrl ? (
           <>

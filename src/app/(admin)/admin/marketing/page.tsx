@@ -16,9 +16,10 @@ export default async function AdminMarketingPage() {
       <h1>Маркетинг и аналитика</h1>
       <p className="muted" style={{ maxWidth: "40rem" }}>
         Настройки за Google Analytics, Google Ads, Meta Pixel + CAPI и
-        споделяне на продукти във Facebook. Можете да ги променяте тук без
-        redeploy (env стойностите служат като начални стойности, ако файлът е
-        празен).
+        споделяне на продукти във Facebook (линк към продуктовата страница —
+        Web Share / копиране на линка в магазина). Можете да ги променяте тук
+        без redeploy (env стойностите служат като начални стойности, ако
+        файлът е празен).
       </p>
       <MarketingSettingsForm initial={marketing} />
     </div>

@@ -153,8 +153,8 @@ export function MarketingSettingsForm({ initial }: Props) {
           onChange={(e) => setField("facebookShareEnabled", e.target.checked)}
         />
         <span>
-          Показвай „Сподели във Facebook“ на продуктовите страници (за пост в
-          страницата през Facebook sharer)
+          Показвай „Сподели във Facebook“ на продуктовите страници — споделя
+          линка към продукта (Web Share на мобилен + бутон „Копирай линка“)
         </span>
       </label>
 
@@ -164,7 +164,8 @@ export function MarketingSettingsForm({ initial }: Props) {
         ViewContent, AddToCart, InitiateCheckout, Purchase. UTM параметрите се
         записват за GA4 cross-check. Маркетинговите скриптове се зареждат само
         след съгласие за бисквитки. Маскираният CAPI токен се запазва при
-        запис; празно поле го изчиства. Env: META_CAPI_ACCESS_TOKEN.
+        запис; празно поле го изчиства. Env: META_CAPI_ACCESS_TOKEN. В админ
+        списъка с продукти „FB линк“ отваря Facebook sharer с URL на продукта.
       </p>
 
       {error ? <p className="error">{error}</p> : null}

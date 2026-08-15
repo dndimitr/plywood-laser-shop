@@ -12,13 +12,24 @@ const categoryLabel = Object.fromEntries(
   CATEGORIES.map((c) => [c.id, c.label]),
 );
 
-export default async function AdminProductsPage() {
+type Props = { searchParams: Promise<{ cat?: string }> };
+
+export default async function AdminProductsPage({ searchParams }: Props) {
   const session = await auth();
   if (!session?.user) redirect("/admin/login");
 
+  const { cat: catRaw } = await searchParams;
+  const catFilter =
+    catRaw && CATEGORIES.some((c) => c.id === catRaw) ? catRaw : null;
+
   const products = await prisma.product.findMany({
+    where: catFilter ? { category: catFilter } : undefined,
     include: { options: true },
-    orderBy: { updatedAt: "desc" },
+    orderBy: [{ category: "asc" }, { name: "asc" }],
+  });
+
+  const personalizedTotal = await prisma.product.count({
+    where: { category: "personalized" },
   });
 
   return (
@@ -29,6 +40,39 @@ export default async function AdminProductsPage() {
           Нов продукт
         </Link>
       </div>
+
+      <p className="muted">
+        {products.length} показани
+        {catFilter
+          ? ` · филтър: ${categoryLabel[catFilter] ?? catFilter}`
+          : ` · ${personalizedTotal} в „Персонализирани“`}
+        {" · "}
+        Категорията се избира от същия списък като в магазина (вкл.
+        Персонализирани).
+      </p>
+
+      <div className="admin-filters">
+        <Link
+          href="/admin/products"
+          className={!catFilter ? "admin-filter-chip is-active" : "admin-filter-chip"}
+        >
+          Всички
+        </Link>
+        {CATEGORIES.filter((c) => c.id !== "other").map((c) => (
+          <Link
+            key={c.id}
+            href={`/admin/products?cat=${c.id}`}
+            className={
+              catFilter === c.id
+                ? "admin-filter-chip is-active"
+                : "admin-filter-chip"
+            }
+          >
+            {c.label}
+          </Link>
+        ))}
+      </div>
+
       <table className="admin-table">
         <thead>
           <tr>
@@ -45,6 +89,7 @@ export default async function AdminProductsPage() {
           {products.map((product) => {
             const share = facebookShareUrl(
               absoluteUrl(`/products/${product.slug}`),
+              product.name,
             );
             return (
               <tr key={product.id}>
@@ -60,7 +105,7 @@ export default async function AdminProductsPage() {
                 </td>
                 <td>
                   <a href={share} target="_blank" rel="noopener noreferrer">
-                    FB пост
+                    FB линк
                   </a>
                 </td>
               </tr>
