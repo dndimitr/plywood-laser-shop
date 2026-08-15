@@ -86,7 +86,7 @@ export function MobileNav({ cartCount }: Props) {
               Как работи
             </Link>
             <Link href="/custom" onClick={() => setOpen(false)}>
-              Поръчка по файл
+              Поръчка по дизайн
             </Link>
             <Link href="/account" onClick={() => setOpen(false)}>
               Моите поръчки
