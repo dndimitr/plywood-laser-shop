@@ -1,10 +1,11 @@
 import { createHash, randomUUID } from "crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import path from "path";
-import { bgnToEur } from "@/lib/currency";
+import { bgnToEur, roundMoney } from "@/lib/currency";
 import {
   CATALOG_PRICE_FACTOR,
   CATALOG_PRODUCTS,
+  LOW_PRICE_BUMP_FACTOR,
 } from "../data/catalog-products";
 
 export type LocalLaserType = "ENGRAVE" | "CUT" | "BOTH";
@@ -279,7 +280,9 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
 
   const ruleData = {
     name: "default-custom",
-    pricePerCm2: bgnToEur(0.12 * CATALOG_PRICE_FACTOR),
+    pricePerCm2: roundMoney(
+      bgnToEur(0.12 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+    ),
     thicknessCoefficients: { "3": 1, "4": 1.15, "6": 1.35, default: 1.2 },
     complexityMultipliers: { simple: 1, medium: 1.25, complex: 1.6 },
     quantityDiscounts: [
@@ -288,8 +291,12 @@ export async function seedLocalDb(db: LocalDb): Promise<LocalDb> {
       { minQty: 25, percentOff: 15 },
     ],
     rushMultiplier: 1.5,
-    minPrice: bgnToEur(18 * CATALOG_PRICE_FACTOR),
-    minOrderAmount: bgnToEur(12 * CATALOG_PRICE_FACTOR),
+    minPrice: roundMoney(
+      bgnToEur(18 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+    ),
+    minOrderAmount: roundMoney(
+      bgnToEur(12 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+    ),
     active: true,
   };
   const ruleIdx = db.pricingRules.findIndex((r) => r.name === ruleData.name);
@@ -427,9 +434,15 @@ export async function ensureLocalDb(): Promise<LocalDb> {
     }
   }
   for (const rule of db.pricingRules) {
-    const nextPerCm2 = bgnToEur(0.12 * CATALOG_PRICE_FACTOR);
-    const nextMinPrice = bgnToEur(18 * CATALOG_PRICE_FACTOR);
-    const nextMinOrder = bgnToEur(12 * CATALOG_PRICE_FACTOR);
+    const nextPerCm2 = roundMoney(
+      bgnToEur(0.12 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+    );
+    const nextMinPrice = roundMoney(
+      bgnToEur(18 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+    );
+    const nextMinOrder = roundMoney(
+      bgnToEur(12 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+    );
     // Legacy BGN → EUR one-time migrate
     if (Number(rule.pricePerCm2) === 0.12) {
       rule.pricePerCm2 = nextPerCm2;
@@ -443,7 +456,7 @@ export async function ensureLocalDb(): Promise<LocalDb> {
       rule.minOrderAmount = nextMinOrder;
       dirty = true;
     }
-    // Keep custom pricing aligned with catalog price factor
+    // Keep custom pricing aligned with catalog price factor + low-price bump
     if (
       rule.name === "default-custom" &&
       (Number(rule.pricePerCm2) !== nextPerCm2 ||
