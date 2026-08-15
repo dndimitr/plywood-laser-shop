@@ -2,7 +2,11 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { getShippingFees } from "@/lib/shipping-settings";
+import {
+  getMarketingSettings,
+  getShippingFees,
+  hasActiveMarketingScripts,
+} from "@/lib/shop-settings";
 import { formatBgn } from "@/lib/pricing";
 
 export const dynamic = "force-dynamic";
@@ -20,6 +24,14 @@ export default async function AdminHomePage() {
     ]);
 
   const fees = getShippingFees();
+  const marketing = getMarketingSettings();
+  const marketingOn = hasActiveMarketingScripts(marketing);
+  const marketingBits = [
+    marketing.gaMeasurementId && "GA4",
+    marketing.googleAdsId && "Ads",
+    marketing.gtmId && "GTM",
+    marketing.metaPixelId && "Meta Pixel",
+  ].filter(Boolean);
 
   return (
     <div className="admin-panel">
@@ -55,6 +67,13 @@ export default async function AdminHomePage() {
             Еконт {formatBgn(fees.ECONT)} · Speedy {formatBgn(fees.SPEEDY)}
           </p>
           <Link href="/admin/shipping">Коригирай</Link>
+        </div>
+        <div className="admin-card">
+          <h3>Маркетинг</h3>
+          <p>
+            {marketingOn ? marketingBits.join(" · ") : "Няма активни тагове"}
+          </p>
+          <Link href="/admin/marketing">Настройки</Link>
         </div>
       </div>
     </div>

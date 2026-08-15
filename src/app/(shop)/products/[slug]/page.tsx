@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
+import { FacebookShareButton } from "@/components/FacebookShareButton";
 import { FavoriteToggle } from "@/components/FavoriteToggle";
 import { JsonLd } from "@/components/JsonLd";
+import { MetaViewContent } from "@/components/MetaViewContent";
 import { ProductConfigurator } from "@/components/ProductConfigurator";
 import { ProductGallery } from "@/components/ProductGallery";
 import {
@@ -13,11 +15,13 @@ import { prisma } from "@/lib/db";
 import { formatBgn } from "@/lib/pricing";
 import { finishLabel, materialLabel } from "@/lib/labels";
 import {
+  absoluteUrl,
   breadcrumbJsonLd,
   buildPageMetadata,
   productJsonLd,
   truncateMeta,
 } from "@/lib/seo";
+import { getMarketingSettings } from "@/lib/shop-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -62,6 +66,8 @@ export default async function ProductPage({ params }: Props) {
         : [];
 
   const basePrice = Number(product.basePrice);
+  const marketing = getMarketingSettings();
+  const productUrl = absoluteUrl(`/products/${product.slug}`);
 
   return (
     <div className="product-detail">
@@ -87,6 +93,12 @@ export default async function ProductPage({ params }: Props) {
         name={product.name}
         imageUrl={product.imageUrl ?? gallery[0] ?? null}
         basePrice={basePrice}
+      />
+      <MetaViewContent
+        contentId={product.slug}
+        contentName={product.name}
+        value={basePrice}
+        enabled={Boolean(marketing.metaPixelId)}
       />
 
       <div className="container">
@@ -114,6 +126,13 @@ export default async function ProductPage({ params }: Props) {
                 />
               </div>
               <p className="product-detail-desc">{product.description}</p>
+              {marketing.facebookShareEnabled ? (
+                <FacebookShareButton
+                  url={productUrl}
+                  title={product.name}
+                  pageUrl={marketing.facebookPageUrl || null}
+                />
+              ) : null}
             </header>
           </div>
 
