@@ -11,7 +11,6 @@ import {
   IconUpload,
 } from "@/components/Icons";
 import { CatalogBrowser } from "@/components/CatalogBrowser";
-import { BrandLogo } from "@/components/BrandLogo";
 import { JsonLd } from "@/components/JsonLd";
 import { ProductSlider } from "@/components/ProductSlider";
 import { categoryLandingById, categoryLandingPath } from "@/lib/category-landings";
@@ -118,9 +117,6 @@ export default async function HomePage({ searchParams }: HomeProps) {
       />
       <section className="hero hero--text" aria-label="Начало">
         <div className="container hero-copy">
-          <p className="hero-brand">
-            <BrandLogo variant="hero" priority />
-          </p>
           <h1>Персонализирани подаръци и украси</h1>
           <p>
             С име, дата или послание — за сватба, рожден ден, кръщене и всеки
