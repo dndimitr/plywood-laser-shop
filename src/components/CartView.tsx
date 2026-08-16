@@ -44,7 +44,7 @@ export function CartView({ initialCart, subtotal }: Props) {
           Разгледайте каталога с готови модели или качете файл за изработка.
         </p>
         <div className="cta-row" style={{ marginTop: "1.25rem" }}>
-          <Link href="/#katalog" className="btn btn-primary">
+          <Link href="/katalog" className="btn btn-primary">
             Към каталога
           </Link>
           <Link href="/custom" className="btn btn-ghost">
@@ -164,7 +164,7 @@ export function CartView({ initialCart, subtotal }: Props) {
           </p>
         </div>
         <div className="cta-row">
-          <Link href="/#katalog" className="btn btn-ghost">
+          <Link href="/katalog" className="btn btn-ghost">
             Продължете пазаруването
           </Link>
           <Link href="/checkout" className="btn btn-primary">

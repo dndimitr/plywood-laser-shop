@@ -80,7 +80,7 @@ export default async function OccasionPage({ params }: Props) {
         data={[
           breadcrumbJsonLd([
             { name: "Начало", path: "/" },
-            { name: "Поводи", path: "/#katalog" },
+            { name: "Поводи", path: "/katalog" },
             { name: occasion.navLabel, path: occasionPath(occasion.slug) },
           ]),
           faqJsonLd(occasion.faqs),
@@ -96,7 +96,7 @@ export default async function OccasionPage({ params }: Props) {
           <nav className="product-breadcrumb" aria-label="Навигация">
             <Link href="/">Начало</Link>
             <span aria-hidden>/</span>
-            <Link href="/#katalog">Каталог</Link>
+            <Link href="/katalog">Каталог</Link>
             <span aria-hidden>/</span>
             <span>{occasion.navLabel}</span>
           </nav>

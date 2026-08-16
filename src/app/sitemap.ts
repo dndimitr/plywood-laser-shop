@@ -24,6 +24,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 1,
     },
     {
+      url: absoluteUrl("/katalog"),
+      lastModified: now,
+      changeFrequency: "daily",
+      priority: 0.95,
+    },
+    {
       url: absoluteUrl("/custom"),
       lastModified: now,
       changeFrequency: "weekly",

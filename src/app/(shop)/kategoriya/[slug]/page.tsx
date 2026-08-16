@@ -76,7 +76,7 @@ export default async function CategoryLandingPage({ params }: Props) {
         data={[
           breadcrumbJsonLd([
             { name: "Начало", path: "/" },
-            { name: "Каталог", path: "/#katalog" },
+            { name: "Каталог", path: "/katalog" },
             { name: landing.navLabel, path: categoryLandingPath(landing.slug) },
           ]),
           collectionJsonLd(
@@ -91,7 +91,7 @@ export default async function CategoryLandingPage({ params }: Props) {
           <nav className="product-breadcrumb" aria-label="Навигация">
             <Link href="/">Начало</Link>
             <span aria-hidden>/</span>
-            <Link href="/#katalog">Каталог</Link>
+            <Link href="/katalog">Каталог</Link>
             <span aria-hidden>/</span>
             <span>{landing.navLabel}</span>
           </nav>

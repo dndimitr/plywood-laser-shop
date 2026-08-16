@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import {
@@ -10,23 +9,25 @@ import {
   IconTruck,
   IconUpload,
 } from "@/components/Icons";
-import { CatalogBrowser } from "@/components/CatalogBrowser";
 import { JsonLd } from "@/components/JsonLd";
+import { ProductCard } from "@/components/ProductCard";
 import { ProductSlider } from "@/components/ProductSlider";
-import { categoryLandingById, categoryLandingPath } from "@/lib/category-landings";
+import {
+  categoryLandingById,
+  categoryLandingPath,
+} from "@/lib/category-landings";
 import { prisma } from "@/lib/db";
 import {
   OCCASIONS,
   occasionByCategoryId,
   occasionPath,
+  categoryHref,
 } from "@/lib/occasions";
 import {
   breadcrumbJsonLd,
   buildPageMetadata,
-  categorySeo,
   DEFAULT_DESCRIPTION,
   faqJsonLd,
-  SITE_NAME,
   SITE_TAGLINE,
 } from "@/lib/seo";
 
@@ -55,26 +56,7 @@ type HomeProps = {
   searchParams: Promise<{ cat?: string; q?: string }>;
 };
 
-export async function generateMetadata({
-  searchParams,
-}: HomeProps): Promise<Metadata> {
-  const { cat, q } = await searchParams;
-  if (q?.trim()) {
-    return buildPageMetadata({
-      title: `Търсене: ${q.trim()}`,
-      description: `Резултати от каталога на ${SITE_NAME} за „${q.trim()}“.`,
-      path: `/?q=${encodeURIComponent(q.trim())}`,
-      noIndex: true,
-    });
-  }
-  const catMeta = categorySeo(cat);
-  if (catMeta) {
-    return buildPageMetadata({
-      title: catMeta.title,
-      description: catMeta.description,
-      path: catMeta.path,
-    });
-  }
+export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
     title: SITE_TAGLINE,
     description: DEFAULT_DESCRIPTION,
@@ -83,27 +65,57 @@ export async function generateMetadata({
 }
 
 export default async function HomePage({ searchParams }: HomeProps) {
-  const { cat } = await searchParams;
+  const { cat, q } = await searchParams;
+  if (q?.trim()) {
+    redirect(`/katalog?q=${encodeURIComponent(q.trim())}`);
+  }
   if (cat) {
     const occasion = occasionByCategoryId(cat);
     if (occasion) redirect(occasionPath(occasion.slug));
     const landing = categoryLandingById(cat);
     if (landing) redirect(categoryLandingPath(landing.slug));
+    redirect(`/katalog?cat=${encodeURIComponent(cat)}`);
   }
 
-  const [products, reviews] = await Promise.all([
-    prisma.product.findMany({
-      where: { active: true },
-      orderBy: { name: "asc" },
-    }),
-    prisma.review.findMany({
-      where: { published: true },
-      orderBy: { createdAt: "desc" },
-    }),
-  ]);
+  const productSelect = {
+    id: true,
+    name: true,
+    slug: true,
+    description: true,
+    category: true,
+    basePrice: true,
+    imageUrl: true,
+  } as const;
+
+  const [featuredPool, nurseryProducts, weddingProducts, reviews] =
+    await Promise.all([
+      prisma.product.findMany({
+        where: { active: true },
+        select: productSelect,
+        orderBy: { updatedAt: "desc" },
+        take: 48,
+      }),
+      prisma.product.findMany({
+        where: { active: true, category: "nursery" },
+        select: productSelect,
+        orderBy: { name: "asc" },
+        take: 4,
+      }),
+      prisma.product.findMany({
+        where: { active: true, category: "wedding" },
+        select: productSelect,
+        orderBy: { name: "asc" },
+        take: 4,
+      }),
+      prisma.review.findMany({
+        where: { published: true },
+        orderBy: { createdAt: "desc" },
+        take: 6,
+      }),
+    ]);
 
   const featuredSlider = pickRandomProducts(
-    products.filter((p) => Boolean(p.imageUrl)),
+    featuredPool.filter((p) => Boolean(p.imageUrl)),
     8,
   );
 
@@ -124,7 +136,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
             България.
           </p>
           <div className="cta-row">
-            <Link href="#katalog" className="btn btn-primary">
+            <Link href="/katalog" className="btn btn-primary">
               Разгледай каталога
             </Link>
             <Link href="/custom" className="btn btn-ghost">
@@ -141,7 +153,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
       >
         <h2 id="izbrani-heading">Избрани модели</h2>
         <p className="section-lead">
-          Случайна селекция от каталога — персонализирайте с име, дата или
+          Кратка селекция от каталога — персонализирайте с име, дата или
           послание.
         </p>
         <ProductSlider
@@ -154,6 +166,11 @@ export default async function HomePage({ searchParams }: HomeProps) {
             imageUrl: p.imageUrl,
           }))}
         />
+        <p style={{ marginTop: "1.25rem" }}>
+          <Link href="/katalog" className="btn btn-ghost">
+            Виж целия каталог
+          </Link>
+        </p>
       </section>
 
       <section
@@ -175,8 +192,76 @@ export default async function HomePage({ searchParams }: HomeProps) {
               {o.navLabel}
             </Link>
           ))}
+          <Link href={categoryHref("nursery")} className="occasion-chip">
+            Детска
+          </Link>
         </div>
       </section>
+
+      {nurseryProducts.length > 0 ? (
+        <section
+          id="detska"
+          className="section container"
+          aria-labelledby="detska-heading"
+        >
+          <h2 id="detska-heading">Детска и Монтесори</h2>
+          <p className="section-lead">
+            Сглобяване, оцветяване и сензорни материали от шперплат — без
+            екрани.
+          </p>
+          <div className="product-grid">
+            {nurseryProducts.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={{
+                  name: p.name,
+                  slug: p.slug,
+                  description: p.description,
+                  basePrice: Number(p.basePrice),
+                  imageUrl: p.imageUrl,
+                }}
+              />
+            ))}
+          </div>
+          <p style={{ marginTop: "1.25rem" }}>
+            <Link href={categoryHref("nursery")} className="btn btn-ghost">
+              Виж всички детски
+            </Link>
+          </p>
+        </section>
+      ) : null}
+
+      {weddingProducts.length > 0 ? (
+        <section
+          id="svatba"
+          className="section section-alt container"
+          aria-labelledby="svatba-heading"
+        >
+          <h2 id="svatba-heading">За сватбата</h2>
+          <p className="section-lead">
+            Welcome табели, топери и персонализирани акценти за голямия ден.
+          </p>
+          <div className="product-grid">
+            {weddingProducts.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={{
+                  name: p.name,
+                  slug: p.slug,
+                  description: p.description,
+                  basePrice: Number(p.basePrice),
+                  imageUrl: p.imageUrl,
+                }}
+              />
+            ))}
+          </div>
+          <p style={{ marginTop: "1.25rem" }}>
+            <Link href={categoryHref("wedding")} className="btn btn-ghost">
+              Виж всички сватбени
+            </Link>
+          </p>
+        </section>
+      ) : null}
 
       <section id="kak-raboti" className="section container">
         <h2>Как протича поръчката</h2>
@@ -208,32 +293,6 @@ export default async function HomePage({ searchParams }: HomeProps) {
               изпращаме с куриер.
             </p>
           </article>
-        </div>
-      </section>
-
-      <section
-        id="katalog"
-        className="section"
-        style={{ scrollMarginTop: "var(--header-h)" }}
-      >
-        <div className="container">
-          <h2>Каталог</h2>
-          <p className="section-lead">
-            Готови модели по поводи, дом, бизнес и аксесоари.
-          </p>
-          <Suspense fallback={<p className="muted">Зареждане…</p>}>
-            <CatalogBrowser
-              products={products.map((p) => ({
-                id: p.id,
-                name: p.name,
-                slug: p.slug,
-                description: p.description,
-                category: p.category ?? "other",
-                basePrice: Number(p.basePrice),
-                imageUrl: p.imageUrl,
-              }))}
-            />
-          </Suspense>
         </div>
       </section>
 
@@ -303,25 +362,27 @@ export default async function HomePage({ searchParams }: HomeProps) {
         </div>
       </section>
 
-      <section className="section section-alt">
-        <div className="container">
-          <h2>Отзиви</h2>
-          <p className="section-lead">Реални впечатления от клиенти.</p>
-          <div className="product-grid">
-            {reviews.map((r) => (
-              <article key={r.id} className="admin-card">
-                <p style={{ margin: 0, fontWeight: 700 }}>
-                  Оценка {r.rating}/5
-                </p>
-                <p>{r.body}</p>
-                <p className="muted" style={{ marginBottom: 0 }}>
-                  — {r.authorName}
-                </p>
-              </article>
-            ))}
+      {reviews.length > 0 ? (
+        <section className="section section-alt">
+          <div className="container">
+            <h2>Отзиви</h2>
+            <p className="section-lead">Реални впечатления от клиенти.</p>
+            <div className="product-grid">
+              {reviews.map((r) => (
+                <article key={r.id} className="admin-card">
+                  <p style={{ margin: 0, fontWeight: 700 }}>
+                    Оценка {r.rating}/5
+                  </p>
+                  <p>{r.body}</p>
+                  <p className="muted" style={{ marginBottom: 0 }}>
+                    — {r.authorName}
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
       <section id="faq" className="section">
         <div className="container">
@@ -334,6 +395,11 @@ export default async function HomePage({ searchParams }: HomeProps) {
               </details>
             ))}
           </div>
+          <p style={{ marginTop: "1.75rem" }}>
+            <Link href="/katalog" className="btn btn-primary">
+              Към каталога
+            </Link>
+          </p>
         </div>
       </section>
     </>

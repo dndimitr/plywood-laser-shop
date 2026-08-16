@@ -87,7 +87,7 @@ export function MobileNav({ cartCount }: Props) {
 
         <div className="mobile-drawer-body">
           <div className="mobile-drawer-links">
-            <Link href="/#katalog" onClick={() => setOpen(false)}>
+            <Link href="/katalog" onClick={() => setOpen(false)}>
               Каталог
             </Link>
             <Link href={categoryHref("nursery")} onClick={() => setOpen(false)}>
@@ -128,7 +128,7 @@ export function MobileNav({ cartCount }: Props) {
           <div className="mobile-drawer-section">
             <p className="mobile-drawer-label">Категории</p>
             <Link
-              href="/#katalog"
+              href="/katalog"
               className="mobile-drawer-all"
               onClick={() => setOpen(false)}
             >

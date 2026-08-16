@@ -138,7 +138,7 @@ export function CatalogBrowser({ products }: { products: Product[] }) {
     if (nextQ.trim()) sp.set("q", nextQ.trim());
     if (nextCat !== "all") sp.set("cat", nextCat);
     const qs = sp.toString();
-    router.replace(qs ? `/?${qs}#katalog` : "/#katalog", { scroll: false });
+    router.replace(qs ? `/katalog?${qs}` : "/katalog", { scroll: false });
   }
 
   function selectCategory(nextCat: string, closeSheet = false) {

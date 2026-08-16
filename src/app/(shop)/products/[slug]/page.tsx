@@ -80,7 +80,7 @@ export default async function ProductPage({ params }: Props) {
 
   const crumbs: Array<{ name: string; path: string }> = [
     { name: "Начало", path: "/" },
-    { name: "Каталог", path: "/#katalog" },
+    { name: "Каталог", path: "/katalog" },
   ];
   if (seo.categoryLabel && seo.categoryHref) {
     crumbs.push({ name: seo.categoryLabel, path: seo.categoryHref });
@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: Props) {
 
       <div className="container">
         <nav className="product-breadcrumb" aria-label="Навигация">
-          <Link href="/#katalog">Каталог</Link>
+          <Link href="/katalog">Каталог</Link>
           {seo.categoryLabel && seo.categoryHref ? (
             <>
               <span aria-hidden>/</span>
