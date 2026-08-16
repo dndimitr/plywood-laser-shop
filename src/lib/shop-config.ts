@@ -124,6 +124,7 @@ export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
   "birthday",
   "newborn",
   "baptism",
+  "nursery",
   "anniversary",
   "valentines",
   "christmas",

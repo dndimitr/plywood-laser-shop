@@ -23,7 +23,7 @@ const CATEGORY_LONG_TAIL: Partial<Record<CategoryId, string>> = {
   panels: "стенен панел с имена",
   ornaments: "орнамент с име",
   kitchen: "кухненски подарък с гравиране",
-  nursery: "табела с име за детската",
+  nursery: "Монтесори играчка или творчески комплект за деца",
   signs: "табела с текст по поръчка",
   venues: "табела за заведение",
   corporate: "корпоративен подарък с лого",

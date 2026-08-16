@@ -9,6 +9,7 @@
  */
 
 import { bgnToEur, roundMoney } from "@/lib/currency";
+import { KIDS_MONTESSORI_DRAFTS } from "./catalog-kids-montessori";
 import { OCCASION_EXPANSION_DRAFTS } from "./catalog-occasion-expansion";
 import { SEASONAL_2026_DRAFTS } from "./catalog-seasonal-2026";
 
@@ -4189,5 +4190,8 @@ export const CATALOG_PRODUCTS: SeedProduct[] = [
   ...pack(OCCASION_EXPANSION_DRAFTS),
   ...pack(
     SEASONAL_2026_DRAFTS.map(({ photoText: _photoText, ...draft }) => draft),
+  ),
+  ...pack(
+    KIDS_MONTESSORI_DRAFTS.map(({ photoText: _photoText, ...draft }) => draft),
   ),
 ];
