@@ -747,6 +747,55 @@ body:has(.product-mobile-cta) .scroll-to-top {
   overflow: hidden;
 }
 
+/* Text-only hero — no photo behind copy */
+.hero--text {
+  align-items: center;
+  min-height: auto;
+  padding: 2.75rem 0 2.5rem;
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 12% 0%,
+      rgba(212, 160, 23, 0.12) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 70% 55% at 92% 100%,
+      rgba(196, 92, 38, 0.1) 0%,
+      transparent 50%
+    ),
+    linear-gradient(165deg, #efe9df 0%, #e4ddd2 48%, #d9d1c4 100%);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero--text .hero-copy {
+  color: var(--walnut);
+  padding: 0;
+  max-width: 38rem;
+}
+
+.hero--text .hero-copy h1 {
+  color: var(--walnut);
+}
+
+.hero--text .hero-copy p {
+  color: var(--ink-soft);
+}
+
+.hero--text .brand-logo--hero {
+  filter: none;
+}
+
+.hero--text .btn-ghost {
+  color: var(--walnut);
+  border-color: rgba(59, 42, 30, 0.35);
+  background: rgba(255, 252, 247, 0.55);
+}
+
+.hero--text .btn-ghost:hover {
+  border-color: var(--walnut);
+  background: rgba(255, 252, 247, 0.9);
+}
+
 .hero-media {
   position: absolute;
   inset: 0;

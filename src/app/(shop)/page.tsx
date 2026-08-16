@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
 import type { Metadata } from "next";
@@ -117,17 +116,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
           faqJsonLd(faqs),
         ]}
       />
-      <section className="hero" aria-label="Начало">
-        <div className="hero-media hero-media--product">
-          <Image
-            src="/products/photos/svatbena-welcome.png"
-            alt="Персонализирана сватбена welcome табела с имена"
-            fill
-            priority
-            sizes="100vw"
-          />
-          <div className="hero-scrim" />
-        </div>
+      <section className="hero hero--text" aria-label="Начало">
         <div className="container hero-copy">
           <p className="hero-brand">
             <BrandLogo variant="hero" priority />
@@ -142,11 +131,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
             <Link href="#katalog" className="btn btn-primary">
               Разгледай каталога
             </Link>
-            <Link
-              href="/custom"
-              className="btn btn-ghost"
-              style={{ color: "#f7f1e8" }}
-            >
+            <Link href="/custom" className="btn btn-ghost">
               Поръчай по дизайн
             </Link>
           </div>
