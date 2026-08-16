@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { formatBgn } from "@/lib/pricing";
+import { absoluteUrl, facebookShareUrl } from "@/lib/seo";
 import { CATEGORIES } from "@/lib/shop-config";
 
 export const dynamic = "force-dynamic";
@@ -37,23 +38,34 @@ export default async function AdminProductsPage() {
             <th>Опции</th>
             <th>Статус</th>
             <th></th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
-            <tr key={product.id}>
-              <td>{product.name}</td>
-              <td>
-                {categoryLabel[product.category] ?? product.category ?? "—"}
-              </td>
-              <td>{formatBgn(Number(product.basePrice))}</td>
-              <td>{product.options.length}</td>
-              <td>{product.active ? "Активен" : "Скрит"}</td>
-              <td>
-                <Link href={`/admin/products/${product.id}`}>Редакция</Link>
-              </td>
-            </tr>
-          ))}
+          {products.map((product) => {
+            const share = facebookShareUrl(
+              absoluteUrl(`/products/${product.slug}`),
+            );
+            return (
+              <tr key={product.id}>
+                <td>{product.name}</td>
+                <td>
+                  {categoryLabel[product.category] ?? product.category ?? "—"}
+                </td>
+                <td>{formatBgn(Number(product.basePrice))}</td>
+                <td>{product.options.length}</td>
+                <td>{product.active ? "Активен" : "Скрит"}</td>
+                <td>
+                  <Link href={`/admin/products/${product.id}`}>Редакция</Link>
+                </td>
+                <td>
+                  <a href={share} target="_blank" rel="noopener noreferrer">
+                    FB пост
+                  </a>
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

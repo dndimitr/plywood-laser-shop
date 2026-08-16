@@ -1,7 +1,10 @@
+import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { ProductForm } from "@/components/ProductForm";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { absoluteUrl, facebookShareUrl } from "@/lib/seo";
+import { getMarketingSettings } from "@/lib/shop-settings";
 
 export const dynamic = "force-dynamic";
 
@@ -22,9 +25,34 @@ export default async function EditProductPage({ params }: Props) {
     ? (product.galleryUrls as string[])
     : [];
 
+  const marketing = getMarketingSettings();
+  const storeUrl = absoluteUrl(`/products/${product.slug}`);
+  const shareHref = facebookShareUrl(storeUrl);
+
   return (
     <div className="admin-panel">
       <h1>Редакция: {product.name}</h1>
+      <p className="muted" style={{ marginBottom: "1rem" }}>
+        <Link href={storeUrl} target="_blank">
+          Виж в магазина
+        </Link>
+        {" · "}
+        <a href={shareHref} target="_blank" rel="noopener noreferrer">
+          Сподели във Facebook като пост
+        </a>
+        {marketing.facebookPageUrl ? (
+          <>
+            {" · "}
+            <a
+              href={marketing.facebookPageUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Facebook страница
+            </a>
+          </>
+        ) : null}
+      </p>
       <ProductForm
         initial={{
           id: product.id,

@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
+import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 import {
   IconPackage,
   IconPencil,
@@ -10,7 +12,25 @@ import {
   IconUpload,
 } from "@/components/Icons";
 import { CatalogBrowser } from "@/components/CatalogBrowser";
+import { BrandLogo } from "@/components/BrandLogo";
+import { JsonLd } from "@/components/JsonLd";
+import { ProductSlider } from "@/components/ProductSlider";
+import { categoryLandingById, categoryLandingPath } from "@/lib/category-landings";
 import { prisma } from "@/lib/db";
+import {
+  OCCASIONS,
+  occasionByCategoryId,
+  occasionPath,
+} from "@/lib/occasions";
+import {
+  breadcrumbJsonLd,
+  buildPageMetadata,
+  categorySeo,
+  DEFAULT_DESCRIPTION,
+  faqJsonLd,
+  SITE_NAME,
+  SITE_TAGLINE,
+} from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
@@ -20,8 +40,8 @@ const faqs = [
     a: "Стандартно 2–5 работни дни след потвърждение на поръчката и макета. При ускорена поръчка срокът се съгласува допълнително.",
   },
   {
-    q: "Какви файлове са подходящи за лазер?",
-    a: "Препоръчваме векторен SVG или PDF за изрязване. Приемаме и PNG/JPG до 8 MB за гравиране.",
+    q: "Как се добавя персонализация?",
+    a: "При поръчка напишете име, дата или послание. Приемаме и ваш файл (SVG, PDF, PNG, JPG) за изработка по дизайн.",
   },
   {
     q: "Какви начини на плащане предлагате?",
@@ -33,7 +53,46 @@ const faqs = [
   },
 ];
 
-export default async function HomePage() {
+type HomeProps = {
+  searchParams: Promise<{ cat?: string; q?: string }>;
+};
+
+export async function generateMetadata({
+  searchParams,
+}: HomeProps): Promise<Metadata> {
+  const { cat, q } = await searchParams;
+  if (q?.trim()) {
+    return buildPageMetadata({
+      title: `Търсене: ${q.trim()}`,
+      description: `Резултати от каталога на ${SITE_NAME} за „${q.trim()}“.`,
+      path: `/?q=${encodeURIComponent(q.trim())}`,
+      noIndex: true,
+    });
+  }
+  const catMeta = categorySeo(cat);
+  if (catMeta) {
+    return buildPageMetadata({
+      title: catMeta.title,
+      description: catMeta.description,
+      path: catMeta.path,
+    });
+  }
+  return buildPageMetadata({
+    title: SITE_TAGLINE,
+    description: DEFAULT_DESCRIPTION,
+    path: "/",
+  });
+}
+
+export default async function HomePage({ searchParams }: HomeProps) {
+  const { cat } = await searchParams;
+  if (cat) {
+    const occasion = occasionByCategoryId(cat);
+    if (occasion) redirect(occasionPath(occasion.slug));
+    const landing = categoryLandingById(cat);
+    if (landing) redirect(categoryLandingPath(landing.slug));
+  }
+
   const [products, reviews] = await Promise.all([
     prisma.product.findMany({
       where: { active: true },
@@ -45,13 +104,24 @@ export default async function HomePage() {
     }),
   ]);
 
+  const featuredSlider = pickRandomProducts(
+    products.filter((p) => Boolean(p.imageUrl)),
+    8,
+  );
+
   return (
     <>
+      <JsonLd
+        data={[
+          breadcrumbJsonLd([{ name: "Начало", path: "/" }]),
+          faqJsonLd(faqs),
+        ]}
+      />
       <section className="hero" aria-label="Начало">
-        <div className="hero-media">
+        <div className="hero-media hero-media--product">
           <Image
-            src="https://images.unsplash.com/photo-1452860606245-08befc0ff44b?auto=format&fit=crop&w=2000&q=80"
-            alt="Лазерна обработка на шперплат в работилница"
+            src="/products/photos/svatbena-welcome.png"
+            alt="Персонализирана сватбена welcome табела с имена"
             fill
             priority
             sizes="100vw"
@@ -59,11 +129,14 @@ export default async function HomePage() {
           <div className="hero-scrim" />
         </div>
         <div className="container hero-copy">
-          <p className="hero-brand">ЛазерШперплат</p>
-          <h1>Лазерно изрязване и гравиране на шперплат</h1>
+          <p className="hero-brand">
+            <BrandLogo variant="hero" priority />
+          </p>
+          <h1>Персонализирани подаръци и украси</h1>
           <p>
-            Готови модели с персонализация или производство по ваш файл.
-            Точни размери, чисти ръбове и доставка с Еконт или Speedy.
+            С име, дата или послание — за сватба, рожден ден, кръщене и всеки
+            специален повод. Готов модел или ваш дизайн, с доставка в цяла
+            България.
           </p>
           <div className="cta-row">
             <Link href="#katalog" className="btn btn-primary">
@@ -74,45 +147,94 @@ export default async function HomePage() {
               className="btn btn-ghost"
               style={{ color: "#f7f1e8" }}
             >
-              Поръчай по файл
+              Поръчай по дизайн
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section
+        id="izbrani"
+        className="section container"
+        aria-labelledby="izbrani-heading"
+      >
+        <h2 id="izbrani-heading">Избрани модели</h2>
+        <p className="section-lead">
+          Случайна селекция от каталога — персонализирайте с име, дата или
+          послание.
+        </p>
+        <ProductSlider
+          products={featuredSlider.map((p) => ({
+            id: p.id,
+            name: p.name,
+            slug: p.slug,
+            description: p.description,
+            basePrice: Number(p.basePrice),
+            imageUrl: p.imageUrl,
+          }))}
+        />
+      </section>
+
+      <section
+        id="povodi"
+        className="section section-alt container"
+        aria-labelledby="povodi-heading"
+      >
+        <h2 id="povodi-heading">Поводи</h2>
+        <p className="section-lead">
+          Изберете повод и вижте готови модели с персонализация.
+        </p>
+        <div className="occasion-chips">
+          {OCCASIONS.map((o) => (
+            <Link
+              key={o.slug}
+              href={occasionPath(o.slug)}
+              className="occasion-chip"
+            >
+              {o.navLabel}
+            </Link>
+          ))}
         </div>
       </section>
 
       <section id="kak-raboti" className="section container">
         <h2>Как протича поръчката</h2>
         <p className="section-lead">
-          От избор на модел или файл до готова детайл — в три стъпки.
+          От идея до готов подарък — в три стъпки.
         </p>
         <div className="steps">
           <article className="step">
             <div className="step-num">01</div>
-            <h3>Изберете модел или качете файл</h3>
+            <h3>Изберете модел или качете дизайн</h3>
             <p>
-              Вземете готов шаблон с опции или качете SVG, PDF, PNG или JPG.
+              Вземете готов шаблон с опции за текст или качете SVG, PDF, PNG
+              или JPG.
             </p>
           </article>
           <article className="step">
             <div className="step-num">02</div>
-            <h3>Задайте параметри</h3>
+            <h3>Добавете персонализация</h3>
             <p>
-              Дебелина, материал, финиш и сложност. Цената се преизчислява на
-              сървъра при поръчка.
+              Име, дата, послание и размер. Цената се преизчислява на сървъра
+              при поръчка.
             </p>
           </article>
           <article className="step">
             <div className="step-num">03</div>
-            <h3>Производство и доставка</h3>
+            <h3>Изработка и доставка</h3>
             <p>
-              Потвърждаваме макета при нужда, изработваме с лазер и изпращаме с
-              куриер.
+              Потвърждаваме макета при нужда, изработваме поръчката и
+              изпращаме с куриер.
             </p>
           </article>
         </div>
       </section>
 
-      <section id="katalog" className="section section-alt" style={{ scrollMarginTop: "var(--header-h)" }}>
+      <section
+        id="katalog"
+        className="section"
+        style={{ scrollMarginTop: "var(--header-h)" }}
+      >
         <div className="container">
           <h2>Каталог</h2>
           <p className="section-lead">
@@ -137,10 +259,10 @@ export default async function HomePage() {
       <section className="section container">
         <div className="band">
           <div>
-            <h2>Имате готов макет?</h2>
+            <h2>Имате свой дизайн?</h2>
             <p>
-              Качете файла и получете ориентировъчна цена. За изрязване
-              препоръчваме векторен контур.
+              Качете файла и получете ориентировъчна цена преди поръчка.
+              Подходящо за уникални подаръци и фирмени проекти.
             </p>
             <Link href="/custom" className="btn btn-primary">
               <IconUpload size={18} aria-hidden />
@@ -152,14 +274,14 @@ export default async function HomePage() {
               <IconPencil size={22} aria-hidden />
               <div>
                 <strong>Гравиране</strong>
-                <span>Текст, логотипи, орнаменти</span>
+                <span>Име, дата, послание, лого</span>
               </div>
             </div>
             <div className="trust-item">
               <IconScales size={22} aria-hidden />
               <div>
-                <strong>Изрязване</strong>
-                <span>Контур по векторен файл</span>
+                <strong>Форма по контур</strong>
+                <span>Топери, табели, фигури</span>
               </div>
             </div>
           </div>
@@ -167,19 +289,19 @@ export default async function HomePage() {
       </section>
 
       <section className="section container">
-        <h2>Производствени предимства</h2>
+        <h2>Защо при нас</h2>
         <div className="trust">
           <div className="trust-item">
             <IconPackage size={24} aria-hidden />
             <div>
-              <strong>Каталог и поръчка по файл</strong>
-              <span>Готови модели или ваш дизайн</span>
+              <strong>Каталог и поръчка по дизайн</strong>
+              <span>Готови модели или ваш файл</span>
             </div>
           </div>
           <div className="trust-item">
             <IconScales size={24} aria-hidden />
             <div>
-              <strong>Цена преди производство</strong>
+              <strong>Цена преди изработка</strong>
               <span>Сървърна калкулация + отстъпки за количество</span>
             </div>
           </div>
@@ -235,4 +357,16 @@ export default async function HomePage() {
       </section>
     </>
   );
+}
+
+function pickRandomProducts<T>(items: T[], count: number): T[] {
+  if (items.length <= count) return [...items];
+  const copy = [...items];
+  for (let i = copy.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = copy[i]!;
+    copy[i] = copy[j]!;
+    copy[j] = tmp;
+  }
+  return copy.slice(0, count);
 }

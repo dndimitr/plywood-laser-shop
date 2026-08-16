@@ -2,12 +2,17 @@ import "dotenv/config";
 import bcrypt from "bcryptjs";
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
+import { bgnToEur, roundMoney } from "../src/lib/currency";
 import {
   isLocalDbMode,
   readLocalDb,
   seedLocalDb,
 } from "../src/lib/local-store";
-import { CATALOG_PRODUCTS } from "../src/data/catalog-products";
+import {
+  CATALOG_PRICE_FACTOR,
+  CATALOG_PRODUCTS,
+  LOW_PRICE_BUMP_FACTOR,
+} from "../src/data/catalog-products";
 
 async function seedNeon() {
   const connectionString = process.env.DATABASE_URL;
@@ -36,18 +41,26 @@ async function seedNeon() {
     await prisma.pricingRule.upsert({
       where: { name: "default-custom" },
       update: {
-        pricePerCm2: 0.12,
+        pricePerCm2: roundMoney(
+          bgnToEur(0.12 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+        ),
         thicknessCoefficients: { "3": 1, "4": 1.15, "6": 1.35, default: 1.2 },
         complexityMultipliers: { simple: 1, medium: 1.25, complex: 1.6 },
-        minPrice: 18,
+        minPrice: roundMoney(
+          bgnToEur(18 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+        ),
         active: true,
       },
       create: {
         name: "default-custom",
-        pricePerCm2: 0.12,
+        pricePerCm2: roundMoney(
+          bgnToEur(0.12 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+        ),
         thicknessCoefficients: { "3": 1, "4": 1.15, "6": 1.35, default: 1.2 },
         complexityMultipliers: { simple: 1, medium: 1.25, complex: 1.6 },
-        minPrice: 18,
+        minPrice: roundMoney(
+          bgnToEur(18 * CATALOG_PRICE_FACTOR) * LOW_PRICE_BUMP_FACTOR,
+        ),
         active: true,
       },
     });

@@ -1,5 +1,15 @@
 import type { Metadata } from "next";
 import { Onest, Source_Sans_3 } from "next/font/google";
+import { Analytics } from "@/components/Analytics";
+import { CookieConsent } from "@/components/CookieConsent";
+import { JsonLd } from "@/components/JsonLd";
+import { UtmCapture } from "@/components/UtmCapture";
+import {
+  organizationJsonLd,
+  rootMetadata,
+  websiteJsonLd,
+} from "@/lib/seo";
+import { hasActiveMarketingScripts } from "@/lib/shop-settings";
 import "./globals.css";
 
 /** Onest — съвременен display с пълна кирилица (вкл. българска) */
@@ -16,24 +26,23 @@ const body = Source_Sans_3({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "ЛазерШперплат",
-    template: "%s · ЛазерШперплат",
-  },
-  description:
-    "Лазерно гравиране и изрязване на шперплат по готов модел или ваш файл. Персонализация, ясна цена и доставка с куриер.",
-};
+export const metadata: Metadata = rootMetadata();
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const marketingEnabled = hasActiveMarketingScripts();
+
   return (
     <html lang="bg">
       <body className={`${display.variable} ${body.variable} antialiased`}>
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         {children}
+        <Analytics />
+        <UtmCapture />
+        <CookieConsent enabled={marketingEnabled} />
       </body>
     </html>
   );

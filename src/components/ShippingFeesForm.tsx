@@ -40,7 +40,7 @@ export function ShippingFeesForm({ initial }: Props) {
   return (
     <form className="admin-card" onSubmit={save} style={{ maxWidth: 420 }}>
       <label className="field">
-        <span>Еконт (лв.)</span>
+        <span>Еконт (€)</span>
         <input
           type="number"
           min={0}
@@ -52,7 +52,7 @@ export function ShippingFeesForm({ initial }: Props) {
         />
       </label>
       <label className="field">
-        <span>Speedy (лв.)</span>
+        <span>Speedy (€)</span>
         <input
           type="number"
           min={0}
@@ -64,7 +64,7 @@ export function ShippingFeesForm({ initial }: Props) {
         />
       </label>
       <label className="field">
-        <span>Лично получаване (лв.)</span>
+        <span>Лично получаване (€)</span>
         <input
           type="number"
           min={0}

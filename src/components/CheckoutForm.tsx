@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
+import { FREE_SHIPPING_MIN_EUR } from "@/lib/shop-config";
 
 type CourierOption = { id: string; label: string; fee: number };
 
@@ -31,8 +32,11 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
     setForm((prev) => ({ ...prev, [key]: value }));
   }
 
+  const baseFee = couriers.find((c) => c.id === form.courier)?.fee ?? 0;
   const shippingFee =
-    couriers.find((c) => c.id === form.courier)?.fee ?? 0;
+    form.courier === "PICKUP" || subtotal >= FREE_SHIPPING_MIN_EUR
+      ? 0
+      : baseFee;
   const estimatedTotal = Math.round((subtotal + shippingFee) * 100) / 100;
 
   async function submit(e: React.FormEvent) {
@@ -91,8 +95,18 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
       </div>
       <h1>Данни за доставка и плащане</h1>
       <p className="muted">
-        Междинна сума: {formatBgn(subtotal)} · Доставка: {formatBgn(shippingFee)} ·{" "}
-        <strong>Общо ~ {formatBgn(estimatedTotal)}</strong>
+        Междинна сума: {formatBgn(subtotal)} · Доставка:{" "}
+        {shippingFee === 0 && form.courier !== "PICKUP"
+          ? "безплатна"
+          : formatBgn(shippingFee)}{" "}
+        · <strong>Общо ~ {formatBgn(estimatedTotal)}</strong>
+        {subtotal < FREE_SHIPPING_MIN_EUR && form.courier !== "PICKUP" ? (
+          <>
+            <br />
+            Безплатна куриерска доставка при поръчка над{" "}
+            {formatBgn(FREE_SHIPPING_MIN_EUR)}.
+          </>
+        ) : null}
       </p>
 
       <label className="field">
@@ -132,11 +146,19 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
           value={form.courier}
           onChange={(e) => update("courier", e.target.value)}
         >
-          {couriers.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.label} ({formatBgn(c.fee)})
-            </option>
-          ))}
+          {couriers.map((c) => {
+            const fee =
+              c.id === "PICKUP" || subtotal >= FREE_SHIPPING_MIN_EUR ? 0 : c.fee;
+            return (
+              <option key={c.id} value={c.id}>
+                {c.label} (
+                {fee === 0 && c.id !== "PICKUP"
+                  ? "безплатна"
+                  : formatBgn(fee)}
+                )
+              </option>
+            );
+          })}
         </select>
       </label>
 
@@ -164,7 +186,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
           checked={form.rush}
           onChange={(e) => update("rush", e.target.checked)}
         />
-        Ускорена изработка (+50% върху изделията)
+        <span>Ускорена изработка (+50% върху изделията)</span>
       </label>
 
       <label className="radio">
@@ -173,7 +195,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
           checked={form.needInvoice}
           onChange={(e) => update("needInvoice", e.target.checked)}
         />
-        Искам фактура
+        <span>Искам фактура</span>
       </label>
 
       {form.needInvoice ? (
@@ -197,7 +219,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
         </div>
       ) : null}
 
-      <fieldset className="field">
+      <fieldset className="field payment-methods">
         <legend>Начин на плащане</legend>
         <label className="radio">
           <input
@@ -206,7 +228,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
             checked={form.paymentMethod === "CASH_ON_DELIVERY"}
             onChange={() => update("paymentMethod", "CASH_ON_DELIVERY")}
           />
-          Наложен платеж
+          <span>Наложен платеж</span>
         </label>
         <label className="radio">
           <input
@@ -215,7 +237,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
             checked={form.paymentMethod === "BANK_TRANSFER"}
             onChange={() => update("paymentMethod", "BANK_TRANSFER")}
           />
-          Банков превод
+          <span>Банков превод</span>
         </label>
         <label className="radio">
           <input
@@ -224,7 +246,7 @@ export function CheckoutForm({ subtotal, couriers }: Props) {
             checked={form.paymentMethod === "CARD"}
             onChange={() => update("paymentMethod", "CARD")}
           />
-          Карта онлайн (Stripe)
+          <span>Карта онлайн (Stripe)</span>
         </label>
       </fieldset>
 

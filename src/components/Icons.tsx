@@ -48,6 +48,31 @@ export function IconArrowRight(props: IconProps) {
   );
 }
 
+export function IconArrowUp(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M128 216V40" />
+      <path d="M80 88l48-48 48 48" />
+    </svg>
+  );
+}
+
+export function IconChevronLeft(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M160 48l-80 80 80 80" />
+    </svg>
+  );
+}
+
+export function IconChevronRight(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M96 48l80 80-80 80" />
+    </svg>
+  );
+}
+
 export function IconPackage(props: IconProps) {
   return (
     <svg {...baseProps(props)}>
@@ -167,3 +192,16 @@ export function IconPhone(props: IconProps) {
     </svg>
   );
 }
+
+export function IconShare(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <circle cx="64" cy="128" r="24" />
+      <circle cx="176" cy="64" r="24" />
+      <circle cx="176" cy="192" r="24" />
+      <path d="M88 116l64-40" />
+      <path d="M88 140l64 40" />
+    </svg>
+  );
+}
+

@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import { FavoritesView } from "@/components/FavoritesView";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "Любими",
-  description: "Запазени продукти от каталога на ЛазерШперплат.",
-};
+  description: "Запазени продукти от каталога на Studio Breza.",
+  path: "/favorites",
+  noIndex: true,
+});
 
 export default function FavoritesPage() {
   return (

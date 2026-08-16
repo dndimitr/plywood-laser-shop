@@ -1,6 +1,7 @@
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
+import { ScrollToTop } from "@/components/ScrollToTop";
 import { cartTotals, getCart } from "@/lib/cart";
 import { getShopPhone, getShopPhoneHref } from "@/lib/shop-config";
 
@@ -17,6 +18,7 @@ export default async function ShopLayout({
       <Header />
       <main className="shop-main">{children}</main>
       <Footer />
+      <ScrollToTop />
       <MobileBottomNav
         cartCount={itemCount}
         phoneHref={getShopPhoneHref()}

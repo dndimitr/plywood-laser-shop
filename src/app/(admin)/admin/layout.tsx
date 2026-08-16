@@ -1,5 +1,11 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { auth, signOut } from "@/lib/auth";
+
+export const metadata: Metadata = {
+  title: "Админ",
+  robots: { index: false, follow: false, nocache: true },
+};
 
 export default async function AdminLayout({
   children,
@@ -20,6 +26,7 @@ export default async function AdminLayout({
             <Link href="/admin/products">Продукти</Link>
             <Link href="/admin/pricing">Цени</Link>
             <Link href="/admin/shipping">Доставка</Link>
+            <Link href="/admin/marketing">Маркетинг</Link>
             <Link href="/">Магазин</Link>
             <form
               action={async () => {

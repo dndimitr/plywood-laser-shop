@@ -65,7 +65,8 @@ export function RecentlyViewed({ excludeSlug }: { excludeSlug?: string }) {
   return (
     <section className="recently-viewed" aria-labelledby="recently-viewed-title">
       <div className="recently-viewed-head">
-        <h2 id="recently-viewed-title">Наскоро разгледани</h2>
+        <h2 id="recently-viewed-title">Последно разгледани</h2>
+        <p className="muted">{list.length} продукта</p>
       </div>
       <div className="recently-viewed-scroller">
         {list.map((item) => (
@@ -80,7 +81,7 @@ export function RecentlyViewed({ excludeSlug }: { excludeSlug?: string }) {
                   src={item.imageUrl}
                   alt={item.name}
                   fill
-                  sizes="(max-width:639px) 42vw, 160px"
+                  sizes="(max-width:639px) 44vw, 180px"
                   style={{ objectFit: "cover" }}
                   unoptimized={item.imageUrl.endsWith(".svg")}
                 />

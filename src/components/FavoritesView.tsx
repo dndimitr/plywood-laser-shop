@@ -60,7 +60,7 @@ export function FavoritesView() {
                     alt={item.name}
                     fill
                     sizes="(max-width:639px) 100vw, 33vw"
-                    style={{ objectFit: "cover" }}
+                    style={{ objectFit: "contain" }}
                     unoptimized={item.imageUrl.endsWith(".svg")}
                   />
                 ) : (

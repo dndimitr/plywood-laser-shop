@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Рекламации и връщане" };
+export const metadata: Metadata = buildPageMetadata({
+  title: "Рекламации и връщане",
+  description:
+    "Условия за рекламации и връщане на персонализирани изделия от Studio Breza.",
+  path: "/legal/returns",
+});
 
 export default function ReturnsPage() {
   return (
     <div className="container section">
       <h1 className="page-title">Рекламации и връщане</h1>
       <p className="section-lead">
-        Персонализираните лазерни изделия се изработват по поръчка.
+        Персонализираните изделия се изработват по поръчка.
       </p>
       <h2>Персонализирани продукти</h2>
       <p className="muted">

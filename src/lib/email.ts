@@ -60,7 +60,7 @@ function itemsHtml(items: OrderMailItem[] | undefined) {
 export async function sendOrderEmails(order: OrderMail) {
   const key = process.env.RESEND_API_KEY;
   const from =
-    process.env.EMAIL_FROM ?? "ЛазерШперплат <onboarding@resend.dev>";
+    process.env.EMAIL_FROM ?? "Studio Breza <onboarding@resend.dev>";
   const adminTo = process.env.ADMIN_NOTIFY_EMAIL ?? process.env.ADMIN_EMAIL;
   const successUrl = `${appUrl()}/order/${order.id}/success?t=${order.publicToken}`;
   const adminUrl = `${appUrl()}/admin/orders/${order.id}`;
@@ -117,7 +117,7 @@ export async function sendOrderEmails(order: OrderMail) {
   await resend.emails.send({
     from,
     to: order.customerEmail,
-    subject: `Поръчка ${order.id} · ЛазерШперплат`,
+    subject: `Поръчка ${order.id} · Studio Breza`,
     html: customerHtml,
   });
 

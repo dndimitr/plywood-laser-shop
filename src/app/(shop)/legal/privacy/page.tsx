@@ -1,9 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata, hasMarketingScripts } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Поверителност" };
+export const metadata: Metadata = buildPageMetadata({
+  title: "Поверителност",
+  description:
+    "Политика за поверителност на Studio Breza — как обработваме лични данни, поръчки и маркетингови бисквитки.",
+  path: "/legal/privacy",
+});
 
 export default function PrivacyPage() {
+  const marketing = hasMarketingScripts();
+
   return (
     <div className="container section">
       <h1 className="page-title">Политика за поверителност</h1>
@@ -21,6 +29,20 @@ export default function PrivacyPage() {
         Поръчките са достъпни чрез защитен линк с токен. Не публикуваме лични
         данни на отворени URL адреси без токен.
       </p>
+      {marketing ? (
+        <>
+          <h2>Аналитика и реклама</h2>
+          <p className="muted">
+            С ваше съгласие използваме Google Analytics 4, Google Ads и/или Meta
+            Pixel (включително през Google Tag Manager, ако е конфигуриран), за
+            да измерваме посещения и ефективност на рекламите. До съгласие
+            маркетинговите бисквитки са отказани чрез Consent Mode. Можете да
+            промените избора си, като изтриете записаните данни на сайта в
+            браузъра и презаредите страницата. Настройките се управляват от
+            администратора на магазина.
+          </p>
+        </>
+      ) : null}
       <h2>Права</h2>
       <p className="muted">
         Можете да поискате достъп, корекция или изтриване на данни чрез имейл

@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = { title: "Общи условия" };
+export const metadata: Metadata = buildPageMetadata({
+  title: "Общи условия",
+  description:
+    "Общи условия за поръчки на персонализирани подаръци и украси чрез Studio Breza.",
+  path: "/legal/terms",
+});
 
 export default function TermsPage() {
   return (
     <div className="container section">
       <h1 className="page-title">Общи условия</h1>
       <p className="section-lead">
-        Настоящите условия уреждат поръчките за лазерно гравиране и изрязване на
-        шперплат чрез ЛазерШперплат.
+        Настоящите условия уреждат поръчките на персонализирани подаръци и
+        украси чрез Studio Breza.
       </p>
       <h2>Поръчки и макети</h2>
       <p className="muted">

@@ -2,7 +2,23 @@
  * Original shop catalog inspired by popular laser-cut plywood categories
  * (Etsy / handmade marketplaces). Names, copy and SKUs are original —
  * not scraped or copied from third-party listings.
+ *
+ * Draft amounts below are authored in BGN and converted to EUR in `pack()`,
+ * then scaled by CATALOG_PRICE_FACTOR (35% reduction). Products whose EUR
+ * base price is ≤ LOW_PRICE_BUMP_MAX_EUR then get LOW_PRICE_BUMP_FACTOR (+30%).
  */
+
+import { bgnToEur, roundMoney } from "@/lib/currency";
+import { KIDS_MONTESSORI_DRAFTS } from "./catalog-kids-montessori";
+import { OCCASION_EXPANSION_DRAFTS } from "./catalog-occasion-expansion";
+import { SEASONAL_2026_DRAFTS } from "./catalog-seasonal-2026";
+
+/** Multiply authored BGN drafts by this before EUR conversion (−35%). */
+export const CATALOG_PRICE_FACTOR = 0.65;
+
+/** Extra +30% for catalog items priced up to €20 after the catalog factor. */
+export const LOW_PRICE_BUMP_FACTOR = 1.3;
+export const LOW_PRICE_BUMP_MAX_EUR = 20;
 
 export type SeedLaserType = "ENGRAVE" | "CUT" | "BOTH";
 
@@ -63,10 +79,22 @@ type Draft = {
 };
 
 function pack(drafts: Draft[]): SeedProduct[] {
-  return drafts.map((d) => ({
-    ...d,
-    ...imgs(d.slug),
-  }));
+  return drafts.map((d) => {
+    const baseBeforeBump = bgnToEur(d.basePrice * CATALOG_PRICE_FACTOR);
+    const bump =
+      baseBeforeBump <= LOW_PRICE_BUMP_MAX_EUR ? LOW_PRICE_BUMP_FACTOR : 1;
+    return {
+      ...d,
+      basePrice: roundMoney(baseBeforeBump * bump),
+      options: d.options.map((o) => ({
+        ...o,
+        priceModifier: roundMoney(
+          bgnToEur(o.priceModifier * CATALOG_PRICE_FACTOR) * bump,
+        ),
+      })),
+      ...imgs(d.slug),
+    };
+  });
 }
 
 const DRAFTS: Draft[] = [
@@ -3651,7 +3679,8 @@ const DRAFTS: Draft[] = [
       },
     ]),
   },
-,\n\n  // —— Хелоуин ——
+
+  // —— Хелоуин ——
   {
     name: "Хелоуин декорация „Вещица“",
     slug: "halloween-veshtica-wiggly",
@@ -4156,4 +4185,13 @@ const DRAFTS: Draft[] = [
   },
 ];
 
-export const CATALOG_PRODUCTS: SeedProduct[] = pack(DRAFTS);
+export const CATALOG_PRODUCTS: SeedProduct[] = [
+  ...pack(DRAFTS),
+  ...pack(OCCASION_EXPANSION_DRAFTS),
+  ...pack(
+    SEASONAL_2026_DRAFTS.map(({ photoText: _photoText, ...draft }) => draft),
+  ),
+  ...pack(
+    KIDS_MONTESSORI_DRAFTS.map(({ photoText: _photoText, ...draft }) => draft),
+  ),
+];

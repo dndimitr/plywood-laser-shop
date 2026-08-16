@@ -4,7 +4,13 @@ import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
-import { navCategoryGroups } from "@/lib/shop-config";
+import { categoryHref } from "@/lib/occasions";
+import {
+  getShopAddress,
+  getShopPhone,
+  getShopPhoneHref,
+  navCategoryGroups,
+} from "@/lib/shop-config";
 
 type Props = {
   cartCount: number;
@@ -15,6 +21,9 @@ export function MobileNav({ cartCount }: Props) {
   const pathname = usePathname();
   const titleId = useId();
   const groups = navCategoryGroups();
+  const phone = getShopPhone();
+  const phoneHref = getShopPhoneHref();
+  const address = getShopAddress();
 
   useEffect(() => {
     setOpen(false);
@@ -84,8 +93,11 @@ export function MobileNav({ cartCount }: Props) {
             <Link href="/#kak-raboti" onClick={() => setOpen(false)}>
               Как работи
             </Link>
+            <Link href="/blog" onClick={() => setOpen(false)}>
+              Блог
+            </Link>
             <Link href="/custom" onClick={() => setOpen(false)}>
-              Поръчка по файл
+              Поръчка по дизайн
             </Link>
             <Link href="/account" onClick={() => setOpen(false)}>
               Моите поръчки
@@ -93,6 +105,21 @@ export function MobileNav({ cartCount }: Props) {
             <Link href="/cart" onClick={() => setOpen(false)}>
               Количка{cartCount > 0 ? ` (${cartCount})` : ""}
             </Link>
+          </div>
+
+          <div className="mobile-drawer-section mobile-drawer-contact">
+            <p className="mobile-drawer-label">Контакт</p>
+            <a href={phoneHref} onClick={() => setOpen(false)}>
+              {phone}
+            </a>
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+            >
+              {address}
+            </a>
           </div>
 
           <div className="mobile-drawer-section">
@@ -111,7 +138,7 @@ export function MobileNav({ cartCount }: Props) {
                   {categories.map((c) => (
                     <Link
                       key={c.id}
-                      href={`/?cat=${c.id}#katalog`}
+                      href={categoryHref(c.id)}
                       onClick={() => setOpen(false)}
                     >
                       {c.label}

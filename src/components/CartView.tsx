@@ -48,7 +48,7 @@ export function CartView({ initialCart, subtotal }: Props) {
             Към каталога
           </Link>
           <Link href="/custom" className="btn btn-ghost">
-            Поръчка по файл
+            Поръчка по дизайн
           </Link>
         </div>
       </div>

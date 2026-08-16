@@ -1,13 +1,16 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/BrandLogo";
 import { IconCart } from "@/components/Icons";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { MobileNav } from "@/components/MobileNav";
 import { TopInfoBar } from "@/components/TopInfoBar";
 import { cartTotals, getCart } from "@/lib/cart";
+import { categoryHref } from "@/lib/occasions";
 import {
   featuredCategories,
   navCategoryGroups,
 } from "@/lib/shop-config";
+import { SITE_NAME } from "@/lib/seo";
 
 export async function Header() {
   const cart = await getCart();
@@ -19,8 +22,8 @@ export async function Header() {
     <header className="site-header">
       <TopInfoBar />
       <div className="container header-inner">
-        <Link href="/" className="brand" aria-label="ЛазерШперплат — начало">
-          ЛазерШперплат
+        <Link href="/" className="brand brand--logo" aria-label={`${SITE_NAME} — начало`}>
+          <BrandLogo variant="header" priority />
         </Link>
 
         <nav className="nav desktop-nav" aria-label="Основна навигация">
@@ -42,7 +45,7 @@ export async function Header() {
                     {categories.map((c) => (
                       <Link
                         key={c.id}
-                        href={`/?cat=${c.id}#katalog`}
+                        href={categoryHref(c.id)}
                         role="menuitem"
                       >
                         {c.label}
@@ -54,6 +57,7 @@ export async function Header() {
             </div>
           </div>
           <Link href="/#kak-raboti">Как работи</Link>
+          <Link href="/blog">Блог</Link>
           <Link href="/custom">По файл</Link>
           <Link href="/account">Поръчки</Link>
           <LocaleSwitch />
@@ -83,7 +87,7 @@ export async function Header() {
           {featured.map((c) => (
             <Link
               key={c.id}
-              href={`/?cat=${c.id}#katalog`}
+              href={categoryHref(c.id)}
               className="category-bar-link"
             >
               {c.label}
