@@ -90,6 +90,9 @@ export function MobileNav({ cartCount }: Props) {
             <Link href="/#katalog" onClick={() => setOpen(false)}>
               Каталог
             </Link>
+            <Link href={categoryHref("nursery")} onClick={() => setOpen(false)}>
+              Детска
+            </Link>
             <Link href="/#kak-raboti" onClick={() => setOpen(false)}>
               Как работи
             </Link>

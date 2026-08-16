@@ -56,7 +56,7 @@ export const CATEGORIES: readonly CategoryDef[] = [
   { id: "panels", label: "Стенни панели", labelEn: "Wall panels" },
   { id: "ornaments", label: "Орнаменти", labelEn: "Ornaments" },
   { id: "kitchen", label: "Кухня", labelEn: "Kitchen" },
-  { id: "nursery", label: "Детска", labelEn: "Nursery" },
+  { id: "nursery", label: "Детска", labelEn: "Kids & Montessori" },
   // Бизнес
   { id: "signs", label: "Табели", labelEn: "Signs" },
   { id: "venues", label: "Заведения", labelEn: "Venues" },
@@ -88,6 +88,7 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
       "birthday",
       "newborn",
       "baptism",
+      "nursery",
       "anniversary",
       "valentines",
       "christmas",
@@ -102,7 +103,7 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
     id: "home",
     label: "Дом и интериор",
     labelEn: "Home & interior",
-    categoryIds: ["decor", "panels", "ornaments", "kitchen", "nursery"],
+    categoryIds: ["decor", "panels", "ornaments", "kitchen"],
   },
   {
     id: "business",
@@ -122,9 +123,9 @@ export const CATEGORY_GROUPS: readonly CategoryGroup[] = [
 export const FEATURED_CATEGORY_IDS: readonly CategoryId[] = [
   "wedding",
   "birthday",
+  "nursery",
   "newborn",
   "baptism",
-  "nursery",
   "anniversary",
   "valentines",
   "christmas",
