@@ -2838,6 +2838,14 @@ fieldset.field .radio {
     padding: 3.25rem 0 2.75rem;
   }
 
+  .hero--text {
+    padding: 3.5rem 0 3rem;
+  }
+
+  .hero--text .hero-copy {
+    padding: 0;
+  }
+
   .hero-scrim {
     background:
       linear-gradient(100deg, rgba(20, 18, 16, 0.82) 0%, rgba(20, 18, 16, 0.45) 48%, rgba(20, 18, 16, 0.2) 100%),
@@ -3072,6 +3080,15 @@ fieldset.field .radio {
 
   .hero-copy {
     padding: 4.5rem 0 3.75rem;
+  }
+
+  .hero--text {
+    padding: 4.25rem 0 3.75rem;
+  }
+
+  .hero--text .hero-copy {
+    padding: 0;
+    max-width: 42rem;
   }
 
   .hero-copy h1 {
