@@ -48,6 +48,15 @@ export function IconArrowRight(props: IconProps) {
   );
 }
 
+export function IconArrowUp(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <path d="M128 216V40" />
+      <path d="M80 88l48-48 48 48" />
+    </svg>
+  );
+}
+
 export function IconChevronLeft(props: IconProps) {
   return (
     <svg {...baseProps(props)}>

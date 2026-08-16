@@ -5,7 +5,12 @@ import { useEffect, useId, useState } from "react";
 import { usePathname } from "next/navigation";
 import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { categoryHref } from "@/lib/occasions";
-import { navCategoryGroups } from "@/lib/shop-config";
+import {
+  getShopAddress,
+  getShopPhone,
+  getShopPhoneHref,
+  navCategoryGroups,
+} from "@/lib/shop-config";
 
 type Props = {
   cartCount: number;
@@ -16,6 +21,9 @@ export function MobileNav({ cartCount }: Props) {
   const pathname = usePathname();
   const titleId = useId();
   const groups = navCategoryGroups();
+  const phone = getShopPhone();
+  const phoneHref = getShopPhoneHref();
+  const address = getShopAddress();
 
   useEffect(() => {
     setOpen(false);
@@ -97,6 +105,21 @@ export function MobileNav({ cartCount }: Props) {
             <Link href="/cart" onClick={() => setOpen(false)}>
               Количка{cartCount > 0 ? ` (${cartCount})` : ""}
             </Link>
+          </div>
+
+          <div className="mobile-drawer-section mobile-drawer-contact">
+            <p className="mobile-drawer-label">Контакт</p>
+            <a href={phoneHref} onClick={() => setOpen(false)}>
+              {phone}
+            </a>
+            <a
+              href={`https://maps.google.com/?q=${encodeURIComponent(address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+            >
+              {address}
+            </a>
           </div>
 
           <div className="mobile-drawer-section">

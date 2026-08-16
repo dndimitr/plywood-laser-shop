@@ -190,13 +190,26 @@ export function getBankDetails() {
   };
 }
 
+/** Public shop address (footer / contact) */
+export function getShopAddress() {
+  return (
+    process.env.NEXT_PUBLIC_SHOP_ADDRESS ??
+    "гр. Варна, жк. Възраждане 4, № 76"
+  );
+}
+
 /** Public contact phone for mobile bottom bar / tel: links */
 export function getShopPhone() {
-  return process.env.NEXT_PUBLIC_SHOP_PHONE ?? "0888123456";
+  return process.env.NEXT_PUBLIC_SHOP_PHONE ?? "+359 883 44 33 61";
 }
 
 export function getShopPhoneHref() {
-  const digits = getShopPhone().replace(/[^\d+]/g, "");
+  let digits = getShopPhone().replace(/[^\d+]/g, "");
+  if (/^0\d+/.test(digits)) {
+    digits = `+359${digits.slice(1)}`;
+  } else if (/^359\d+/.test(digits)) {
+    digits = `+${digits}`;
+  }
   return `tel:${digits}`;
 }
 

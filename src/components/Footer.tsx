@@ -3,6 +3,9 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { categoryHref } from "@/lib/occasions";
 import {
   featuredCategories,
+  getShopAddress,
+  getShopPhone,
+  getShopPhoneHref,
   navCategoryGroups,
 } from "@/lib/shop-config";
 import { getMarketingSettings } from "@/lib/shop-settings";
@@ -12,6 +15,9 @@ export function Footer() {
   const featured = featuredCategories();
   const groups = navCategoryGroups();
   const { facebookPageUrl } = getMarketingSettings();
+  const phone = getShopPhone();
+  const phoneHref = getShopPhoneHref();
+  const address = getShopAddress();
 
   return (
     <footer className="site-footer">
@@ -25,6 +31,22 @@ export function Footer() {
               Персонализирани подаръци и украси с гравиране — по готов модел
               или ваш дизайн, с доставка в цяла България.
             </p>
+            <div className="footer-contact">
+              <p>
+                <span className="footer-contact-label">Адрес</span>
+                <a
+                  href={`https://maps.google.com/?q=${encodeURIComponent(address)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {address}
+                </a>
+              </p>
+              <p>
+                <span className="footer-contact-label">Телефон</span>
+                <a href={phoneHref}>{phone}</a>
+              </p>
+            </div>
             {facebookPageUrl ? (
               <p style={{ marginTop: "0.75rem" }}>
                 <a

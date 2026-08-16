@@ -144,6 +144,13 @@ img {
   opacity: 0.9;
 }
 
+.top-info-item a {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .top-info-item strong {
   font-weight: 700;
 }
@@ -539,6 +546,15 @@ img {
   margin-bottom: 1.5rem;
 }
 
+.mobile-drawer-contact a {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--walnut);
+  font-weight: 600;
+  line-height: 1.4;
+  min-height: 40px;
+}
+
 .mobile-drawer-label {
   margin: 0 0 0.65rem;
   font-size: 0.75rem;
@@ -592,7 +608,7 @@ img {
 /* ——— Footer ——— */
 
 .site-footer {
-  margin-top: 3rem;
+  margin-top: 1.75rem;
   border-top: 1px solid var(--line);
   background: rgba(59, 42, 30, 0.06);
   padding: 2rem 0 1.75rem;
@@ -637,8 +653,86 @@ img {
   color: var(--laser-deep);
 }
 
+.footer-contact {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.footer-contact p {
+  margin: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.footer-contact-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+.footer-contact a {
+  display: inline;
+  margin: 0;
+  min-height: 0;
+  color: var(--walnut);
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.footer-contact a:hover {
+  color: var(--laser-deep);
+}
+
 .muted {
   color: var(--ink-soft);
+}
+
+.scroll-to-top {
+  position: fixed;
+  right: max(0.85rem, env(safe-area-inset-right));
+  bottom: calc(var(--bottom-nav-h) + 0.85rem + env(safe-area-inset-bottom));
+  z-index: 34;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 252, 247, 0.96);
+  color: var(--walnut);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(0.5rem);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease,
+    visibility 180ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.scroll-to-top.is-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  background: var(--walnut);
+  color: #fffaf3;
+}
+
+body:has(.product-mobile-cta) .scroll-to-top {
+  bottom: calc(
+    var(--bottom-nav-h) + 5.35rem + env(safe-area-inset-bottom)
+  );
 }
 
 /* ——— Hero ——— */
@@ -1703,10 +1797,9 @@ img {
   padding: 1rem 0 3rem;
 }
 
-/* Clear sticky mobile CTA only — shop-main already clears bottom nav */
+/* Sticky CTA clearance lives on the footer — avoid a gap under recently viewed */
 .product-detail {
-  --product-cta-h: 4.5rem;
-  padding-bottom: calc(var(--product-cta-h) + 0.75rem);
+  padding-bottom: 1rem;
 }
 
 .product-breadcrumb {
@@ -2472,6 +2565,19 @@ fieldset.field .radio {
   padding-bottom: calc(var(--bottom-nav-h) + env(safe-area-inset-bottom) + 0.5rem);
 }
 
+@media (max-width: 899px) {
+  body:has(.product-mobile-cta) .shop-main {
+    padding-bottom: 0;
+  }
+
+  body:has(.product-mobile-cta) .site-footer {
+    margin-top: 1rem;
+    padding-bottom: calc(
+      var(--bottom-nav-h) + 5.5rem + env(safe-area-inset-bottom)
+    );
+  }
+}
+
 .mobile-bottom-nav {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -2724,6 +2830,15 @@ fieldset.field .radio {
 
   .shop-main {
     padding-bottom: 0;
+  }
+
+  .scroll-to-top {
+    right: 1.25rem;
+    bottom: 1.25rem;
+  }
+
+  body:has(.product-mobile-cta) .scroll-to-top {
+    bottom: 1.25rem;
   }
 
   .catalog-mobile-bar,
