@@ -1,18 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import {
   IconCart,
-  IconHeart,
+  IconGrid,
   IconHome,
   IconPhone,
 } from "@/components/Icons";
-import {
-  FAVORITES_EVENT,
-  readFavorites,
-} from "@/lib/favorites";
+import { allOccasionSlugs } from "@/lib/occasions";
 
 type Props = {
   cartCount: number;
@@ -20,57 +16,54 @@ type Props = {
   phoneLabel: string;
 };
 
+const OCCASION_SLUGS = new Set(allOccasionSlugs());
+
+function isCatalogPath(pathname: string) {
+  if (
+    pathname.startsWith("/katalog") ||
+    pathname.startsWith("/products") ||
+    pathname.startsWith("/kategoriya")
+  ) {
+    return true;
+  }
+  const first = pathname.split("/")[1] ?? "";
+  return OCCASION_SLUGS.has(first);
+}
+
 export function MobileBottomNav({
   cartCount,
   phoneHref,
   phoneLabel,
 }: Props) {
   const pathname = usePathname();
-  const [favCount, setFavCount] = useState(0);
-
-  useEffect(() => {
-    function sync() {
-      setFavCount(readFavorites().length);
-    }
-    sync();
-    window.addEventListener(FAVORITES_EVENT, sync);
-    window.addEventListener("storage", sync);
-    return () => {
-      window.removeEventListener(FAVORITES_EVENT, sync);
-      window.removeEventListener("storage", sync);
-    };
-  }, [pathname]);
-
   const homeActive = pathname === "/";
-  const favActive = pathname.startsWith("/favorites");
-  const cartActive = pathname.startsWith("/cart");
+  const catalogActive = isCatalogPath(pathname);
+  const cartActive = pathname.startsWith("/cart") || pathname.startsWith("/checkout");
 
   return (
     <nav className="mobile-bottom-nav" aria-label="Бърза навигация">
       <Link
         href="/"
         className={`mobile-bottom-link${homeActive ? " is-active" : ""}`}
+        aria-current={homeActive ? "page" : undefined}
       >
         <IconHome size={22} aria-hidden />
         <span>Начало</span>
       </Link>
 
       <Link
-        href="/favorites"
-        className={`mobile-bottom-link${favActive ? " is-active" : ""}`}
+        href="/katalog"
+        className={`mobile-bottom-link${catalogActive ? " is-active" : ""}`}
+        aria-current={catalogActive ? "page" : undefined}
       >
-        <span className="mobile-bottom-icon-wrap">
-          <IconHeart size={22} aria-hidden filled={favActive} />
-          {favCount > 0 ? (
-            <span className="mobile-bottom-badge">{favCount}</span>
-          ) : null}
-        </span>
-        <span>Любими</span>
+        <IconGrid size={22} aria-hidden />
+        <span>Каталог</span>
       </Link>
 
       <Link
         href="/cart"
         className={`mobile-bottom-link${cartActive ? " is-active" : ""}`}
+        aria-current={cartActive ? "page" : undefined}
       >
         <span className="mobile-bottom-icon-wrap">
           <IconCart size={22} aria-hidden />
@@ -81,7 +74,11 @@ export function MobileBottomNav({
         <span>Количка</span>
       </Link>
 
-      <a href={phoneHref} className="mobile-bottom-link" aria-label={`Обади се на ${phoneLabel}`}>
+      <a
+        href={phoneHref}
+        className="mobile-bottom-link"
+        aria-label={`Обади се на ${phoneLabel}`}
+      >
         <IconPhone size={22} aria-hidden />
         <span>Телефон</span>
       </a>

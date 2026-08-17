@@ -73,6 +73,7 @@ export async function POST(request: Request) {
       title: product.name,
       quantity: parsed.data.quantity,
       unitPrice: unitPriceFromTotal(lineTotal, parsed.data.quantity),
+      imageUrl: product.imageUrl,
       personalization: {
         engravingText: parsed.data.engravingText ?? "",
         sizeLabel: option.sizeLabel,
@@ -138,6 +139,7 @@ export async function POST(request: Request) {
       title: body.title,
       quantity,
       unitPrice: unitPriceFromTotal(lineTotal, quantity),
+      imageUrl: design.url,
       personalization: {
         widthCm: quote.data.widthCm,
         heightCm: quote.data.heightCm,

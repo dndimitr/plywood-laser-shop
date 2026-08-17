@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { IconCart } from "@/components/Icons";
 import { calculateTemplatePrice, formatBgn } from "@/lib/pricing";
@@ -30,6 +31,12 @@ type Props = {
   gaMeasurementId?: string | null;
 };
 
+const QTY_TIERS = [
+  { minQty: 5, percentOff: 5 },
+  { minQty: 10, percentOff: 10 },
+  { minQty: 25, percentOff: 15 },
+] as const;
+
 export function ProductConfigurator({
   productId,
   productSlug,
@@ -44,6 +51,7 @@ export function ProductConfigurator({
   const [quantity, setQuantity] = useState(1);
   const [rush, setRush] = useState(false);
   const [pending, setPending] = useState(false);
+  const [added, setAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const selected = useMemo(
@@ -60,18 +68,17 @@ export function ProductConfigurator({
           rush,
           rushMultiplier: 1.5,
           doubleSided: Boolean(selected.doubleSided),
-          quantityDiscounts: [
-            { minQty: 5, percentOff: 5 },
-            { minQty: 10, percentOff: 10 },
-            { minQty: 25, percentOff: 15 },
-          ],
+          quantityDiscounts: QTY_TIERS.map((t) => ({ ...t })),
         },
       )
     : basePrice;
 
+  const activeTier = [...QTY_TIERS].reverse().find((t) => quantity >= t.minQty);
+
   async function addToCart() {
     setPending(true);
     setError(null);
+    setAdded(false);
     try {
       const res = await fetch("/api/cart", {
         method: "POST",
@@ -103,7 +110,7 @@ export function ProductConfigurator({
         quantity,
         gaId: gaMeasurementId,
       });
-      router.push("/cart");
+      setAdded(true);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Грешка");
@@ -116,26 +123,44 @@ export function ProductConfigurator({
     return <p>Няма налични опции за този продукт.</p>;
   }
 
+  const addLabel = pending ? "Добавяне…" : added ? "Добавено" : "Добави в количката";
+  const addMobileLabel = pending ? "…" : added ? "Добавено" : "Добави";
+
   return (
     <>
       <div className="configurator">
         <h2>Конфигурация</h2>
         <p className="muted configurator-product-name">{productName}</p>
 
-        <label className="field">
-          <span>Вариант (размер / материал / обработка)</span>
-          <select
-            value={optionId}
-            onChange={(e) => setOptionId(e.target.value)}
-            aria-label="Вариант на продукта"
-          >
-            {options.map((o) => (
-              <option key={o.id} value={o.id}>
-                {o.label} (+{formatBgn(Number(o.priceModifier))})
-              </option>
-            ))}
-          </select>
-        </label>
+        <fieldset className="field">
+          <legend>Вариант</legend>
+          <div className="option-tiles" role="radiogroup" aria-label="Вариант на продукта">
+            {options.map((o) => {
+              const isSelected = o.id === optionId;
+              return (
+                <label
+                  key={o.id}
+                  className={`option-tile${isSelected ? " is-selected" : ""}`}
+                >
+                  <input
+                    type="radio"
+                    name="product-option"
+                    value={o.id}
+                    checked={isSelected}
+                    onChange={() => setOptionId(o.id)}
+                  />
+                  <span className="option-tile-label">{o.label}</span>
+                  <span className="option-tile-meta">
+                    {o.sizeLabel} · {o.thicknessMm} мм
+                  </span>
+                  <span className="option-tile-price">
+                    +{formatBgn(Number(o.priceModifier))}
+                  </span>
+                </label>
+              );
+            })}
+          </div>
+        </fieldset>
 
         <div className="option-meta" aria-live="polite">
           <span>Размер: {selected.sizeLabel}</span>
@@ -184,9 +209,21 @@ export function ProductConfigurator({
               +
             </button>
           </div>
-          <span className="muted" style={{ fontSize: "0.85rem" }}>
-            Отстъпка: 5+ бр. −5%, 10+ −10%, 25+ −15%
-          </span>
+          <div className="qty-tiers" aria-label="Отстъпки за количество">
+            {QTY_TIERS.map((tier) => (
+              <span
+                key={tier.minQty}
+                className={`qty-tier${quantity >= tier.minQty ? " is-on" : ""}`}
+              >
+                {tier.minQty}+ бр. −{tier.percentOff}%
+              </span>
+            ))}
+          </div>
+          {activeTier ? (
+            <span className="muted" style={{ fontSize: "0.85rem" }}>
+              Приложена отстъпка −{activeTier.percentOff}%
+            </span>
+          ) : null}
         </div>
 
         <label className="radio">
@@ -208,6 +245,13 @@ export function ProductConfigurator({
           </p>
         ) : null}
 
+        {added ? (
+          <p className="cart-toast" role="status">
+            Добавено в количката.{" "}
+            <Link href="/cart">Към количката</Link>
+          </p>
+        ) : null}
+
         <button
           type="button"
           className="btn btn-primary configurator-submit"
@@ -215,7 +259,7 @@ export function ProductConfigurator({
           onClick={addToCart}
         >
           <IconCart size={18} aria-hidden />
-          {pending ? "Добавяне…" : "Добави в количката"}
+          {addLabel}
         </button>
       </div>
 
@@ -223,6 +267,11 @@ export function ProductConfigurator({
         {error ? (
           <p className="error product-mobile-cta-error" role="alert">
             {error}
+          </p>
+        ) : null}
+        {added ? (
+          <p className="cart-toast product-mobile-cta-error" role="status">
+            Добавено. <Link href="/cart">Количка</Link>
           </p>
         ) : null}
         <div className="product-mobile-cta-row">
@@ -237,7 +286,7 @@ export function ProductConfigurator({
             onClick={addToCart}
           >
             <IconCart size={18} aria-hidden />
-            {pending ? "…" : "Добави"}
+            {addMobileLabel}
           </button>
         </div>
       </div>

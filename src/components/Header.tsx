@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
+import { FavoritesLink } from "@/components/FavoritesLink";
+import { HeaderSearch } from "@/components/HeaderSearch";
 import { IconCart } from "@/components/Icons";
-import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { MobileNav } from "@/components/MobileNav";
+import { NavLink } from "@/components/NavLink";
 import { TopInfoBar } from "@/components/TopInfoBar";
 import { cartTotals, getCart } from "@/lib/cart";
 import { categoryHref } from "@/lib/occasions";
@@ -28,12 +30,12 @@ export async function Header() {
 
         <nav className="nav desktop-nav" aria-label="Основна навигация">
           <div className="nav-dropdown">
-            <Link href="/katalog" className="nav-dropdown-trigger">
+            <NavLink href="/katalog" className="nav-dropdown-trigger">
               Каталог
               <span className="nav-caret" aria-hidden>
                 ▾
               </span>
-            </Link>
+            </NavLink>
             <div className="nav-dropdown-panel nav-dropdown-panel-wide" role="menu">
               <Link href="/katalog" role="menuitem" className="nav-dropdown-all">
                 Всички категории
@@ -57,15 +59,16 @@ export async function Header() {
             </div>
           </div>
           <Link href="/#kak-raboti">Как работи</Link>
-          <Link href={categoryHref("nursery")}>Детска</Link>
-          <Link href="/blog">Блог</Link>
-          <Link href="/custom">По файл</Link>
-          <Link href="/account">Поръчки</Link>
-          <LocaleSwitch />
+          <NavLink href={categoryHref("nursery")}>Детска</NavLink>
+          <NavLink href="/blog">Блог</NavLink>
+          <NavLink href="/custom">По файл</NavLink>
+          <NavLink href="/account">Поръчки</NavLink>
         </nav>
 
         <div className="header-actions">
-          <Link
+          <HeaderSearch />
+          <FavoritesLink />
+          <NavLink
             href="/cart"
             className="nav-cart"
             aria-label={`Количка, ${itemCount} артикула`}
@@ -75,24 +78,24 @@ export async function Header() {
             {itemCount > 0 ? (
               <span className="cart-badge">{itemCount}</span>
             ) : null}
-          </Link>
+          </NavLink>
           <MobileNav cartCount={itemCount} />
         </div>
       </div>
 
       <div className="category-bar" aria-label="Популярни категории">
         <div className="container category-bar-inner">
-          <Link href="/katalog" className="category-bar-link">
+          <NavLink href="/katalog" exact className="category-bar-link">
             Всички
-          </Link>
+          </NavLink>
           {featured.map((c) => (
-            <Link
+            <NavLink
               key={c.id}
               href={categoryHref(c.id)}
               className="category-bar-link"
             >
               {c.label}
-            </Link>
+            </NavLink>
           ))}
         </div>
       </div>

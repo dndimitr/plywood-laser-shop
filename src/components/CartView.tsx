@@ -1,9 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FreeShippingBar } from "@/components/FreeShippingBar";
 import type { Cart } from "@/lib/cart";
+import { cartItemImage } from "@/lib/cart-image";
 import { formatBgn } from "@/lib/pricing";
 
 type Props = { initialCart: Cart; subtotal: number };
@@ -69,94 +72,117 @@ export function CartView({ initialCart, subtotal }: Props) {
       </div>
       <h1 className="page-title">Количка</h1>
       <ul className="cart-list">
-        {cart.items.map((item) => (
-          <li key={item.id} className="cart-item">
-            <div>
-              <h3 style={{ margin: "0 0 0.35rem", fontFamily: "var(--font-display), Georgia, serif" }}>
-                {item.title}
-              </h3>
-              <p className="muted" style={{ margin: "0 0 0.35rem" }}>
-                {item.type === "TEMPLATE" ? "Готов модел" : "По файл"} ·{" "}
-                {formatBgn(item.unitPrice)} / бр.
-              </p>
-              {item.personalization.engravingText ? (
-                <p style={{ margin: "0.2rem 0" }}>
-                  Текст: {item.personalization.engravingText}
+        {cart.items.map((item) => {
+          const image = cartItemImage(item);
+          return (
+            <li key={item.id} className="cart-item">
+              <div className="cart-item-media">
+                {image ? (
+                  <Image
+                    src={image}
+                    alt=""
+                    fill
+                    sizes="88px"
+                    style={{ objectFit: "contain" }}
+                    unoptimized={image.endsWith(".svg")}
+                  />
+                ) : (
+                  <div className="product-card-placeholder" aria-hidden />
+                )}
+              </div>
+              <div>
+                <h3
+                  style={{
+                    margin: "0 0 0.35rem",
+                    fontFamily: "var(--font-display), Georgia, serif",
+                  }}
+                >
+                  {item.title}
+                </h3>
+                <p className="muted" style={{ margin: "0 0 0.35rem" }}>
+                  {item.type === "TEMPLATE" ? "Готов модел" : "По файл"} ·{" "}
+                  {formatBgn(item.unitPrice)} / бр.
                 </p>
-              ) : null}
-              {item.personalization.optionLabel ? (
-                <p className="muted" style={{ margin: "0.2rem 0" }}>
-                  {item.personalization.optionLabel}
-                </p>
-              ) : null}
-              {item.personalization.widthCm ? (
-                <p className="muted" style={{ margin: "0.2rem 0" }}>
-                  {item.personalization.widthCm}×{item.personalization.heightCm}{" "}
-                  см · {item.personalization.thicknessMm} мм
-                </p>
-              ) : null}
-            </div>
-            <div className="cart-item-actions">
-              <div className="qty-control">
+                {item.personalization.engravingText ? (
+                  <p style={{ margin: "0.2rem 0" }}>
+                    Текст: {item.personalization.engravingText}
+                  </p>
+                ) : null}
+                {item.personalization.optionLabel ? (
+                  <p className="muted" style={{ margin: "0.2rem 0" }}>
+                    {item.personalization.optionLabel}
+                  </p>
+                ) : null}
+                {item.personalization.widthCm ? (
+                  <p className="muted" style={{ margin: "0.2rem 0" }}>
+                    {item.personalization.widthCm}×{item.personalization.heightCm}{" "}
+                    см · {item.personalization.thicknessMm} мм
+                  </p>
+                ) : null}
+              </div>
+              <div className="cart-item-actions">
+                <div className="qty-control">
+                  <button
+                    type="button"
+                    aria-label="Намали"
+                    disabled={pending}
+                    onClick={() =>
+                      mutate({
+                        action: "update_qty",
+                        id: item.id,
+                        quantity: Math.max(1, item.quantity - 1),
+                      })
+                    }
+                  >
+                    −
+                  </button>
+                  <input
+                    type="number"
+                    min={1}
+                    max={50}
+                    value={item.quantity}
+                    disabled={pending}
+                    aria-label={`Количество за ${item.title}`}
+                    onChange={(e) =>
+                      mutate({
+                        action: "update_qty",
+                        id: item.id,
+                        quantity: Number(e.target.value),
+                      })
+                    }
+                  />
+                  <button
+                    type="button"
+                    aria-label="Увеличи"
+                    disabled={pending}
+                    onClick={() =>
+                      mutate({
+                        action: "update_qty",
+                        id: item.id,
+                        quantity: Math.min(50, item.quantity + 1),
+                      })
+                    }
+                  >
+                    +
+                  </button>
+                </div>
                 <button
                   type="button"
-                  aria-label="Намали"
+                  className="btn btn-ghost"
                   disabled={pending}
-                  onClick={() =>
-                    mutate({
-                      action: "update_qty",
-                      id: item.id,
-                      quantity: Math.max(1, item.quantity - 1),
-                    })
-                  }
+                  onClick={() => mutate({ action: "remove", id: item.id })}
                 >
-                  −
-                </button>
-                <input
-                  type="number"
-                  min={1}
-                  max={50}
-                  value={item.quantity}
-                  disabled={pending}
-                  aria-label={`Количество за ${item.title}`}
-                  onChange={(e) =>
-                    mutate({
-                      action: "update_qty",
-                      id: item.id,
-                      quantity: Number(e.target.value),
-                    })
-                  }
-                />
-                <button
-                  type="button"
-                  aria-label="Увеличи"
-                  disabled={pending}
-                  onClick={() =>
-                    mutate({
-                      action: "update_qty",
-                      id: item.id,
-                      quantity: Math.min(50, item.quantity + 1),
-                    })
-                  }
-                >
-                  +
+                  Премахни
                 </button>
               </div>
-              <button
-                type="button"
-                className="btn btn-ghost"
-                disabled={pending}
-                onClick={() => mutate({ action: "remove", id: item.id })}
-              >
-                Премахни
-              </button>
-            </div>
-          </li>
-        ))}
+            </li>
+          );
+        })}
       </ul>
       <div className="cart-summary">
         <div>
-          <p style={{ margin: 0 }} className="muted">
+          <FreeShippingBar subtotal={total || subtotal} />
+          <p style={{ margin: "0.65rem 0 0" }} className="muted">
             Междинна сума
           </p>
           <p style={{ margin: "0.2rem 0 0", fontSize: "1.35rem" }}>

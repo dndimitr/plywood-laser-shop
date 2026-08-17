@@ -137,6 +137,7 @@ export default async function CategoryLandingPage({ params }: Props) {
                   description: product.description,
                   basePrice: Number(product.basePrice),
                   imageUrl: product.imageUrl,
+                  badge: landing.navLabel,
                 }}
               />
             ))}

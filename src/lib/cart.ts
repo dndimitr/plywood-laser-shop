@@ -27,6 +27,7 @@ export type CartItem = {
   title: string;
   quantity: number;
   unitPrice: number;
+  imageUrl?: string | null;
   personalization: CartItemPersonalization;
 };
 

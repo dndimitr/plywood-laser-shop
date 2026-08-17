@@ -43,6 +43,7 @@ function ProductGrid({ products }: { products: Product[] }) {
             description: product.description,
             basePrice: Number(product.basePrice),
             imageUrl: product.imageUrl,
+            badge: categoryById(product.category)?.label,
           }}
         />
       ))}

@@ -188,11 +188,13 @@ export function createLocalPrisma() {
         where?: ProductWhere;
         include?: { options?: boolean };
         orderBy?: Record<string, "asc" | "desc">;
+        take?: number;
       }) {
         await ensureLocalDb();
         const db = readLocalDb();
         let products = filterProducts(db.products, args?.where);
         products = sortBy(products, args?.orderBy ?? { name: "asc" });
+        if (args?.take != null) products = products.slice(0, args.take);
         if (args?.include?.options) {
           return products.map((p) => withOptions(db, p));
         }
@@ -687,7 +689,9 @@ export function createLocalPrisma() {
     review: {
       async findMany(args?: {
         where?: { published?: boolean; productId?: string | null };
+        include?: { product?: boolean | { select?: { name?: boolean; slug?: boolean } } };
         orderBy?: Record<string, "asc" | "desc">;
+        take?: number;
       }) {
         await ensureLocalDb();
         const db = readLocalDb();
@@ -700,9 +704,22 @@ export function createLocalPrisma() {
             (r) => r.productId === args.where!.productId,
           );
         }
-        return sortBy(reviews, args?.orderBy ?? { createdAt: "desc" }).map(
-          (r) => toDate(r),
-        );
+        reviews = sortBy(reviews, args?.orderBy ?? { createdAt: "desc" });
+        if (args?.take != null) reviews = reviews.slice(0, args.take);
+        return reviews.map((r) => {
+          const row = toDate(r) as LocalReview & {
+            product?: { name: string; slug: string } | null;
+          };
+          if (args?.include?.product) {
+            const product = r.productId
+              ? db.products.find((p) => p.id === r.productId)
+              : null;
+            row.product = product
+              ? { name: product.name, slug: product.slug }
+              : null;
+          }
+          return row;
+        });
       },
 
       async create(args: {

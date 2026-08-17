@@ -142,6 +142,7 @@ export default async function OccasionPage({ params }: Props) {
                   description: product.description,
                   basePrice: Number(product.basePrice),
                   imageUrl: product.imageUrl,
+                  badge: occasion.navLabel,
                 }}
               />
             ))}

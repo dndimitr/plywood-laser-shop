@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { formatBgn } from "@/lib/pricing";
 import { complexityLabel } from "@/lib/labels";
@@ -24,6 +25,7 @@ export function CustomUploadForm({ gaMeasurementId }: Props) {
   const [doubleSided, setDoubleSided] = useState(false);
   const [price, setPrice] = useState<number | null>(null);
   const [pending, setPending] = useState(false);
+  const [added, setAdded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -64,6 +66,7 @@ export function CustomUploadForm({ gaMeasurementId }: Props) {
 
     setPending(true);
     setError(null);
+    setAdded(false);
     try {
       const form = new FormData();
       form.append("file", file);
@@ -105,7 +108,7 @@ export function CustomUploadForm({ gaMeasurementId }: Props) {
         gaId: gaMeasurementId,
       });
 
-      router.push("/cart");
+      setAdded(true);
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Грешка");
@@ -223,6 +226,12 @@ export function CustomUploadForm({ gaMeasurementId }: Props) {
         </p>
       ) : null}
 
+      {added ? (
+        <p className="cart-toast" role="status">
+          Добавено в количката. <Link href="/cart">Към количката</Link>
+        </p>
+      ) : null}
+
       <button
         type="button"
         className="btn btn-primary"
@@ -230,7 +239,7 @@ export function CustomUploadForm({ gaMeasurementId }: Props) {
         onClick={submit}
         style={{ width: "100%" }}
       >
-        {pending ? "Обработка…" : "Добави в количката"}
+        {pending ? "Обработка…" : added ? "Добавено" : "Добави в количката"}
       </button>
     </div>
   );

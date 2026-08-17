@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import {
@@ -10,8 +11,10 @@ import {
   IconUpload,
 } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
+import { OccasionCards } from "@/components/OccasionCards";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductSlider } from "@/components/ProductSlider";
+import { StarRating } from "@/components/StarRating";
 import {
   categoryLandingById,
   categoryLandingPath,
@@ -87,7 +90,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
     imageUrl: true,
   } as const;
 
-  const [featuredPool, nurseryProducts, weddingProducts, reviews] =
+  const [featuredPool, nurseryProducts, weddingProducts, reviews, catalogMeta] =
     await Promise.all([
       prisma.product.findMany({
         where: { active: true },
@@ -109,15 +112,50 @@ export default async function HomePage({ searchParams }: HomeProps) {
       }),
       prisma.review.findMany({
         where: { published: true },
+        include: { product: { select: { name: true, slug: true } } },
         orderBy: { createdAt: "desc" },
         take: 6,
       }),
+      prisma.product.findMany({
+        where: { active: true },
+        select: { category: true, imageUrl: true },
+        orderBy: { updatedAt: "desc" },
+      }),
     ]);
 
-  const featuredSlider = pickRandomProducts(
-    featuredPool.filter((p) => Boolean(p.imageUrl)),
-    8,
-  );
+  const featuredSlider = featuredPool
+    .filter((p) => Boolean(p.imageUrl))
+    .slice(0, 8);
+
+  const heroImage =
+    featuredSlider[0]?.imageUrl ??
+    weddingProducts[0]?.imageUrl ??
+    nurseryProducts[0]?.imageUrl ??
+    null;
+
+  const counts = new Map<string, number>();
+  const covers = new Map<string, string>();
+  for (const row of catalogMeta) {
+    counts.set(row.category, (counts.get(row.category) ?? 0) + 1);
+    if (row.imageUrl && !covers.has(row.category)) {
+      covers.set(row.category, row.imageUrl);
+    }
+  }
+
+  const occasionCards = [
+    ...OCCASIONS.map((o) => ({
+      href: occasionPath(o.slug),
+      label: o.navLabel,
+      imageUrl: covers.get(o.categoryId) ?? null,
+      count: counts.get(o.categoryId) ?? 0,
+    })),
+    {
+      href: categoryHref("nursery"),
+      label: "Детска",
+      imageUrl: covers.get("nursery") ?? null,
+      count: counts.get("nursery") ?? 0,
+    },
+  ].filter((item) => item.count > 0);
 
   return (
     <>
@@ -127,7 +165,23 @@ export default async function HomePage({ searchParams }: HomeProps) {
           faqJsonLd(faqs),
         ]}
       />
-      <section className="hero hero--text" aria-label="Начало">
+      <section className="hero" aria-label="Начало">
+        {heroImage ? (
+          <div className="hero-media hero-media--product">
+            <Image
+              src={heroImage}
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-contain"
+              unoptimized={heroImage.endsWith(".svg")}
+            />
+            <div className="hero-scrim" />
+          </div>
+        ) : (
+          <div className="hero-media hero-media--product" aria-hidden />
+        )}
         <div className="container hero-copy">
           <h1>Персонализирани подаръци и украси</h1>
           <p>
@@ -182,20 +236,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
         <p className="section-lead">
           Изберете повод и вижте готови модели с персонализация.
         </p>
-        <div className="occasion-chips">
-          {OCCASIONS.map((o) => (
-            <Link
-              key={o.slug}
-              href={occasionPath(o.slug)}
-              className="occasion-chip"
-            >
-              {o.navLabel}
-            </Link>
-          ))}
-          <Link href={categoryHref("nursery")} className="occasion-chip">
-            Детска
-          </Link>
-        </div>
+        <OccasionCards items={occasionCards} />
       </section>
 
       {nurseryProducts.length > 0 ? (
@@ -219,6 +260,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
                   description: p.description,
                   basePrice: Number(p.basePrice),
                   imageUrl: p.imageUrl,
+                  badge: "Детска",
                 }}
               />
             ))}
@@ -251,6 +293,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
                   description: p.description,
                   basePrice: Number(p.basePrice),
                   imageUrl: p.imageUrl,
+                  badge: "Сватба",
                 }}
               />
             ))}
@@ -270,7 +313,10 @@ export default async function HomePage({ searchParams }: HomeProps) {
         </p>
         <div className="steps">
           <article className="step">
-            <div className="step-num">01</div>
+            <div className="step-num">
+              <IconUpload size={22} aria-hidden />
+              <span>01</span>
+            </div>
             <h3>Изберете модел или качете дизайн</h3>
             <p>
               Вземете готов шаблон с опции за текст или качете SVG, PDF, PNG
@@ -278,7 +324,10 @@ export default async function HomePage({ searchParams }: HomeProps) {
             </p>
           </article>
           <article className="step">
-            <div className="step-num">02</div>
+            <div className="step-num">
+              <IconPencil size={22} aria-hidden />
+              <span>02</span>
+            </div>
             <h3>Добавете персонализация</h3>
             <p>
               Име, дата, послание и размер. Цената се преизчислява на сървъра
@@ -286,7 +335,10 @@ export default async function HomePage({ searchParams }: HomeProps) {
             </p>
           </article>
           <article className="step">
-            <div className="step-num">03</div>
+            <div className="step-num">
+              <IconTruck size={22} aria-hidden />
+              <span>03</span>
+            </div>
             <h3>Изработка и доставка</h3>
             <p>
               Потвърждаваме макета при нужда, изработваме поръчката и
@@ -367,15 +419,14 @@ export default async function HomePage({ searchParams }: HomeProps) {
           <div className="container">
             <h2>Отзиви</h2>
             <p className="section-lead">Реални впечатления от клиенти.</p>
-            <div className="product-grid">
+            <div className="review-grid">
               {reviews.map((r) => (
-                <article key={r.id} className="admin-card">
-                  <p style={{ margin: 0, fontWeight: 700 }}>
-                    Оценка {r.rating}/5
-                  </p>
-                  <p>{r.body}</p>
+                <article key={r.id} className="review-card">
+                  <StarRating rating={r.rating} />
+                  <p className="review-card-body">{r.body}</p>
                   <p className="muted" style={{ marginBottom: 0 }}>
                     — {r.authorName}
+                    {r.product?.name ? ` · ${r.product.name}` : ""}
                   </p>
                 </article>
               ))}
@@ -406,14 +457,3 @@ export default async function HomePage({ searchParams }: HomeProps) {
   );
 }
 
-function pickRandomProducts<T>(items: T[], count: number): T[] {
-  if (items.length <= count) return [...items];
-  const copy = [...items];
-  for (let i = copy.length - 1; i > 0; i -= 1) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = copy[i]!;
-    copy[i] = copy[j]!;
-    copy[j] = tmp;
-  }
-  return copy.slice(0, count);
-}

@@ -50,7 +50,7 @@ export default async function CheckoutPage() {
         numItems={itemCount}
         gaId={marketing.gaMeasurementId || null}
       />
-      <CheckoutForm subtotal={subtotal} couriers={couriers} />
+      <CheckoutForm subtotal={subtotal} couriers={couriers} items={cart.items} />
     </div>
   );
 }

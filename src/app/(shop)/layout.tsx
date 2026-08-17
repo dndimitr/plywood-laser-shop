@@ -15,8 +15,13 @@ export default async function ShopLayout({
 
   return (
     <>
+      <a href="#main-content" className="skip-link">
+        Към съдържанието
+      </a>
       <Header />
-      <main className="shop-main">{children}</main>
+      <main id="main-content" className="shop-main">
+        {children}
+      </main>
       <Footer />
       <ScrollToTop />
       <MobileBottomNav

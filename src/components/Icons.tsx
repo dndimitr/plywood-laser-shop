@@ -193,6 +193,39 @@ export function IconPhone(props: IconProps) {
   );
 }
 
+export function IconSearch(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <circle cx="112" cy="112" r="72" />
+      <path d="M168 168l48 48" />
+    </svg>
+  );
+}
+
+export function IconGrid(props: IconProps) {
+  return (
+    <svg {...baseProps(props)}>
+      <rect x="40" y="40" width="68" height="68" />
+      <rect x="148" y="40" width="68" height="68" />
+      <rect x="40" y="148" width="68" height="68" />
+      <rect x="148" y="148" width="68" height="68" />
+    </svg>
+  );
+}
+
+export function IconStar(props: IconProps & { filled?: boolean }) {
+  const { filled, ...rest } = props;
+  return (
+    <svg
+      {...baseProps(rest)}
+      fill={filled ? "currentColor" : "none"}
+      strokeWidth={filled ? 12 : 16}
+    >
+      <path d="M128 28l28 72h76l-62 46 24 74-66-46-66 46 24-74-62-46h76Z" />
+    </svg>
+  );
+}
+
 export function IconShare(props: IconProps) {
   return (
     <svg {...baseProps(props)}>
