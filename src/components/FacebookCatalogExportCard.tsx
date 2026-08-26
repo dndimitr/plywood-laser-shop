@@ -4,9 +4,10 @@ import { buildFacebookCatalogRows } from "@/lib/facebook-catalog-feed";
 /** Admin card: download / scheduled-fetch links for Meta Commerce catalog. */
 export async function FacebookCatalogExportCard() {
   const rows = await buildFacebookCatalogRows();
+  const xmlUrl = absoluteUrl("/feeds/facebook-catalog.xml");
   const csvUrl = absoluteUrl("/feeds/facebook-catalog.csv");
-  const downloadUrl = absoluteUrl("/feeds/facebook-catalog.csv?download=1");
-  const tsvUrl = absoluteUrl("/feeds/facebook-catalog.tsv");
+  const downloadXml = absoluteUrl("/feeds/facebook-catalog.xml?download=1");
+  const downloadCsv = absoluteUrl("/feeds/facebook-catalog.csv?download=1");
 
   return (
     <section className="admin-card" style={{ marginBottom: "1.25rem" }}>
@@ -14,23 +15,29 @@ export async function FacebookCatalogExportCard() {
         Facebook продуктов каталог
       </h2>
       <p className="muted" style={{ marginBottom: "0.75rem" }}>
-        Експорт на {rows.length} активни продукта във формат за Meta Commerce
-        Manager (CSV/TSV). Може да качите файла ръчно или да зададете scheduled
-        fetch към публичния URL.
+        Експорт на {rows.length} активни продукта. Задайте scheduled fetch в
+        Meta Commerce Manager към XML линка — Facebook дърпа данните
+        автоматично.
       </p>
-      <div className="admin-actions" style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}>
-        <a className="btn btn-primary" href={downloadUrl}>
-          Изтегли CSV ({rows.length})
+      <div
+        className="admin-actions"
+        style={{ display: "flex", flexWrap: "wrap", gap: "0.65rem" }}
+      >
+        <a className="btn btn-primary" href={xmlUrl} target="_blank" rel="noreferrer">
+          XML feed URL
         </a>
-        <a className="btn btn-ghost" href={tsvUrl} target="_blank" rel="noreferrer">
-          TSV
+        <a className="btn btn-ghost" href={downloadXml}>
+          Изтегли XML
+        </a>
+        <a className="btn btn-ghost" href={downloadCsv}>
+          Изтегли CSV
         </a>
         <a className="btn btn-ghost" href={csvUrl} target="_blank" rel="noreferrer">
-          Отвори feed URL
+          CSV feed
         </a>
       </div>
       <p className="muted" style={{ marginTop: "0.85rem", fontSize: "0.9rem" }}>
-        Scheduled fetch: <code>{csvUrl}</code>
+        Scheduled fetch (препоръчано): <code>{xmlUrl}</code>
       </p>
     </section>
   );

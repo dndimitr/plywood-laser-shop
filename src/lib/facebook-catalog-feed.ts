@@ -200,3 +200,59 @@ export function rowsToTsv(rows: FacebookCatalogRow[]): string {
   );
   return `${[header, ...lines].join("\n")}\n`;
 }
+
+function xmlEscape(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+}
+
+function xmlTag(name: string, value: string, cdata = false): string {
+  if (!value) return "";
+  if (cdata) {
+    const safe = value.replace(/]]>/g, "]]]]><![CDATA[>");
+    return `      <${name}><![CDATA[${safe}]]></${name}>\n`;
+  }
+  return `      <${name}>${xmlEscape(value)}</${name}>\n`;
+}
+
+/**
+ * Meta Commerce Manager XML (RSS 2.0 + Google namespace).
+ * Use as scheduled fetch URL — Facebook pulls updates automatically.
+ */
+export function rowsToXml(rows: FacebookCatalogRow[]): string {
+  const site = absoluteUrl("/");
+  const items = rows
+    .map((row) => {
+      const extraImages = row.additional_image_link
+        ? row.additional_image_link
+            .split(",")
+            .map((u) => u.trim())
+            .filter(Boolean)
+            .map(
+              (u) =>
+                `      <g:additional_image_link>${xmlEscape(u)}</g:additional_image_link>\n`,
+            )
+            .join("")
+        : "";
+
+      return `    <item>
+${xmlTag("g:id", row.id)}${xmlTag("g:title", row.title, true)}${xmlTag("g:description", row.description, true)}${xmlTag("g:link", row.link)}${xmlTag("g:image_link", row.image_link)}${extraImages}${xmlTag("g:availability", row.availability)}${xmlTag("g:condition", row.condition)}${xmlTag("g:price", row.price)}${xmlTag("g:brand", row.brand)}${xmlTag("g:mpn", row.mpn)}${xmlTag("g:product_type", row.product_type, true)}${xmlTag("g:google_product_category", row.google_product_category)}${xmlTag("g:custom_label_0", row.custom_label_0)}${xmlTag("g:quantity_to_sell_on_facebook", row.quantity_to_sell_on_facebook)}${xmlTag("g:shipping", row.shipping)}    </item>`;
+    })
+    .join("\n");
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>${xmlEscape(SITE_NAME)} — Facebook Catalog</title>
+    <link>${xmlEscape(site)}</link>
+    <description>Product catalog feed for Meta Commerce Manager (${rows.length} items)</description>
+${items}
+  </channel>
+</rss>
+`;
+}
+
