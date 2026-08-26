@@ -41,21 +41,59 @@ export function emptyCart(): Cart {
   return { items: [] };
 }
 
+function productionCookieDomain(): string | undefined {
+  const raw = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  if (!raw) return undefined;
+  try {
+    const host = new URL(raw).hostname.replace(/^www\./i, "");
+    if (!host || host === "localhost" || host.endsWith(".vercel.app")) {
+      return undefined;
+    }
+    return host;
+  } catch {
+    return undefined;
+  }
+}
+
+export function cartCookieOptions(maxAge = 60 * 60 * 24 * 14) {
+  const domain = productionCookieDomain();
+  return {
+    httpOnly: true,
+    sameSite: "lax" as const,
+    path: "/",
+    maxAge,
+    secure: process.env.VERCEL === "1",
+    ...(domain ? { domain } : {}),
+  };
+}
+
+function parseCartCookie(raw: string): Cart {
+  const candidates = [raw];
+  try {
+    candidates.push(decodeURIComponent(raw));
+  } catch {
+    /* ignore malformed percent-encoding from older cookies */
+  }
+  for (const candidate of candidates) {
+    try {
+      const parsed = JSON.parse(candidate) as Cart;
+      if (parsed?.items && Array.isArray(parsed.items)) return parsed;
+    } catch {
+      /* try next encoding */
+    }
+  }
+  return emptyCart();
+}
+
 export async function getCart(): Promise<Cart> {
   const jar = await cookies();
   const raw = jar.get(CART_COOKIE)?.value;
   if (!raw) return emptyCart();
-  try {
-    const parsed = JSON.parse(decodeURIComponent(raw)) as Cart;
-    if (!parsed?.items || !Array.isArray(parsed.items)) return emptyCart();
-    return parsed;
-  } catch {
-    return emptyCart();
-  }
+  return parseCartCookie(raw);
 }
 
 export function serializeCart(cart: Cart) {
-  return encodeURIComponent(JSON.stringify(cart));
+  return JSON.stringify(cart);
 }
 
 export function cartTotals(cart: Cart) {

@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { randomUUID } from "crypto";
 import {
   CART_COOKIE,
+  cartCookieOptions,
   emptyCart,
   getCart,
   serializeCart,
@@ -32,11 +33,21 @@ export async function POST(request: Request) {
   const body = await request.json();
   const parsed = checkoutSchema.safeParse(body);
   if (!parsed.success) {
-    return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
+    const flat = parsed.error.flatten();
+    const first =
+      flat.formErrors[0] ||
+      Object.values(flat.fieldErrors).flat()[0] ||
+      "Проверете данните във формата";
+    console.warn("[checkout] validation", flat.fieldErrors);
+    return NextResponse.json(
+      { error: first, fieldErrors: flat.fieldErrors },
+      { status: 400 },
+    );
   }
 
   const cart = await getCart();
   if (cart.items.length === 0) {
+    console.warn("[checkout] empty cart");
     return NextResponse.json({ error: "Количката е празна" }, { status: 400 });
   }
 
@@ -71,6 +82,7 @@ export async function POST(request: Request) {
         include: { options: true },
       });
       if (!product) {
+        console.warn("[checkout] missing product", item.productId, item.title);
         return NextResponse.json(
           { error: `Продуктът „${item.title}“ вече не е наличен` },
           { status: 400 },
@@ -80,6 +92,11 @@ export async function POST(request: Request) {
         (o) => o.id === item.personalization.optionId,
       );
       if (!option) {
+        console.warn(
+          "[checkout] missing option",
+          item.personalization.optionId,
+          item.title,
+        );
         return NextResponse.json(
           { error: `Опцията за „${item.title}“ е невалидна` },
           { status: 400 },
@@ -255,11 +272,7 @@ export async function POST(request: Request) {
   }
 
   const jar = await cookies();
-  jar.set(CART_COOKIE, serializeCart(emptyCart()), {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-  });
+  jar.set(CART_COOKIE, serializeCart(emptyCart()), cartCookieOptions(0));
 
   // Server-side Meta CAPI Purchase (same event_id as browser Pixel for dedup)
   try {

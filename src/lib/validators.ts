@@ -1,12 +1,14 @@
 import { z } from "zod";
 import { MACHINE_BED_MAX_CM, MAX_LINE_QTY } from "@/lib/shop-config";
 
+const trimmed = z.string().trim();
+
 export const checkoutSchema = z.object({
-  customerName: z.string().min(2, "Въведете име"),
-  customerEmail: z.string().email("Невалиден имейл"),
-  customerPhone: z.string().min(6, "Въведете телефон"),
-  shippingAddress: z.string().min(5, "Въведете адрес или офис на куриер"),
-  shippingNote: z.string().optional(),
+  customerName: trimmed.min(2, "Въведете име"),
+  customerEmail: trimmed.email("Невалиден имейл"),
+  customerPhone: trimmed.min(6, "Въведете телефон"),
+  shippingAddress: trimmed.min(5, "Въведете адрес или офис на куриер"),
+  shippingNote: trimmed.optional(),
   paymentMethod: z.enum(["BANK_TRANSFER", "CASH_ON_DELIVERY", "CARD"]),
   courier: z.enum(["ECONT", "SPEEDY", "PICKUP"]).default("ECONT"),
   rush: z.boolean().default(false),

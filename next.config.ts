@@ -24,6 +24,18 @@ const nextConfig: NextConfig = {
     return [
       { source: "/idei", destination: "/blog", permanent: true },
       { source: "/idei/:slug", destination: "/blog/:slug", permanent: true },
+      {
+        source: "/",
+        has: [{ type: "host", value: "www.studiobreza.eu" }],
+        destination: "https://studiobreza.eu",
+        permanent: true,
+      },
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "www.studiobreza.eu" }],
+        destination: "https://studiobreza.eu/:path*",
+        permanent: true,
+      },
     ];
   },
   async headers() {

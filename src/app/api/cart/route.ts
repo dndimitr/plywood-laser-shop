@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { randomUUID } from "crypto";
 import {
   CART_COOKIE,
+  cartCookieOptions,
   emptyCart,
   getCart,
   serializeCart,
@@ -166,23 +167,13 @@ export async function POST(request: Request) {
   }
 
   const jar = await cookies();
-  jar.set(CART_COOKIE, serializeCart(cart), {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 60 * 60 * 24 * 14,
-  });
+  jar.set(CART_COOKIE, serializeCart(cart), cartCookieOptions());
 
   return NextResponse.json(cart);
 }
 
 export async function DELETE() {
   const jar = await cookies();
-  jar.set(CART_COOKIE, serializeCart(emptyCart()), {
-    httpOnly: true,
-    sameSite: "lax",
-    path: "/",
-    maxAge: 0,
-  });
+  jar.set(CART_COOKIE, serializeCart(emptyCart()), cartCookieOptions(0));
   return NextResponse.json(emptyCart());
 }

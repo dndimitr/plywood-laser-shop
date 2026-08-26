@@ -55,6 +55,7 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
@@ -153,6 +154,7 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
                   <input
                     type="radio"
                     name="courier"
+                    value={c.id}
                     checked={selected}
                     onChange={() => update("courier", c.id)}
                   />
@@ -236,6 +238,7 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
               <input
                 type="radio"
                 name="payment"
+                value="CASH_ON_DELIVERY"
                 checked={form.paymentMethod === "CASH_ON_DELIVERY"}
                 onChange={() => update("paymentMethod", "CASH_ON_DELIVERY")}
               />
@@ -248,6 +251,7 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
               <input
                 type="radio"
                 name="payment"
+                value="BANK_TRANSFER"
                 checked={form.paymentMethod === "BANK_TRANSFER"}
                 onChange={() => update("paymentMethod", "BANK_TRANSFER")}
               />
@@ -260,6 +264,7 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
               <input
                 type="radio"
                 name="payment"
+                value="CARD"
                 checked={form.paymentMethod === "CARD"}
                 onChange={() => update("paymentMethod", "CARD")}
               />
