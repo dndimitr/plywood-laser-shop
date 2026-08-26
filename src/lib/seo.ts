@@ -22,6 +22,9 @@ export const DEFAULT_DESCRIPTION =
 export const BRAND_LOGO_PATH = "/brand/studio-breza-logo-header.png";
 export const BRAND_MARK_PATH = "/brand/studio-breza-mark-512.png";
 
+/** Public storefront domain (custom domain on Vercel). */
+export const CANONICAL_SITE_URL = "https://studiobreza.eu";
+
 export const SEO_KEYWORDS = [
   "персонализирани подаръци",
   "гравирани подаръци",
@@ -36,14 +39,44 @@ export const SEO_KEYWORDS = [
 
 const META_DESCRIPTION_MAX = 160;
 
+/** Hosts that must never appear in OG / share / canonical URLs. */
+const DEAD_PUBLIC_HOSTS = new Set([
+  "plywood-laser-shop.vercel.app",
+]);
+
+function normalizeSiteUrl(raw: string): string {
+  const trimmed = raw.trim().replace(/\/$/, "");
+  if (!trimmed) return CANONICAL_SITE_URL;
+  try {
+    const url = new URL(trimmed.includes("://") ? trimmed : `https://${trimmed}`);
+    if (
+      DEAD_PUBLIC_HOSTS.has(url.hostname) ||
+      (process.env.VERCEL_ENV === "production" &&
+        url.hostname.endsWith(".vercel.app"))
+    ) {
+      return CANONICAL_SITE_URL;
+    }
+    return `${url.protocol}//${url.host}`;
+  } catch {
+    return CANONICAL_SITE_URL;
+  }
+}
+
 export function getSiteUrl(): string {
-  const raw =
-    process.env.NEXT_PUBLIC_APP_URL?.trim() ||
-    (process.env.VERCEL_PROJECT_PRODUCTION_URL
-      ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-      : "") ||
-    "http://localhost:3000";
-  return raw.replace(/\/$/, "");
+  const fromEnv = process.env.NEXT_PUBLIC_APP_URL?.trim();
+  if (fromEnv) return normalizeSiteUrl(fromEnv);
+
+  // Production: always the custom domain — never VERCEL_PROJECT_PRODUCTION_URL
+  // (that alias can 404 / DEPLOYMENT_NOT_FOUND and breaks Facebook previews).
+  if (process.env.VERCEL_ENV === "production") {
+    return CANONICAL_SITE_URL;
+  }
+
+  // Preview / branch deploys
+  const vercelUrl = process.env.VERCEL_URL?.trim();
+  if (vercelUrl) return normalizeSiteUrl(`https://${vercelUrl}`);
+
+  return "http://localhost:3000";
 }
 
 export function absoluteUrl(path = "/"): string {
