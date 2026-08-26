@@ -570,8 +570,12 @@ export function createLocalPrisma() {
               id: cuid(),
               orderId: order.id,
               type: item.type,
-              productId: item.productId ?? null,
-              uploadedDesignId: item.uploadedDesignId ?? null,
+              productId:
+                item.productId ?? item.product?.connect?.id ?? null,
+              uploadedDesignId:
+                item.uploadedDesignId ??
+                item.uploadedDesign?.connect?.id ??
+                null,
               title: item.title,
               quantity: item.quantity,
               unitPrice: Number(item.unitPrice),

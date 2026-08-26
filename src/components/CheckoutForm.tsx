@@ -57,7 +57,20 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      const data = await res.json();
+      const text = await res.text();
+      let data: {
+        error?: unknown;
+        orderId?: string;
+        publicToken?: string;
+        totalAmount?: number;
+      } = {};
+      if (text) {
+        try {
+          data = JSON.parse(text) as typeof data;
+        } catch {
+          throw new Error("Поръчката не можа да се запише. Опитайте отново.");
+        }
+      }
       if (!res.ok) {
         throw new Error(
           typeof data.error === "string"
@@ -82,6 +95,10 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
           window.location.assign(stripeData.url);
           return;
         }
+      }
+
+      if (!data.orderId || !data.publicToken) {
+        throw new Error("Поръчката не можа да се запише. Опитайте отново.");
       }
 
       window.location.assign(

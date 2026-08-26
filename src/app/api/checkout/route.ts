@@ -198,37 +198,55 @@ export async function POST(request: Request) {
         ? "PENDING"
         : "PENDING";
 
-  const order = await prisma.order.create({
-    data: {
-      publicToken,
-      customerName: parsed.data.customerName,
-      customerEmail: parsed.data.customerEmail,
-      customerPhone: parsed.data.customerPhone,
-      companyName: parsed.data.companyName || null,
-      vatNumber: parsed.data.vatNumber || null,
-      needInvoice: parsed.data.needInvoice,
-      shippingAddress: parsed.data.shippingAddress,
-      shippingNote: parsed.data.shippingNote || null,
-      courier: parsed.data.courier,
-      shippingFee,
-      rush: parsed.data.rush,
-      paymentMethod: parsed.data.paymentMethod,
-      paymentStatus,
-      subtotalAmount,
-      totalAmount,
-      status: hasCustom ? "AWAITING_DESIGN" : "NEW",
-      designReview: hasCustom ? "PENDING" : "NOT_REQUIRED",
-      locale: parsed.data.locale,
-      adminNotes: null,
-      customerId: null,
-      items: {
-        create: pricedItems.map((item) => ({
-          ...item,
-          personalization: item.personalization as Prisma.InputJsonValue,
-        })),
+  let order;
+  try {
+    order = await prisma.order.create({
+      data: {
+        publicToken,
+        customerName: parsed.data.customerName,
+        customerEmail: parsed.data.customerEmail,
+        customerPhone: parsed.data.customerPhone,
+        companyName: parsed.data.companyName || null,
+        vatNumber: parsed.data.vatNumber || null,
+        needInvoice: parsed.data.needInvoice,
+        shippingAddress: parsed.data.shippingAddress,
+        shippingNote: parsed.data.shippingNote || null,
+        courier: parsed.data.courier,
+        shippingFee,
+        rush: parsed.data.rush,
+        paymentMethod: parsed.data.paymentMethod,
+        paymentStatus,
+        subtotalAmount,
+        totalAmount,
+        status: hasCustom ? "AWAITING_DESIGN" : "NEW",
+        designReview: hasCustom ? "PENDING" : "NOT_REQUIRED",
+        locale: parsed.data.locale,
+        adminNotes: null,
+        customerId: null,
+        items: {
+          create: pricedItems.map((item) => ({
+            type: item.type,
+            title: item.title,
+            quantity: item.quantity,
+            unitPrice: item.unitPrice,
+            personalization: item.personalization as Prisma.InputJsonValue,
+            ...(item.productId
+              ? { product: { connect: { id: item.productId } } }
+              : {}),
+            ...(item.uploadedDesignId
+              ? { uploadedDesign: { connect: { id: item.uploadedDesignId } } }
+              : {}),
+          })),
+        },
       },
-    },
-  });
+    });
+  } catch (err) {
+    console.error("[checkout] create failed", err);
+    return NextResponse.json(
+      { error: "Поръчката не можа да се запише. Опитайте отново." },
+      { status: 500 },
+    );
+  }
 
   try {
     const designIds = pricedItems
