@@ -158,7 +158,7 @@ export function entriesToSitemapXml(entries: SitemapEntry[]): string {
           ? `    <changefreq>${xmlEscape(e.changefreq)}</changefreq>`
           : "",
         e.priority != null
-          ? `    <priority>${e.priority.toFixed(1)}</priority>`
+          ? `    <priority>${Number(e.priority.toFixed(2))}</priority>`
           : "",
         "  </url>",
       ].filter(Boolean);
