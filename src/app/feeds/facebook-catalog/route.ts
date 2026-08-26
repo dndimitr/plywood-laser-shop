@@ -16,11 +16,18 @@ function resolveFormat(request: Request, fallback: Format): Format {
   return fallback;
 }
 
-async function feedResponse(format: Format) {
+async function feedResponse(request: Request, format: Format) {
+  const url = new URL(request.url);
+  const download =
+    url.searchParams.get("download") === "1" ||
+    url.searchParams.get("download") === "true";
+
   const rows = await buildFacebookCatalogRows();
   const body = format === "tsv" ? rowsToTsv(rows) : rowsToCsv(rows);
   const filename =
-    format === "tsv" ? "facebook-catalog.tsv" : "facebook-catalog.csv";
+    format === "tsv"
+      ? "studio-breza-facebook-catalog.tsv"
+      : "studio-breza-facebook-catalog.csv";
   const contentType =
     format === "tsv"
       ? "text/tab-separated-values; charset=utf-8"
@@ -30,14 +37,16 @@ async function feedResponse(format: Format) {
     status: 200,
     headers: {
       "Content-Type": contentType,
-      "Content-Disposition": `inline; filename="${filename}"`,
-      "Cache-Control": "public, s-maxage=3600, stale-while-revalidate=86400",
+      "Content-Disposition": `${download ? "attachment" : "inline"}; filename="${filename}"`,
+      "Cache-Control": download
+        ? "no-store"
+        : "public, s-maxage=3600, stale-while-revalidate=86400",
       "X-Catalog-Item-Count": String(rows.length),
     },
   });
 }
 
-/** Meta Commerce Manager scheduled fetch — CSV (default) or ?format=tsv */
+/** Meta Commerce Manager scheduled fetch — CSV (default) or ?format=tsv; ?download=1 to save file */
 export async function GET(request: Request) {
-  return feedResponse(resolveFormat(request, "csv"));
+  return feedResponse(request, resolveFormat(request, "csv"));
 }

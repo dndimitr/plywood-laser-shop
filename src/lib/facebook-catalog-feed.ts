@@ -1,5 +1,10 @@
 import { prisma } from "@/lib/db";
-import { categoryById, type CategoryId } from "@/lib/shop-config";
+import {
+  categoryById,
+  FREE_SHIPPING_MIN_EUR,
+  type CategoryId,
+} from "@/lib/shop-config";
+import { shippingFeeFor } from "@/lib/shipping-settings";
 import {
   absoluteAssetUrl,
   absoluteUrl,
@@ -25,6 +30,7 @@ export const FACEBOOK_CATALOG_COLUMNS = [
   "custom_label_0",
   "mpn",
   "quantity_to_sell_on_facebook",
+  "shipping",
 ] as const;
 
 export type FacebookCatalogColumn = (typeof FACEBOOK_CATALOG_COLUMNS)[number];
@@ -99,6 +105,12 @@ function formatPriceEur(amount: number): string {
   return `${amount.toFixed(2)} EUR`;
 }
 
+/** Meta shipping: COUNTRY:REGION:SERVICE:PRICE — BG nationwide via Econt default. */
+function shippingForPrice(basePrice: number): string {
+  const fee = shippingFeeFor("ECONT", basePrice);
+  return `BG:::${fee.toFixed(2)} EUR`;
+}
+
 function productTitle(name: string): string {
   const base = name.trim();
   if (base.length <= 150) return base;
@@ -143,6 +155,7 @@ export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> 
       stripHtml(product.description || product.name),
       5000,
     );
+    const price = Number(product.basePrice);
 
     rows.push({
       id: product.slug,
@@ -150,7 +163,7 @@ export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> 
       description: description || product.name,
       availability: "in stock",
       condition: "new",
-      price: formatPriceEur(Number(product.basePrice)),
+      price: formatPriceEur(price),
       link: absoluteUrl(`/products/${product.slug}`),
       image_link: image,
       brand: SITE_NAME,
@@ -161,6 +174,11 @@ export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> 
       custom_label_0: product.category,
       mpn: product.slug,
       quantity_to_sell_on_facebook: "100",
+      // Hint for Meta: free shipping applies from FREE_SHIPPING_MIN_EUR cart total
+      shipping:
+        price >= FREE_SHIPPING_MIN_EUR
+          ? "BG:::0.00 EUR"
+          : shippingForPrice(price),
     });
   }
 

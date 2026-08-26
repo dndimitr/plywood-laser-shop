@@ -25,9 +25,17 @@ export default async function AdminProductsPage() {
     <div className="admin-panel">
       <div className="header-inner" style={{ paddingTop: 0 }}>
         <h1>Продукти</h1>
-        <Link href="/admin/products/new" className="btn btn-primary">
-          Нов продукт
-        </Link>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+          <a
+            className="btn btn-ghost"
+            href="/feeds/facebook-catalog.csv?download=1"
+          >
+            Facebook каталог CSV
+          </a>
+          <Link href="/admin/products/new" className="btn btn-primary">
+            Нов продукт
+          </Link>
+        </div>
       </div>
       <table className="admin-table">
         <thead>
