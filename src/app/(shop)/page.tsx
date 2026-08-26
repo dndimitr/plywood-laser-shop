@@ -27,6 +27,7 @@ import {
   categoryHref,
 } from "@/lib/occasions";
 import {
+  aggregateRatingJsonLd,
   breadcrumbJsonLd,
   buildPageMetadata,
   DEFAULT_DESCRIPTION,
@@ -132,6 +133,13 @@ export default async function HomePage({ searchParams }: HomeProps) {
     weddingProducts[0]?.imageUrl ??
     nurseryProducts[0]?.imageUrl ??
     null;
+  const heroAlt =
+    featuredSlider[0]?.name ??
+    weddingProducts[0]?.name ??
+    nurseryProducts[0]?.name ??
+    SITE_TAGLINE;
+
+  const ratingLd = aggregateRatingJsonLd(reviews);
 
   const counts = new Map<string, number>();
   const covers = new Map<string, string>();
@@ -163,6 +171,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
         data={[
           breadcrumbJsonLd([{ name: "Начало", path: "/" }]),
           faqJsonLd(faqs),
+          ...(ratingLd ? [ratingLd] : []),
         ]}
       />
       <section className="hero" aria-label="Начало">
@@ -170,7 +179,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
           <div className="hero-media hero-media--product">
             <Image
               src={heroImage}
-              alt=""
+              alt={heroAlt}
               fill
               priority
               sizes="100vw"

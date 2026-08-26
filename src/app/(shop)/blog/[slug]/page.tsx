@@ -12,6 +12,7 @@ import {
 } from "@/lib/gift-guides";
 import {
   absoluteUrl,
+  BRAND_MARK_PATH,
   breadcrumbJsonLd,
   buildPageMetadata,
   faqJsonLd,
@@ -80,7 +81,9 @@ export default async function BlogPostPage({ params }: Props) {
               name: SITE_NAME,
               logo: {
                 "@type": "ImageObject",
-                url: absoluteUrl("/opengraph-image"),
+                url: absoluteUrl(BRAND_MARK_PATH),
+                width: 512,
+                height: 512,
               },
             },
             image: [coverUrl, ...guide.gallery.map((g) => absoluteUrl(g.src))],

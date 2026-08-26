@@ -40,6 +40,7 @@ function xmlEscape(value: string): string {
 }
 
 async function productEntries(now: Date): Promise<SitemapEntry[]> {
+  const PRODUCT_QUERY_MS = 12_000;
   try {
     const products = await Promise.race([
       prisma.product.findMany({
@@ -47,16 +48,24 @@ async function productEntries(now: Date): Promise<SitemapEntry[]> {
         select: { slug: true, updatedAt: true },
         orderBy: { updatedAt: "desc" },
       }),
-      new Promise<null>((resolve) => setTimeout(() => resolve(null), 4000)),
+      new Promise<null>((resolve) =>
+        setTimeout(() => resolve(null), PRODUCT_QUERY_MS),
+      ),
     ]);
-    if (!products) return [];
+    if (!products) {
+      console.warn(
+        `[sitemap] product query timed out after ${PRODUCT_QUERY_MS}ms`,
+      );
+      return [];
+    }
     return products.map((p) => ({
       loc: absoluteUrl(`/products/${p.slug}`),
       lastmod: formatLastmod(p.updatedAt ? new Date(p.updatedAt) : now),
       changefreq: "weekly" as const,
       priority: 0.8,
     }));
-  } catch {
+  } catch (err) {
+    console.error("[sitemap] product query failed", err);
     return [];
   }
 }

@@ -277,6 +277,14 @@ export function rootMetadata(): Metadata {
       description: DEFAULT_DESCRIPTION,
       images: [absoluteUrl("/opengraph-image")],
     },
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: BRAND_MARK_PATH, sizes: "512x512", type: "image/png" },
+      ],
+      apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+      shortcut: "/favicon.ico",
+    },
     robots: {
       index: true,
       follow: true,
@@ -299,18 +307,28 @@ export function rootMetadata(): Metadata {
 
 export function organizationJsonLd() {
   const phone = process.env.NEXT_PUBLIC_SHOP_PHONE?.trim();
+  const { facebookPageUrl } = getMarketingSettings();
+  const sameAs = [facebookPageUrl.trim()].filter(Boolean);
+
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: SITE_NAME,
     legalName: SITE_NAME_LEGAL,
     url: getSiteUrl(),
-    logo: absoluteUrl("/opengraph-image"),
+    logo: {
+      "@type": "ImageObject",
+      url: absoluteUrl(BRAND_MARK_PATH),
+      width: 512,
+      height: 512,
+    },
+    image: absoluteUrl(BRAND_LOGO_PATH),
     description: DEFAULT_DESCRIPTION,
     address: {
       "@type": "PostalAddress",
       addressCountry: "BG",
     },
+    ...(sameAs.length ? { sameAs } : {}),
     ...(phone
       ? {
           contactPoint: {
@@ -337,7 +355,7 @@ export function websiteJsonLd() {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: `${getSiteUrl()}/?q={search_term_string}`,
+        urlTemplate: `${getSiteUrl()}/katalog?q={search_term_string}`,
       },
       "query-input": "required name=search_term_string",
     },
@@ -439,6 +457,34 @@ export function productJsonLd(opts: {
           },
         },
       },
+    },
+  };
+}
+
+/** Sitewide AggregateRating from published reviews (LocalBusiness). */
+export function aggregateRatingJsonLd(
+  reviews: Array<{ rating: number }>,
+) {
+  if (!reviews.length) return null;
+  const count = reviews.length;
+  const sum = reviews.reduce((s, r) => s + Number(r.rating || 0), 0);
+  const ratingValue = Math.round((sum / count) * 10) / 10;
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: SITE_NAME,
+    url: getSiteUrl(),
+    image: absoluteUrl(BRAND_LOGO_PATH),
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "BG",
+    },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: String(ratingValue),
+      reviewCount: String(count),
+      bestRating: "5",
+      worstRating: "1",
     },
   };
 }

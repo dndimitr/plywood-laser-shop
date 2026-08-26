@@ -29,7 +29,9 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const product = await prisma.product.findUnique({ where: { slug } });
+  const product = await prisma.product.findFirst({
+    where: { slug, active: true },
+  });
   if (!product) {
     return buildPageMetadata({
       title: "Продуктът не е намерен",
