@@ -525,6 +525,8 @@ export function createLocalPrisma() {
               type: LocalOrderItem["type"];
               productId?: string | null;
               uploadedDesignId?: string | null;
+              product?: { connect?: { id: string } };
+              uploadedDesign?: { connect?: { id: string } };
               title: string;
               quantity: number;
               unitPrice: number;
