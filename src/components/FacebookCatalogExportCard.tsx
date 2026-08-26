@@ -17,7 +17,9 @@ export async function FacebookCatalogExportCard() {
       <p className="muted" style={{ marginBottom: "0.75rem" }}>
         Експорт на {rows.length} активни продукта. Задайте scheduled fetch в
         Meta Commerce Manager към XML линка — Facebook дърпа данните
-        автоматично.
+        автоматично. Полето <code>id</code> е slug на продукта и трябва да
+        съвпада с Pixel <code>content_ids</code> (ViewContent / AddToCart /
+        Purchase).
       </p>
       <div
         className="admin-actions"

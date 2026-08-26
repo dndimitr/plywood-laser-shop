@@ -100,8 +100,9 @@ export function CustomUploadForm({ gaMeasurementId }: Props) {
         );
       }
 
+      // Custom uploads are not in the Meta catalog — omit content_ids so
+      // upload UUIDs do not tank catalog match rate.
       void trackAddToCart({
-        contentId: uploadData.id || "custom",
         contentName: `Изработка по файл · ${file.name}`,
         value: price,
         quantity,

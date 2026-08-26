@@ -20,7 +20,8 @@ export function InitiateCheckoutTracker({
   const sent = useRef(false);
 
   useEffect(() => {
-    if (sent.current || value <= 0 || contentIds.length === 0) return;
+    // Allow empty contentIds (custom-only cart) — never block checkout tracking
+    if (sent.current || value <= 0) return;
     let cancelled = false;
 
     async function fire() {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { toCatalogContentIds } from "@/lib/meta-catalog-ids";
 import {
   clientIpFromRequest,
   sendMetaCapiEvent,
@@ -50,6 +51,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid event" }, { status: 400 });
   }
 
+  const contentIds = toCatalogContentIds(body.contentIds ?? []);
+  const contents = (body.contents ?? [])
+    .map((c) => ({
+      ...c,
+      id: typeof c.id === "string" ? c.id.trim() : "",
+    }))
+    .filter((c) => c.id && toCatalogContentIds([c.id]).length > 0);
+
   const result = await sendMetaCapiEvent({
     eventName: body.eventName,
     eventId: body.eventId,
@@ -65,10 +74,10 @@ export async function POST(request: Request) {
     customData: {
       value: body.value,
       currency: body.currency ?? "EUR",
-      content_ids: body.contentIds,
+      ...(contentIds.length ? { content_ids: contentIds } : {}),
       content_name: body.contentName,
       content_type: "product",
-      contents: body.contents,
+      ...(contents.length ? { contents } : {}),
       num_items: body.numItems,
       order_id: body.orderId,
     },

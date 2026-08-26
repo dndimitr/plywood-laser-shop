@@ -3,6 +3,8 @@ import Link from "next/link";
 import { CheckoutForm } from "@/components/CheckoutForm";
 import { InitiateCheckoutTracker } from "@/components/InitiateCheckoutTracker";
 import { cartTotals, getCart } from "@/lib/cart";
+import { prisma } from "@/lib/db";
+import { resolveCatalogContentIds } from "@/lib/meta-catalog-ids";
 import { getCourierOptions } from "@/lib/shipping-settings";
 import { buildPageMetadata } from "@/lib/seo";
 import { getMarketingSettings } from "@/lib/shop-settings";
@@ -34,13 +36,15 @@ export default async function CheckoutPage() {
     );
   }
 
-  const contentIds = cart.items.map(
-    (item) =>
-      item.productSlug ||
-      item.productId ||
-      item.uploadedDesignId ||
-      item.id,
-  );
+  // Catalog id = product slug only (never cuid / upload UUID / cart line id).
+  // Resolve slug from productId for legacy cart cookies missing productSlug.
+  const contentIds = await resolveCatalogContentIds(cart.items, async (id) => {
+    const p = await prisma.product.findFirst({
+      where: { id, active: true },
+      select: { slug: true },
+    });
+    return p?.slug ?? null;
+  });
 
   return (
     <div className="container">

@@ -121,7 +121,8 @@ type CommercePayload = {
   eventId: string;
   value: number;
   currency?: string;
-  contentIds: string[];
+  /** Catalog retailer IDs only (product slugs). Omit for custom-only carts. */
+  contentIds?: string[];
   contentName?: string;
   numItems?: number;
   contents?: Array<{ id: string; quantity: number; item_price?: number }>;
@@ -154,10 +155,10 @@ async function sendCapiBrowser(
         eventSourceUrl,
         value: payload.value,
         currency: payload.currency ?? "EUR",
-        contentIds: payload.contentIds,
+        contentIds: payload.contentIds?.length ? payload.contentIds : undefined,
         contentName: payload.contentName,
         numItems: payload.numItems,
-        contents: payload.contents,
+        contents: payload.contents?.length ? payload.contents : undefined,
         orderId: payload.orderId,
         email: payload.email,
         phone: payload.phone,
@@ -190,7 +191,8 @@ function ga4CampaignParams() {
 }
 
 export async function trackAddToCart(input: {
-  contentId: string;
+  /** Product slug (= Facebook catalog id). Omit for custom uploads. */
+  contentId?: string;
   contentName: string;
   value: number;
   currency?: string;
@@ -201,18 +203,22 @@ export async function trackAddToCart(input: {
   const eventId = newClientEventId("atc");
   const currency = input.currency ?? "EUR";
   const qty = input.quantity ?? 1;
+  const contentId = input.contentId?.trim() || undefined;
+  const contentIds = contentId ? [contentId] : undefined;
 
   if (typeof window.fbq === "function") {
     window.fbq(
       "track",
       "AddToCart",
       {
-        content_ids: [input.contentId],
+        ...(contentIds ? { content_ids: contentIds } : {}),
         content_name: input.contentName,
         content_type: "product",
         value: input.value,
         currency,
-        contents: [{ id: input.contentId, quantity: qty }],
+        ...(contentId
+          ? { contents: [{ id: contentId, quantity: qty }] }
+          : {}),
         num_items: qty,
       },
       { eventID: eventId },
@@ -226,7 +232,7 @@ export async function trackAddToCart(input: {
       value: input.value,
       items: [
         {
-          item_id: input.contentId,
+          item_id: contentId || "custom",
           item_name: input.contentName,
           quantity: qty,
           price: input.value / qty,
@@ -241,10 +247,12 @@ export async function trackAddToCart(input: {
     eventId,
     value: input.value,
     currency,
-    contentIds: [input.contentId],
+    contentIds,
     contentName: input.contentName,
     numItems: qty,
-    contents: [{ id: input.contentId, quantity: qty, item_price: input.value / qty }],
+    contents: contentId
+      ? [{ id: contentId, quantity: qty, item_price: input.value / qty }]
+      : undefined,
   });
 }
 
@@ -258,13 +266,14 @@ export async function trackInitiateCheckout(input: {
   if (!hasMarketingConsent()) return;
   const eventId = newClientEventId("ic");
   const currency = input.currency ?? "EUR";
+  const contentIds = input.contentIds.filter(Boolean);
 
   if (typeof window.fbq === "function") {
     window.fbq(
       "track",
       "InitiateCheckout",
       {
-        content_ids: input.contentIds,
+        ...(contentIds.length ? { content_ids: contentIds } : {}),
         content_type: "product",
         value: input.value,
         currency,
@@ -279,7 +288,7 @@ export async function trackInitiateCheckout(input: {
     window.gtag("event", "begin_checkout", {
       currency,
       value: input.value,
-      items: input.contentIds.map((id) => ({ item_id: id })),
+      items: contentIds.map((id) => ({ item_id: id })),
       ...ga4CampaignParams(),
       send_to: input.gaId,
     });
@@ -289,7 +298,7 @@ export async function trackInitiateCheckout(input: {
     eventId,
     value: input.value,
     currency,
-    contentIds: input.contentIds,
+    contentIds: contentIds.length ? contentIds : undefined,
     numItems: input.numItems,
   });
 }
@@ -307,9 +316,8 @@ export async function trackPurchaseBrowser(input: {
   if (!hasMarketingConsent()) return;
   const eventId = `purchase_${input.orderId}`;
   const currency = input.currency ?? "EUR";
-  const contentIds = input.contentIds?.length
-    ? input.contentIds
-    : [input.orderId];
+  // Never fall back to orderId — that tanks Meta catalog match rate
+  const contentIds = (input.contentIds ?? []).filter(Boolean);
 
   if (typeof window.fbq === "function") {
     window.fbq(
@@ -318,9 +326,9 @@ export async function trackPurchaseBrowser(input: {
       {
         value: input.value,
         currency,
-        content_ids: contentIds,
+        ...(contentIds.length ? { content_ids: contentIds } : {}),
         content_type: "product",
-        num_items: contentIds.length,
+        num_items: contentIds.length || 1,
       },
       { eventID: eventId },
     );
@@ -350,7 +358,7 @@ export async function trackPurchaseBrowser(input: {
     eventId,
     value: input.value,
     currency,
-    contentIds,
+    contentIds: contentIds.length ? contentIds : undefined,
     orderId: input.orderId,
     email: input.email,
     phone: input.phone,

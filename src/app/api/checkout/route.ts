@@ -20,6 +20,7 @@ import {
 } from "@/lib/pricing";
 import { shippingFeeFor } from "@/lib/shipping-settings";
 import { checkoutSchema } from "@/lib/validators";
+import { catalogContentIdsFromItems } from "@/lib/meta-catalog-ids";
 import {
   clientIpFromRequest,
   parseCookie,
@@ -263,13 +264,14 @@ export async function POST(request: Request) {
   // Server-side Meta CAPI Purchase (same event_id as browser Pixel for dedup)
   try {
     const cookieHeader = request.headers.get("cookie");
-    const contentIds = pricedItems.map(
-      (item) =>
-        item.productSlug ||
-        item.productId ||
-        item.uploadedDesignId ||
-        item.title,
-    );
+    const contentIds = catalogContentIdsFromItems(pricedItems);
+    const contents = pricedItems
+      .filter((item) => item.productSlug)
+      .map((item) => ({
+        id: item.productSlug as string,
+        quantity: item.quantity,
+        item_price: item.unitPrice,
+      }));
     await sendMetaCapiEvent({
       eventName: "Purchase",
       eventId: purchaseEventId(order.id),
@@ -285,19 +287,11 @@ export async function POST(request: Request) {
       customData: {
         value: totalAmount,
         currency: "EUR",
-        content_ids: contentIds,
+        ...(contentIds.length ? { content_ids: contentIds } : {}),
         content_type: "product",
         num_items: pricedItems.reduce((s, i) => s + i.quantity, 0),
         order_id: order.id,
-        contents: pricedItems.map((item) => ({
-          id:
-            item.productSlug ||
-            item.productId ||
-            item.uploadedDesignId ||
-            item.title,
-          quantity: item.quantity,
-          item_price: item.unitPrice,
-        })),
+        ...(contents.length ? { contents } : {}),
       },
     });
   } catch (err) {

@@ -12,6 +12,7 @@ import {
 } from "@/lib/labels";
 import { getBankDetails } from "@/lib/shop-config";
 import { buildPageMetadata } from "@/lib/seo";
+import { catalogContentIdsFromItems } from "@/lib/meta-catalog-ids";
 import {
   adsConversionSendTo,
   getMarketingSettings,
@@ -69,13 +70,8 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
   const bank = getBankDetails();
   const total = Number(order.totalAmount);
   const marketing = getMarketingSettings();
-  const contentIds = order.items.map(
-    (item) =>
-      item.product?.slug ||
-      item.productId ||
-      item.uploadedDesignId ||
-      item.title,
-  );
+  // Only catalog retailer IDs (product slugs) — custom lines omit content_ids
+  const contentIds = catalogContentIdsFromItems(order.items);
 
   return (
     <div className="container success-page">

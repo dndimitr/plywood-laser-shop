@@ -104,7 +104,8 @@ export function ProductConfigurator({
         throw new Error(message);
       }
       void trackAddToCart({
-        contentId: productSlug || productId,
+        // Must match Facebook catalog `id` (= product.slug)
+        contentId: productSlug,
         contentName: productName,
         value: lineTotal,
         quantity,
