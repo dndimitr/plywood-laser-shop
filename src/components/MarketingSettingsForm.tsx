@@ -214,6 +214,11 @@ export function MarketingSettingsForm({ initial }: Props) {
         (задължителен на Vercel — файлът shop-settings не се пази между
         serverless инстанции).
       </p>
+      <p className="muted marketing-form-hint">
+        Meta Commerce Manager product feed (активни продукти):{" "}
+        <code>/feeds/facebook-catalog.csv</code> — задайте scheduled fetch към
+        този URL в каталога.
+      </p>
 
       {error ? <p className="error">{error}</p> : null}
       {saved ? <p className="success-text">Запазено.</p> : null}
