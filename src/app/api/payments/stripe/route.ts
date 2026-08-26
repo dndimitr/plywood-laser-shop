@@ -1,10 +1,11 @@
 import { NextResponse } from "next/server";
+import { getSiteUrl } from "@/lib/seo";
 
 /** Stripe Checkout stub — activates when STRIPE_SECRET_KEY is set */
 export async function POST(request: Request) {
   const body = await request.json();
   const secret = process.env.STRIPE_SECRET_KEY;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  const appUrl = getSiteUrl();
 
   if (!secret) {
     return NextResponse.json({

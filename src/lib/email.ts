@@ -1,6 +1,7 @@
 import { courierLabel, paymentMethodLabel } from "@/lib/labels";
 import { getBankDetails } from "@/lib/shop-config";
 import { formatBgn } from "@/lib/pricing";
+import { getSiteUrl } from "@/lib/seo";
 
 export type OrderMailItem = {
   title: string;
@@ -26,7 +27,7 @@ export type OrderMail = {
 };
 
 function appUrl() {
-  return process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+  return getSiteUrl();
 }
 
 function itemsHtml(items: OrderMailItem[] | undefined) {
