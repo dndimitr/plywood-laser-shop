@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { FreeShippingBar } from "@/components/FreeShippingBar";
 import type { CartItem } from "@/lib/cart";
 import { cartItemImage } from "@/lib/cart-image";
@@ -19,7 +18,6 @@ type Props = {
 };
 
 export function CheckoutForm({ subtotal, couriers, items }: Props) {
-  const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
@@ -71,6 +69,7 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
       if (form.paymentMethod === "CARD") {
         const stripeRes = await fetch("/api/payments/stripe", {
           method: "POST",
+          credentials: "same-origin",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             orderId: data.orderId,
@@ -80,15 +79,14 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
         });
         const stripeData = await stripeRes.json();
         if (stripeData.url) {
-          window.location.href = stripeData.url;
+          window.location.assign(stripeData.url);
           return;
         }
       }
 
-      router.push(
+      window.location.assign(
         `/order/${data.orderId}/success?t=${encodeURIComponent(data.publicToken)}`,
       );
-      router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Грешка");
     } finally {
