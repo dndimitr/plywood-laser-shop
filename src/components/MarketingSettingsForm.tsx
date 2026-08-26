@@ -216,8 +216,8 @@ export function MarketingSettingsForm({ initial }: Props) {
       </p>
       <p className="muted marketing-form-hint">
         Meta Commerce Manager product feed (активни продукти):{" "}
-        <code>/feeds/facebook-catalog.csv</code> — задайте scheduled fetch към
-        този URL в каталога.
+        <code>/feeds/facebook-catalog.xml</code> — scheduled fetch в Commerce
+        Manager (алтернатива: <code>/feeds/facebook-catalog.csv</code>).
       </p>
 
       {error ? <p className="error">{error}</p> : null}

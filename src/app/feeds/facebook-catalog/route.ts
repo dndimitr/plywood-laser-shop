@@ -2,17 +2,18 @@ import {
   buildFacebookCatalogRows,
   rowsToCsv,
   rowsToTsv,
+  rowsToXml,
 } from "@/lib/facebook-catalog-feed";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-type Format = "csv" | "tsv";
+type Format = "csv" | "tsv" | "xml";
 
 function resolveFormat(request: Request, fallback: Format): Format {
   const url = new URL(request.url);
   const q = url.searchParams.get("format")?.toLowerCase();
-  if (q === "tsv" || q === "csv") return q;
+  if (q === "tsv" || q === "csv" || q === "xml") return q;
   return fallback;
 }
 
@@ -23,15 +24,24 @@ async function feedResponse(request: Request, format: Format) {
     url.searchParams.get("download") === "true";
 
   const rows = await buildFacebookCatalogRows();
-  const body = format === "tsv" ? rowsToTsv(rows) : rowsToCsv(rows);
+  const body =
+    format === "xml"
+      ? rowsToXml(rows)
+      : format === "tsv"
+        ? rowsToTsv(rows)
+        : rowsToCsv(rows);
   const filename =
-    format === "tsv"
-      ? "studio-breza-facebook-catalog.tsv"
-      : "studio-breza-facebook-catalog.csv";
+    format === "xml"
+      ? "studio-breza-facebook-catalog.xml"
+      : format === "tsv"
+        ? "studio-breza-facebook-catalog.tsv"
+        : "studio-breza-facebook-catalog.csv";
   const contentType =
-    format === "tsv"
-      ? "text/tab-separated-values; charset=utf-8"
-      : "text/csv; charset=utf-8";
+    format === "xml"
+      ? "application/xml; charset=utf-8"
+      : format === "tsv"
+        ? "text/tab-separated-values; charset=utf-8"
+        : "text/csv; charset=utf-8";
 
   return new Response(body, {
     status: 200,
@@ -46,7 +56,7 @@ async function feedResponse(request: Request, format: Format) {
   });
 }
 
-/** Meta Commerce Manager scheduled fetch — CSV (default) or ?format=tsv; ?download=1 to save file */
+/** Meta Commerce Manager feed — CSV default; ?format=tsv|xml; ?download=1 */
 export async function GET(request: Request) {
   return feedResponse(request, resolveFormat(request, "csv"));
 }
