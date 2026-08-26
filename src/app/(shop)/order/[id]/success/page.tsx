@@ -36,7 +36,9 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
   const { t } = await searchParams;
   const order = await prisma.order.findUnique({
     where: { id },
-    include: { items: true },
+    include: {
+      items: { include: { product: { select: { slug: true } } } },
+    },
   });
   if (!order) notFound();
 
@@ -67,6 +69,13 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
   const bank = getBankDetails();
   const total = Number(order.totalAmount);
   const marketing = getMarketingSettings();
+  const contentIds = order.items.map(
+    (item) =>
+      item.product?.slug ||
+      item.productId ||
+      item.uploadedDesignId ||
+      item.title,
+  );
 
   return (
     <div className="container success-page">
@@ -74,9 +83,7 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
         orderId={order.id}
         value={total}
         currency="EUR"
-        contentIds={order.items.map(
-          (item) => item.productId || item.uploadedDesignId || item.title,
-        )}
+        contentIds={contentIds}
         email={order.customerEmail}
         phone={order.customerPhone}
         gaMeasurementId={marketing.gaMeasurementId || null}

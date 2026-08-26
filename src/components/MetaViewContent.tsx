@@ -19,6 +19,8 @@ type Props = {
   value: number;
   currency?: string;
   enabled?: boolean;
+  /** Absolute product URL for CAPI event_source_url (not homepage). */
+  productUrl?: string;
 };
 
 /** Meta Pixel + CAPI ViewContent on product pages (after consent). */
@@ -28,6 +30,7 @@ export function MetaViewContent({
   value,
   currency = "EUR",
   enabled = true,
+  productUrl,
 }: Props) {
   const sent = useRef(false);
 
@@ -40,6 +43,11 @@ export function MetaViewContent({
       if (typeof window.fbq !== "function") return;
 
       const eventId = newClientEventId("vc");
+      const sourceUrl =
+        productUrl ||
+        window.location.href.split("#")[0] ||
+        window.location.origin + window.location.pathname;
+
       window.fbq(
         "track",
         "ViewContent",
@@ -58,6 +66,7 @@ export function MetaViewContent({
         currency,
         contentIds: [contentId],
         contentName,
+        eventSourceUrl: sourceUrl,
       });
       sent.current = true;
     }
@@ -69,7 +78,7 @@ export function MetaViewContent({
       window.clearInterval(t);
       window.clearTimeout(stop);
     };
-  }, [contentId, contentName, value, currency, enabled]);
+  }, [contentId, contentName, value, currency, enabled, productUrl]);
 
   return null;
 }

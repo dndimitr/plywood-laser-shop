@@ -113,6 +113,7 @@ export default async function ProductPage({ params }: Props) {
         contentName={product.name}
         value={basePrice}
         enabled={Boolean(marketing.metaPixelId)}
+        productUrl={productUrl}
       />
 
       <div className="container">

@@ -53,6 +53,7 @@ export async function POST(request: Request) {
   const pricedItems: Array<{
     type: "TEMPLATE" | "CUSTOM";
     productId: string | null;
+    productSlug: string | null;
     uploadedDesignId: string | null;
     title: string;
     quantity: number;
@@ -99,6 +100,7 @@ export async function POST(request: Request) {
       pricedItems.push({
         type: "TEMPLATE",
         productId: product.id,
+        productSlug: product.slug,
         uploadedDesignId: null,
         title: item.title,
         quantity: item.quantity,
@@ -141,6 +143,7 @@ export async function POST(request: Request) {
       pricedItems.push({
         type: "CUSTOM",
         productId: null,
+        productSlug: null,
         uploadedDesignId: item.uploadedDesignId ?? null,
         title: item.title,
         quantity: item.quantity,
@@ -261,7 +264,11 @@ export async function POST(request: Request) {
   try {
     const cookieHeader = request.headers.get("cookie");
     const contentIds = pricedItems.map(
-      (item) => item.productId || item.uploadedDesignId || item.title,
+      (item) =>
+        item.productSlug ||
+        item.productId ||
+        item.uploadedDesignId ||
+        item.title,
     );
     await sendMetaCapiEvent({
       eventName: "Purchase",
@@ -283,7 +290,11 @@ export async function POST(request: Request) {
         num_items: pricedItems.reduce((s, i) => s + i.quantity, 0),
         order_id: order.id,
         contents: pricedItems.map((item) => ({
-          id: item.productId || item.uploadedDesignId || item.title,
+          id:
+            item.productSlug ||
+            item.productId ||
+            item.uploadedDesignId ||
+            item.title,
           quantity: item.quantity,
           item_price: item.unitPrice,
         })),
