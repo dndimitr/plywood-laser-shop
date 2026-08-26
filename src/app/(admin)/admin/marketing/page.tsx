@@ -1,3 +1,4 @@
+import { FacebookCatalogExportCard } from "@/components/FacebookCatalogExportCard";
 import { MarketingSettingsForm } from "@/components/MarketingSettingsForm";
 import { auth } from "@/lib/auth";
 import { getMarketingSettingsForAdmin } from "@/lib/shop-settings";
@@ -20,6 +21,7 @@ export default async function AdminMarketingPage() {
         redeploy (env стойностите служат като начални стойности, ако файлът е
         празен).
       </p>
+      <FacebookCatalogExportCard />
       <MarketingSettingsForm initial={marketing} />
     </div>
   );
