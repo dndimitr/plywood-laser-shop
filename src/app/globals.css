@@ -3302,6 +3302,31 @@ fieldset.field .radio {
   font-size: 0.92rem;
 }
 
+.dataset-quality-panel {
+  margin-top: 1rem;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.dataset-quality-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.dataset-quality-table th,
+.dataset-quality-table td {
+  text-align: left;
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--border, #ccc) 80%, transparent);
+  vertical-align: top;
+}
+
+.dataset-quality-table th {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
 .checkbox-field {
   display: flex;
   flex-direction: row;

@@ -86,6 +86,156 @@ export function isMetaCapiConfigured(m?: MarketingSettings): boolean {
   return Boolean(resolveCapiCredentials(m));
 }
 
+const META_GRAPH_VERSION = "v25.0";
+
+export type MetaDatasetQualityMatchKey = {
+  identifier: string;
+  coveragePercentage?: number;
+  potentialAcrIncreasePercentage?: number;
+  potentialAcrIncreaseDescription?: string;
+};
+
+export type MetaDatasetQualityEvent = {
+  eventName: string;
+  compositeScore?: number;
+  matchKeys: MetaDatasetQualityMatchKey[];
+  eventCoveragePercentage?: number;
+  eventCoverageGoalPercentage?: number;
+  dataFreshness?: string;
+};
+
+export type MetaDatasetQualityResult = {
+  ok: boolean;
+  skipped?: boolean;
+  status?: number;
+  error?: string;
+  pixelId?: string;
+  events: MetaDatasetQualityEvent[];
+};
+
+/**
+ * Dataset Quality API (EMQ, coverage, freshness) for Events Manager tokens
+ * that include Dataset Quality permission.
+ * @see https://developers.facebook.com/docs/marketing-api/conversions-api/dataset-quality-api
+ */
+export async function fetchMetaDatasetQuality(
+  m?: MarketingSettings,
+): Promise<MetaDatasetQualityResult> {
+  const creds = resolveCapiCredentials(m);
+  if (!creds) return { ok: true, skipped: true, events: [] };
+
+  const fields = [
+    "web{",
+    "event_name,",
+    "event_match_quality{",
+    "composite_score,",
+    "match_key_feedback{",
+    "identifier,",
+    "coverage{percentage},",
+    "potential_aly_acr_increase{percentage,description}",
+    "}",
+    "},",
+    "event_coverage{percentage,goal_percentage,description},",
+    "data_freshness{upload_frequency,description}",
+    "}",
+  ].join("");
+
+  const url = new URL(
+    `https://graph.facebook.com/${META_GRAPH_VERSION}/dataset_quality`,
+  );
+  url.searchParams.set("dataset_id", creds.pixelId);
+  url.searchParams.set("access_token", creds.accessToken);
+  url.searchParams.set("fields", fields);
+
+  try {
+    const res = await fetch(url.toString(), { method: "GET", cache: "no-store" });
+    const text = await res.text();
+    if (!res.ok) {
+      console.error("[meta-dq]", res.status, text.slice(0, 400));
+      return {
+        ok: false,
+        status: res.status,
+        error: text.slice(0, 300),
+        pixelId: creds.pixelId,
+        events: [],
+      };
+    }
+
+    let json: {
+      web?: Array<{
+        event_name?: string;
+        event_match_quality?: {
+          composite_score?: number;
+          match_key_feedback?: Array<{
+            identifier?: string;
+            coverage?: { percentage?: number };
+            potential_aly_acr_increase?: {
+              percentage?: number;
+              description?: string;
+            };
+          }>;
+        };
+        event_coverage?: {
+          percentage?: number;
+          goal_percentage?: number;
+          description?: string;
+        };
+        data_freshness?: {
+          upload_frequency?: string;
+          description?: string;
+        };
+      }>;
+    };
+    try {
+      json = JSON.parse(text) as typeof json;
+    } catch {
+      return {
+        ok: false,
+        status: res.status,
+        error: "Invalid JSON from Dataset Quality API",
+        pixelId: creds.pixelId,
+        events: [],
+      };
+    }
+
+    const events: MetaDatasetQualityEvent[] = (json.web ?? []).map((row) => {
+      const emq = row.event_match_quality;
+      return {
+        eventName: row.event_name ?? "Unknown",
+        compositeScore:
+          typeof emq?.composite_score === "number"
+            ? emq.composite_score
+            : undefined,
+        matchKeys: (emq?.match_key_feedback ?? []).map((mk) => ({
+          identifier: mk.identifier ?? "unknown",
+          coveragePercentage: mk.coverage?.percentage,
+          potentialAcrIncreasePercentage:
+            mk.potential_aly_acr_increase?.percentage,
+          potentialAcrIncreaseDescription:
+            mk.potential_aly_acr_increase?.description,
+        })),
+        eventCoveragePercentage: row.event_coverage?.percentage,
+        eventCoverageGoalPercentage: row.event_coverage?.goal_percentage,
+        dataFreshness: row.data_freshness?.upload_frequency,
+      };
+    });
+
+    return {
+      ok: true,
+      status: res.status,
+      pixelId: creds.pixelId,
+      events,
+    };
+  } catch (err) {
+    console.error("[meta-dq] network", err);
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "network error",
+      events: [],
+    };
+  }
+}
+
 /**
  * Send event to Meta Conversions API (server-side).
  * Use the same event_id as browser Pixel for deduplication (iOS 14+).
@@ -143,7 +293,7 @@ export async function sendMetaCapiEvent(input: {
   }
 
   try {
-    const url = `https://graph.facebook.com/v21.0/${creds.pixelId}/events?access_token=${encodeURIComponent(creds.accessToken)}`;
+    const url = `https://graph.facebook.com/${META_GRAPH_VERSION}/${creds.pixelId}/events?access_token=${encodeURIComponent(creds.accessToken)}`;
     const res = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },

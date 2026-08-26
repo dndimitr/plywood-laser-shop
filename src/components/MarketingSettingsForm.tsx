@@ -3,6 +3,20 @@
 import { useState } from "react";
 import type { MarketingSettings } from "@/lib/shop-settings";
 
+type DatasetQualityMatchKey = {
+  identifier: string;
+  coveragePercentage?: number;
+};
+
+type DatasetQualityEvent = {
+  eventName: string;
+  compositeScore?: number;
+  matchKeys: DatasetQualityMatchKey[];
+  eventCoveragePercentage?: number;
+  eventCoverageGoalPercentage?: number;
+  dataFreshness?: string;
+};
+
 type Props = { initial: MarketingSettings };
 
 export function MarketingSettingsForm({ initial }: Props) {
@@ -10,6 +24,10 @@ export function MarketingSettingsForm({ initial }: Props) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [saved, setSaved] = useState(false);
+  const [dqPending, setDqPending] = useState(false);
+  const [dqError, setDqError] = useState<string | null>(null);
+  const [dqEvents, setDqEvents] = useState<DatasetQualityEvent[] | null>(null);
+  const [dqPixelId, setDqPixelId] = useState<string | null>(null);
 
   function setField<K extends keyof MarketingSettings>(
     key: K,
@@ -47,6 +65,33 @@ export function MarketingSettingsForm({ initial }: Props) {
       setError(err instanceof Error ? err.message : "Грешка");
     } finally {
       setPending(false);
+    }
+  }
+
+  async function loadDatasetQuality() {
+    setDqPending(true);
+    setDqError(null);
+    try {
+      const res = await fetch("/api/admin/marketing/dataset-quality", {
+        cache: "no-store",
+      });
+      const data = await res.json();
+      if (!res.ok || data.ok === false) {
+        throw new Error(
+          typeof data.error === "string"
+            ? data.error
+            : "Неуспешно зареждане на Dataset Quality",
+        );
+      }
+      setDqPixelId(
+        typeof data.pixelId === "string" ? data.pixelId : form.metaPixelId,
+      );
+      setDqEvents(Array.isArray(data.events) ? data.events : []);
+    } catch (err) {
+      setDqEvents(null);
+      setDqError(err instanceof Error ? err.message : "Грешка");
+    } finally {
+      setDqPending(false);
     }
   }
 
@@ -161,10 +206,13 @@ export function MarketingSettingsForm({ initial }: Props) {
       <p className="muted marketing-form-hint">
         Pixel + Conversions API (CAPI) с общ event_id за дедупликация —
         задължително при iOS 14+ attribution loss. Събития: PageView,
-        ViewContent, AddToCart, InitiateCheckout, Purchase. UTM параметрите се
-        записват за GA4 cross-check. Маркетинговите скриптове се зареждат само
-        след съгласие за бисквитки. Маскираният CAPI токен се запазва при
-        запис; празно поле го изчиства. Env: META_CAPI_ACCESS_TOKEN.
+        ViewContent, AddToCart, InitiateCheckout, Purchase. Токенът от Events
+        Manager с Dataset Quality API дава и CAPI, и метрики (EMQ). UTM
+        параметрите се записват за GA4 cross-check. Маркетинговите скриптове се
+        зареждат само след съгласие за бисквитки. Маскираният CAPI токен се
+        запазва при запис; празно поле го изчиства. Env: META_CAPI_ACCESS_TOKEN
+        (задължителен на Vercel — файлът shop-settings не се пази между
+        serverless инстанции).
       </p>
 
       {error ? <p className="error">{error}</p> : null}
@@ -172,6 +220,82 @@ export function MarketingSettingsForm({ initial }: Props) {
       <button type="submit" className="btn btn-primary" disabled={pending}>
         {pending ? "Запис…" : "Запази маркетинг настройки"}
       </button>
+
+      <h2 className="marketing-form-heading">Dataset Quality (EMQ)</h2>
+      <p className="muted marketing-form-hint">
+        Event Match Quality и покритие на събитията от Meta Dataset Quality API.
+        Оценките се появяват след достатъчно CAPI трафик с match keys (email,
+        телефон, IP, UA, fbp/fbc).
+      </p>
+      <button
+        type="button"
+        className="btn btn-secondary"
+        disabled={dqPending}
+        onClick={() => void loadDatasetQuality()}
+      >
+        {dqPending ? "Зареждане…" : "Провери качеството на данните"}
+      </button>
+      {dqError ? <p className="error">{dqError}</p> : null}
+      {dqEvents ? (
+        <div className="dataset-quality-panel">
+          {dqPixelId ? (
+            <p className="muted">
+              Pixel / dataset: <code>{dqPixelId}</code>
+            </p>
+          ) : null}
+          {dqEvents.length === 0 ? (
+            <p className="muted">
+              Все още няма web събития в Dataset Quality. Изпратете CAPI
+              събития и опитайте отново след няколко часа.
+            </p>
+          ) : (
+            <table className="dataset-quality-table">
+              <thead>
+                <tr>
+                  <th>Събитие</th>
+                  <th>EMQ</th>
+                  <th>Покритие</th>
+                  <th>Свежест</th>
+                  <th>Match keys</th>
+                </tr>
+              </thead>
+              <tbody>
+                {dqEvents.map((ev) => (
+                  <tr key={ev.eventName}>
+                    <td>{ev.eventName}</td>
+                    <td>
+                      {ev.compositeScore != null
+                        ? `${ev.compositeScore.toFixed(1)} / 10`
+                        : "—"}
+                    </td>
+                    <td>
+                      {ev.eventCoveragePercentage != null
+                        ? `${ev.eventCoveragePercentage.toFixed(1)}%${
+                            ev.eventCoverageGoalPercentage != null
+                              ? ` (цел ${ev.eventCoverageGoalPercentage}%)`
+                              : ""
+                          }`
+                        : "—"}
+                    </td>
+                    <td>{ev.dataFreshness ?? "—"}</td>
+                    <td>
+                      {ev.matchKeys.length === 0
+                        ? "—"
+                        : ev.matchKeys
+                            .map((mk) =>
+                              mk.coveragePercentage != null
+                                ? `${mk.identifier} ${mk.coveragePercentage.toFixed(0)}%`
+                                : mk.identifier,
+                            )
+                            .join(", ")}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+      ) : null}
     </form>
   );
 }
