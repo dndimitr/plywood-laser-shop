@@ -24,9 +24,29 @@ function applyConsent(choice: ConsentChoice) {
   }
   if (typeof window.fbq === "function") {
     window.fbq("consent", granted ? "grant" : "revoke");
-    // PageView is queued under revoke at init — send it once consent is granted
+    // Single PageView after grant — with eventID for Pixel ↔ CAPI dedup
     if (granted) {
-      window.fbq("track", "PageView");
+      const eventId =
+        typeof crypto !== "undefined" && "randomUUID" in crypto
+          ? `pv_${crypto.randomUUID().replace(/-/g, "")}`
+          : `pv_${Date.now()}`;
+      window.fbq("track", "PageView", {}, { eventID: eventId });
+      void fetch("/api/meta/capi", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          eventName: "PageView",
+          eventId,
+          eventSourceUrl: window.location.href.split("#")[0],
+          consent: true,
+          fbp: document.cookie
+            .split(";")
+            .map((c) => c.trim())
+            .find((c) => c.startsWith("_fbp="))
+            ?.slice(5),
+        }),
+        keepalive: true,
+      }).catch(() => {});
     }
   }
   window.dataLayer = window.dataLayer || [];

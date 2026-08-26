@@ -104,7 +104,8 @@ function MetaPixelScript({ pixelId }: { pixelId: string }) {
           'https://connect.facebook.net/en_US/fbevents.js');
           fbq('consent', 'revoke');
           fbq('init', '${pixelId}');
-          fbq('track', 'PageView');
+          // Do not track PageView here — consent is revoked. CookieConsent
+          // fires PageView (with eventID) only after the user accepts.
         `}
       </Script>
       <noscript>

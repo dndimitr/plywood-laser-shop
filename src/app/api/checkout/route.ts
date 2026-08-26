@@ -53,6 +53,7 @@ export async function POST(request: Request) {
   const pricedItems: Array<{
     type: "TEMPLATE" | "CUSTOM";
     productId: string | null;
+    productSlug: string | null;
     uploadedDesignId: string | null;
     title: string;
     quantity: number;

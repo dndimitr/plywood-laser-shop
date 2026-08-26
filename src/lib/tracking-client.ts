@@ -128,6 +128,8 @@ type CommercePayload = {
   orderId?: string;
   email?: string;
   phone?: string;
+  /** Override page URL sent to CAPI (defaults to window.location.href). */
+  eventSourceUrl?: string;
 };
 
 async function sendCapiBrowser(
@@ -137,6 +139,11 @@ async function sendCapiBrowser(
   const utm = readUtm();
   const fbp = readCookie("_fbp");
   const fbc = readCookie("_fbc") || fbcFromFbclid(utm.fbclid);
+  const eventSourceUrl =
+    payload.eventSourceUrl ||
+    (typeof window !== "undefined"
+      ? window.location.href.split("#")[0]
+      : undefined);
   try {
     await fetch("/api/meta/capi", {
       method: "POST",
@@ -144,7 +151,7 @@ async function sendCapiBrowser(
       body: JSON.stringify({
         eventName,
         eventId: payload.eventId,
-        eventSourceUrl: window.location.href,
+        eventSourceUrl,
         value: payload.value,
         currency: payload.currency ?? "EUR",
         contentIds: payload.contentIds,
