@@ -53,7 +53,8 @@ function marketingEnvDefaults(): MarketingSettings {
     gtmId: process.env.NEXT_PUBLIC_GTM_ID?.trim() ?? "",
     googleSiteVerification:
       process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim() ?? "",
-    metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() ?? "",
+    metaPixelId:
+      process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1528087985751399",
     metaCapiAccessToken: process.env.META_CAPI_ACCESS_TOKEN?.trim() ?? "",
     metaCapiTestEventCode: process.env.META_CAPI_TEST_EVENT_CODE?.trim() ?? "",
     facebookPageUrl: process.env.NEXT_PUBLIC_FACEBOOK_PAGE_URL?.trim() ?? "",

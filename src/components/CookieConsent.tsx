@@ -24,6 +24,10 @@ function applyConsent(choice: ConsentChoice) {
   }
   if (typeof window.fbq === "function") {
     window.fbq("consent", granted ? "grant" : "revoke");
+    // PageView is queued under revoke at init — send it once consent is granted
+    if (granted) {
+      window.fbq("track", "PageView");
+    }
   }
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
