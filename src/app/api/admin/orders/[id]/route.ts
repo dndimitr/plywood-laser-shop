@@ -104,10 +104,6 @@ export async function PATCH(request: Request, { params }: Params) {
     : Number(current.totalAmount);
 
   let shippingAddress = data.shippingAddress ?? current.shippingAddress;
-  let shippingDetails =
-    data.shippingDetails !== undefined
-      ? data.shippingDetails
-      : current.shippingDetails;
   if (data.shippingDetails) {
     shippingAddress = formatEcontShippingAddress(data.shippingDetails);
   }
