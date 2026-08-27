@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { AdminFilePreview } from "@/components/AdminFilePreview";
+import { EcontWaybillButton } from "@/components/EcontWaybillButton";
 import { OrderStatusForm } from "@/components/OrderStatusForm";
 import { ResendOrderEmailButton } from "@/components/ResendOrderEmailButton";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { isEcontConfigured } from "@/lib/econt";
 import { formatBgn } from "@/lib/pricing";
 import {
   complexityLabel,
@@ -100,6 +102,14 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             currentAdminNotes={order.adminNotes}
           />
           <ResendOrderEmailButton orderId={order.id} />
+          {order.courier === "ECONT" ? (
+            <EcontWaybillButton
+              orderId={order.id}
+              configured={isEcontConfigured()}
+              shipmentNumber={order.econtShipmentNumber}
+              pdfUrl={order.econtPdfUrl}
+            />
+          ) : null}
         </div>
       </div>
 

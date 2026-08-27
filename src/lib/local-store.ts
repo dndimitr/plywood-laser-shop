@@ -132,6 +132,7 @@ export type LocalOrder = {
   vatNumber: string | null;
   needInvoice: boolean;
   shippingAddress: string;
+  shippingDetails?: Record<string, unknown> | null;
   shippingNote: string | null;
   courier: LocalCourier;
   shippingFee: number;
@@ -140,6 +141,8 @@ export type LocalOrder = {
   paymentStatus: LocalPaymentStatus;
   subtotalAmount: number;
   totalAmount: number;
+  econtShipmentNumber?: string | null;
+  econtPdfUrl?: string | null;
   adminNotes: string | null;
   locale: string;
   createdAt: string;
@@ -210,6 +213,12 @@ export function readLocalDb(): LocalDb {
     ...raw,
     customers: raw.customers ?? [],
     reviews: raw.reviews ?? [],
+    orders: (raw.orders ?? []).map((order) => ({
+      ...order,
+      shippingDetails: order.shippingDetails ?? null,
+      econtShipmentNumber: order.econtShipmentNumber ?? null,
+      econtPdfUrl: order.econtPdfUrl ?? null,
+    })),
   };
 }
 

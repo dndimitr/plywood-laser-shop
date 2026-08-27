@@ -12,6 +12,11 @@ export function bgnToEur(bgn: number) {
   return roundMoney(bgn / BGN_PER_EUR);
 }
 
+/** Convert shop EUR to BGN (fixed БНБ rate) for courier COD. */
+export function eurToBgn(eur: number) {
+  return roundMoney(eur * BGN_PER_EUR);
+}
+
 /** Format shop money in euro (bg-BG). */
 export function formatMoney(value: number | string) {
   const num = typeof value === "string" ? Number(value) : value;

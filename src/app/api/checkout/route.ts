@@ -28,6 +28,7 @@ import {
   purchaseEventId,
   sendMetaCapiEvent,
 } from "@/lib/meta-capi";
+import { formatEcontShippingAddress } from "@/lib/shipping-details";
 
 export async function POST(request: Request) {
   const body = await request.json();
@@ -198,6 +199,12 @@ export async function POST(request: Request) {
         ? "PENDING"
         : "PENDING";
 
+  const shippingDetails =
+    parsed.data.courier === "ECONT" ? parsed.data.shippingDetails : undefined;
+  const shippingAddress = shippingDetails
+    ? formatEcontShippingAddress(shippingDetails)
+    : parsed.data.shippingAddress;
+
   let order;
   try {
     order = await prisma.order.create({
@@ -209,7 +216,10 @@ export async function POST(request: Request) {
         companyName: parsed.data.companyName || null,
         vatNumber: parsed.data.vatNumber || null,
         needInvoice: parsed.data.needInvoice,
-        shippingAddress: parsed.data.shippingAddress,
+        shippingAddress,
+        shippingDetails: shippingDetails
+          ? (shippingDetails as Prisma.InputJsonValue)
+          : undefined,
         shippingNote: parsed.data.shippingNote || null,
         courier: parsed.data.courier,
         shippingFee,
@@ -266,7 +276,7 @@ export async function POST(request: Request) {
       customerName: parsed.data.customerName,
       customerEmail: parsed.data.customerEmail,
       customerPhone: parsed.data.customerPhone,
-      shippingAddress: parsed.data.shippingAddress,
+      shippingAddress,
       totalAmount,
       shippingFee,
       paymentMethod: parsed.data.paymentMethod,

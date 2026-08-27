@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { EcontDestinationFields } from "@/components/EcontDestinationFields";
 import { FreeShippingBar } from "@/components/FreeShippingBar";
 import type { CartItem } from "@/lib/cart";
 import { cartItemImage } from "@/lib/cart-image";
 import { formatBgn } from "@/lib/pricing";
 import { FREE_SHIPPING_MIN_EUR } from "@/lib/shop-config";
+import { formatEcontShippingAddress, type EcontShippingDetails } from "@/lib/shipping-details";
 
 type CourierOption = { id: string; label: string; fee: number };
 
@@ -34,6 +36,9 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
     vatNumber: "",
     locale: "bg",
   });
+  const [econtDetails, setEcontDetails] = useState<EcontShippingDetails | null>(
+    null,
+  );
 
   function update(key: string, value: string | boolean) {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -51,11 +56,34 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
     setPending(true);
     setError(null);
     try {
+      const shippingDetails =
+        form.courier === "ECONT" ? econtDetails : undefined;
+      if (form.courier === "ECONT" && !shippingDetails) {
+        throw new Error("Изберете офис на Еконт или въведете адрес");
+      }
+      if (
+        form.courier === "ECONT" &&
+        shippingDetails?.kind === "address" &&
+        (!shippingDetails.city.trim() ||
+          !shippingDetails.street.trim() ||
+          !shippingDetails.num.trim())
+      ) {
+        throw new Error("Попълнете град, улица и номер за доставка с Еконт");
+      }
+      const shippingAddress =
+        form.courier === "ECONT" && shippingDetails
+          ? formatEcontShippingAddress(shippingDetails)
+          : form.shippingAddress;
+
       const res = await fetch("/api/checkout", {
         method: "POST",
         credentials: "same-origin",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          ...form,
+          shippingAddress,
+          shippingDetails,
+        }),
       });
       const text = await res.text();
       let data: {
@@ -187,16 +215,23 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
           </div>
         </fieldset>
 
-        <label className="field">
-          <span>Адрес / офис на куриер</span>
-          <textarea
-            required
-            rows={3}
-            value={form.shippingAddress}
-            onChange={(e) => update("shippingAddress", e.target.value)}
-            placeholder="Град, улица № или офис на Еконт / Speedy"
+        {form.courier === "ECONT" ? (
+          <EcontDestinationFields
+            value={econtDetails}
+            onChange={setEcontDetails}
           />
-        </label>
+        ) : (
+          <label className="field">
+            <span>Адрес / офис на куриер</span>
+            <textarea
+              required
+              rows={3}
+              value={form.shippingAddress}
+              onChange={(e) => update("shippingAddress", e.target.value)}
+              placeholder="Град, улица № или офис на Speedy"
+            />
+          </label>
+        )}
         <label className="field">
           <span>Бележка към куриера (по желание)</span>
           <input

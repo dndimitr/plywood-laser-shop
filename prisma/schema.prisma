@@ -151,6 +151,7 @@ model Order {
   vatNumber         String?
   needInvoice       Boolean            @default(false)
   shippingAddress   String
+  shippingDetails   Json?
   shippingNote      String?
   courier           Courier            @default(ECONT)
   shippingFee       Decimal            @db.Decimal(10, 2) @default(0)
@@ -159,6 +160,8 @@ model Order {
   paymentStatus     PaymentStatus      @default(PENDING)
   subtotalAmount    Decimal            @db.Decimal(10, 2)
   totalAmount       Decimal            @db.Decimal(10, 2)
+  econtShipmentNumber String?
+  econtPdfUrl         String?
   adminNotes        String?
   locale            String             @default("bg")
   createdAt         DateTime           @default(now())

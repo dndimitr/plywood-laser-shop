@@ -510,6 +510,7 @@ export function createLocalPrisma() {
           vatNumber?: string | null;
           needInvoice?: boolean;
           shippingAddress: string;
+          shippingDetails?: Record<string, unknown> | null;
           shippingNote?: string | null;
           courier?: LocalCourier;
           shippingFee?: number;
@@ -518,6 +519,8 @@ export function createLocalPrisma() {
           paymentStatus?: LocalPaymentStatus;
           subtotalAmount?: number;
           totalAmount: number;
+          econtShipmentNumber?: string | null;
+          econtPdfUrl?: string | null;
           adminNotes?: string | null;
           locale?: string;
           items?: {
@@ -551,6 +554,7 @@ export function createLocalPrisma() {
             vatNumber: args.data.vatNumber ?? null,
             needInvoice: args.data.needInvoice ?? false,
             shippingAddress: args.data.shippingAddress,
+            shippingDetails: args.data.shippingDetails ?? null,
             shippingNote: args.data.shippingNote ?? null,
             courier: args.data.courier ?? "ECONT",
             shippingFee: Number(args.data.shippingFee ?? 0),
@@ -561,6 +565,8 @@ export function createLocalPrisma() {
               args.data.subtotalAmount ?? args.data.totalAmount,
             ),
             totalAmount: Number(args.data.totalAmount),
+            econtShipmentNumber: args.data.econtShipmentNumber ?? null,
+            econtPdfUrl: args.data.econtPdfUrl ?? null,
             adminNotes: args.data.adminNotes ?? null,
             locale: args.data.locale ?? "bg",
             createdAt: ts,
@@ -647,6 +653,8 @@ export function createLocalPrisma() {
           designReview?: LocalDesignReview;
           adminNotes?: string | null;
           paymentStatus?: LocalPaymentStatus;
+          econtShipmentNumber?: string | null;
+          econtPdfUrl?: string | null;
         };
         include?: {
           items?:
@@ -665,6 +673,10 @@ export function createLocalPrisma() {
             order.adminNotes = args.data.adminNotes;
           if (args.data.paymentStatus != null)
             order.paymentStatus = args.data.paymentStatus;
+          if (args.data.econtShipmentNumber !== undefined)
+            order.econtShipmentNumber = args.data.econtShipmentNumber;
+          if (args.data.econtPdfUrl !== undefined)
+            order.econtPdfUrl = args.data.econtPdfUrl;
           order.updatedAt = new Date().toISOString();
           if (args.include?.items) return withOrderRelations(db, order);
           return toDate(order);

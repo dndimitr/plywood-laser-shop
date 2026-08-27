@@ -3,20 +3,63 @@ import { MACHINE_BED_MAX_CM, MAX_LINE_QTY } from "@/lib/shop-config";
 
 const trimmed = z.string().trim();
 
-export const checkoutSchema = z.object({
-  customerName: trimmed.min(2, "Въведете име"),
-  customerEmail: trimmed.email("Невалиден имейл"),
-  customerPhone: trimmed.min(6, "Въведете телефон"),
-  shippingAddress: trimmed.min(5, "Въведете адрес или офис на куриер"),
-  shippingNote: trimmed.optional(),
-  paymentMethod: z.enum(["BANK_TRANSFER", "CASH_ON_DELIVERY", "CARD"]),
-  courier: z.enum(["ECONT", "SPEEDY", "PICKUP"]).default("ECONT"),
-  rush: z.boolean().default(false),
-  needInvoice: z.boolean().default(false),
-  companyName: z.string().optional(),
-  vatNumber: z.string().optional(),
-  locale: z.enum(["bg", "en"]).default("bg"),
+export const econtOfficeDetailsSchema = z.object({
+  kind: z.literal("office"),
+  officeCode: trimmed.min(1, "Изберете офис на Еконт"),
+  officeName: trimmed.optional(),
+  city: trimmed.optional(),
+  postCode: trimmed.optional(),
 });
+
+export const econtAddressDetailsSchema = z.object({
+  kind: z.literal("address"),
+  city: trimmed.min(2, "Изберете град"),
+  cityId: z.number().int().positive().optional(),
+  postCode: trimmed.optional(),
+  street: trimmed.min(1, "Въведете улица"),
+  num: trimmed.min(1, "Въведете номер"),
+});
+
+export const shippingDetailsSchema = z.discriminatedUnion("kind", [
+  econtOfficeDetailsSchema,
+  econtAddressDetailsSchema,
+]);
+
+export const checkoutSchema = z
+  .object({
+    customerName: trimmed.min(2, "Въведете име"),
+    customerEmail: trimmed.email("Невалиден имейл"),
+    customerPhone: trimmed.min(6, "Въведете телефон"),
+    shippingAddress: trimmed.optional().default(""),
+    shippingDetails: shippingDetailsSchema.optional(),
+    shippingNote: trimmed.optional(),
+    paymentMethod: z.enum(["BANK_TRANSFER", "CASH_ON_DELIVERY", "CARD"]),
+    courier: z.enum(["ECONT", "SPEEDY", "PICKUP"]).default("ECONT"),
+    rush: z.boolean().default(false),
+    needInvoice: z.boolean().default(false),
+    companyName: z.string().optional(),
+    vatNumber: z.string().optional(),
+    locale: z.enum(["bg", "en"]).default("bg"),
+  })
+  .superRefine((data, ctx) => {
+    if (data.courier === "ECONT") {
+      if (!data.shippingDetails) {
+        ctx.addIssue({
+          code: "custom",
+          path: ["shippingDetails"],
+          message: "Изберете офис на Еконт или въведете адрес за доставка",
+        });
+      }
+      return;
+    }
+    if (!data.shippingAddress || data.shippingAddress.length < 5) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["shippingAddress"],
+        message: "Въведете адрес или офис на куриер",
+      });
+    }
+  });
 
 export const customQuoteSchema = z.object({
   widthCm: z.coerce

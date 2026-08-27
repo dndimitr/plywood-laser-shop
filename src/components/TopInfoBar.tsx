@@ -16,7 +16,8 @@ export function TopInfoBar() {
         <p className="top-info-item">
           <IconPackage size={15} aria-hidden />
           <span>
-            Изработка <strong>{PRODUCTION_LEAD.standardLabel}</strong>
+            <span className="top-info-lead">Изработка </span>
+            <strong>{PRODUCTION_LEAD.standardLabel}</strong>
             <span className="top-info-rush">
               {" "}
               · ускорена <strong>{PRODUCTION_LEAD.rushLabel}</strong>
@@ -28,14 +29,17 @@ export function TopInfoBar() {
         </span>
         <p className="top-info-item">
           <IconTruck size={15} aria-hidden />
-          <span>
+          <span className="top-info-ship-full">
             Безплатна доставка над <strong>{FREE_SHIPPING_MIN_EUR} €</strong>
           </span>
+          <span className="top-info-ship-short">
+            Над <strong>{FREE_SHIPPING_MIN_EUR} €</strong> безплатно
+          </span>
         </p>
-        <span className="top-info-sep" aria-hidden>
+        <span className="top-info-sep top-info-sep-phone" aria-hidden>
           ·
         </span>
-        <p className="top-info-item">
+        <p className="top-info-item top-info-phone">
           <IconPhone size={15} aria-hidden />
           <a href={phoneHref}>{phone}</a>
         </p>
