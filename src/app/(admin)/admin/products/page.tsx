@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { AdminProductBulk } from "@/components/AdminProductBulk";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { formatBgn } from "@/lib/pricing";
+import { formatMoney } from "@/lib/pricing";
 import { absoluteUrl, facebookShareUrl } from "@/lib/seo";
 import { CATEGORIES } from "@/lib/shop-config";
+import { availabilityLabel } from "@/lib/labels";
 
 export const dynamic = "force-dynamic";
 
@@ -60,9 +62,14 @@ export default async function AdminProductsPage() {
                 <td>
                   {categoryLabel[product.category] ?? product.category ?? "—"}
                 </td>
-                <td>{formatBgn(Number(product.basePrice))}</td>
+                <td>{formatMoney(Number(product.basePrice))}</td>
                 <td>{product.options.length}</td>
-                <td>{product.active ? "Активен" : "Скрит"}</td>
+                <td>
+                  {product.active ? "Активен" : "Скрит"}
+                  {product.availability !== "IN_STOCK"
+                    ? ` · ${availabilityLabel[product.availability]}`
+                    : ""}
+                </td>
                 <td>
                   <Link href={`/admin/products/${product.id}`}>Редакция</Link>
                 </td>
@@ -76,6 +83,12 @@ export default async function AdminProductsPage() {
           })}
         </tbody>
       </table>
+      <AdminProductBulk
+        products={products.map((product) => ({
+          id: product.id,
+          name: product.name,
+        }))}
+      />
     </div>
   );
 }

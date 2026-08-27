@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { createEcontLabel, EcontApiError } from "@/lib/econt";
+import { createEcontLabel, EcontApiError, econtTrackingUrl } from "@/lib/econt";
+import { logOrderEvent } from "@/lib/order-events";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -57,7 +58,15 @@ export async function POST(_request: Request, { params }: Params) {
       data: {
         econtShipmentNumber: created.shipmentNumber,
         econtPdfUrl: created.pdfURL,
+        trackingUrl: econtTrackingUrl(created.shipmentNumber),
       },
+      });
+
+    await logOrderEvent({
+      orderId: order.id,
+      type: "waybill",
+      message: `Товарителница ${created.shipmentNumber}`,
+      actorEmail: session.user.email,
     });
 
     return NextResponse.json({

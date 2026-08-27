@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CATEGORIES, FINISHES, MATERIALS } from "@/lib/shop-config";
 import { DeleteProductButton } from "@/components/DeleteProductButton";
+import { DuplicateProductButton } from "@/components/DuplicateProductButton";
+import { availabilityLabel } from "@/lib/labels";
 
 type OptionDraft = {
   label: string;
@@ -26,6 +28,7 @@ type ProductData = {
   imageUrl?: string | null;
   galleryUrls: string[];
   active: boolean;
+  availability: "IN_STOCK" | "OUT_OF_STOCK" | "SEASONAL_PAUSE";
   options: OptionDraft[];
 };
 
@@ -58,6 +61,7 @@ export function ProductForm({ initial }: Props) {
       imageUrl: "",
       galleryUrls: [],
       active: true,
+      availability: "IN_STOCK",
       options: [emptyOption()],
     },
   );
@@ -191,6 +195,24 @@ export function ProductForm({ initial }: Props) {
           >
             <option value="1">Да</option>
             <option value="0">Не</option>
+          </select>
+        </label>
+        <label className="field">
+          <span>Наличност</span>
+          <select
+            value={form.availability}
+            onChange={(e) =>
+              setForm({
+                ...form,
+                availability: e.target.value as ProductData["availability"],
+              })
+            }
+          >
+            {Object.entries(availabilityLabel).map(([id, label]) => (
+              <option key={id} value={id}>
+                {label}
+              </option>
+            ))}
           </select>
         </label>
       </div>
@@ -359,7 +381,10 @@ export function ProductForm({ initial }: Props) {
       </button>
 
       {form.id ? (
-        <DeleteProductButton productId={form.id} productName={form.name} />
+        <>
+          <DuplicateProductButton productId={form.id} />
+          <DeleteProductButton productId={form.id} productName={form.name} />
+        </>
       ) : null}
     </form>
   );

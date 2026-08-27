@@ -20,6 +20,7 @@ import {
   categoryLandingPath,
 } from "@/lib/category-landings";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   OCCASIONS,
   occasionByCategoryId,
@@ -94,19 +95,19 @@ export default async function HomePage({ searchParams }: HomeProps) {
   const [featuredPool, nurseryProducts, weddingProducts, reviews, catalogMeta] =
     await Promise.all([
       prisma.product.findMany({
-        where: { active: true },
+        where: { ...catalogProductWhere },
         select: productSelect,
         orderBy: { updatedAt: "desc" },
         take: 48,
       }),
       prisma.product.findMany({
-        where: { active: true, category: "nursery" },
+        where: { ...catalogProductWhere, category: "nursery" },
         select: productSelect,
         orderBy: { name: "asc" },
         take: 4,
       }),
       prisma.product.findMany({
-        where: { active: true, category: "wedding" },
+        where: { ...catalogProductWhere, category: "wedding" },
         select: productSelect,
         orderBy: { name: "asc" },
         take: 4,
@@ -118,7 +119,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
         take: 6,
       }),
       prisma.product.findMany({
-        where: { active: true },
+        where: { ...catalogProductWhere },
         select: { category: true, imageUrl: true },
         orderBy: { updatedAt: "desc" },
       }),

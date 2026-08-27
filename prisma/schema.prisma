@@ -55,6 +55,19 @@ enum DesignReviewStatus {
   REJECTED
 }
 
+enum MachineStatus {
+  NONE
+  QUEUE
+  CUTTING
+  PACKING_READY
+}
+
+enum ProductAvailability {
+  IN_STOCK
+  OUT_OF_STOCK
+  SEASONAL_PAUSE
+}
+
 model AdminUser {
   id           String   @id @default(cuid())
   email        String   @unique
@@ -75,6 +88,27 @@ model Customer {
   orders       Order[]
 }
 
+model CustomerProfile {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  phone     String?
+  name      String?
+  flag      String   @default("NONE")
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([phone])
+}
+
+model MessageTemplate {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  subject   String
+  body      String
+  updatedAt DateTime @updatedAt
+}
+
 model Product {
   id            String          @id @default(cuid())
   name          String
@@ -84,8 +118,9 @@ model Product {
   basePrice     Decimal         @db.Decimal(10, 2)
   imageUrl      String?
   galleryUrls   Json            @default("[]")
-  active        Boolean         @default(true)
-  createdAt     DateTime        @default(now())
+  active        Boolean              @default(true)
+  availability  ProductAvailability  @default(IN_STOCK)
+  createdAt     DateTime             @default(now())
   updatedAt     DateTime        @updatedAt
   options       ProductOption[]
   orderItems    OrderItem[]
@@ -126,15 +161,16 @@ model PricingRule {
 }
 
 model UploadedDesign {
-  id           String      @id @default(cuid())
-  url          String
-  originalName String
-  mimeType     String
-  sizeBytes    Int
-  widthCm      Float?
-  heightCm     Float?
-  createdAt    DateTime    @default(now())
-  orderItems   OrderItem[]
+  id              String      @id @default(cuid())
+  url             String
+  originalName    String
+  mimeType        String
+  sizeBytes       Int
+  widthCm         Float?
+  heightCm        Float?
+  createdAt       DateTime    @default(now())
+  orderItems      OrderItem[] @relation("CustomerDesign")
+  adminOrderItems OrderItem[] @relation("AdminDesign")
 }
 
 model Order {
@@ -162,14 +198,37 @@ model Order {
   totalAmount       Decimal            @db.Decimal(10, 2)
   econtShipmentNumber String?
   econtPdfUrl         String?
-  adminNotes        String?
-  locale            String             @default("bg")
-  createdAt         DateTime           @default(now())
-  updatedAt         DateTime           @updatedAt
-  items             OrderItem[]
+  trackingUrl         String?
+  speedyShipmentNumber String?
+  machineStatus       MachineStatus      @default(NONE)
+  paidAt              DateTime?
+  reminderSentAt      DateTime?
+  designReviewNote    String?
+  adminNotes          String?
+  locale              String             @default("bg")
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
+  items               OrderItem[]
+  events              OrderEvent[]
 
   @@index([customerEmail])
+  @@index([customerPhone])
   @@index([publicToken])
+  @@index([status])
+  @@index([paymentStatus])
+}
+
+model OrderEvent {
+  id         String   @id @default(cuid())
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  actorEmail String?
+  type       String
+  message    String
+  payload    Json?
+  createdAt  DateTime @default(now())
+
+  @@index([orderId])
 }
 
 model OrderItem {
@@ -180,11 +239,14 @@ model OrderItem {
   productId         String?
   product           Product?         @relation(fields: [productId], references: [id])
   uploadedDesignId  String?
-  uploadedDesign    UploadedDesign?  @relation(fields: [uploadedDesignId], references: [id])
+  uploadedDesign    UploadedDesign?  @relation("CustomerDesign", fields: [uploadedDesignId], references: [id])
+  adminDesignId     String?
+  adminDesign       UploadedDesign?  @relation("AdminDesign", fields: [adminDesignId], references: [id])
   title             String
   quantity          Int              @default(1)
   unitPrice         Decimal          @db.Decimal(10, 2)
   personalization   Json
+  sheetCount        Int?
   createdAt         DateTime         @default(now())
 
   @@index([orderId])

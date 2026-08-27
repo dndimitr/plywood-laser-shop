@@ -9,6 +9,7 @@ import {
   serializeCart,
 } from "@/lib/cart";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import { sendOrderEmails } from "@/lib/email";
 import type { Prisma } from "@/generated/prisma/client";
 import {
@@ -53,7 +54,7 @@ export async function POST(request: Request) {
   }
 
   const rule = await prisma.pricingRule.findFirst({
-    where: { active: true },
+    where: { ...catalogProductWhere },
     orderBy: { createdAt: "asc" },
   });
 
@@ -79,7 +80,7 @@ export async function POST(request: Request) {
   for (const item of cart.items) {
     if (item.type === "TEMPLATE") {
       const product = await prisma.product.findFirst({
-        where: { id: item.productId, active: true },
+        where: { id: item.productId, ...catalogProductWhere },
         include: { options: true },
       });
       if (!product) {

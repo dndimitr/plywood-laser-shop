@@ -14,6 +14,7 @@ type Props = {
 
 export function EcontDestinationFields({ value, onChange }: Props) {
   const kind = value?.kind ?? "office";
+  const kindName = useId();
 
   return (
     <fieldset className="field">
@@ -22,7 +23,7 @@ export function EcontDestinationFields({ value, onChange }: Props) {
         <label className={`choice-card${kind === "office" ? " is-selected" : ""}`}>
           <input
             type="radio"
-            name="econt-kind"
+            name={`${kindName}-kind`}
             value="office"
             checked={kind === "office"}
             onChange={() => {
@@ -37,7 +38,7 @@ export function EcontDestinationFields({ value, onChange }: Props) {
         >
           <input
             type="radio"
-            name="econt-kind"
+            name={`${kindName}-kind`}
             value="address"
             checked={kind === "address"}
             onChange={() =>

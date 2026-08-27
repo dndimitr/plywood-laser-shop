@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   categoryById,
   FREE_SHIPPING_MIN_EUR,
@@ -123,7 +124,7 @@ function productTitle(name: string): string {
  */
 export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> {
   const products = await prisma.product.findMany({
-    where: { active: true },
+    where: { ...catalogProductWhere },
     orderBy: { name: "asc" },
     select: {
       slug: true,

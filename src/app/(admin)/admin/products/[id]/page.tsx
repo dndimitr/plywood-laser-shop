@@ -64,6 +64,7 @@ export default async function EditProductPage({ params }: Props) {
           imageUrl: product.imageUrl,
           galleryUrls,
           active: product.active,
+          availability: product.availability,
           options: product.options.map((o) => ({
             label: o.label,
             sizeLabel: o.sizeLabel,

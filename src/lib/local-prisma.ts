@@ -49,6 +49,7 @@ function withProductDefaults(product: LocalProduct) {
     ...product,
     category: product.category ?? "other",
     galleryUrls: product.galleryUrls ?? [],
+    availability: product.availability ?? "IN_STOCK",
   };
 }
 
@@ -87,16 +88,26 @@ function withOrderRelations(db: LocalDb, order: LocalOrder) {
       const uploadedDesign = item.uploadedDesignId
         ? db.uploadedDesigns.find((d) => d.id === item.uploadedDesignId) ?? null
         : null;
+      const adminDesign = item.adminDesignId
+        ? db.uploadedDesigns.find((d) => d.id === item.adminDesignId) ?? null
+        : null;
       const product = item.productId
         ? db.products.find((p) => p.id === item.productId) ?? null
         : null;
       return toDate({
         ...item,
         uploadedDesign: uploadedDesign ? toDate(uploadedDesign) : null,
+        adminDesign: adminDesign ? toDate(adminDesign) : null,
         product: product ? toDate(withProductDefaults(product)) : null,
       });
     });
-  return toDate({ ...order, items });
+  return toDate({
+    ...order,
+    items,
+    events: (db.orderEvents ?? [])
+      .filter((event) => event.orderId === order.id)
+      .map((event) => toDate(event)),
+  });
 }
 
 function mutate(fn: (db: LocalDb) => unknown) {
@@ -319,6 +330,7 @@ export function createLocalPrisma() {
           imageUrl?: string | null;
           galleryUrls?: string[];
           active?: boolean;
+          availability?: LocalProduct["availability"];
           options?: {
             deleteMany?: Record<string, never>;
             create?: ProductOptionCreate[];
@@ -343,6 +355,8 @@ export function createLocalPrisma() {
           if (args.data.galleryUrls !== undefined)
             product.galleryUrls = args.data.galleryUrls;
           if (args.data.active != null) product.active = args.data.active;
+          if (args.data.availability != null)
+            product.availability = args.data.availability as LocalProduct["availability"];
           product.updatedAt = ts;
 
           if (args.data.options?.deleteMany) {
@@ -382,6 +396,24 @@ export function createLocalPrisma() {
             (o) => o.productId !== args.where.id,
           );
           return toDate(withProductDefaults(product));
+        });
+      },
+
+      async updateMany(args: {
+        where: { id?: { in: string[] } };
+        data: Record<string, unknown>;
+      }) {
+        await ensureLocalDb();
+        return mutate((db) => {
+          const ids = new Set(args.where.id?.in ?? []);
+          let count = 0;
+          for (const product of db.products) {
+            if (!ids.has(product.id)) continue;
+            Object.assign(product, args.data);
+            product.updatedAt = new Date().toISOString();
+            count += 1;
+          }
+          return { count };
         });
       },
     },
@@ -627,6 +659,7 @@ export function createLocalPrisma() {
             | boolean
             | { include?: { uploadedDesign?: boolean; product?: boolean } };
         };
+        take?: number;
       }) {
         await ensureLocalDb();
         const db = readLocalDb();
@@ -640,6 +673,7 @@ export function createLocalPrisma() {
           );
         }
         orders = sortBy(orders, args?.orderBy ?? { createdAt: "desc" });
+        if (args?.take != null) orders = orders.slice(0, args.take);
         if (args?.include?.items) {
           return orders.map((o) => withOrderRelations(db, o));
         }
@@ -648,35 +682,19 @@ export function createLocalPrisma() {
 
       async update(args: {
         where: { id: string };
-        data: {
-          status?: LocalOrder["status"];
-          designReview?: LocalDesignReview;
-          adminNotes?: string | null;
-          paymentStatus?: LocalPaymentStatus;
-          econtShipmentNumber?: string | null;
-          econtPdfUrl?: string | null;
-        };
+        data: Record<string, unknown>;
         include?: {
           items?:
             | boolean
             | { include?: { uploadedDesign?: boolean; product?: boolean } };
+          events?: boolean | { orderBy?: unknown; take?: number };
         };
       }) {
         await ensureLocalDb();
         return mutate((db) => {
           const order = db.orders.find((o) => o.id === args.where.id);
           if (!order) throw new Error("Order not found");
-          if (args.data.status) order.status = args.data.status;
-          if (args.data.designReview != null)
-            order.designReview = args.data.designReview;
-          if (args.data.adminNotes !== undefined)
-            order.adminNotes = args.data.adminNotes;
-          if (args.data.paymentStatus != null)
-            order.paymentStatus = args.data.paymentStatus;
-          if (args.data.econtShipmentNumber !== undefined)
-            order.econtShipmentNumber = args.data.econtShipmentNumber;
-          if (args.data.econtPdfUrl !== undefined)
-            order.econtPdfUrl = args.data.econtPdfUrl;
+          Object.assign(order, args.data);
           order.updatedAt = new Date().toISOString();
           if (args.include?.items) return withOrderRelations(db, order);
           return toDate(order);
@@ -763,6 +781,192 @@ export function createLocalPrisma() {
           };
           db.reviews.push(review);
           return toDate(review);
+        });
+      },
+    },
+
+    orderEvent: {
+      async create(args: {
+        data: {
+          orderId: string;
+          type: string;
+          message: string;
+          actorEmail?: string | null;
+          payload?: unknown;
+        };
+      }) {
+        await ensureLocalDb();
+        return mutate((db) => {
+          if (!db.orderEvents) db.orderEvents = [];
+          const event = {
+            id: cuid(),
+            orderId: args.data.orderId,
+            type: args.data.type,
+            message: args.data.message,
+            actorEmail: args.data.actorEmail ?? null,
+            payload: args.data.payload,
+            createdAt: new Date().toISOString(),
+          };
+          db.orderEvents.push(event);
+          return toDate(event);
+        });
+      },
+      async findMany(args: {
+        where?: { orderId?: string };
+        orderBy?: Record<string, "asc" | "desc">;
+        take?: number;
+      }) {
+        await ensureLocalDb();
+        let rows = readLocalDb().orderEvents ?? [];
+        if (args.where?.orderId) {
+          rows = rows.filter((row) => row.orderId === args.where?.orderId);
+        }
+        rows = sortBy(rows, args.orderBy ?? { createdAt: "desc" });
+        if (args.take != null) rows = rows.slice(0, args.take);
+        return rows.map((row) => toDate(row));
+      },
+    },
+
+    customerProfile: {
+      async findUnique(args: { where: { email: string } }) {
+        await ensureLocalDb();
+        const row = readLocalDb().customerProfiles.find(
+          (item) => item.email === args.where.email,
+        );
+        return row ? toDate(row) : null;
+      },
+      async findMany(args?: {
+        where?: { OR?: unknown; flag?: string };
+        orderBy?: Record<string, "asc" | "desc">;
+        take?: number;
+      }) {
+        await ensureLocalDb();
+        let rows = readLocalDb().customerProfiles ?? [];
+        rows = sortBy(rows, args?.orderBy ?? { updatedAt: "desc" });
+        if (args?.take != null) rows = rows.slice(0, args.take);
+        return rows.map((row) => toDate(row));
+      },
+      async upsert(args: {
+        where: { email: string };
+        update: Record<string, unknown>;
+        create: {
+          email: string;
+          phone?: string | null;
+          name?: string | null;
+          flag?: string;
+          note?: string | null;
+        };
+      }) {
+        await ensureLocalDb();
+        return mutate((db) => {
+          if (!db.customerProfiles) db.customerProfiles = [];
+          const idx = db.customerProfiles.findIndex(
+            (row) => row.email === args.where.email,
+          );
+          const now = new Date().toISOString();
+          if (idx >= 0) {
+            db.customerProfiles[idx] = {
+              ...db.customerProfiles[idx],
+              ...args.update,
+              updatedAt: now,
+            } as (typeof db.customerProfiles)[number];
+            return toDate(db.customerProfiles[idx]);
+          }
+          const row = {
+            id: cuid(),
+            email: args.create.email,
+            phone: args.create.phone ?? null,
+            name: args.create.name ?? null,
+            flag: args.create.flag ?? "NONE",
+            note: args.create.note ?? null,
+            createdAt: now,
+            updatedAt: now,
+          };
+          db.customerProfiles.push(row);
+          return toDate(row);
+        });
+      },
+    },
+
+    messageTemplate: {
+      async findMany() {
+        await ensureLocalDb();
+        return (readLocalDb().messageTemplates ?? []).map((row) => toDate(row));
+      },
+      async findUnique(args: { where: { key: string } }) {
+        await ensureLocalDb();
+        const row = (readLocalDb().messageTemplates ?? []).find(
+          (item) => item.key === args.where.key,
+        );
+        return row ? toDate(row) : null;
+      },
+      async create(args: {
+        data: { key: string; subject: string; body: string };
+      }) {
+        await ensureLocalDb();
+        return mutate((db) => {
+          if (!db.messageTemplates) db.messageTemplates = [];
+          const row = {
+            id: cuid(),
+            key: args.data.key,
+            subject: args.data.subject,
+            body: args.data.body,
+            updatedAt: new Date().toISOString(),
+          };
+          db.messageTemplates.push(row);
+          return toDate(row);
+        });
+      },
+      async upsert(args: {
+        where: { key: string };
+        update: { subject: string; body: string };
+        create: { key: string; subject: string; body: string };
+      }) {
+        await ensureLocalDb();
+        return mutate((db) => {
+          if (!db.messageTemplates) db.messageTemplates = [];
+          const idx = db.messageTemplates.findIndex(
+            (row) => row.key === args.where.key,
+          );
+          const now = new Date().toISOString();
+          if (idx >= 0) {
+            db.messageTemplates[idx] = {
+              ...db.messageTemplates[idx],
+              ...args.update,
+              updatedAt: now,
+            };
+            return toDate(db.messageTemplates[idx]);
+          }
+          const row = {
+            id: cuid(),
+            ...args.create,
+            updatedAt: now,
+          };
+          db.messageTemplates.push(row);
+          return toDate(row);
+        });
+      },
+    },
+
+    orderItem: {
+      async findFirst(args: { where: { id: string; orderId: string } }) {
+        await ensureLocalDb();
+        const item = readLocalDb().orderItems.find(
+          (row) =>
+            row.id === args.where.id && row.orderId === args.where.orderId,
+        );
+        return item ? toDate(item) : null;
+      },
+      async update(args: {
+        where: { id: string };
+        data: Record<string, unknown>;
+      }) {
+        await ensureLocalDb();
+        return mutate((db) => {
+          const item = db.orderItems.find((row) => row.id === args.where.id);
+          if (!item) throw new Error("Order item not found");
+          Object.assign(item, args.data);
+          return toDate(item);
         });
       },
     },

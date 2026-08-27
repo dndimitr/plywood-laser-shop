@@ -12,6 +12,7 @@ import {
   TrackProductView,
 } from "@/components/RecentlyViewed";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import { formatBgn } from "@/lib/pricing";
 import { finishLabel, materialLabel } from "@/lib/labels";
 import { buildProductSeo } from "@/lib/product-seo";
@@ -30,7 +31,7 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const product = await prisma.product.findFirst({
-    where: { slug, active: true },
+    where: { slug, ...catalogProductWhere },
   });
   if (!product) {
     return buildPageMetadata({
@@ -57,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
   const product = await prisma.product.findFirst({
-    where: { slug, active: true },
+    where: { slug, ...catalogProductWhere },
     include: { options: { orderBy: { priceModifier: "asc" } } },
   });
 

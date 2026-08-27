@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { AdminNav } from "@/components/AdminNav";
 import { auth, signOut } from "@/lib/auth";
 
 export const metadata: Metadata = {
@@ -16,31 +17,28 @@ export default async function AdminLayout({
 
   return (
     <div className="admin-shell">
-      <div className="container admin-nav">
-        <Link href="/admin" className="brand">
-          Админ
-        </Link>
-        {session?.user ? (
-          <nav className="nav">
-            <Link href="/admin/orders">Поръчки</Link>
-            <Link href="/admin/products">Продукти</Link>
-            <Link href="/admin/pricing">Цени</Link>
-            <Link href="/admin/shipping">Доставка</Link>
-            <Link href="/admin/marketing">Маркетинг</Link>
-            <Link href="/">Магазин</Link>
-            <form
-              action={async () => {
-                "use server";
-                await signOut({ redirectTo: "/admin/login" });
-              }}
-            >
-              <button type="submit" className="btn btn-ghost">
-                Изход
-              </button>
-            </form>
-          </nav>
-        ) : null}
-      </div>
+      <header className="admin-top">
+        <div className="container admin-nav">
+          <Link href={session?.user ? "/admin" : "/admin/login"} className="brand">
+            Studio Breza · Админ
+          </Link>
+          {session?.user ? (
+            <div className="admin-nav-end">
+              <AdminNav />
+              <form
+                action={async () => {
+                  "use server";
+                  await signOut({ redirectTo: "/admin/login" });
+                }}
+              >
+                <button type="submit" className="btn btn-ghost">
+                  Изход
+                </button>
+              </form>
+            </div>
+          ) : null}
+        </div>
+      </header>
       <div className="container">{children}</div>
     </div>
   );

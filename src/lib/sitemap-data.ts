@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   allCategoryLandingSlugs,
   categoryLandingPath,
@@ -44,7 +45,7 @@ async function productEntries(now: Date): Promise<SitemapEntry[]> {
   try {
     const products = await Promise.race([
       prisma.product.findMany({
-        where: { active: true },
+        where: { ...catalogProductWhere },
         select: { slug: true, updatedAt: true },
         orderBy: { updatedAt: "desc" },
       }),

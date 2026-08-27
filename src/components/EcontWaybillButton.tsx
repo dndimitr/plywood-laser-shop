@@ -8,6 +8,7 @@ type Props = {
   configured: boolean;
   shipmentNumber?: string | null;
   pdfUrl?: string | null;
+  trackingUrl?: string | null;
 };
 
 export function EcontWaybillButton({
@@ -15,10 +16,12 @@ export function EcontWaybillButton({
   configured,
   shipmentNumber,
   pdfUrl,
+  trackingUrl,
 }: Props) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
 
   async function create() {
     setPending(true);
@@ -29,11 +32,26 @@ export function EcontWaybillButton({
       });
       const data = (await res.json()) as { error?: string };
       if (!res.ok) {
-        throw new Error(
-          typeof data.error === "string" ? data.error : "Грешка",
-        );
+        throw new Error(typeof data.error === "string" ? data.error : "Грешка");
       }
       router.refresh();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Грешка");
+    } finally {
+      setPending(false);
+    }
+  }
+
+  async function refreshStatus() {
+    setPending(true);
+    setError(null);
+    try {
+      const res = await fetch(`/api/admin/orders/${orderId}/econt/status`);
+      const data = (await res.json()) as { error?: string; status?: string };
+      if (!res.ok) {
+        throw new Error(typeof data.error === "string" ? data.error : "Грешка");
+      }
+      setStatus(data.status ?? "OK");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Грешка");
     } finally {
@@ -49,6 +67,13 @@ export function EcontWaybillButton({
           <p>
             Номер: <strong>{shipmentNumber}</strong>
           </p>
+          {trackingUrl ? (
+            <p>
+              <a href={trackingUrl} target="_blank" rel="noreferrer">
+                Проследяване
+              </a>
+            </p>
+          ) : null}
           {pdfUrl ? (
             <p>
               <a href={pdfUrl} target="_blank" rel="noreferrer">
@@ -58,6 +83,15 @@ export function EcontWaybillButton({
           ) : (
             <p className="muted">PDF линкът не е върнат от Еконт.</p>
           )}
+          {status ? <p>Статус: {status}</p> : null}
+          <button
+            type="button"
+            className="btn btn-ghost"
+            disabled={pending}
+            onClick={refreshStatus}
+          >
+            {pending ? "Проверка…" : "Обнови статус"}
+          </button>
         </>
       ) : (
         <>

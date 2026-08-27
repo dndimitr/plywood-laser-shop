@@ -44,6 +44,7 @@ export async function POST(request: Request) {
       imageUrl: parsed.data.imageUrl || null,
       galleryUrls: parsed.data.galleryUrls ?? [],
       active: parsed.data.active,
+      availability: parsed.data.availability,
       options: {
         create: options.map((o) => ({
           label: o.label,

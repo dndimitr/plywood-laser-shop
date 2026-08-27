@@ -76,6 +76,7 @@ export type LocalProduct = {
   imageUrl: string | null;
   galleryUrls: string[];
   active: boolean;
+  availability?: "IN_STOCK" | "OUT_OF_STOCK" | "SEASONAL_PAUSE";
   createdAt: string;
   updatedAt: string;
 };
@@ -112,10 +113,12 @@ export type LocalOrderItem = {
   type: LocalOrderItemType;
   productId: string | null;
   uploadedDesignId: string | null;
+  adminDesignId?: string | null;
   title: string;
   quantity: number;
   unitPrice: number;
   personalization: Record<string, unknown>;
+  sheetCount?: number | null;
   createdAt: string;
 };
 
@@ -143,6 +146,12 @@ export type LocalOrder = {
   totalAmount: number;
   econtShipmentNumber?: string | null;
   econtPdfUrl?: string | null;
+  trackingUrl?: string | null;
+  speedyShipmentNumber?: string | null;
+  machineStatus?: "NONE" | "QUEUE" | "CUTTING" | "PACKING_READY";
+  paidAt?: string | null;
+  reminderSentAt?: string | null;
+  designReviewNote?: string | null;
   adminNotes: string | null;
   locale: string;
   createdAt: string;
@@ -159,6 +168,35 @@ export type LocalReview = {
   createdAt: string;
 };
 
+export type LocalOrderEvent = {
+  id: string;
+  orderId: string;
+  actorEmail: string | null;
+  type: string;
+  message: string;
+  payload?: unknown;
+  createdAt: string;
+};
+
+export type LocalCustomerProfile = {
+  id: string;
+  email: string;
+  phone: string | null;
+  name: string | null;
+  flag: string;
+  note: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type LocalMessageTemplate = {
+  id: string;
+  key: string;
+  subject: string;
+  body: string;
+  updatedAt: string;
+};
+
 export type LocalDb = {
   adminUsers: LocalAdminUser[];
   customers: LocalCustomer[];
@@ -169,6 +207,9 @@ export type LocalDb = {
   orders: LocalOrder[];
   orderItems: LocalOrderItem[];
   reviews: LocalReview[];
+  orderEvents: LocalOrderEvent[];
+  customerProfiles: LocalCustomerProfile[];
+  messageTemplates: LocalMessageTemplate[];
 };
 
 const DATA_DIR =
@@ -197,6 +238,9 @@ function emptyDb(): LocalDb {
     orders: [],
     orderItems: [],
     reviews: [],
+    orderEvents: [],
+    customerProfiles: [],
+    messageTemplates: [],
   };
 }
 
@@ -218,7 +262,25 @@ export function readLocalDb(): LocalDb {
       shippingDetails: order.shippingDetails ?? null,
       econtShipmentNumber: order.econtShipmentNumber ?? null,
       econtPdfUrl: order.econtPdfUrl ?? null,
+      trackingUrl: order.trackingUrl ?? null,
+      speedyShipmentNumber: order.speedyShipmentNumber ?? null,
+      machineStatus: order.machineStatus ?? "NONE",
+      paidAt: order.paidAt ?? null,
+      reminderSentAt: order.reminderSentAt ?? null,
+      designReviewNote: order.designReviewNote ?? null,
     })),
+    orderItems: (raw.orderItems ?? []).map((item) => ({
+      ...item,
+      adminDesignId: item.adminDesignId ?? null,
+      sheetCount: item.sheetCount ?? null,
+    })),
+    products: (raw.products ?? []).map((product) => ({
+      ...product,
+      availability: product.availability ?? "IN_STOCK",
+    })),
+    orderEvents: raw.orderEvents ?? [],
+    customerProfiles: raw.customerProfiles ?? [],
+    messageTemplates: raw.messageTemplates ?? [],
   };
 }
 

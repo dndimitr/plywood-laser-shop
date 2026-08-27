@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { CatalogBrowser } from "@/components/CatalogBrowser";
 import { JsonLd } from "@/components/JsonLd";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   breadcrumbJsonLd,
   buildPageMetadata,
@@ -46,7 +47,7 @@ export async function generateMetadata({
 
 export default async function KatalogPage() {
   const products = await prisma.product.findMany({
-    where: { active: true },
+    where: { ...catalogProductWhere },
     orderBy: { name: "asc" },
   });
 

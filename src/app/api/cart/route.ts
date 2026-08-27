@@ -10,6 +10,7 @@ import {
   type CartItem,
 } from "@/lib/cart";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   calculateCustomPrice,
   calculateTemplatePrice,
@@ -35,7 +36,7 @@ export async function POST(request: Request) {
     }
 
     const product = await prisma.product.findFirst({
-      where: { id: parsed.data.productId, active: true },
+      where: { id: parsed.data.productId, ...catalogProductWhere },
       include: { options: true },
     });
     if (!product) {
@@ -48,7 +49,7 @@ export async function POST(request: Request) {
     }
 
     const rule = await prisma.pricingRule.findFirst({
-      where: { active: true },
+      where: { ...catalogProductWhere },
       orderBy: { createdAt: "asc" },
     });
     const quantityDiscounts =
@@ -107,7 +108,7 @@ export async function POST(request: Request) {
     }
 
     const rule = await prisma.pricingRule.findFirst({
-      where: { active: true },
+      where: { ...catalogProductWhere },
       orderBy: { createdAt: "asc" },
     });
     if (!rule) {

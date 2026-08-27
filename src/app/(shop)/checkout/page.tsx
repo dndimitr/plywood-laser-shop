@@ -4,6 +4,7 @@ import { CheckoutForm } from "@/components/CheckoutForm";
 import { InitiateCheckoutTracker } from "@/components/InitiateCheckoutTracker";
 import { cartTotals, getCart } from "@/lib/cart";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import { resolveCatalogContentIds } from "@/lib/meta-catalog-ids";
 import { getCourierOptions } from "@/lib/shipping-settings";
 import { buildPageMetadata } from "@/lib/seo";
@@ -40,7 +41,7 @@ export default async function CheckoutPage() {
   // Resolve slug from productId for legacy cart cookies missing productSlug.
   const contentIds = await resolveCatalogContentIds(cart.items, async (id) => {
     const p = await prisma.product.findFirst({
-      where: { id, active: true },
+      where: { id, ...catalogProductWhere },
       select: { slug: true },
     });
     return p?.slug ?? null;

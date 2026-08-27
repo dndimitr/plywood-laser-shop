@@ -23,16 +23,19 @@ export default async function AdminLoginPage({ searchParams }: Props) {
       });
     } catch (error) {
       if (error instanceof AuthError) {
-        redirect(`/admin/login?error=credentials&callbackUrl=${encodeURIComponent(callbackUrl)}`);
+        redirect(
+          `/admin/login?error=credentials&callbackUrl=${encodeURIComponent(callbackUrl)}`,
+        );
       }
       throw error;
     }
   }
 
   return (
-    <div className="admin-panel" style={{ maxWidth: 420 }}>
+    <div className="admin-panel admin-login">
       <form className="admin-card" action={loginAction}>
         <h1>Вход в админ</h1>
+        <p className="muted">Studio Breza — управление на поръчки и каталог</p>
         <input
           type="hidden"
           name="callbackUrl"
@@ -43,13 +46,18 @@ export default async function AdminLoginPage({ searchParams }: Props) {
           <input
             type="email"
             name="email"
-            defaultValue="admin@plywood.local"
+            autoComplete="username"
             required
           />
         </label>
         <label className="field">
           <span>Парола</span>
-          <input type="password" name="password" required />
+          <input
+            type="password"
+            name="password"
+            autoComplete="current-password"
+            required
+          />
         </label>
         {params.error ? (
           <p className="error">Грешен имейл или парола</p>

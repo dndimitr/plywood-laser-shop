@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   calculateCustomPrice,
   type ComplexityMultipliers,
@@ -15,7 +16,7 @@ export async function POST(request: Request) {
   }
 
   const rule = await prisma.pricingRule.findFirst({
-    where: { active: true },
+    where: { ...catalogProductWhere },
     orderBy: { createdAt: "asc" },
   });
 

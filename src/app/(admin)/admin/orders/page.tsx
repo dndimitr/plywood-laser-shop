@@ -2,17 +2,20 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { formatBgn } from "@/lib/pricing";
+import { formatMoney } from "@/lib/pricing";
 import {
+  courierLabel,
   designReviewLabel,
   orderStatusLabel,
+  orderStatusTone,
   paymentMethodLabel,
+  shortOrderId,
 } from "@/lib/labels";
 
 export const dynamic = "force-dynamic";
 
 type Props = {
-  searchParams: Promise<{ status?: string; review?: string }>;
+  searchParams: Promise<{ status?: string; review?: string; q?: string }>;
 };
 
 const statusFilters = [
@@ -39,11 +42,23 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
   const sp = await searchParams;
   const status = sp.status?.trim() || undefined;
   const review = sp.review?.trim() || undefined;
+  const q = sp.q?.trim() || undefined;
 
   const orders = await prisma.order.findMany({
     where: {
       ...(status ? { status: status as never } : {}),
       ...(review ? { designReview: review as never } : {}),
+      ...(q
+        ? {
+            OR: [
+              { customerName: { contains: q, mode: "insensitive" } },
+              { customerEmail: { contains: q, mode: "insensitive" } },
+              { customerPhone: { contains: q, mode: "insensitive" } },
+              { id: { contains: q, mode: "insensitive" } },
+              { shippingAddress: { contains: q, mode: "insensitive" } },
+            ],
+          }
+        : {}),
     },
     orderBy: { createdAt: "desc" },
     include: {
@@ -51,25 +66,46 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
     },
   });
 
-  function href(next: { status?: string; review?: string }) {
+  function href(next: { status?: string; review?: string; q?: string }) {
     const params = new URLSearchParams();
     const s = next.status ?? status ?? "";
     const r = next.review ?? review ?? "";
+    const query = next.q ?? q ?? "";
     if (s) params.set("status", s);
     if (r) params.set("review", r);
-    const q = params.toString();
-    return q ? `/admin/orders?${q}` : "/admin/orders";
+    if (query) params.set("q", query);
+    const qs = params.toString();
+    return qs ? `/admin/orders?${qs}` : "/admin/orders";
   }
 
   return (
     <div className="admin-panel">
-      <h1>Поръчки</h1>
+      <div className="admin-page-head">
+        <h1>Поръчки</h1>
+        <form className="admin-search" action="/admin/orders" method="get">
+          {status ? <input type="hidden" name="status" value={status} /> : null}
+          {review ? <input type="hidden" name="review" value={review} /> : null}
+          <label className="sr-only" htmlFor="admin-order-q">
+            Търсене
+          </label>
+          <input
+            id="admin-order-q"
+            type="search"
+            name="q"
+            defaultValue={q ?? ""}
+            placeholder="Име, имейл, телефон или номер"
+          />
+          <button type="submit" className="btn btn-ghost">
+            Търси
+          </button>
+        </form>
+      </div>
 
       <div className="admin-filters" aria-label="Филтър по статус">
         {statusFilters.map((f) => (
           <Link
             key={f.id || "all"}
-            href={href({ status: f.id, review })}
+            href={href({ status: f.id, review, q })}
             className={
               (status ?? "") === f.id
                 ? "admin-filter-chip is-active"
@@ -84,7 +120,7 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
         {reviewFilters.map((f) => (
           <Link
             key={f.id || "all-review"}
-            href={href({ status, review: f.id })}
+            href={href({ status, review: f.id, q })}
             className={
               (review ?? "") === f.id
                 ? "admin-filter-chip is-active"
@@ -99,36 +135,51 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
       {orders.length === 0 ? (
         <p className="muted">Няма поръчки за този филтър.</p>
       ) : (
-        <table className="admin-table">
-          <thead>
-            <tr>
-              <th>Дата</th>
-              <th>Клиент</th>
-              <th>Сума</th>
-              <th>Статус</th>
-              <th>Макет</th>
-              <th>Плащане</th>
-              <th>Файлове</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {orders.map((order) => {
-              const files = order.items.filter((i) => i.uploadedDesign).length;
-              return (
+        <div className="admin-table-wrap">
+          <table className="admin-table">
+            <thead>
+              <tr>
+                <th>№</th>
+                <th>Дата</th>
+                <th>Клиент</th>
+                <th>Куриер</th>
+                <th>Сума</th>
+                <th>Статус</th>
+                <th>Макет</th>
+                <th>Плащане</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {orders.map((order) => (
                 <tr key={order.id}>
                   <td>
-                    {order.createdAt.toLocaleString("bg-BG")}
+                    <Link href={`/admin/orders/${order.id}`}>
+                      #{shortOrderId(order.id)}
+                    </Link>
                     {order.rush ? (
                       <div className="badge-rush">Ускорена</div>
                     ) : null}
                   </td>
                   <td>
-                    {order.customerName}
-                    <div className="muted">{order.customerEmail}</div>
+                    {order.createdAt.toLocaleString("bg-BG", {
+                      dateStyle: "short",
+                      timeStyle: "short",
+                    })}
                   </td>
-                  <td>{formatBgn(Number(order.totalAmount))}</td>
-                  <td>{orderStatusLabel[order.status] ?? order.status}</td>
+                  <td>
+                    {order.customerName}
+                    <div className="muted">{order.customerPhone}</div>
+                  </td>
+                  <td>{courierLabel[order.courier] ?? order.courier}</td>
+                  <td>{formatMoney(Number(order.totalAmount))}</td>
+                  <td>
+                    <span
+                      className={`admin-pill admin-pill-${orderStatusTone(order.status)}`}
+                    >
+                      {orderStatusLabel[order.status] ?? order.status}
+                    </span>
+                  </td>
                   <td>
                     {designReviewLabel[order.designReview] ??
                       order.designReview}
@@ -137,15 +188,14 @@ export default async function AdminOrdersPage({ searchParams }: Props) {
                     {paymentMethodLabel[order.paymentMethod] ??
                       order.paymentMethod}
                   </td>
-                  <td>{files > 0 ? `${files} файл(а)` : "—"}</td>
                   <td>
-                    <Link href={`/admin/orders/${order.id}`}>Детайли</Link>
+                    <Link href={`/admin/orders/${order.id}`}>Отвори</Link>
                   </td>
                 </tr>
-              );
-            })}
-          </tbody>
-        </table>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

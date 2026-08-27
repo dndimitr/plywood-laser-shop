@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ProductCard } from "@/components/ProductCard";
 import { JsonLd } from "@/components/JsonLd";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   allOccasionSlugs,
   OCCASION_RESERVED_PATHS,
@@ -68,7 +69,7 @@ export default async function OccasionPage({ params }: Props) {
   if (!occasion) notFound();
 
   const products = await prisma.product.findMany({
-    where: { active: true, category: occasion.categoryId },
+    where: { ...catalogProductWhere, category: occasion.categoryId },
     orderBy: { name: "asc" },
   });
 

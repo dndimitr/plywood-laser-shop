@@ -41,6 +41,36 @@ export const courierLabel: Record<string, string> = {
   PICKUP: "Лично получаване",
 };
 
+export const machineStatusLabel: Record<string, string> = {
+  NONE: "Не е в опашка",
+  QUEUE: "Опашка за рязане",
+  CUTTING: "В рязане",
+  PACKING_READY: "Готово за опаковане",
+};
+
+export const availabilityLabel: Record<string, string> = {
+  IN_STOCK: "В наличност",
+  OUT_OF_STOCK: "Изчерпан",
+  SEASONAL_PAUSE: "Сезонно спрян",
+};
+
+export const customerFlagLabel: Record<string, string> = {
+  NONE: "Нормален",
+  WATCH: "Внимание",
+  BLOCKED: "Блокиран",
+};
+
+export function shortOrderId(id: string) {
+  return id.slice(-8).toUpperCase();
+}
+
+export function orderStatusTone(status: string) {
+  if (status === "NEW" || status === "AWAITING_DESIGN") return "warn";
+  if (status === "SHIPPED" || status === "DONE") return "ok";
+  if (status === "CANCELLED" || status === "DESIGN_REJECTED") return "bad";
+  return "neutral";
+}
+
 export const complexityLabel: Record<string, string> = {
   simple: "Ниска сложност",
   medium: "Средна сложност",

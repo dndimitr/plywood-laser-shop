@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ProductCard } from "@/components/ProductCard";
 import { JsonLd } from "@/components/JsonLd";
 import { prisma } from "@/lib/db";
+import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   allCategoryLandingSlugs,
   categoryLandingBySlug,
@@ -64,7 +65,7 @@ export default async function CategoryLandingPage({ params }: Props) {
   if (!landing) notFound();
 
   const products = await prisma.product.findMany({
-    where: { active: true, category: landing.categoryId },
+    where: { ...catalogProductWhere, category: landing.categoryId },
     orderBy: { name: "asc" },
   });
 

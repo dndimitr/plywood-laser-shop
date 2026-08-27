@@ -30,6 +30,7 @@ export async function PUT(request: Request, { params }: Params) {
       imageUrl: parsed.data.imageUrl || null,
       galleryUrls: parsed.data.galleryUrls ?? [],
       active: parsed.data.active,
+      availability: parsed.data.availability,
       options: {
         deleteMany: {},
         create: options.map((o) => ({

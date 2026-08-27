@@ -510,3 +510,30 @@ export async function createEcontLabel(order: CreateLabelOrder) {
 
   return { shipmentNumber: created.shipmentNumber, pdfURL: created.pdfURL };
 }
+
+export function econtTrackingUrl(shipmentNumber: string) {
+  return `https://www.econt.com/tracking/${encodeURIComponent(shipmentNumber)}`;
+}
+
+export async function getEcontShipmentStatus(shipmentNumber: string) {
+  const data = await deliveryPost("OrdersService.getOrder.json", {
+    shipmentNumber,
+  });
+  const root = asRecord(data);
+  const nested = asRecord(root?.order) ?? asRecord(root?.label) ?? root;
+  const status =
+    stringifyId(nested?.shipmentStatus) ||
+    stringifyId(nested?.status) ||
+    stringifyId(root?.status);
+  const pdfURL =
+    stringifyId(nested?.pdfURL) ||
+    stringifyId(nested?.pdfUrl) ||
+    stringifyId(root?.pdfURL);
+  return {
+    shipmentNumber:
+      stringifyId(nested?.shipmentNumber) || shipmentNumber,
+    status: status || "Няма статус от Еконт",
+    pdfURL: pdfURL || null,
+    trackingUrl: econtTrackingUrl(shipmentNumber),
+  };
+}
