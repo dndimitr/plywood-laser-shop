@@ -114,21 +114,34 @@ export async function sendOrderEmails(order: OrderMail) {
 
   const { Resend } = await import("resend");
   const resend = new Resend(key);
+  const replyTo =
+    adminTo && !adminTo.endsWith("@plywood.local") ? adminTo : undefined;
 
-  await resend.emails.send({
+  const customer = await resend.emails.send({
     from,
     to: order.customerEmail,
+    replyTo,
     subject: `Поръчка ${order.id} · Studio Breza`,
     html: customerHtml,
   });
+  if (customer.error) {
+    console.error("[email] customer send failed", customer.error);
+    throw new Error(customer.error.message);
+  }
 
-  if (adminTo) {
-    await resend.emails.send({
+  if (adminTo && !adminTo.endsWith("@plywood.local")) {
+    const admin = await resend.emails.send({
       from,
       to: adminTo,
       subject: `Нова поръчка ${order.id}${order.rush ? " · ускорена" : ""}`,
       html: adminHtml,
     });
+    if (admin.error) {
+      console.error("[email] admin send failed", admin.error);
+      throw new Error(admin.error.message);
+    }
+  } else {
+    console.warn("[email] ADMIN_NOTIFY_EMAIL missing — admin copy skipped");
   }
 
   return { skipped: false as const };
