@@ -28,6 +28,10 @@ import {
   categoryHref,
 } from "@/lib/occasions";
 import {
+  FREE_SHIPPING_MIN_EUR,
+  PRODUCTION_LEAD,
+} from "@/lib/shop-config";
+import {
   aggregateRatingJsonLd,
   breadcrumbJsonLd,
   buildPageMetadata,
@@ -40,20 +44,20 @@ export const dynamic = "force-dynamic";
 
 const faqs = [
   {
-    q: "Какъв е срокът за изработка?",
-    a: "Стандартно 2–5 работни дни след потвърждение на поръчката и макета. При ускорена поръчка срокът се съгласува допълнително.",
+    q: "Колко време отнема изработката?",
+    a: "Обикновено 2–5 работни дни след като потвърдим макета. Ако празникът е близо, отбележете ускорена изработка — съгласуваме срока още при поръчката.",
   },
   {
-    q: "Как се добавя персонализация?",
-    a: "При поръчка напишете име, дата или послание. Приемаме и ваш файл (SVG, PDF, PNG, JPG) за изработка по дизайн.",
+    q: "Как добавям име или послание?",
+    a: "При всеки модел има поле за гравиране: име, дата, инициали или кратко послание. Можете и да качите свой файл (SVG, PDF, PNG, JPG) — изрязваме го по вашия дизайн.",
   },
   {
-    q: "Какви начини на плащане предлагате?",
-    a: "Банков превод, наложен платеж и онлайн карта (когато е активирана).",
+    q: "Как плащам?",
+    a: "Наложен платеж при куриера, банков превод или карта онлайн (когато е активна). Поръчвате без регистрация.",
   },
   {
-    q: "Трябва ли регистрация?",
-    a: "Не. Поръчвате без акаунт. Можете и да си направите профил за история на поръчките.",
+    q: "Трябва ли акаунт?",
+    a: "Не. Попълвате име, телефон и адрес — и поръчката тръгва. Ако искате история, можете да потърсите поръчките си по имейл.",
   },
 ];
 
@@ -175,7 +179,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
           ...(ratingLd ? [ratingLd] : []),
         ]}
       />
-      <section className="hero" aria-label="Начало">
+      <section className="hero hero--home" aria-label="Начало">
         {heroImage ? (
           <div className="hero-media hero-media--product">
             <Image
@@ -183,7 +187,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
               alt={heroAlt}
               fill
               priority
-              sizes="100vw"
+              sizes="(max-width: 899px) 100vw, 70vw"
               className="object-contain"
               unoptimized={heroImage.endsWith(".svg")}
             />
@@ -193,20 +197,38 @@ export default async function HomePage({ searchParams }: HomeProps) {
           <div className="hero-media hero-media--product" aria-hidden />
         )}
         <div className="container hero-copy">
-          <h1>Персонализирани подаръци и украси</h1>
+          <p className="hero-kicker">Studio Breza · Варна</p>
+          <h1>Подарък с име — който се помни</h1>
           <p>
-            С име, дата или послание — за сватба, рожден ден, кръщене и всеки
-            специален повод. Готов модел или ваш дизайн, с доставка в цяла
-            България.
+            Гравираме име, дата или послание върху брезов шперплат. За сватба,
+            рожден ден, кръщене и всеки повод — готов модел или ваш дизайн, с
+            доставка в цяла България.
           </p>
           <div className="cta-row">
             <Link href="/katalog" className="btn btn-primary">
-              Разгледай каталога
+              Избери подарък
             </Link>
             <Link href="/custom" className="btn btn-ghost">
-              Поръчай по дизайн
+              Имам свой дизайн
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section className="home-proof" aria-label="Предимства">
+        <div className="container home-proof-inner">
+          <p>
+            <IconPackage size={18} aria-hidden />
+            <span>Готово за {PRODUCTION_LEAD.standardLabel}</span>
+          </p>
+          <p>
+            <IconShield size={18} aria-hidden />
+            <span>Поръчка без регистрация</span>
+          </p>
+          <p>
+            <IconTruck size={18} aria-hidden />
+            <span>Безплатна доставка над {FREE_SHIPPING_MIN_EUR} €</span>
+          </p>
         </div>
       </section>
 
@@ -215,10 +237,10 @@ export default async function HomePage({ searchParams }: HomeProps) {
         className="section container"
         aria-labelledby="izbrani-heading"
       >
-        <h2 id="izbrani-heading">Избрани модели</h2>
+        <h2 id="izbrani-heading">Най-търсените модели</h2>
         <p className="section-lead">
-          Кратка селекция от каталога — персонализирайте с име, дата или
-          послание.
+          Добавете името още при поръчката — подарък, който се слага на масата
+          и остава в спомените.
         </p>
         <ProductSlider
           products={featuredSlider.map((p) => ({
@@ -232,7 +254,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
         />
         <p style={{ marginTop: "1.25rem" }}>
           <Link href="/katalog" className="btn btn-ghost">
-            Виж целия каталог
+            Виж всички модели
           </Link>
         </p>
       </section>
@@ -340,8 +362,8 @@ export default async function HomePage({ searchParams }: HomeProps) {
             </div>
             <h3>Добавете персонализация</h3>
             <p>
-              Име, дата, послание и размер. Цената се преизчислява на сървъра
-              при поръчка.
+              Име, дата или послание. Виждате цената още преди да платите —
+              с отстъпка при повече бройки.
             </p>
           </article>
           <article className="step">
@@ -404,7 +426,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
             <IconScales size={24} aria-hidden />
             <div>
               <strong>Цена преди изработка</strong>
-              <span>Сървърна калкулация + отстъпки за количество</span>
+              <span>Ясна сума + отстъпки за количество</span>
             </div>
           </div>
           <div className="trust-item">

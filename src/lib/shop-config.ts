@@ -226,9 +226,9 @@ export const PRODUCTION_LEAD = {
 
 export function productionLeadHelp(rush: boolean) {
   if (rush) {
-    return `Ускорена изработка: ${PRODUCTION_LEAD.rushLabel} след потвърждение (+${PRODUCTION_LEAD.rushSurchargePercent}%). Стандартно е ${PRODUCTION_LEAD.standardLabel}.`;
+    return `За близка дата: готови за ${PRODUCTION_LEAD.rushLabel} след потвърждение на макета (+${PRODUCTION_LEAD.rushSurchargePercent}%). Стандартно е ${PRODUCTION_LEAD.standardLabel}.`;
   }
-  return `Стандартна изработка: ${PRODUCTION_LEAD.standardLabel} след потвърждение на поръчката/макета. Ускорено: ${PRODUCTION_LEAD.rushLabel} (+${PRODUCTION_LEAD.rushSurchargePercent}%).`;
+  return `Готови за ${PRODUCTION_LEAD.standardLabel} след потвърждение на макета. Ако денят наближава — ускорена изработка за ${PRODUCTION_LEAD.rushLabel} (+${PRODUCTION_LEAD.rushSurchargePercent}%).`;
 }
 
 /** Max laser bed size (cm) — single-piece cuts */

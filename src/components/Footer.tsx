@@ -28,8 +28,8 @@ export function Footer() {
               <BrandLogo variant="footer" />
             </p>
             <p className="muted">
-              Персонализирани подаръци и украси с гравиране — по готов модел
-              или ваш дизайн, с доставка в цяла България.
+              Подаръци с име, дата или послание — изрязани с лазер във Варна.
+              Готов модел или ваш дизайн, с доставка в цяла България.
             </p>
             <div className="footer-contact">
               <p>
@@ -62,8 +62,8 @@ export function Footer() {
           <div>
             <h3>Магазин</h3>
             <Link href="/katalog">Каталог</Link>
-            <Link href="/blog">Блог</Link>
-            <Link href="/custom">Поръчка по дизайн</Link>
+            <Link href="/blog">Идеи за подарък</Link>
+            <Link href="/custom">Ваш дизайн</Link>
             <Link href="/cart">Количка</Link>
             <Link href="/account">Моите поръчки</Link>
           </div>
@@ -83,7 +83,7 @@ export function Footer() {
             <Link href="/legal/privacy">Поверителност</Link>
             <Link href="/legal/returns">Рекламации</Link>
             <p className="muted" style={{ marginTop: "0.75rem" }}>
-              Еконт / Speedy · 2–5 раб. дни
+              Изработка 2–5 дни · Еконт и Speedy
             </p>
             <details className="footer-all-cats">
               <summary>Всички категории</summary>

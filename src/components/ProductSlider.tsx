@@ -24,15 +24,24 @@ const AUTO_MS = 4500;
 export function ProductSlider({ products }: Props) {
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
   const count = products.length;
 
   useEffect(() => {
-    if (count <= 1 || paused) return;
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const sync = () => setReduceMotion(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  useEffect(() => {
+    if (count <= 1 || paused || reduceMotion) return;
     const id = window.setInterval(() => {
       setIndex((i) => (i + 1) % count);
     }, AUTO_MS);
     return () => window.clearInterval(id);
-  }, [count, paused]);
+  }, [count, paused, reduceMotion]);
 
   if (count === 0) return null;
 
@@ -41,8 +50,9 @@ export function ProductSlider({ products }: Props) {
   return (
     <div
       className="product-slider"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
+      onPointerEnter={() => setPaused(true)}
+      onPointerLeave={() => setPaused(false)}
+      onPointerDown={() => setPaused(true)}
       onFocusCapture={() => setPaused(true)}
       onBlurCapture={(e) => {
         if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {

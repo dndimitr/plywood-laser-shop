@@ -14,7 +14,12 @@ export function OccasionCards({ items }: { items: OccasionCardItem[] }) {
   return (
     <div className="occasion-grid">
       {items.map((item) => (
-        <Link key={item.href} href={item.href} className="occasion-card">
+        <Link
+          key={item.href}
+          href={item.href}
+          className="occasion-card"
+          aria-label={`${item.label}, ${item.count} ${item.count === 1 ? "модел" : "модела"}`}
+        >
           <div className="occasion-card-media">
             {item.imageUrl ? (
               <Image

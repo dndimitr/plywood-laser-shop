@@ -28,7 +28,7 @@ export function HeaderSearch() {
           name="q"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          placeholder="Търсене…"
+          placeholder="Търси подарък…"
           autoComplete="off"
         />
       </form>

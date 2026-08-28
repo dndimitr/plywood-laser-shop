@@ -60,8 +60,8 @@ export async function Header() {
           </div>
           <Link href="/#kak-raboti">Как работи</Link>
           <NavLink href={categoryHref("nursery")}>Детска</NavLink>
-          <NavLink href="/blog">Блог</NavLink>
-          <NavLink href="/custom">По файл</NavLink>
+          <NavLink href="/blog">Идеи</NavLink>
+          <NavLink href="/custom">Ваш дизайн</NavLink>
           <NavLink href="/account">Поръчки</NavLink>
         </nav>
 
