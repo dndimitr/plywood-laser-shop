@@ -3558,6 +3558,15 @@ fieldset.field .radio {
 
 .fb-share-btn {
   width: auto;
+  min-height: 44px;
+}
+
+.fb-share-copied {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-muted, #5c5348);
+  max-width: 22rem;
+  line-height: 1.4;
 }
 
 .fb-page-link {

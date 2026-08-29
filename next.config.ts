@@ -1,6 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  transpilePackages: [
+    "capi-param-builder-nodejs",
+    "meta-capi-param-builder-clientjs",
+  ],
   images: {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",

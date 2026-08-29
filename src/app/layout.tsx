@@ -3,6 +3,7 @@ import { Onest, Source_Sans_3 } from "next/font/google";
 import { Analytics } from "@/components/Analytics";
 import { CookieConsent } from "@/components/CookieConsent";
 import { JsonLd } from "@/components/JsonLd";
+import { MetaPageViewTracker } from "@/components/MetaPageViewTracker";
 import { UtmCapture } from "@/components/UtmCapture";
 import {
   organizationJsonLd,
@@ -42,6 +43,7 @@ export default function RootLayout({
         {children}
         <Analytics />
         <UtmCapture />
+        <MetaPageViewTracker />
         <CookieConsent enabled={marketingEnabled} />
       </body>
     </html>

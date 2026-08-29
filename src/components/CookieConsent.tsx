@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-function applyConsent(choice: ConsentChoice) {
+function applyConsent(choice: ConsentChoice, announce = false) {
   const granted = choice === "accepted";
   if (typeof window.gtag === "function") {
     window.gtag("consent", "update", {
@@ -24,30 +24,9 @@ function applyConsent(choice: ConsentChoice) {
   }
   if (typeof window.fbq === "function") {
     window.fbq("consent", granted ? "grant" : "revoke");
-    // Single PageView after grant — with eventID for Pixel ↔ CAPI dedup
-    if (granted) {
-      const eventId =
-        typeof crypto !== "undefined" && "randomUUID" in crypto
-          ? `pv_${crypto.randomUUID().replace(/-/g, "")}`
-          : `pv_${Date.now()}`;
-      window.fbq("track", "PageView", {}, { eventID: eventId });
-      void fetch("/api/meta/capi", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          eventName: "PageView",
-          eventId,
-          eventSourceUrl: window.location.href.split("#")[0],
-          consent: true,
-          fbp: document.cookie
-            .split(";")
-            .map((c) => c.trim())
-            .find((c) => c.startsWith("_fbp="))
-            ?.slice(5),
-        }),
-        keepalive: true,
-      }).catch(() => {});
-    }
+  }
+  if (granted && announce) {
+    window.dispatchEvent(new Event("sb-marketing-consent"));
   }
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
@@ -89,7 +68,7 @@ export function CookieConsent({ enabled = true }: Props) {
     } catch {
       /* ignore */
     }
-    applyConsent(choice);
+    applyConsent(choice, true);
     setVisible(false);
   }
 

@@ -25,10 +25,14 @@ import { checkoutSchema } from "@/lib/validators";
 import { catalogContentIdsFromItems } from "@/lib/meta-catalog-ids";
 import {
   clientIpFromRequest,
-  parseCookie,
   purchaseEventId,
   sendMetaCapiEvent,
+  splitPersonName,
 } from "@/lib/meta-capi";
+import {
+  applyMetaClickCookies,
+  metaClickIdsFromRequest,
+} from "@/lib/meta-param-builder";
 import { formatEcontShippingAddress } from "@/lib/shipping-details";
 
 export async function POST(request: Request) {
@@ -305,14 +309,20 @@ export async function POST(request: Request) {
 
   // Server-side Meta CAPI Purchase (same event_id as browser Pixel for dedup)
   try {
-    const cookieHeader = request.headers.get("cookie");
+    const details = parsed.data.shippingDetails;
+    const names = splitPersonName(parsed.data.customerName);
+    const clicks = metaClickIdsFromRequest(request, {
+      fbclid: typeof body.fbclid === "string" ? body.fbclid : undefined,
+      fbc: typeof body.fbc === "string" ? body.fbc : undefined,
+      fbp: typeof body.fbp === "string" ? body.fbp : undefined,
+    });
     const contentIds = catalogContentIdsFromItems(pricedItems);
     const contents = pricedItems
       .filter((item) => item.productSlug)
       .map((item) => ({
         id: item.productSlug as string,
         quantity: item.quantity,
-        item_price: item.unitPrice,
+        item_price: roundMoney(item.unitPrice),
       }));
     await sendMetaCapiEvent({
       eventName: "Purchase",
@@ -321,13 +331,18 @@ export async function POST(request: Request) {
       user: {
         email: parsed.data.customerEmail,
         phone: parsed.data.customerPhone,
+        firstName: names.first,
+        lastName: names.last,
+        city: details && "city" in details ? details.city : undefined,
+        zip: details && "postCode" in details ? details.postCode : undefined,
+        country: "bg",
         clientIp: clientIpFromRequest(request),
         userAgent: request.headers.get("user-agent"),
-        fbp: parseCookie(cookieHeader, "_fbp"),
-        fbc: parseCookie(cookieHeader, "_fbc"),
+        fbp: clicks.fbp,
+        fbc: clicks.fbc,
       },
       customData: {
-        value: totalAmount,
+        value: roundMoney(totalAmount),
         currency: "EUR",
         ...(contentIds.length ? { content_ids: contentIds } : {}),
         content_type: "product",
@@ -336,6 +351,14 @@ export async function POST(request: Request) {
         ...(contents.length ? { contents } : {}),
       },
     });
+    const json = NextResponse.json({
+      orderId: order.id,
+      publicToken,
+      totalAmount: roundMoney(totalAmount),
+      paymentMethod: parsed.data.paymentMethod,
+    });
+    applyMetaClickCookies(json, clicks.cookiesToSet);
+    return json;
   } catch (err) {
     console.error("[meta-capi] purchase", err);
   }
@@ -343,7 +366,7 @@ export async function POST(request: Request) {
   return NextResponse.json({
     orderId: order.id,
     publicToken,
-    totalAmount,
+    totalAmount: roundMoney(totalAmount),
     paymentMethod: parsed.data.paymentMethod,
   });
 }

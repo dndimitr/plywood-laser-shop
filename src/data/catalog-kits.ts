@@ -233,6 +233,17 @@ export const FEATURED_KIT_SLUGS = FEATURED_KITS.map((k) => k.slug);
 
 export const KIT_SLUG_SET = new Set(CATALOG_KITS.map((k) => k.slug));
 
+/** Catalog “from” totals before kit discount — used as Facebook `price` vs `sale_price`. */
+export const KIT_LIST_PRICE_EUR: Record<string, number> = {
+  "komplekt-helouin-5-figuri": 60.5,
+  "komplekt-helouin-3-figuri": 36.3,
+  "komplekt-koleda-semeistvo": 51,
+  "komplekt-novorodeno-delux": 53.58,
+  "komplekt-svatba-start": 57.22,
+  "komplekt-montessori-start": 48.39,
+  "komplekt-montessori-matematika": 58.75,
+};
+
 export const KIT_RELATED: Record<string, { href: string; label: string }> = {
   "komplekt-helouin-5-figuri": {
     href: "/products/komplekt-helouin-3-figuri",

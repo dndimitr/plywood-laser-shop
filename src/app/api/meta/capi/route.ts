@@ -5,6 +5,10 @@ import {
   sendMetaCapiEvent,
   type MetaCapiEventName,
 } from "@/lib/meta-capi";
+import {
+  applyMetaClickCookies,
+  metaClickIdsFromRequest,
+} from "@/lib/meta-param-builder";
 
 type Body = {
   eventName: MetaCapiEventName;
@@ -19,8 +23,15 @@ type Body = {
   orderId?: string;
   email?: string;
   phone?: string;
+  firstName?: string;
+  lastName?: string;
+  city?: string;
+  zip?: string;
+  country?: string;
+  externalId?: string;
   fbp?: string;
   fbc?: string;
+  fbclid?: string;
   consent?: boolean;
 };
 
@@ -59,6 +70,13 @@ export async function POST(request: Request) {
     }))
     .filter((c) => c.id && toCatalogContentIds([c.id]).length > 0);
 
+  const clicks = metaClickIdsFromRequest(request, {
+    fbclid: body.fbclid,
+    fbc: body.fbc,
+    fbp: body.fbp,
+  });
+  const isCommerce = body.eventName !== "PageView";
+
   const result = await sendMetaCapiEvent({
     eventName: body.eventName,
     eventId: body.eventId,
@@ -66,22 +84,32 @@ export async function POST(request: Request) {
     user: {
       email: body.email,
       phone: body.phone,
+      firstName: body.firstName,
+      lastName: body.lastName,
+      city: body.city,
+      zip: body.zip,
+      country: body.country || "bg",
+      externalId: body.externalId,
       clientIp: clientIpFromRequest(request),
       userAgent: request.headers.get("user-agent"),
-      fbp: body.fbp,
-      fbc: body.fbc,
+      fbp: clicks.fbp,
+      fbc: clicks.fbc,
     },
-    customData: {
-      value: body.value,
-      currency: body.currency ?? "EUR",
-      ...(contentIds.length ? { content_ids: contentIds } : {}),
-      content_name: body.contentName,
-      content_type: "product",
-      ...(contents.length ? { contents } : {}),
-      num_items: body.numItems,
-      order_id: body.orderId,
-    },
+    customData: isCommerce
+      ? {
+          value: body.value,
+          currency: body.currency ?? "EUR",
+          ...(contentIds.length ? { content_ids: contentIds } : {}),
+          content_name: body.contentName,
+          content_type: "product",
+          ...(contents.length ? { contents } : {}),
+          num_items: body.numItems,
+          order_id: body.orderId,
+        }
+      : undefined,
   });
 
-  return NextResponse.json(result);
+  const response = NextResponse.json(result);
+  applyMetaClickCookies(response, clicks.cookiesToSet);
+  return response;
 }

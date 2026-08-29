@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import {
   applyUtmToGa4,
   captureUtmFromLocation,
+  collectMetaClickIds,
   hasMarketingConsent,
 } from "@/lib/tracking-client";
 
@@ -16,6 +17,7 @@ export function UtmCapture() {
     const utm = captureUtmFromLocation();
     if (!hasMarketingConsent()) return;
     applyUtmToGa4(utm);
+    void collectMetaClickIds();
     const t = window.setInterval(() => {
       if (hasMarketingConsent()) applyUtmToGa4(utm);
     }, 1000);

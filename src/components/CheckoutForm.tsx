@@ -10,6 +10,10 @@ import { cartItemImage } from "@/lib/cart-image";
 import { formatBgn } from "@/lib/pricing";
 import { FREE_SHIPPING_MIN_EUR } from "@/lib/shop-config";
 import { formatEcontShippingAddress, type EcontShippingDetails } from "@/lib/shipping-details";
+import {
+  collectMetaClickIds,
+  getMetaClickIdsForCheckout,
+} from "@/lib/tracking-client";
 
 type CourierOption = { id: string; label: string; fee: number };
 
@@ -75,6 +79,8 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
           ? formatEcontShippingAddress(shippingDetails)
           : form.shippingAddress;
 
+      await collectMetaClickIds();
+      const clickIds = getMetaClickIdsForCheckout();
       const res = await fetch("/api/checkout", {
         method: "POST",
         credentials: "same-origin",
@@ -83,6 +89,7 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
           ...form,
           shippingAddress,
           shippingDetails,
+          ...clickIds,
         }),
       });
       const text = await res.text();

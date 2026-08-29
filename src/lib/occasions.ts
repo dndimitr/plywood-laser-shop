@@ -375,5 +375,9 @@ export const OCCASION_RESERVED_PATHS = new Set([
   "idei",
   "blog",
   "katalog",
+  "sitemap",
+  "sitemap.xml",
+  "sitemap.txt",
+  "robots.txt",
   "manifest.webmanifest",
 ]);

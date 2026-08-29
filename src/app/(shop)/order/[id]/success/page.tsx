@@ -13,6 +13,7 @@ import {
 import { getBankDetails } from "@/lib/shop-config";
 import { buildPageMetadata } from "@/lib/seo";
 import { catalogContentIdsFromItems } from "@/lib/meta-catalog-ids";
+import { roundMoney } from "@/lib/pricing";
 import {
   adsConversionSendTo,
   getMarketingSettings,
@@ -68,10 +69,16 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
   }
 
   const bank = getBankDetails();
-  const total = Number(order.totalAmount);
+  const total = roundMoney(Number(order.totalAmount));
   const marketing = getMarketingSettings();
-  // Only catalog retailer IDs (product slugs) — custom lines omit content_ids
   const contentIds = catalogContentIdsFromItems(order.items);
+  const contents = order.items
+    .map((item) => ({
+      id: item.product?.slug ?? "",
+      quantity: item.quantity,
+      item_price: roundMoney(Number(item.unitPrice)),
+    }))
+    .filter((row) => row.id);
 
   return (
     <div className="container success-page">
@@ -80,8 +87,10 @@ export default async function OrderSuccessPage({ params, searchParams }: Props) 
         value={total}
         currency="EUR"
         contentIds={contentIds}
+        contents={contents}
         email={order.customerEmail}
         phone={order.customerPhone}
+        customerName={order.customerName}
         gaMeasurementId={marketing.gaMeasurementId || null}
         adsConversionSendTo={adsConversionSendTo(marketing)}
         metaPixelId={marketing.metaPixelId || null}

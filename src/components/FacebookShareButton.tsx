@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { IconShare } from "@/components/Icons";
-import { facebookShareUrl } from "@/lib/seo-client";
+import { facebookShareUrl, isMobileShareDevice } from "@/lib/seo-client";
 
 type Props = {
   url: string;
@@ -10,37 +10,84 @@ type Props = {
   pageUrl?: string | null;
 };
 
+function canonicalPageUrl(fallback: string): string {
+  if (typeof window === "undefined") return fallback;
+  const live = window.location.href.split("#")[0]?.split("?")[0];
+  return live?.startsWith("http") ? live : fallback;
+}
+
 /**
- * Споделяне на продукт като Facebook пост (Open Graph preview).
- * Отваря Facebook sharer — изберете страницата си, за да публикувате там.
- * Prefer the URL the visitor is viewing (custom domain) over a stale env host.
+ * Mobile: OS share sheet (Facebook app gets title + URL).
+ * Desktop: Facebook sharer.php.
+ * iOS/Android intercept sharer.php via Universal Links and drop `u=` —
+ * the app opens with an empty composer.
  */
 export function FacebookShareButton({ url, title, pageUrl }: Props) {
-  const [href, setHref] = useState(() => facebookShareUrl(url));
+  const [shareUrl, setShareUrl] = useState(url);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    const live = window.location.href.split("#")[0]?.split("?")[0];
-    if (live?.startsWith("http")) {
-      setHref(facebookShareUrl(live));
-    } else {
-      setHref(facebookShareUrl(url));
-    }
+    setShareUrl(canonicalPageUrl(url));
   }, [url]);
+
+  async function onShare() {
+    setCopied(false);
+    const href = canonicalPageUrl(url);
+    const shareTitle = title?.trim() || "Studio Breza";
+    const shareText = title?.trim()
+      ? `${title.trim()} — персонализиран подарък от Studio Breza`
+      : "Персонализирани подаръци от Studio Breza";
+    const payload: ShareData = {
+      title: shareTitle,
+      text: shareText,
+      url: href,
+    };
+
+    if (isMobileShareDevice() && typeof navigator.share === "function") {
+      try {
+        if (!navigator.canShare || navigator.canShare(payload)) {
+          await navigator.share(payload);
+          return;
+        }
+      } catch (err) {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+      }
+    }
+
+    if (!isMobileShareDevice()) {
+      const sharer = facebookShareUrl(href, shareText);
+      const opened = window.open(sharer, "_blank", "noopener,noreferrer");
+      if (!opened) window.location.assign(sharer);
+      return;
+    }
+
+    try {
+      await navigator.clipboard.writeText(href);
+      setCopied(true);
+    } catch {
+      window.prompt("Копирайте линка и го поставете във Facebook:", href);
+    }
+  }
 
   return (
     <div className="fb-share">
-      <a
+      <button
+        type="button"
         className="btn btn-ghost fb-share-btn"
-        href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+        onClick={() => void onShare()}
         aria-label={
-          title ? `Сподели „${title}“ във Facebook` : "Сподели във Facebook"
+          title ? `Сподели „${title}“` : "Сподели продукта"
         }
       >
         <IconShare size={18} aria-hidden />
-        Сподели във Facebook
-      </a>
+        Сподели
+      </button>
+      {copied ? (
+        <p className="fb-share-copied" role="status">
+          Линкът е копиран. Отворете Facebook и го поставете в нов пост — ще се
+          появи снимката и заглавието.
+        </p>
+      ) : null}
       {pageUrl ? (
         <a
           className="fb-page-link muted"

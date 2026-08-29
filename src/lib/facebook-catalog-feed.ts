@@ -1,4 +1,4 @@
-import { KIT_SLUG_SET } from "@/data/catalog-kits";
+import { KIT_LIST_PRICE_EUR, KIT_SLUG_SET } from "@/data/catalog-kits";
 import { prisma } from "@/lib/db";
 import { catalogProductWhere } from "@/lib/catalog-where";
 import {
@@ -22,6 +22,7 @@ export const FACEBOOK_CATALOG_COLUMNS = [
   "availability",
   "condition",
   "price",
+  "sale_price",
   "link",
   "image_link",
   "brand",
@@ -124,7 +125,9 @@ function productTitle(name: string): string {
  * Load active products and map them to Meta Commerce catalog rows.
  * Uses product slug as stable id (required: ids must not change across uploads).
  */
-export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> {
+export async function buildFacebookCatalogRows(opts?: {
+  kitsOnly?: boolean;
+}): Promise<FacebookCatalogRow[]> {
   const products = await prisma.product.findMany({
     where: { ...catalogProductWhere },
     orderBy: { name: "asc" },
@@ -139,9 +142,18 @@ export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> 
     },
   });
 
+  const selected = products
+    .filter((p) => (opts?.kitsOnly ? KIT_SLUG_SET.has(p.slug) : true))
+    .sort((a, b) => {
+      const aKit = KIT_SLUG_SET.has(a.slug);
+      const bKit = KIT_SLUG_SET.has(b.slug);
+      if (aKit !== bKit) return aKit ? -1 : 1;
+      return a.name.localeCompare(b.name, "bg");
+    });
+
   const rows: FacebookCatalogRow[] = [];
 
-  for (const product of products) {
+  for (const product of selected) {
     const image = absoluteAssetUrl(product.imageUrl);
     if (!image) continue; // Meta requires image_link
 
@@ -156,6 +168,15 @@ export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> 
     const cat = categoryById(catId);
     const price = Number(product.basePrice);
     const isKit = KIT_SLUG_SET.has(product.slug);
+    const listPrice = KIT_LIST_PRICE_EUR[product.slug];
+    const salePrice =
+      isKit && listPrice != null && listPrice > price
+        ? formatPriceEur(price)
+        : "";
+    const catalogPrice =
+      salePrice && listPrice != null
+        ? formatPriceEur(listPrice)
+        : formatPriceEur(price);
     const rawDescription = stripHtml(product.description || product.name);
     const description = truncateMeta(
       isKit && price >= FREE_SHIPPING_MIN_EUR
@@ -170,12 +191,15 @@ export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> 
       description: description || product.name,
       availability: "in stock",
       condition: "new",
-      price: formatPriceEur(price),
+      price: catalogPrice,
+      sale_price: salePrice,
       link: absoluteUrl(`/products/${product.slug}`),
       image_link: image,
       brand: SITE_NAME,
       additional_image_link: gallery.slice(0, 10).join(","),
-      product_type: cat?.label ?? product.category,
+      product_type: isKit
+        ? `Комплекти > ${cat?.label ?? product.category}`
+        : (cat?.label ?? product.category),
       google_product_category: GOOGLE_CATEGORY_BY_SHOP[catId] ?? "696",
       fb_product_category: FB_CATEGORY_BY_SHOP[catId] ?? "home > home decor",
       custom_label_0: product.category,
@@ -248,7 +272,7 @@ export function rowsToXml(rows: FacebookCatalogRow[]): string {
         : "";
 
       return `    <item>
-${xmlTag("g:id", row.id)}${xmlTag("g:title", row.title, true)}${xmlTag("g:description", row.description, true)}${xmlTag("g:link", row.link)}${xmlTag("g:image_link", row.image_link)}${extraImages}${xmlTag("g:availability", row.availability)}${xmlTag("g:condition", row.condition)}${xmlTag("g:price", row.price)}${xmlTag("g:brand", row.brand)}${xmlTag("g:mpn", row.mpn)}${xmlTag("g:product_type", row.product_type, true)}${xmlTag("g:google_product_category", row.google_product_category)}${xmlTag("g:custom_label_0", row.custom_label_0)}${xmlTag("g:custom_label_1", row.custom_label_1)}${xmlTag("g:quantity_to_sell_on_facebook", row.quantity_to_sell_on_facebook)}${xmlTag("g:shipping", row.shipping)}    </item>`;
+${xmlTag("g:id", row.id)}${xmlTag("g:title", row.title, true)}${xmlTag("g:description", row.description, true)}${xmlTag("g:link", row.link)}${xmlTag("g:image_link", row.image_link)}${extraImages}${xmlTag("g:availability", row.availability)}${xmlTag("g:condition", row.condition)}${xmlTag("g:price", row.price)}${xmlTag("g:sale_price", row.sale_price)}${xmlTag("g:brand", row.brand)}${xmlTag("g:mpn", row.mpn)}${xmlTag("g:product_type", row.product_type, true)}${xmlTag("g:google_product_category", row.google_product_category)}${xmlTag("g:custom_label_0", row.custom_label_0)}${xmlTag("g:custom_label_1", row.custom_label_1)}${xmlTag("g:quantity_to_sell_on_facebook", row.quantity_to_sell_on_facebook)}${xmlTag("g:shipping", row.shipping)}    </item>`;
     })
     .join("\n");
 

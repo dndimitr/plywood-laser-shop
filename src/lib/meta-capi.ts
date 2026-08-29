@@ -1,4 +1,5 @@
 import { createHash, randomUUID } from "crypto";
+import { roundMoney } from "@/lib/currency";
 import {
   getMarketingSettings,
   type MarketingSettings,
@@ -14,6 +15,12 @@ export type MetaCapiEventName =
 export type MetaCapiUserData = {
   email?: string | null;
   phone?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  city?: string | null;
+  zip?: string | null;
+  country?: string | null;
+  externalId?: string | null;
   clientIp?: string | null;
   userAgent?: string | null;
   fbp?: string | null;
@@ -35,22 +42,63 @@ function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
 }
 
+function hashNormalized(value: string): string {
+  return sha256(value);
+}
+
+function lettersOnly(raw: string): string {
+  return raw.trim().toLowerCase().replace(/[^\p{L}]/gu, "");
+}
+
+function alnumOnly(raw: string): string {
+  return raw.trim().toLowerCase().replace(/[^\p{L}\p{N}]/gu, "");
+}
+
+export function splitPersonName(full: string | null | undefined): {
+  first?: string;
+  last?: string;
+} {
+  const parts = (full ?? "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return {};
+  if (parts.length === 1) return { first: parts[0] };
+  return { first: parts[0], last: parts.slice(1).join(" ") };
+}
+
 /** Normalize + hash PII for Meta Advanced Matching. */
 export function hashMetaPii(
-  kind: "email" | "phone",
+  kind: "email" | "phone" | "name" | "city" | "zip" | "country" | "external_id",
   raw: string | null | undefined,
 ): string | undefined {
   if (!raw?.trim()) return undefined;
   if (kind === "email") {
-    return sha256(raw.trim().toLowerCase());
+    return hashNormalized(raw.trim().toLowerCase());
   }
-  const digits = raw.replace(/\D/g, "");
-  if (!digits) return undefined;
-  // Prefer E.164-ish: keep leading country if present, else assume BG 359
-  let phone = digits;
-  if (phone.startsWith("00")) phone = phone.slice(2);
-  if (phone.startsWith("0") && phone.length === 10) phone = `359${phone.slice(1)}`;
-  return sha256(phone);
+  if (kind === "phone") {
+    const digits = raw.replace(/\D/g, "");
+    if (!digits) return undefined;
+    let phone = digits;
+    if (phone.startsWith("00")) phone = phone.slice(2);
+    if (phone.startsWith("0") && phone.length === 10) {
+      phone = `359${phone.slice(1)}`;
+    }
+    return hashNormalized(phone);
+  }
+  if (kind === "name") {
+    const n = lettersOnly(raw);
+    return n ? hashNormalized(n) : undefined;
+  }
+  if (kind === "city") {
+    const n = alnumOnly(raw);
+    return n ? hashNormalized(n) : undefined;
+  }
+  if (kind === "zip") {
+    const n = raw.replace(/\D/g, "");
+    return n ? hashNormalized(n) : undefined;
+  }
+  if (kind === "country") {
+    return hashNormalized(raw.trim().toLowerCase());
+  }
+  return hashNormalized(raw.trim());
 }
 
 export function newMetaEventId(prefix = "evt"): string {
@@ -253,10 +301,31 @@ export async function sendMetaCapiEvent(input: {
   if (!creds) return { ok: true, skipped: true };
 
   const user_data: Record<string, string> = {};
+  const names = splitPersonName(
+    [input.user?.firstName, input.user?.lastName].filter(Boolean).join(" ") ||
+      undefined,
+  );
+  const first = input.user?.firstName || names.first;
+  const last = input.user?.lastName || names.last;
   const em = hashMetaPii("email", input.user?.email);
   const ph = hashMetaPii("phone", input.user?.phone);
+  const fn = hashMetaPii("name", first);
+  const ln = hashMetaPii("name", last);
+  const ct = hashMetaPii("city", input.user?.city);
+  const zp = hashMetaPii("zip", input.user?.zip);
+  const country = hashMetaPii("country", input.user?.country || "bg");
+  const externalId = hashMetaPii(
+    "external_id",
+    input.user?.externalId || input.user?.email || undefined,
+  );
   if (em) user_data.em = em;
   if (ph) user_data.ph = ph;
+  if (fn) user_data.fn = fn;
+  if (ln) user_data.ln = ln;
+  if (ct) user_data.ct = ct;
+  if (zp) user_data.zp = zp;
+  if (country) user_data.country = country;
+  if (externalId) user_data.external_id = externalId;
   if (input.user?.clientIp) user_data.client_ip_address = input.user.clientIp;
   if (input.user?.userAgent) user_data.client_user_agent = input.user.userAgent;
   if (input.user?.fbp) user_data.fbp = input.user.fbp;
@@ -265,12 +334,25 @@ export async function sendMetaCapiEvent(input: {
   const custom_data: Record<string, unknown> = {};
   const cd = input.customData;
   if (cd) {
-    if (cd.value != null) custom_data.value = cd.value;
+    if (cd.value != null) {
+      const amount = Number(cd.value);
+      if (Number.isFinite(amount) && amount >= 0) {
+        custom_data.value = roundMoney(amount);
+      }
+    }
+    if (cd.contents?.length) {
+      custom_data.contents = cd.contents.map((row) => ({
+        id: row.id,
+        quantity: row.quantity,
+        ...(row.item_price != null && Number.isFinite(Number(row.item_price))
+          ? { item_price: roundMoney(Number(row.item_price)) }
+          : {}),
+      }));
+    }
     if (cd.currency) custom_data.currency = cd.currency;
     if (cd.content_ids?.length) custom_data.content_ids = cd.content_ids;
     if (cd.content_type) custom_data.content_type = cd.content_type;
     if (cd.content_name) custom_data.content_name = cd.content_name;
-    if (cd.contents?.length) custom_data.contents = cd.contents;
     if (cd.num_items != null) custom_data.num_items = cd.num_items;
     if (cd.order_id) custom_data.order_id = cd.order_id;
   }

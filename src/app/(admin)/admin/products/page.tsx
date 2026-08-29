@@ -34,6 +34,12 @@ export default async function AdminProductsPage() {
           >
             Facebook каталог CSV
           </a>
+          <a
+            className="btn btn-ghost"
+            href="/feeds/facebook-catalog-kits.csv?download=1"
+          >
+            Комплекти CSV
+          </a>
           <Link href="/admin/products/new" className="btn btn-primary">
             Нов продукт
           </Link>

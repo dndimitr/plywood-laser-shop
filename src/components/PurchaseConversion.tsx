@@ -11,8 +11,10 @@ type Props = {
   value: number;
   currency?: string;
   contentIds?: string[];
+  contents?: Array<{ id: string; quantity: number; item_price?: number }>;
   email?: string | null;
   phone?: string | null;
+  customerName?: string | null;
   gaMeasurementId?: string | null;
   adsConversionSendTo?: string | null;
   metaPixelId?: string | null;
@@ -28,8 +30,10 @@ export function PurchaseConversion({
   value,
   currency = "EUR",
   contentIds,
+  contents,
   email,
   phone,
+  customerName,
   gaMeasurementId,
   adsConversionSendTo,
   metaPixelId,
@@ -60,13 +64,19 @@ export function PurchaseConversion({
       }
       if (!hasMarketingConsent()) return;
 
+      const nameParts = (customerName ?? "").trim().split(/\s+/).filter(Boolean);
+
       await trackPurchaseBrowser({
         orderId,
         value,
         currency,
         contentIds,
+        contents,
         email: email ?? undefined,
         phone: phone ?? undefined,
+        firstName: nameParts[0],
+        lastName:
+          nameParts.length > 1 ? nameParts.slice(1).join(" ") : undefined,
         gaId: gaMeasurementId,
         adsSendTo: adsConversionSendTo,
       });
@@ -94,8 +104,10 @@ export function PurchaseConversion({
     value,
     currency,
     contentIds,
+    contents,
     email,
     phone,
+    customerName,
     gaMeasurementId,
     adsConversionSendTo,
     metaPixelId,

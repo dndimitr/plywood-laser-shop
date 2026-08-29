@@ -1,6 +1,7 @@
 /** Browser tracking helpers — Meta Pixel + GA4 + UTM (client-only). */
 
 import { CONSENT_STORAGE_KEY, type ConsentChoice } from "@/lib/seo-client";
+import { roundMoney } from "@/lib/currency";
 
 export const UTM_STORAGE_KEY = "sb_utm_v1";
 
@@ -72,7 +73,151 @@ export function captureUtmFromLocation(search = ""): UtmParams {
       /* ignore */
     }
   }
+  persistFbcCookie(next.fbclid);
   return next;
+}
+
+function persistFbcCookie(fbclid?: string) {
+  if (typeof document === "undefined" || !fbclid) return;
+  if (readCookie("_fbc")) return;
+  const secure = window.location.protocol === "https:" ? "; Secure" : "";
+  document.cookie = `_fbc=${encodeURIComponent(`fb.1.${Date.now()}.${fbclid}`)}; path=/; max-age=${90 * 24 * 3600}; SameSite=Lax${secure}`;
+}
+
+/** Meta parameter builder — recovers fbc from URL, referrer, and in-app browsers. */
+export async function collectMetaClickIds(): Promise<{
+  fbc?: string;
+  fbp?: string;
+}> {
+  if (typeof window === "undefined") return {};
+  captureUtmFromLocation();
+  const utm = readUtm();
+  const url =
+    utm.fbclid && !window.location.search.includes("fbclid")
+      ? `${window.location.origin}${window.location.pathname}?fbclid=${encodeURIComponent(utm.fbclid)}`
+      : window.location.href;
+  try {
+    const builder = await import("meta-capi-param-builder-clientjs");
+    await builder.processAndCollectAllParams(url);
+    const fbc = builder.getFbc() || undefined;
+    const fbp = builder.getFbp() || undefined;
+    if (!fbc) persistFbcCookie(utm.fbclid);
+    return {
+      fbc: fbc || readCookie("_fbc") || fbcFromFbclid(utm.fbclid),
+      fbp: fbp || readCookie("_fbp"),
+    };
+  } catch {
+    persistFbcCookie(utm.fbclid);
+    return metaClickIds();
+  }
+}
+
+export const META_CONSENT_EVENT = "sb-marketing-consent";
+const META_EID_KEY = "sb_meta_eid_v1";
+const META_AM_KEY = "sb_meta_am_v1";
+
+export type MetaAdvancedMatching = {
+  email?: string;
+  phone?: string;
+  firstName?: string;
+  lastName?: string;
+  city?: string;
+  zip?: string;
+};
+
+export function getMetaExternalId(): string | undefined {
+  if (typeof window === "undefined") return undefined;
+  try {
+    let id = localStorage.getItem(META_EID_KEY);
+    if (!id) {
+      id =
+        typeof crypto !== "undefined" && "randomUUID" in crypto
+          ? crypto.randomUUID()
+          : `eid_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+      localStorage.setItem(META_EID_KEY, id);
+    }
+    return id;
+  } catch {
+    return undefined;
+  }
+}
+
+export function rememberMetaAdvancedMatching(data: MetaAdvancedMatching) {
+  if (!hasMarketingConsent()) return;
+  try {
+    const prev = readMetaAdvancedMatching();
+    localStorage.setItem(
+      META_AM_KEY,
+      JSON.stringify({ ...prev, ...data }),
+    );
+  } catch {
+    /* ignore */
+  }
+  applyMetaAdvancedMatching();
+}
+
+function readMetaAdvancedMatching(): MetaAdvancedMatching {
+  try {
+    const raw = localStorage.getItem(META_AM_KEY);
+    if (!raw) return {};
+    return JSON.parse(raw) as MetaAdvancedMatching;
+  } catch {
+    return {};
+  }
+}
+
+function applyMetaAdvancedMatching() {
+  const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim();
+  if (!pixelId || typeof window.fbq !== "function") return;
+  const am = readMetaAdvancedMatching();
+  const payload: Record<string, string> = {
+    country: "bg",
+  };
+  const eid = getMetaExternalId();
+  if (eid) payload.external_id = eid;
+  if (am.email) payload.em = am.email.trim().toLowerCase();
+  if (am.phone) payload.ph = am.phone;
+  if (am.firstName) payload.fn = am.firstName;
+  if (am.lastName) payload.ln = am.lastName;
+  if (am.city) payload.ct = am.city;
+  if (am.zip) payload.zp = am.zip;
+  window.fbq("init", pixelId, payload);
+}
+
+function metaClickIds() {
+  const utm = readUtm();
+  persistFbcCookie(utm.fbclid);
+  return {
+    fbp: readCookie("_fbp"),
+    fbc: readCookie("_fbc") || fbcFromFbclid(utm.fbclid),
+  };
+}
+
+function matchingPayload() {
+  const am = readMetaAdvancedMatching();
+  const clicks = metaClickIds();
+  return {
+    email: am.email,
+    phone: am.phone,
+    firstName: am.firstName,
+    lastName: am.lastName,
+    city: am.city,
+    zip: am.zip,
+    country: "bg",
+    externalId: getMetaExternalId(),
+    fbclid: readUtm().fbclid,
+    ...clicks,
+  };
+}
+
+export function getMetaClickIdsForCheckout() {
+  const utm = readUtm();
+  persistFbcCookie(utm.fbclid);
+  return {
+    fbc: readCookie("_fbc") || fbcFromFbclid(utm.fbclid) || "",
+    fbp: readCookie("_fbp") || "",
+    fbclid: utm.fbclid || "",
+  };
 }
 
 /** Apply stored UTM/campaign to GA4 for Ads ↔ GA4 cross-check. */
@@ -119,7 +264,7 @@ function fbcFromFbclid(fbclid?: string): string | undefined {
 
 type CommercePayload = {
   eventId: string;
-  value: number;
+  value?: number;
   currency?: string;
   /** Catalog retailer IDs only (product slugs). Omit for custom-only carts. */
   contentIds?: string[];
@@ -129,17 +274,24 @@ type CommercePayload = {
   orderId?: string;
   email?: string;
   phone?: string;
+  firstName?: string;
+  lastName?: string;
+  city?: string;
+  zip?: string;
   /** Override page URL sent to CAPI (defaults to window.location.href). */
   eventSourceUrl?: string;
 };
 
 async function sendCapiBrowser(
-  eventName: "AddToCart" | "InitiateCheckout" | "Purchase" | "ViewContent",
+  eventName:
+    | "AddToCart"
+    | "InitiateCheckout"
+    | "Purchase"
+    | "ViewContent"
+    | "PageView",
   payload: CommercePayload,
 ) {
-  const utm = readUtm();
-  const fbp = readCookie("_fbp");
-  const fbc = readCookie("_fbc") || fbcFromFbclid(utm.fbclid);
+  const match = matchingPayload();
   const eventSourceUrl =
     payload.eventSourceUrl ||
     (typeof window !== "undefined"
@@ -154,17 +306,24 @@ async function sendCapiBrowser(
         eventId: payload.eventId,
         eventSourceUrl,
         value: payload.value,
-        currency: payload.currency ?? "EUR",
+        currency: payload.currency ?? (payload.value != null ? "EUR" : undefined),
         contentIds: payload.contentIds?.length ? payload.contentIds : undefined,
         contentName: payload.contentName,
         numItems: payload.numItems,
         contents: payload.contents?.length ? payload.contents : undefined,
         orderId: payload.orderId,
-        email: payload.email,
-        phone: payload.phone,
-        fbp,
-        fbc,
-        utm,
+        email: payload.email || match.email,
+        phone: payload.phone || match.phone,
+        firstName: payload.firstName || match.firstName,
+        lastName: payload.lastName || match.lastName,
+        city: payload.city || match.city,
+        zip: payload.zip || match.zip,
+        country: match.country,
+        externalId: match.externalId,
+        fbp: match.fbp,
+        fbc: match.fbc,
+        fbclid: match.fbclid,
+        utm: readUtm(),
         consent: true,
       }),
       keepalive: true,
@@ -172,6 +331,22 @@ async function sendCapiBrowser(
   } catch {
     /* non-blocking */
   }
+}
+
+export async function trackPageView() {
+  if (!hasMarketingConsent()) return;
+  await collectMetaClickIds();
+  applyMetaAdvancedMatching();
+  const eventId = newClientEventId("pv");
+  if (typeof window.fbq === "function") {
+    window.fbq("track", "PageView", {}, { eventID: eventId });
+  }
+  await new Promise((r) => window.setTimeout(r, 400));
+  await collectMetaClickIds();
+  await sendCapiBrowser("PageView", {
+    eventId,
+    eventSourceUrl: window.location.href.split("#")[0],
+  });
 }
 
 /** Public alias for ViewContent / other call sites. */
@@ -200,6 +375,7 @@ export async function trackAddToCart(input: {
   gaId?: string | null;
 }) {
   if (!hasMarketingConsent()) return;
+  applyMetaAdvancedMatching();
   const eventId = newClientEventId("atc");
   const currency = input.currency ?? "EUR";
   const qty = input.quantity ?? 1;
@@ -264,6 +440,7 @@ export async function trackInitiateCheckout(input: {
   gaId?: string | null;
 }) {
   if (!hasMarketingConsent()) return;
+  applyMetaAdvancedMatching();
   const eventId = newClientEventId("ic");
   const currency = input.currency ?? "EUR";
   const contentIds = input.contentIds.filter(Boolean);
@@ -308,27 +485,39 @@ export async function trackPurchaseBrowser(input: {
   value: number;
   currency?: string;
   contentIds?: string[];
+  contents?: Array<{ id: string; quantity: number; item_price?: number }>;
   email?: string;
   phone?: string;
+  firstName?: string;
+  lastName?: string;
+  city?: string;
+  zip?: string;
   gaId?: string | null;
   adsSendTo?: string | null;
 }) {
   if (!hasMarketingConsent()) return;
+  await collectMetaClickIds();
+  applyMetaAdvancedMatching();
   const eventId = `purchase_${input.orderId}`;
   const currency = input.currency ?? "EUR";
-  // Never fall back to orderId — that tanks Meta catalog match rate
+  const value = roundMoney(Number(input.value));
   const contentIds = (input.contentIds ?? []).filter(Boolean);
+  const contents = (input.contents ?? []).filter((c) => c.id);
+  const numItems =
+    contents.reduce((s, c) => s + c.quantity, 0) || contentIds.length || 1;
 
   if (typeof window.fbq === "function") {
     window.fbq(
       "track",
       "Purchase",
       {
-        value: input.value,
+        value,
         currency,
         ...(contentIds.length ? { content_ids: contentIds } : {}),
+        ...(contents.length ? { contents } : {}),
         content_type: "product",
-        num_items: contentIds.length || 1,
+        num_items: numItems,
+        order_id: input.orderId,
       },
       { eventID: eventId },
     );
@@ -338,7 +527,7 @@ export async function trackPurchaseBrowser(input: {
     applyUtmToGa4();
     window.gtag("event", "purchase", {
       transaction_id: input.orderId,
-      value: input.value,
+      value,
       currency,
       ...ga4CampaignParams(),
       send_to: input.gaId,
@@ -348,19 +537,36 @@ export async function trackPurchaseBrowser(input: {
   if (input.adsSendTo && typeof window.gtag === "function") {
     window.gtag("event", "conversion", {
       send_to: input.adsSendTo,
-      value: input.value,
+      value,
       currency,
       transaction_id: input.orderId,
     });
   }
 
+  if (input.email || input.phone || input.firstName) {
+    rememberMetaAdvancedMatching({
+      email: input.email,
+      phone: input.phone,
+      firstName: input.firstName,
+      lastName: input.lastName,
+      city: input.city,
+      zip: input.zip,
+    });
+  }
+
   await sendCapiBrowser("Purchase", {
     eventId,
-    value: input.value,
+    value,
     currency,
     contentIds: contentIds.length ? contentIds : undefined,
+    contents: contents.length ? contents : undefined,
+    numItems,
     orderId: input.orderId,
     email: input.email,
     phone: input.phone,
+    firstName: input.firstName,
+    lastName: input.lastName,
+    city: input.city,
+    zip: input.zip,
   });
 }
