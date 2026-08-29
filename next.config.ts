@@ -55,10 +55,18 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Cache-Control",
-            value:
-              "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+            value: "public, max-age=3600, must-revalidate",
           },
-          { key: "Vary", value: "Accept-Encoding" },
+        ],
+      },
+      {
+        source: "/sitemap.txt",
+        headers: [
+          { key: "Content-Type", value: "text/plain; charset=utf-8" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, must-revalidate",
+          },
         ],
       },
       {

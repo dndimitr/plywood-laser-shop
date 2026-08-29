@@ -10,7 +10,7 @@ import {
   giftGuidesNewestFirst,
 } from "@/lib/gift-guides";
 import { OCCASIONS, occasionPath } from "@/lib/occasions";
-import { absoluteUrl, getSiteUrl } from "@/lib/seo";
+import { CANONICAL_SITE_URL } from "@/lib/seo";
 
 export type SitemapEntry = {
   loc: string;
@@ -42,18 +42,12 @@ function xmlEscape(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
-/** Absolute loc for GSC: homepage with trailing slash, others percent-encoded. */
+/** Always the live shop host — GSC rejects localhost / vercel.app locs. */
 function locFor(path: string): string {
-  if (!path || path === "/") {
-    return `${getSiteUrl().replace(/\/$/, "")}/`;
-  }
-  return encodeURI(absoluteUrl(path));
-}
-
-function formatPriority(priority: number): string {
-  // Keep one decimal when possible (1.0, 0.8); two for 0.95.
-  const two = priority.toFixed(2);
-  return two.endsWith("0") ? two.slice(0, -1) : two;
+  const base = CANONICAL_SITE_URL.replace(/\/$/, "");
+  if (!path || path === "/") return `${base}/`;
+  const suffix = path.startsWith("/") ? path : `/${path}`;
+  return encodeURI(`${base}${suffix}`);
 }
 
 export function staticSitemapEntries(now = new Date()): SitemapEntry[] {
@@ -188,12 +182,6 @@ export function entriesToSitemapXml(entries: SitemapEntry[]): string {
         "  <url>",
         `    <loc>${xmlEscape(e.loc)}</loc>`,
         e.lastmod ? `    <lastmod>${xmlEscape(e.lastmod)}</lastmod>` : "",
-        e.changefreq
-          ? `    <changefreq>${xmlEscape(e.changefreq)}</changefreq>`
-          : "",
-        e.priority != null
-          ? `    <priority>${formatPriority(e.priority)}</priority>`
-          : "",
         "  </url>",
       ].filter(Boolean);
       return parts.join("\n");
@@ -205,4 +193,9 @@ export function entriesToSitemapXml(entries: SitemapEntry[]): string {
 ${body}
 </urlset>
 `;
+}
+
+/** Google also accepts a plain-text sitemap (one URL per line). */
+export function entriesToSitemapTxt(entries: SitemapEntry[]): string {
+  return `${entries.map((e) => e.loc).join("\n")}\n`;
 }
