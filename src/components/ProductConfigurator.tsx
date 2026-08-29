@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { KIT_ENGRAVING_HINTS } from "@/data/catalog-kits";
 import { IconCart } from "@/components/Icons";
 import { calculateTemplatePrice, formatBgn } from "@/lib/pricing";
 import { laserTypeLabel } from "@/lib/labels";
@@ -29,6 +30,7 @@ type Props = {
   basePrice: number;
   options: Option[];
   gaMeasurementId?: string | null;
+  engravingPlaceholder?: string;
 };
 
 const QTY_TIERS = [
@@ -44,6 +46,7 @@ export function ProductConfigurator({
   basePrice,
   options,
   gaMeasurementId,
+  engravingPlaceholder = "Име, инициали, кратко послание…",
 }: Props) {
   const router = useRouter();
   const [optionId, setOptionId] = useState(options[0]?.id ?? "");
@@ -59,6 +62,9 @@ export function ProductConfigurator({
     [optionId, options],
   );
 
+  const isKit = Boolean(KIT_ENGRAVING_HINTS[productSlug]);
+  const qtyTiers = isKit ? [] : QTY_TIERS;
+
   const lineTotal = selected
     ? calculateTemplatePrice(
         basePrice,
@@ -68,12 +74,12 @@ export function ProductConfigurator({
           rush,
           rushMultiplier: 1.5,
           doubleSided: Boolean(selected.doubleSided),
-          quantityDiscounts: QTY_TIERS.map((t) => ({ ...t })),
+          quantityDiscounts: qtyTiers.map((t) => ({ ...t })),
         },
       )
     : basePrice;
 
-  const activeTier = [...QTY_TIERS].reverse().find((t) => quantity >= t.minQty);
+  const activeTier = [...qtyTiers].reverse().find((t) => quantity >= t.minQty);
 
   async function addToCart() {
     setPending(true);
@@ -155,7 +161,7 @@ export function ProductConfigurator({
                     {o.sizeLabel} · {o.thicknessMm} мм
                   </span>
                   <span className="option-tile-price">
-                    +{formatBgn(Number(o.priceModifier))}
+                    {formatBgn(basePrice + Number(o.priceModifier))}
                   </span>
                 </label>
               );
@@ -177,7 +183,7 @@ export function ProductConfigurator({
           <input
             value={engravingText}
             onChange={(e) => setEngravingText(e.target.value)}
-            placeholder="Име, инициали, кратко послание…"
+            placeholder={engravingPlaceholder}
             maxLength={200}
           />
         </label>
@@ -210,16 +216,23 @@ export function ProductConfigurator({
               +
             </button>
           </div>
-          <div className="qty-tiers" aria-label="Отстъпки за количество">
-            {QTY_TIERS.map((tier) => (
-              <span
-                key={tier.minQty}
-                className={`qty-tier${quantity >= tier.minQty ? " is-on" : ""}`}
-              >
-                {tier.minQty}+ бр. −{tier.percentOff}%
-              </span>
-            ))}
-          </div>
+          {qtyTiers.length > 0 ? (
+            <div className="qty-tiers" aria-label="Отстъпки за количество">
+              {qtyTiers.map((tier) => (
+                <span
+                  key={tier.minQty}
+                  className={`qty-tier${quantity >= tier.minQty ? " is-on" : ""}`}
+                >
+                  {tier.minQty}+ бр. −{tier.percentOff}%
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="muted" style={{ fontSize: "0.85rem" }}>
+              Количеството е брой комплекти. Съставът се избира от варианта
+              по-горе.
+            </p>
+          )}
           {activeTier ? (
             <span className="muted" style={{ fontSize: "0.85rem" }}>
               Приложена отстъпка −{activeTier.percentOff}%

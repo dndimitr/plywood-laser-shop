@@ -1,9 +1,14 @@
+import { KIT_ENGRAVING_HINTS } from "@/data/catalog-kits";
 import {
   categoryLandingById,
   categoryLandingPath,
 } from "@/lib/category-landings";
 import { occasionByCategoryId, occasionPath } from "@/lib/occasions";
-import { categoryById, type CategoryId } from "@/lib/shop-config";
+import {
+  categoryById,
+  FREE_SHIPPING_MIN_EUR,
+  type CategoryId,
+} from "@/lib/shop-config";
 import { SITE_NAME, truncateMeta } from "@/lib/seo";
 
 const CATEGORY_LONG_TAIL: Partial<Record<CategoryId, string>> = {
@@ -105,8 +110,13 @@ export function buildProductSeo(input: ProductSeoInput): ProductSeo {
     longTail
       ? `Търсите ${longTail}? „${input.name}“ се изработва с лазерно гравиране по ваш текст — име, инициали, дата или кратко послание. Преди изработка потвърждаваме макета при нужда.`
       : `„${input.name}“ се изработва с лазерно гравиране по ваш текст — име, инициали, дата или кратко послание. Преди изработка потвърждаваме макета при нужда.`,
+    KIT_ENGRAVING_HINTS[input.slug]
+      ? input.slug === "komplekt-helouin-3-figuri"
+        ? `Този комплект е под ${FREE_SHIPPING_MIN_EUR} €, затова доставката се заплаща. Комплектът от 5 фигури вече включва безплатна доставка.`
+        : `Комплектът е над ${FREE_SHIPPING_MIN_EUR} € и включва безплатна куриерска доставка — една пратка вместо няколко отделни поръчки.`
+      : null,
     `Поръчвате без регистрация. Стандартният срок е 2–5 работни дни след потвърждение; при близка дата може да заявите ускорена изработка. Доставката е с Еконт или Speedy в цяла България, с опция за лично получаване.`,
-  ];
+  ].filter((p): p is string => Boolean(p));
 
   return {
     title,

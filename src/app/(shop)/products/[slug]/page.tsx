@@ -22,6 +22,7 @@ import {
   buildPageMetadata,
   productJsonLd,
 } from "@/lib/seo";
+import { KIT_ENGRAVING_HINTS, KIT_RELATED } from "@/data/catalog-kits";
 import { getMarketingSettings } from "@/lib/shop-settings";
 
 export const dynamic = "force-dynamic";
@@ -153,6 +154,13 @@ export default async function ProductPage({ params }: Props) {
                 {seo.bodyParagraphs.map((p) => (
                   <p key={p.slice(0, 48)}>{p}</p>
                 ))}
+                {KIT_RELATED[product.slug] ? (
+                  <p>
+                    <Link href={KIT_RELATED[product.slug]!.href}>
+                      {KIT_RELATED[product.slug]!.label}
+                    </Link>
+                  </p>
+                ) : null}
               </div>
               {marketing.facebookShareEnabled ? (
                 <FacebookShareButton
@@ -170,6 +178,10 @@ export default async function ProductPage({ params }: Props) {
             productName={product.name}
             basePrice={basePrice}
             gaMeasurementId={marketing.gaMeasurementId || null}
+            engravingPlaceholder={
+              KIT_ENGRAVING_HINTS[product.slug] ??
+              "Име, инициали, кратко послание…"
+            }
             options={product.options.map((o) => ({
               id: o.id,
               label: o.label,

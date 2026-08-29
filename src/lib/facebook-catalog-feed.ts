@@ -1,3 +1,4 @@
+import { KIT_SLUG_SET } from "@/data/catalog-kits";
 import { prisma } from "@/lib/db";
 import { catalogProductWhere } from "@/lib/catalog-where";
 import {
@@ -29,6 +30,7 @@ export const FACEBOOK_CATALOG_COLUMNS = [
   "google_product_category",
   "fb_product_category",
   "custom_label_0",
+  "custom_label_1",
   "mpn",
   "quantity_to_sell_on_facebook",
   "shipping",
@@ -152,11 +154,15 @@ export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> 
 
     const catId = product.category as CategoryId;
     const cat = categoryById(catId);
+    const price = Number(product.basePrice);
+    const isKit = KIT_SLUG_SET.has(product.slug);
+    const rawDescription = stripHtml(product.description || product.name);
     const description = truncateMeta(
-      stripHtml(product.description || product.name),
+      isKit && price >= FREE_SHIPPING_MIN_EUR
+        ? `Безплатна доставка. ${rawDescription}`
+        : rawDescription,
       5000,
     );
-    const price = Number(product.basePrice);
 
     rows.push({
       id: product.slug,
@@ -173,6 +179,7 @@ export async function buildFacebookCatalogRows(): Promise<FacebookCatalogRow[]> 
       google_product_category: GOOGLE_CATEGORY_BY_SHOP[catId] ?? "696",
       fb_product_category: FB_CATEGORY_BY_SHOP[catId] ?? "home > home decor",
       custom_label_0: product.category,
+      custom_label_1: isKit ? "komplekt" : "",
       mpn: product.slug,
       quantity_to_sell_on_facebook: "100",
       // Hint for Meta: free shipping applies from FREE_SHIPPING_MIN_EUR cart total
@@ -241,7 +248,7 @@ export function rowsToXml(rows: FacebookCatalogRow[]): string {
         : "";
 
       return `    <item>
-${xmlTag("g:id", row.id)}${xmlTag("g:title", row.title, true)}${xmlTag("g:description", row.description, true)}${xmlTag("g:link", row.link)}${xmlTag("g:image_link", row.image_link)}${extraImages}${xmlTag("g:availability", row.availability)}${xmlTag("g:condition", row.condition)}${xmlTag("g:price", row.price)}${xmlTag("g:brand", row.brand)}${xmlTag("g:mpn", row.mpn)}${xmlTag("g:product_type", row.product_type, true)}${xmlTag("g:google_product_category", row.google_product_category)}${xmlTag("g:custom_label_0", row.custom_label_0)}${xmlTag("g:quantity_to_sell_on_facebook", row.quantity_to_sell_on_facebook)}${xmlTag("g:shipping", row.shipping)}    </item>`;
+${xmlTag("g:id", row.id)}${xmlTag("g:title", row.title, true)}${xmlTag("g:description", row.description, true)}${xmlTag("g:link", row.link)}${xmlTag("g:image_link", row.image_link)}${extraImages}${xmlTag("g:availability", row.availability)}${xmlTag("g:condition", row.condition)}${xmlTag("g:price", row.price)}${xmlTag("g:brand", row.brand)}${xmlTag("g:mpn", row.mpn)}${xmlTag("g:product_type", row.product_type, true)}${xmlTag("g:google_product_category", row.google_product_category)}${xmlTag("g:custom_label_0", row.custom_label_0)}${xmlTag("g:custom_label_1", row.custom_label_1)}${xmlTag("g:quantity_to_sell_on_facebook", row.quantity_to_sell_on_facebook)}${xmlTag("g:shipping", row.shipping)}    </item>`;
     })
     .join("\n");
 

@@ -32,6 +32,10 @@ import {
   PRODUCTION_LEAD,
 } from "@/lib/shop-config";
 import {
+  FEATURED_KITS,
+  FEATURED_KIT_SLUGS,
+} from "@/data/catalog-kits";
+import {
   aggregateRatingJsonLd,
   breadcrumbJsonLd,
   buildPageMetadata,
@@ -96,7 +100,7 @@ export default async function HomePage({ searchParams }: HomeProps) {
     imageUrl: true,
   } as const;
 
-  const [featuredPool, nurseryProducts, weddingProducts, reviews, catalogMeta] =
+  const [featuredPool, nurseryProducts, weddingProducts, kitPool, reviews, catalogMeta] =
     await Promise.all([
       prisma.product.findMany({
         where: { ...catalogProductWhere },
@@ -116,6 +120,13 @@ export default async function HomePage({ searchParams }: HomeProps) {
         orderBy: { name: "asc" },
         take: 4,
       }),
+      prisma.product.findMany({
+        where: {
+          ...catalogProductWhere,
+          slug: { in: [...FEATURED_KIT_SLUGS] },
+        },
+        select: productSelect,
+      }),
       prisma.review.findMany({
         where: { published: true },
         include: { product: { select: { name: true, slug: true } } },
@@ -128,6 +139,12 @@ export default async function HomePage({ searchParams }: HomeProps) {
         orderBy: { updatedAt: "desc" },
       }),
     ]);
+
+  const kitOrder = new Map(FEATURED_KITS.map((k, i) => [k.slug, i]));
+  const kitBadge = new Map(FEATURED_KITS.map((k) => [k.slug, k.badge]));
+  const kitProducts = [...kitPool].sort(
+    (a, b) => (kitOrder.get(a.slug) ?? 99) - (kitOrder.get(b.slug) ?? 99),
+  );
 
   const featuredSlider = featuredPool
     .filter((p) => Boolean(p.imageUrl))
@@ -231,6 +248,36 @@ export default async function HomePage({ searchParams }: HomeProps) {
           </p>
         </div>
       </section>
+
+      {kitProducts.length > 0 ? (
+        <section
+          id="komplekti"
+          className="section container"
+          aria-labelledby="komplekti-heading"
+        >
+          <h2 id="komplekti-heading">Готови комплекти — с безплатна доставка</h2>
+          <p className="section-lead">
+            Пет готови подаръка. Цените са 9–13% под сбора на отделните модели:
+            една лазерна подготовка и една пратка. Всеки комплект е над{" "}
+            {FREE_SHIPPING_MIN_EUR} €.
+          </p>
+          <div className="product-grid">
+            {kitProducts.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={{
+                  name: p.name,
+                  slug: p.slug,
+                  description: p.description,
+                  basePrice: Number(p.basePrice),
+                  imageUrl: p.imageUrl,
+                  badge: kitBadge.get(p.slug) ?? "Комплект",
+                }}
+              />
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <section
         id="izbrani"

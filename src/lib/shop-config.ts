@@ -180,7 +180,7 @@ export const COURIERS = [
 ] as const;
 
 /** Free courier shipping when order subtotal reaches this EUR amount */
-export const FREE_SHIPPING_MIN_EUR = 50;
+export const FREE_SHIPPING_MIN_EUR = 35;
 
 export function getBankDetails() {
   return {
