@@ -10,7 +10,7 @@ import {
   giftGuidesNewestFirst,
 } from "@/lib/gift-guides";
 import { OCCASIONS, occasionPath } from "@/lib/occasions";
-import { absoluteUrl } from "@/lib/seo";
+import { absoluteUrl, getSiteUrl } from "@/lib/seo";
 
 export type SitemapEntry = {
   loc: string;
@@ -26,8 +26,10 @@ export type SitemapEntry = {
   priority?: number;
 };
 
+/** Stay under Vercel Hobby's 10s function limit (cold Neon + query). */
+const PRODUCT_QUERY_MS = 3_500;
+
 function formatLastmod(d: Date): string {
-  // Google prefers W3C date; date-only is widely accepted and stable
   return d.toISOString().slice(0, 10);
 }
 
@@ -40,8 +42,95 @@ function xmlEscape(value: string): string {
     .replace(/'/g, "&apos;");
 }
 
+/** Absolute loc for GSC: homepage with trailing slash, others percent-encoded. */
+function locFor(path: string): string {
+  if (!path || path === "/") {
+    return `${getSiteUrl().replace(/\/$/, "")}/`;
+  }
+  return encodeURI(absoluteUrl(path));
+}
+
+function formatPriority(priority: number): string {
+  // Keep one decimal when possible (1.0, 0.8); two for 0.95.
+  const two = priority.toFixed(2);
+  return two.endsWith("0") ? two.slice(0, -1) : two;
+}
+
+export function staticSitemapEntries(now = new Date()): SitemapEntry[] {
+  const lastmod = formatLastmod(now);
+
+  const staticEntries: SitemapEntry[] = [
+    { loc: locFor("/"), lastmod, changefreq: "daily", priority: 1 },
+    {
+      loc: locFor("/katalog"),
+      lastmod,
+      changefreq: "daily",
+      priority: 0.95,
+    },
+    {
+      loc: locFor("/custom"),
+      lastmod,
+      changefreq: "weekly",
+      priority: 0.9,
+    },
+    {
+      loc: locFor(blogIndexPath()),
+      lastmod,
+      changefreq: "weekly",
+      priority: 0.9,
+    },
+    {
+      loc: locFor("/legal/terms"),
+      lastmod,
+      changefreq: "yearly",
+      priority: 0.3,
+    },
+    {
+      loc: locFor("/legal/privacy"),
+      lastmod,
+      changefreq: "yearly",
+      priority: 0.3,
+    },
+    {
+      loc: locFor("/legal/returns"),
+      lastmod,
+      changefreq: "yearly",
+      priority: 0.3,
+    },
+  ];
+
+  const occasionEntries: SitemapEntry[] = OCCASIONS.map((o) => ({
+    loc: locFor(occasionPath(o.slug)),
+    lastmod,
+    changefreq: "weekly" as const,
+    priority: 0.9,
+  }));
+
+  const categoryEntries: SitemapEntry[] = allCategoryLandingSlugs().map(
+    (slug) => ({
+      loc: locFor(categoryLandingPath(slug)),
+      lastmod,
+      changefreq: "weekly" as const,
+      priority: 0.8,
+    }),
+  );
+
+  const guideEntries: SitemapEntry[] = giftGuidesNewestFirst().map((g) => ({
+    loc: locFor(giftGuidePath(g.slug)),
+    lastmod: formatLastmod(new Date(g.publishedAt)),
+    changefreq: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  return [
+    ...staticEntries,
+    ...occasionEntries,
+    ...categoryEntries,
+    ...guideEntries,
+  ];
+}
+
 async function productEntries(now: Date): Promise<SitemapEntry[]> {
-  const PRODUCT_QUERY_MS = 12_000;
   try {
     const products = await Promise.race([
       prisma.product.findMany({
@@ -60,7 +149,7 @@ async function productEntries(now: Date): Promise<SitemapEntry[]> {
       return [];
     }
     return products.map((p) => ({
-      loc: absoluteUrl(`/products/${p.slug}`),
+      loc: locFor(`/products/${p.slug}`),
       lastmod: formatLastmod(p.updatedAt ? new Date(p.updatedAt) : now),
       changefreq: "weekly" as const,
       priority: 0.8,
@@ -71,90 +160,25 @@ async function productEntries(now: Date): Promise<SitemapEntry[]> {
   }
 }
 
-/** Build sitemap entries for Google (studiobreza.eu absolute URLs). */
-export async function buildSitemapEntries(): Promise<SitemapEntry[]> {
-  const now = new Date();
-  const lastmod = formatLastmod(now);
-
-  const staticEntries: SitemapEntry[] = [
-    { loc: absoluteUrl("/"), lastmod, changefreq: "daily", priority: 1 },
-    {
-      loc: absoluteUrl("/katalog"),
-      lastmod,
-      changefreq: "daily",
-      priority: 0.95,
-    },
-    {
-      loc: absoluteUrl("/custom"),
-      lastmod,
-      changefreq: "weekly",
-      priority: 0.9,
-    },
-    {
-      loc: absoluteUrl(blogIndexPath()),
-      lastmod,
-      changefreq: "weekly",
-      priority: 0.9,
-    },
-    {
-      loc: absoluteUrl("/legal/terms"),
-      lastmod,
-      changefreq: "yearly",
-      priority: 0.3,
-    },
-    {
-      loc: absoluteUrl("/legal/privacy"),
-      lastmod,
-      changefreq: "yearly",
-      priority: 0.3,
-    },
-    {
-      loc: absoluteUrl("/legal/returns"),
-      lastmod,
-      changefreq: "yearly",
-      priority: 0.3,
-    },
-  ];
-
-  const occasionEntries: SitemapEntry[] = OCCASIONS.map((o) => ({
-    loc: absoluteUrl(occasionPath(o.slug)),
-    lastmod,
-    changefreq: "weekly",
-    priority: 0.9,
-  }));
-
-  const categoryEntries: SitemapEntry[] = allCategoryLandingSlugs().map(
-    (slug) => ({
-      loc: absoluteUrl(categoryLandingPath(slug)),
-      lastmod,
-      changefreq: "weekly",
-      priority: 0.8,
-    }),
-  );
-
-  const guideEntries: SitemapEntry[] = giftGuidesNewestFirst().map((g) => ({
-    loc: absoluteUrl(giftGuidePath(g.slug)),
-    lastmod: formatLastmod(new Date(g.publishedAt)),
-    changefreq: "monthly",
-    priority: 0.8,
-  }));
-
-  const products = await productEntries(now);
-
-  // Deduplicate by loc
+function dedupe(entries: SitemapEntry[]): SitemapEntry[] {
   const seen = new Set<string>();
-  const all = [
-    ...staticEntries,
-    ...occasionEntries,
-    ...categoryEntries,
-    ...guideEntries,
-    ...products,
-  ];
-  return all.filter((e) => {
+  return entries.filter((e) => {
     if (!e.loc || seen.has(e.loc)) return false;
     seen.add(e.loc);
     return true;
   });
+}
+
+/** Build sitemap entries for Google (studiobreza.eu absolute URLs). */
+export async function buildSitemapEntries(): Promise<SitemapEntry[]> {
+  const now = new Date();
+  try {
+    const products = await productEntries(now);
+    return dedupe([...staticSitemapEntries(now), ...products]);
+  } catch (err) {
+    console.error("[sitemap] build failed, serving static URLs only", err);
+    return dedupe(staticSitemapEntries(now));
+  }
 }
 
 export function entriesToSitemapXml(entries: SitemapEntry[]): string {
@@ -168,7 +192,7 @@ export function entriesToSitemapXml(entries: SitemapEntry[]): string {
           ? `    <changefreq>${xmlEscape(e.changefreq)}</changefreq>`
           : "",
         e.priority != null
-          ? `    <priority>${Number(e.priority.toFixed(2))}</priority>`
+          ? `    <priority>${formatPriority(e.priority)}</priority>`
           : "",
         "  </url>",
       ].filter(Boolean);
