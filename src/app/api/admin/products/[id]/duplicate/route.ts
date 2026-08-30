@@ -27,6 +27,7 @@ export async function POST(_request: Request, { params }: Params) {
     data: {
       name: `${product.name} (копие)`,
       slug,
+      shortTitle: product.shortTitle,
       description: product.description,
       category: product.category,
       basePrice: product.basePrice,

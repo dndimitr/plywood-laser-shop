@@ -22,6 +22,7 @@ type ProductData = {
   id?: string;
   name: string;
   slug: string;
+  shortTitle?: string;
   description: string;
   category: string;
   basePrice: number;
@@ -55,6 +56,7 @@ export function ProductForm({ initial }: Props) {
     initial ?? {
       name: "",
       slug: "",
+      shortTitle: "",
       description: "",
       category: "other",
       basePrice: 20,
@@ -141,6 +143,19 @@ export function ProductForm({ initial }: Props) {
             }));
           }}
         />
+      </label>
+      <label className="field">
+        <span>Кратко име за Facebook (до ~25 знака)</span>
+        <input
+          maxLength={40}
+          placeholder="Адресна табела"
+          value={form.shortTitle ?? ""}
+          onChange={(e) => setForm({ ...form, shortTitle: e.target.value })}
+        />
+        <span className="muted" style={{ fontSize: "0.85rem" }}>
+          За картата в каталога. Пълното име и детайлите отиват в описанието на
+          фийда. Празно = първите думи от името.
+        </span>
       </label>
       <label className="field">
         <span>Slug</span>

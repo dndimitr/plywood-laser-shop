@@ -36,6 +36,8 @@ export type SeedOption = {
 
 export type SeedProduct = {
   name: string;
+  /** Optional Meta catalog card title (~25 chars). Feed derives one if omitted. */
+  shortTitle?: string;
   slug: string;
   category: string;
   description: string;

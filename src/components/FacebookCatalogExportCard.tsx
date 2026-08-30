@@ -25,7 +25,9 @@ export async function FacebookCatalogExportCard() {
         Експорт на {rows.length} активни продукта, от които {kitRows.length}{" "}
         комплекта (<code>custom_label_1=komplekt</code>). Задайте scheduled
         fetch в Meta Commerce Manager към XML линка — Facebook дърпа данните
-        автоматично. Полето <code>id</code> е slug на продукта и трябва да
+        автоматично. <code>title</code> е кратко име за картата (~25 знака);
+        пълното име и детайлите са в <code>description</code>. Полето{" "}
+        <code>id</code> е slug на продукта и трябва да
         съвпада с Pixel <code>content_ids</code> (ViewContent / AddToCart /
         Purchase).
       </p>

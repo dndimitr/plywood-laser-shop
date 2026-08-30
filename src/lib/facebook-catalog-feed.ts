@@ -1,4 +1,5 @@
 import { KIT_LIST_PRICE_EUR, KIT_SLUG_SET } from "@/data/catalog-kits";
+import { CATALOG_PRODUCTS } from "@/data/catalog-products";
 import { prisma } from "@/lib/db";
 import { catalogProductWhere } from "@/lib/catalog-where";
 import {
@@ -38,6 +39,12 @@ export const FACEBOOK_CATALOG_COLUMNS = [
 ] as const;
 
 export type FacebookCatalogColumn = (typeof FACEBOOK_CATALOG_COLUMNS)[number];
+
+const CATALOG_SHORT_TITLE = new Map(
+  CATALOG_PRODUCTS.flatMap((p) =>
+    p.shortTitle ? ([[p.slug, p.shortTitle]] as const) : [],
+  ),
+);
 
 export type FacebookCatalogRow = Record<FacebookCatalogColumn, string>;
 
@@ -115,10 +122,63 @@ function shippingForPrice(basePrice: number): string {
   return `BG:::${fee.toFixed(2)} EUR`;
 }
 
-function productTitle(name: string): string {
-  const base = name.trim();
-  if (base.length <= 150) return base;
-  return `${base.slice(0, 147).trimEnd()}…`;
+/** Meta catalog cards read `title`; keep it short (~25 chars). */
+export const FACEBOOK_TITLE_MAX = 25;
+
+function clipWords(text: string, maxLen: number): string {
+  const s = text.trim().replace(/\s+/g, " ");
+  if (!s) return s;
+  if (s.length <= maxLen) return s;
+  const words = s.split(" ");
+  let out = "";
+  for (const word of words) {
+    const next = out ? `${out} ${word}` : word;
+    if (next.length > maxLen) break;
+    out = next;
+  }
+  return out || s.slice(0, maxLen).trim();
+}
+
+/**
+ * First words of the shop name, minus trailing "за/с/от…" modifiers.
+ * "Адресна табела за къща" → "Адресна табела".
+ */
+export function shortTitleFromName(
+  name: string,
+  maxLen = FACEBOOK_TITLE_MAX,
+): string {
+  let s = name.trim().replace(/\s+/g, " ");
+  if (!s) return s;
+
+  const beforeDash = s.split(/\s+[—–]\s+/)[0]?.trim();
+  if (beforeDash) s = beforeDash;
+
+  if (!/[„"]/.test(s)) {
+    const stripped = s.replace(/\s+(?:за|със|с|от|към)\s+\S.*$/u, "").trim();
+    if (stripped.length >= 4) s = stripped;
+  }
+
+  return clipWords(s, maxLen);
+}
+
+export function catalogFeedTitle(
+  shortTitle: string | null | undefined,
+  name: string,
+): string {
+  const explicit = shortTitle?.trim();
+  return clipWords(explicit || shortTitleFromName(name), FACEBOOK_TITLE_MAX);
+}
+
+/** Long listing name first, then material / size / copy — nothing is dropped. */
+export function catalogFeedDescription(
+  name: string,
+  description: string,
+): string {
+  const fullName = name.trim();
+  const body = stripHtml(description).trim();
+  if (!body) return fullName;
+  if (body === fullName || body.startsWith(fullName)) return body;
+  return `${fullName}. ${body}`;
 }
 
 /**
@@ -134,6 +194,7 @@ export async function buildFacebookCatalogRows(opts?: {
     select: {
       slug: true,
       name: true,
+      shortTitle: true,
       description: true,
       category: true,
       basePrice: true,
@@ -177,7 +238,10 @@ export async function buildFacebookCatalogRows(opts?: {
       salePrice && listPrice != null
         ? formatPriceEur(listPrice)
         : formatPriceEur(price);
-    const rawDescription = stripHtml(product.description || product.name);
+    const rawDescription = catalogFeedDescription(
+      product.name,
+      product.description || "",
+    );
     const description = truncateMeta(
       isKit && price >= FREE_SHIPPING_MIN_EUR
         ? `Безплатна доставка. ${rawDescription}`
@@ -187,7 +251,10 @@ export async function buildFacebookCatalogRows(opts?: {
 
     rows.push({
       id: product.slug,
-      title: productTitle(product.name),
+      title: catalogFeedTitle(
+        product.shortTitle || CATALOG_SHORT_TITLE.get(product.slug),
+        product.name,
+      ),
       description: description || product.name,
       availability: "in stock",
       condition: "new",

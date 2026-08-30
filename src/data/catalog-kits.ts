@@ -54,6 +54,7 @@ const WEDDING_GUEST_TIERS = [
 export const CATALOG_KITS: SeedProduct[] = [
   {
     name: "Комплект 5 подвижни фигури — Хелоуин",
+    shortTitle: "Хелоуин 5 фигури",
     slug: "komplekt-helouin-5-figuri",
     category: "halloween",
     description:
@@ -80,6 +81,7 @@ export const CATALOG_KITS: SeedProduct[] = [
   },
   {
     name: "Комплект 3 подвижни фигури — Хелоуин",
+    shortTitle: "Хелоуин 3 фигури",
     slug: "komplekt-helouin-3-figuri",
     category: "halloween",
     description:
@@ -174,6 +176,7 @@ export const CATALOG_KITS: SeedProduct[] = [
   },
   {
     name: "Монтесори стартов комплект 2–4 г.",
+    shortTitle: "Монтесори 2–4 г.",
     slug: "komplekt-montessori-start",
     category: "nursery",
     description:
@@ -197,6 +200,7 @@ export const CATALOG_KITS: SeedProduct[] = [
   },
   {
     name: "Монтесори математика 4–6 г.",
+    shortTitle: "Монтесори 4–6 г.",
     slug: "komplekt-montessori-matematika",
     category: "nursery",
     description:

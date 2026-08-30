@@ -71,6 +71,7 @@ async function seedNeon() {
         where: { slug: data.slug },
         update: {
           name: data.name,
+          ...(data.shortTitle ? { shortTitle: data.shortTitle } : {}),
           description: data.description,
           category: data.category,
           basePrice: data.basePrice,

@@ -58,6 +58,7 @@ export default async function EditProductPage({ params }: Props) {
           id: product.id,
           name: product.name,
           slug: product.slug,
+          shortTitle: product.shortTitle ?? "",
           description: product.description,
           category: product.category ?? "other",
           basePrice: Number(product.basePrice),

@@ -113,6 +113,7 @@ export const productOptionFormSchema = z.object({
 export const productFormSchema = z.object({
   name: z.string().min(2),
   slug: z.string().min(2).regex(/^[a-z0-9-]+$/),
+  shortTitle: z.string().trim().max(40).optional().or(z.literal("")),
   description: z.string().min(10),
   category: z.string().default("other"),
   basePrice: z.coerce.number().positive(),

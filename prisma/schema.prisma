@@ -112,6 +112,8 @@ model MessageTemplate {
 model Product {
   id            String          @id @default(cuid())
   name          String
+  /// Short name for Meta catalog cards (~25 chars). Feed falls back to the first words of `name`.
+  shortTitle    String?
   slug          String          @unique
   description   String
   category      String          @default("other")

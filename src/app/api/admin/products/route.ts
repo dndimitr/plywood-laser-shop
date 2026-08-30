@@ -38,6 +38,7 @@ export async function POST(request: Request) {
     data: {
       name: parsed.data.name,
       slug: parsed.data.slug,
+      shortTitle: parsed.data.shortTitle?.trim() || null,
       description: parsed.data.description,
       category: parsed.data.category,
       basePrice: parsed.data.basePrice,

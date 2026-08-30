@@ -50,6 +50,7 @@ function withProductDefaults(product: LocalProduct) {
     category: product.category ?? "other",
     galleryUrls: product.galleryUrls ?? [],
     availability: product.availability ?? "IN_STOCK",
+    shortTitle: product.shortTitle ?? null,
   };
 }
 
@@ -270,12 +271,14 @@ export function createLocalPrisma() {
         data: {
           name: string;
           slug: string;
+          shortTitle?: string | null;
           description: string;
           category?: string;
           basePrice: number;
           imageUrl?: string | null;
           galleryUrls?: string[];
           active?: boolean;
+          availability?: LocalProduct["availability"];
           options?: { create: ProductOptionCreate[] };
         };
         include?: { options?: boolean };
@@ -287,6 +290,7 @@ export function createLocalPrisma() {
             id: cuid(),
             name: args.data.name,
             slug: args.data.slug,
+            shortTitle: args.data.shortTitle ?? null,
             description: args.data.description,
             category: args.data.category ?? "other",
             basePrice: Number(args.data.basePrice),
@@ -324,6 +328,7 @@ export function createLocalPrisma() {
         data: {
           name?: string;
           slug?: string;
+          shortTitle?: string | null;
           description?: string;
           category?: string;
           basePrice?: number;
@@ -345,6 +350,8 @@ export function createLocalPrisma() {
           const ts = new Date().toISOString();
           if (args.data.name != null) product.name = args.data.name;
           if (args.data.slug != null) product.slug = args.data.slug;
+          if (args.data.shortTitle !== undefined)
+            product.shortTitle = args.data.shortTitle;
           if (args.data.description != null)
             product.description = args.data.description;
           if (args.data.category != null) product.category = args.data.category;

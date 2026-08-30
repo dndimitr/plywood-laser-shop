@@ -70,6 +70,7 @@ export type LocalProduct = {
   id: string;
   name: string;
   slug: string;
+  shortTitle?: string | null;
   description: string;
   category: string;
   basePrice: number;
@@ -276,6 +277,7 @@ export function readLocalDb(): LocalDb {
     })),
     products: (raw.products ?? []).map((product) => ({
       ...product,
+      shortTitle: product.shortTitle ?? null,
       availability: product.availability ?? "IN_STOCK",
     })),
     orderEvents: raw.orderEvents ?? [],
@@ -313,6 +315,7 @@ function syncCatalogFromSource(db: LocalDb, ts = nowIso()) {
     db.products.push({
       id: productId,
       ...data,
+      shortTitle: data.shortTitle ?? prev?.shortTitle ?? null,
       active: true,
       createdAt: prev?.createdAt ?? ts,
       updatedAt: ts,
@@ -446,6 +449,7 @@ function catalogNeedsSync(db: LocalDb) {
     const row = db.products.find((p) => p.slug === product.slug);
     if (!row || row.id !== expectedId) return true;
     if (Number(row.basePrice) !== Number(product.basePrice)) return true;
+    if ((product.shortTitle ?? null) !== (row.shortTitle ?? null)) return true;
 
     for (let index = 0; index < product.options.length; index++) {
       const opt = product.options[index];
