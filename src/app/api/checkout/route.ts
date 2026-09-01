@@ -58,7 +58,7 @@ export async function POST(request: Request) {
   }
 
   const rule = await prisma.pricingRule.findFirst({
-    where: { ...catalogProductWhere },
+    where: { active: true },
     orderBy: { createdAt: "asc" },
   });
 
