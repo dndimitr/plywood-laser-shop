@@ -1,7 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import {
   IconPackage,
   IconPencil,
@@ -15,26 +14,13 @@ import { OccasionCards } from "@/components/OccasionCards";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductSlider } from "@/components/ProductSlider";
 import { StarRating } from "@/components/StarRating";
-import {
-  categoryLandingById,
-  categoryLandingPath,
-} from "@/lib/category-landings";
-import { prisma } from "@/lib/db";
-import { catalogProductWhere } from "@/lib/catalog-where";
-import {
-  OCCASIONS,
-  occasionByCategoryId,
-  occasionPath,
-  categoryHref,
-} from "@/lib/occasions";
+import { getHomeCatalog } from "@/lib/home-catalog";
+import { OCCASIONS, occasionPath, categoryHref } from "@/lib/occasions";
 import {
   FREE_SHIPPING_MIN_EUR,
   PRODUCTION_LEAD,
 } from "@/lib/shop-config";
-import {
-  FEATURED_KITS,
-  FEATURED_KIT_SLUGS,
-} from "@/data/catalog-kits";
+import { FEATURED_KITS } from "@/data/catalog-kits";
 import {
   aggregateRatingJsonLd,
   breadcrumbJsonLd,
@@ -44,7 +30,7 @@ import {
   SITE_TAGLINE,
 } from "@/lib/seo";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 120;
 
 const faqs = [
   {
@@ -65,10 +51,6 @@ const faqs = [
   },
 ];
 
-type HomeProps = {
-  searchParams: Promise<{ cat?: string; q?: string }>;
-};
-
 export async function generateMetadata(): Promise<Metadata> {
   return buildPageMetadata({
     title: SITE_TAGLINE,
@@ -77,68 +59,15 @@ export async function generateMetadata(): Promise<Metadata> {
   });
 }
 
-export default async function HomePage({ searchParams }: HomeProps) {
-  const { cat, q } = await searchParams;
-  if (q?.trim()) {
-    redirect(`/katalog?q=${encodeURIComponent(q.trim())}`);
-  }
-  if (cat) {
-    const occasion = occasionByCategoryId(cat);
-    if (occasion) redirect(occasionPath(occasion.slug));
-    const landing = categoryLandingById(cat);
-    if (landing) redirect(categoryLandingPath(landing.slug));
-    redirect(`/katalog?cat=${encodeURIComponent(cat)}`);
-  }
-
-  const productSelect = {
-    id: true,
-    name: true,
-    slug: true,
-    description: true,
-    category: true,
-    basePrice: true,
-    imageUrl: true,
-  } as const;
-
-  const [featuredPool, nurseryProducts, weddingProducts, kitPool, reviews, catalogMeta] =
-    await Promise.all([
-      prisma.product.findMany({
-        where: { ...catalogProductWhere },
-        select: productSelect,
-        orderBy: { updatedAt: "desc" },
-        take: 48,
-      }),
-      prisma.product.findMany({
-        where: { ...catalogProductWhere, category: "nursery" },
-        select: productSelect,
-        orderBy: { name: "asc" },
-        take: 4,
-      }),
-      prisma.product.findMany({
-        where: { ...catalogProductWhere, category: "wedding" },
-        select: productSelect,
-        orderBy: { name: "asc" },
-        take: 4,
-      }),
-      prisma.product.findMany({
-        where: {
-          ...catalogProductWhere,
-          slug: { in: [...FEATURED_KIT_SLUGS] },
-        },
-        select: productSelect,
-      }),
-      prisma.review.findMany({
-        where: { published: true },
-        include: { product: { select: { name: true, slug: true } } },
-        orderBy: { createdAt: "desc" },
-        take: 6,
-      }),
-      prisma.product.findMany({
-        where: { ...catalogProductWhere },
-        select: { category: true, imageUrl: true },
-        orderBy: { updatedAt: "desc" },
-      }),
-    ]);
+export default async function HomePage() {
+  const {
+    featuredPool,
+    nurseryProducts,
+    weddingProducts,
+    kitPool,
+    reviews,
+    catalogMeta,
+  } = await getHomeCatalog();
 
   const kitOrder = new Map(FEATURED_KITS.map((k, i) => [k.slug, i]));
   const kitBadge = new Map(FEATURED_KITS.map((k) => [k.slug, k.badge]));

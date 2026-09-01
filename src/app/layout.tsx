@@ -17,14 +17,14 @@ import "./globals.css";
 const display = Onest({
   variable: "--font-display",
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
-  weight: ["500", "600", "700", "800"],
+  weight: ["500", "600", "700"],
 });
 
 /** Source Sans 3 — четим UI/body шрифт с отлична кирилица */
 const body = Source_Sans_3({
   variable: "--font-body",
   subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "600", "700"],
 });
 
 export const metadata: Metadata = rootMetadata();

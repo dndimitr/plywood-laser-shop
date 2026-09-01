@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { CONSENT_STORAGE_KEY, type ConsentChoice } from "@/lib/seo-client";
+import {
+  applyMetaPixelConsent,
+  waitForFbq,
+} from "@/lib/tracking-client";
 
 declare global {
   interface Window {
     dataLayer?: unknown[];
     gtag?: (...args: unknown[]) => void;
-    fbq?: (...args: unknown[]) => void;
   }
 }
 
@@ -22,12 +25,13 @@ function applyConsent(choice: ConsentChoice, announce = false) {
       analytics_storage: granted ? "granted" : "denied",
     });
   }
-  if (typeof window.fbq === "function") {
-    window.fbq("consent", granted ? "grant" : "revoke");
-  }
-  if (granted && announce) {
-    window.dispatchEvent(new Event("sb-marketing-consent"));
-  }
+  void (async () => {
+    await waitForFbq();
+    applyMetaPixelConsent(granted);
+    if (granted && announce) {
+      window.dispatchEvent(new Event("sb-marketing-consent"));
+    }
+  })();
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     event: granted ? "cookie_consent_accepted" : "cookie_consent_rejected",

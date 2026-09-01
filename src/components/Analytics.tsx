@@ -1,4 +1,5 @@
 import Script from "next/script";
+import { CONSENT_STORAGE_KEY } from "@/lib/seo-client";
 import { getMarketingSettings, hasActiveMarketingScripts } from "@/lib/shop-settings";
 
 /**
@@ -101,7 +102,11 @@ function MetaPixelScript({ pixelId }: { pixelId: string }) {
         n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
         t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script',
         'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('consent', 'revoke');
+        try {
+          fbq('consent', localStorage.getItem('${CONSENT_STORAGE_KEY}') === 'accepted' ? 'grant' : 'revoke');
+        } catch (e) {
+          fbq('consent', 'revoke');
+        }
         fbq('init', '${pixelId}');
       `}
     </Script>

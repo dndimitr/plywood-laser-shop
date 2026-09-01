@@ -5,13 +5,9 @@ import {
   hasMarketingConsent,
   newClientEventId,
   sendCapiBrowserPublic,
+  waitForFbq,
+  applyMetaPixelConsent,
 } from "@/lib/tracking-client";
-
-declare global {
-  interface Window {
-    fbq?: (...args: unknown[]) => void;
-  }
-}
 
 type Props = {
   contentId: string;
@@ -33,42 +29,50 @@ export function MetaViewContent({
   productUrl,
 }: Props) {
   const sent = useRef(false);
+  const locking = useRef(false);
 
   useEffect(() => {
     if (!enabled || sent.current) return;
 
     async function fire() {
-      if (sent.current) return;
+      if (sent.current || locking.current) return;
       if (!hasMarketingConsent()) return;
-      if (typeof window.fbq !== "function") return;
+      locking.current = true;
+      try {
+        await waitForFbq();
+        applyMetaPixelConsent(true);
+        if (sent.current || typeof window.fbq !== "function") return;
 
-      const eventId = newClientEventId("vc");
-      const sourceUrl =
-        productUrl ||
-        window.location.href.split("#")[0] ||
-        window.location.origin + window.location.pathname;
+        const eventId = newClientEventId("vc");
+        const sourceUrl =
+          productUrl ||
+          window.location.href.split("#")[0] ||
+          window.location.origin + window.location.pathname;
 
-      window.fbq(
-        "track",
-        "ViewContent",
-        {
-          content_ids: [contentId],
-          content_name: contentName,
-          content_type: "product",
+        window.fbq(
+          "track",
+          "ViewContent",
+          {
+            content_ids: [contentId],
+            content_name: contentName,
+            content_type: "product",
+            value,
+            currency,
+          },
+          { eventID: eventId },
+        );
+        void sendCapiBrowserPublic("ViewContent", {
+          eventId,
           value,
           currency,
-        },
-        { eventID: eventId },
-      );
-      void sendCapiBrowserPublic("ViewContent", {
-        eventId,
-        value,
-        currency,
-        contentIds: [contentId],
-        contentName,
-        eventSourceUrl: sourceUrl,
-      });
-      sent.current = true;
+          contentIds: [contentId],
+          contentName,
+          eventSourceUrl: sourceUrl,
+        });
+        sent.current = true;
+      } finally {
+        locking.current = false;
+      }
     }
 
     void fire();

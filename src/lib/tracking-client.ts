@@ -18,7 +18,12 @@ export type UtmParams = {
 declare global {
   interface Window {
     gtag?: (...args: unknown[]) => void;
-    fbq?: (...args: unknown[]) => void;
+    fbq?: ((...args: unknown[]) => void) & {
+      callMethod?: (...args: unknown[]) => void;
+      queue?: unknown[];
+      loaded?: boolean;
+      getState?: () => { pixels?: unknown[] };
+    };
     dataLayer?: unknown[];
   }
 }
@@ -32,6 +37,45 @@ export function hasMarketingConsent(): boolean {
   } catch {
     return false;
   }
+}
+
+/** True when the real fbevents.js (not the stub) is ready to accept commands. */
+export function metaPixelReady(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof window.fbq === "function" &&
+    typeof window.fbq.callMethod === "function"
+  );
+}
+
+export async function waitForFbq(timeoutMs = 5000): Promise<boolean> {
+  if (typeof window === "undefined") return false;
+  if (metaPixelReady()) return true;
+  return new Promise((resolve) => {
+    const started = Date.now();
+    const id = window.setInterval(() => {
+      if (metaPixelReady()) {
+        window.clearInterval(id);
+        resolve(true);
+      } else if (Date.now() - started >= timeoutMs) {
+        window.clearInterval(id);
+        resolve(typeof window.fbq === "function");
+      }
+    }, 40);
+  });
+}
+
+export function applyMetaPixelConsent(granted: boolean) {
+  if (typeof window.fbq !== "function") return;
+  window.fbq("consent", granted ? "grant" : "revoke");
+}
+
+async function ensureMetaPixelGranted(): Promise<boolean> {
+  if (!hasMarketingConsent()) return false;
+  await waitForFbq();
+  applyMetaPixelConsent(true);
+  applyMetaAdvancedMatching();
+  return typeof window.fbq === "function";
 }
 
 export function readUtm(): UtmParams {
@@ -336,7 +380,7 @@ async function sendCapiBrowser(
 export async function trackPageView() {
   if (!hasMarketingConsent()) return;
   await collectMetaClickIds();
-  applyMetaAdvancedMatching();
+  await ensureMetaPixelGranted();
   const eventId = newClientEventId("pv");
   if (typeof window.fbq === "function") {
     window.fbq("track", "PageView", {}, { eventID: eventId });
@@ -375,7 +419,7 @@ export async function trackAddToCart(input: {
   gaId?: string | null;
 }) {
   if (!hasMarketingConsent()) return;
-  applyMetaAdvancedMatching();
+  await ensureMetaPixelGranted();
   const eventId = newClientEventId("atc");
   const currency = input.currency ?? "EUR";
   const qty = input.quantity ?? 1;
@@ -440,7 +484,7 @@ export async function trackInitiateCheckout(input: {
   gaId?: string | null;
 }) {
   if (!hasMarketingConsent()) return;
-  applyMetaAdvancedMatching();
+  await ensureMetaPixelGranted();
   const eventId = newClientEventId("ic");
   const currency = input.currency ?? "EUR";
   const contentIds = input.contentIds.filter(Boolean);
@@ -497,7 +541,7 @@ export async function trackPurchaseBrowser(input: {
 }) {
   if (!hasMarketingConsent()) return;
   await collectMetaClickIds();
-  applyMetaAdvancedMatching();
+  await ensureMetaPixelGranted();
   const eventId = `purchase_${input.orderId}`;
   const currency = input.currency ?? "EUR";
   const value = roundMoney(Number(input.value));
