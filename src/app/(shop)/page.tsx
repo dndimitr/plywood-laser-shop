@@ -186,9 +186,9 @@ export default async function HomePage() {
         >
           <h2 id="komplekti-heading">Готови комплекти — с безплатна доставка</h2>
           <p className="section-lead">
-            Пет готови подаръка. Цените са 9–13% под сбора на отделните модели:
-            една лазерна подготовка и една пратка. Всеки комплект е над{" "}
-            {FREE_SHIPPING_MIN_EUR} €.
+            Готов подарък в една поръчка. Цените са 8–13% под сбора на
+            отделните модели: една лазерна подготовка и една пратка. Всеки
+            комплект на тази страница е над {FREE_SHIPPING_MIN_EUR} €.
           </p>
           <div className="product-grid">
             {kitProducts.map((p) => (

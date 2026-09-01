@@ -105,6 +105,30 @@ export const CATALOG_KITS: SeedProduct[] = [
     ]),
   },
   {
+    name: "Комплект „Училищни спомени“",
+    shortTitle: "Училищен комплект",
+    slug: "komplekt-uchilishte",
+    category: "school",
+    description:
+      "Готов жест за 15 септември: кутия „Училищни спомени“ (15,55 €), плакет „Благодаря, учителке“ (11,23 €) и моливник с име и клас (12,10 €). Сбор 38,88 € → 35,90 € (−8%) с безплатна доставка. Напишете име на детето, клас и поздрав за учителката при поръчка.",
+    basePrice: 35.9,
+    imageUrl: PHOTO("komplekt-uchilishte"),
+    galleryUrls: [
+      PHOTO("komplekt-uchilishte"),
+      PHOTO("uchen-kutiya-spomeni"),
+      PHOTO("uchen-plaket-uchitelka"),
+      PHOTO("uchen-molivnik-ime"),
+    ],
+    options: kitOpts([
+      {
+        label: "Кутия + плакет + моливник",
+        sizeLabel: "микс около 12–22 см",
+        thicknessMm: 4,
+        priceModifier: 0,
+      },
+    ]),
+  },
+  {
     name: "Семейна Коледа",
     slug: "komplekt-koleda-semeistvo",
     category: "christmas",
@@ -224,8 +248,9 @@ export const CATALOG_KITS: SeedProduct[] = [
   },
 ];
 
-/** Five campaign kits shown on the homepage (entry SKUs stay in catalog/feed). */
+/** Campaign kits on the homepage (entry SKUs stay in catalog/feed). */
 export const FEATURED_KITS: { slug: string; badge: string }[] = [
+  { slug: "komplekt-uchilishte", badge: "15 септември" },
   { slug: "komplekt-helouin-5-figuri", badge: "Хелоуин" },
   { slug: "komplekt-koleda-semeistvo", badge: "Коледа" },
   { slug: "komplekt-novorodeno-delux", badge: "Новородено" },
@@ -239,6 +264,7 @@ export const KIT_SLUG_SET = new Set(CATALOG_KITS.map((k) => k.slug));
 
 /** Catalog “from” totals before kit discount — used as Facebook `price` vs `sale_price`. */
 export const KIT_LIST_PRICE_EUR: Record<string, number> = {
+  "komplekt-uchilishte": 38.88,
   "komplekt-helouin-5-figuri": 60.5,
   "komplekt-helouin-3-figuri": 36.3,
   "komplekt-koleda-semeistvo": 51,
@@ -249,6 +275,22 @@ export const KIT_LIST_PRICE_EUR: Record<string, number> = {
 };
 
 export const KIT_RELATED: Record<string, { href: string; label: string }> = {
+  "komplekt-uchilishte": {
+    href: "/uchilishte",
+    label: "Всички училищни модели — линийка, табела „Учи тук“, книгоразделител…",
+  },
+  "uchen-kutiya-spomeni": {
+    href: "/products/komplekt-uchilishte",
+    label: "Вземи в комплект с плакет и моливник — 35,90 € с безплатна доставка",
+  },
+  "uchen-plaket-uchitelka": {
+    href: "/products/komplekt-uchilishte",
+    label: "Училищен комплект с кутия и моливник — 35,90 € с безплатна доставка",
+  },
+  "uchen-molivnik-ime": {
+    href: "/products/komplekt-uchilishte",
+    label: "Училищен комплект с кутия и плакет — 35,90 € с безплатна доставка",
+  },
   "komplekt-helouin-5-figuri": {
     href: "/products/komplekt-helouin-3-figuri",
     label: "Входна точка: 3 фигури — 32,90 €",
@@ -268,6 +310,8 @@ export const KIT_RELATED: Record<string, { href: string; label: string }> = {
 };
 
 export const KIT_ENGRAVING_HINTS: Record<string, string> = {
+  "komplekt-uchilishte":
+    "Име на детето, клас и поздрав за учителката (напр. Благодаря, г-жо Иванова)",
   "komplekt-helouin-5-figuri":
     "Кои 5 фигури: тиква, вещица, скелет, черна котка, дух…",
   "komplekt-helouin-3-figuri":
