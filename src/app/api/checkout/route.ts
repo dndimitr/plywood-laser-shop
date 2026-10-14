@@ -72,6 +72,7 @@ export async function POST(request: Request) {
     type: "TEMPLATE" | "CUSTOM";
     productId: string | null;
     productSlug: string | null;
+    imageUrl: string | null;
     uploadedDesignId: string | null;
     title: string;
     quantity: number;
@@ -125,6 +126,7 @@ export async function POST(request: Request) {
         type: "TEMPLATE",
         productId: product.id,
         productSlug: product.slug,
+        imageUrl: product.imageUrl ?? item.imageUrl ?? null,
         uploadedDesignId: null,
         title: item.title,
         quantity: item.quantity,
@@ -168,6 +170,7 @@ export async function POST(request: Request) {
         type: "CUSTOM",
         productId: null,
         productSlug: null,
+        imageUrl: item.imageUrl ?? null,
         uploadedDesignId: item.uploadedDesignId ?? null,
         title: item.title,
         quantity: item.quantity,
@@ -291,10 +294,20 @@ export async function POST(request: Request) {
         const design = item.uploadedDesignId
           ? designById.get(item.uploadedDesignId)
           : undefined;
+        const designPreview =
+          design?.url &&
+          (design.mimeType?.startsWith("image/") ||
+            /\.(png|jpe?g|gif|webp|svg)$/i.test(design.originalName ?? ""))
+            ? design.url
+            : null;
         return {
           title: item.title,
           quantity: item.quantity,
           unitPrice: item.unitPrice,
+          imageUrl: item.imageUrl ?? designPreview,
+          productUrl: item.productSlug
+            ? `/products/${item.productSlug}`
+            : null,
           fileName: design?.originalName ?? null,
           fileUrl: design?.url ?? null,
         };

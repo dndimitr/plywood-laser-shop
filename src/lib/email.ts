@@ -1,12 +1,16 @@
 import { courierLabel, paymentMethodLabel } from "@/lib/labels";
 import { getBankDetails } from "@/lib/shop-config";
 import { formatBgn } from "@/lib/pricing";
-import { getSiteUrl } from "@/lib/seo";
+import { absoluteUrl, getSiteUrl } from "@/lib/seo";
 
 export type OrderMailItem = {
   title: string;
   quantity: number;
   unitPrice: number;
+  /** Absolute or site-relative product/custom preview image. */
+  imageUrl?: string | null;
+  /** Absolute or site-relative product page URL (template items). */
+  productUrl?: string | null;
   fileName?: string | null;
   fileUrl?: string | null;
 };
@@ -30,17 +34,35 @@ function appUrl() {
   return getSiteUrl();
 }
 
+function absAssetUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  if (url.startsWith("http://") || url.startsWith("https://")) return url;
+  return absoluteUrl(url);
+}
+
 function itemsHtml(items: OrderMailItem[] | undefined) {
   if (!items?.length) return "";
   const rows = items
     .map((item) => {
+      const image = absAssetUrl(item.imageUrl);
+      const productHref = absAssetUrl(item.productUrl);
+      const thumb = image
+        ? `<img src="${image}" alt="" width="64" height="64" style="display:block;width:64px;height:64px;object-fit:cover;border-radius:6px;border:1px solid #ddd" />`
+        : `<div style="width:64px;height:64px;background:#f3efe8;border-radius:6px;border:1px solid #ddd"></div>`;
+      const titleHtml = productHref
+        ? `<a href="${productHref}" style="color:#3d2b1f;font-weight:600;text-decoration:underline">${item.title}</a>`
+        : `<strong>${item.title}</strong>`;
+      const productLink = productHref
+        ? `<br/><a href="${productHref}" style="color:#8b6914;font-size:13px">Отвори в сайта</a>`
+        : "";
       const file = item.fileUrl
         ? `<br/><a href="${item.fileUrl}">Файл: ${item.fileName ?? "прикачен файл"}</a>`
         : "";
       return `<tr>
-        <td style="padding:6px 8px;border-bottom:1px solid #ddd">${item.title}${file}</td>
-        <td style="padding:6px 8px;border-bottom:1px solid #ddd">${item.quantity}</td>
-        <td style="padding:6px 8px;border-bottom:1px solid #ddd">${formatBgn(item.unitPrice * item.quantity)}</td>
+        <td style="padding:10px 8px;border-bottom:1px solid #ddd;width:72px;vertical-align:top">${thumb}</td>
+        <td style="padding:10px 8px;border-bottom:1px solid #ddd;vertical-align:top">${titleHtml}${productLink}${file}</td>
+        <td style="padding:10px 8px;border-bottom:1px solid #ddd;vertical-align:top">${item.quantity}</td>
+        <td style="padding:10px 8px;border-bottom:1px solid #ddd;vertical-align:top">${formatBgn(item.unitPrice * item.quantity)}</td>
       </tr>`;
     })
     .join("");
@@ -49,6 +71,7 @@ function itemsHtml(items: OrderMailItem[] | undefined) {
     <table style="border-collapse:collapse;width:100%;max-width:560px">
       <thead>
         <tr>
+          <th align="left" style="padding:6px 8px;border-bottom:2px solid #333;width:72px"></th>
           <th align="left" style="padding:6px 8px;border-bottom:2px solid #333">Продукт</th>
           <th align="left" style="padding:6px 8px;border-bottom:2px solid #333">Бр.</th>
           <th align="left" style="padding:6px 8px;border-bottom:2px solid #333">Сума</th>

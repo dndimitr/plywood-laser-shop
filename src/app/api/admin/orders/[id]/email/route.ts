@@ -15,7 +15,7 @@ export async function POST(_request: Request, { params }: Params) {
   const order = await prisma.order.findUnique({
     where: { id },
     include: {
-      items: { include: { uploadedDesign: true } },
+      items: { include: { uploadedDesign: true, product: true } },
     },
   });
 
@@ -36,13 +36,26 @@ export async function POST(_request: Request, { params }: Params) {
       paymentMethod: order.paymentMethod,
       courier: order.courier,
       rush: order.rush,
-      items: order.items.map((item) => ({
-        title: item.title,
-        quantity: item.quantity,
-        unitPrice: Number(item.unitPrice),
-        fileName: item.uploadedDesign?.originalName ?? null,
-        fileUrl: item.uploadedDesign?.url ?? null,
-      })),
+      items: order.items.map((item) => {
+        const design = item.uploadedDesign;
+        const designPreview =
+          design?.url &&
+          (design.mimeType?.startsWith("image/") ||
+            /\.(png|jpe?g|gif|webp|svg)$/i.test(design.originalName ?? ""))
+            ? design.url
+            : null;
+        return {
+          title: item.title,
+          quantity: item.quantity,
+          unitPrice: Number(item.unitPrice),
+          imageUrl: item.product?.imageUrl ?? designPreview,
+          productUrl: item.product?.slug
+            ? `/products/${item.product.slug}`
+            : null,
+          fileName: design?.originalName ?? null,
+          fileUrl: design?.url ?? null,
+        };
+      }),
     });
 
     if (result.skipped) {

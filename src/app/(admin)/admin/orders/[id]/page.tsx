@@ -266,9 +266,40 @@ export default async function AdminOrderDetailPage({ params }: Props) {
             string,
             string | number | boolean | undefined
           >;
+          const productHref = item.product?.slug
+            ? `/products/${item.product.slug}`
+            : null;
+          const imageUrl =
+            item.product?.imageUrl ??
+            (item.uploadedDesign?.mimeType?.startsWith("image/")
+              ? item.uploadedDesign.url
+              : null);
           return (
-            <div key={item.id} className="admin-card">
-              <h3>{item.title}</h3>
+            <div key={item.id} className="admin-card admin-order-item">
+              <div className="admin-order-item-head">
+                {imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element -- catalog or upload URLs
+                  <img
+                    src={imageUrl}
+                    alt=""
+                    className="admin-order-item-thumb"
+                    width={72}
+                    height={72}
+                  />
+                ) : (
+                  <div className="admin-order-item-thumb admin-order-item-thumb-empty" />
+                )}
+                <div>
+                  <h3>{item.title}</h3>
+                  {productHref ? (
+                    <p className="muted">
+                      <Link href={productHref} target="_blank" rel="noreferrer">
+                        Отвори в сайта
+                      </Link>
+                    </p>
+                  ) : null}
+                </div>
+              </div>
               <p>
                 {item.quantity} × {formatMoney(Number(item.unitPrice))} ={" "}
                 {formatMoney(Number(item.unitPrice) * item.quantity)}
