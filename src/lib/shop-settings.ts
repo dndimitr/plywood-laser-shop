@@ -46,7 +46,8 @@ function shippingDefaults(): ShippingFees {
 
 function marketingEnvDefaults(): MarketingSettings {
   return {
-    gaMeasurementId: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() ?? "",
+    gaMeasurementId:
+      process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID?.trim() || "G-D35KHFP3RV",
     googleAdsId: process.env.NEXT_PUBLIC_GOOGLE_ADS_ID?.trim() ?? "",
     googleAdsConversionLabel:
       process.env.NEXT_PUBLIC_GOOGLE_ADS_CONVERSION_LABEL?.trim() ?? "",
