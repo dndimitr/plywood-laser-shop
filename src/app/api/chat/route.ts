@@ -44,16 +44,6 @@ function clientIp(req: Request): string {
 }
 
 export async function POST(req: Request) {
-  if (!process.env.AI_GATEWAY_API_KEY && !process.env.VERCEL_OIDC_TOKEN) {
-    return Response.json(
-      {
-        error:
-          "Чатът временно не е настроен. Липсва AI_GATEWAY_API_KEY. Можете да поръчате през каталога.",
-      },
-      { status: 503 },
-    );
-  }
-
   const ip = clientIp(req);
   if (!chatRateLimitOk(ip)) {
     return Response.json(
@@ -75,7 +65,9 @@ export async function POST(req: Request) {
 
   const model = process.env.CHAT_MODEL?.trim() || "openai/gpt-4.1-mini";
 
-  const result = streamText({
+  let result;
+  try {
+    result = streamText({
     model,
     system: SYSTEM_PROMPT,
     messages: await convertToModelMessages(messages),
@@ -187,6 +179,16 @@ export async function POST(req: Request) {
       }),
     },
   });
+  } catch (err) {
+    console.error("[chat] streamText init failed", err);
+    return Response.json(
+      {
+        error:
+          "Чатът временно не е наличен. Добавете AI_GATEWAY_API_KEY в Vercel или поръчайте през каталога.",
+      },
+      { status: 503 },
+    );
+  }
 
   return result.toUIMessageStreamResponse();
 }
