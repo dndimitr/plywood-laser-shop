@@ -4,7 +4,13 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 type SearchProduct = {
   id: string;
@@ -35,6 +41,22 @@ function asSearchProducts(output: unknown): SearchProduct[] {
 
 function cartAddedOk(output: unknown): boolean {
   return isRecord(output) && output.ok === true;
+}
+
+/** Light markdown for chat bubbles — Gemma often emits **bold**. */
+function ChatText({ text }: { text: string }) {
+  const nodes: ReactNode[] = [];
+  const re = /\*\*(.+?)\*\*/g;
+  let last = 0;
+  let m: RegExpExecArray | null;
+  let key = 0;
+  while ((m = re.exec(text))) {
+    if (m.index > last) nodes.push(text.slice(last, m.index));
+    nodes.push(<strong key={`b-${key++}`}>{m[1]}</strong>);
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return <p className="order-chat-text">{nodes}</p>;
 }
 
 export function OrderChatWidget() {
@@ -149,9 +171,7 @@ export function OrderChatWidget() {
                 {message.parts.map((part, i) => {
                   if (part.type === "text" && part.text) {
                     return (
-                      <p key={`${message.id}-t-${i}`} className="order-chat-text">
-                        {part.text}
-                      </p>
+                      <ChatText key={`${message.id}-t-${i}`} text={part.text} />
                     );
                   }
 
@@ -286,15 +306,17 @@ export function OrderChatWidget() {
         </section>
       ) : null}
 
-      <button
-        type="button"
-        className="order-chat-fab"
-        aria-expanded={open}
-        aria-label={open ? "Затвори чата за поръчка" : "Отвори чат за поръчка"}
-        onClick={() => setOpen((v) => !v)}
-      >
-        {open ? "Затвори" : "Поръчай с чат"}
-      </button>
+      {!open ? (
+        <button
+          type="button"
+          className="order-chat-fab"
+          aria-expanded={false}
+          aria-label="Отвори чат за поръчка"
+          onClick={() => setOpen(true)}
+        >
+          Поръчай с чат
+        </button>
+      ) : null}
     </div>
   );
 }
