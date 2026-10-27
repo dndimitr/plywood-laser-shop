@@ -19,5 +19,5 @@ export function getOllamaProvider() {
 }
 
 export function getChatModelId() {
-  return process.env.CHAT_MODEL?.trim() || "llama3.1";
+  return process.env.CHAT_MODEL?.trim() || "gemma4:31b";
 }
