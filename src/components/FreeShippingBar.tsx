@@ -18,8 +18,8 @@ export function FreeShippingBar({ subtotal, courier }: Props) {
     <div className={`shipping-nudge${met ? " is-met" : ""}`}>
       <p>
         {met
-          ? "Безплатна куриерска доставка"
-          : `Още ${formatBgn(remaining)} до безплатна доставка`}
+          ? `Безплатна куриерска доставка (над ${min} €)`
+          : `Още ${formatBgn(remaining)} до безплатна доставка (над ${min} €)`}
       </p>
       <div
         className="shipping-nudge-track"

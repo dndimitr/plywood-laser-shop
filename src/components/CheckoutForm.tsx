@@ -189,6 +189,10 @@ export function CheckoutForm({ subtotal, couriers, items }: Props) {
 
         <fieldset className="field">
           <legend>Куриер</legend>
+          <p className="muted" style={{ margin: "0 0 0.65rem" }}>
+            Куриерската доставка е безплатна при поръчка над{" "}
+            {FREE_SHIPPING_MIN_EUR} €.
+          </p>
           <div className="choice-grid">
             {couriers.map((c) => {
               const fee =
