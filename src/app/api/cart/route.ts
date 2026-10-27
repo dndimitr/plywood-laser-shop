@@ -9,11 +9,10 @@ import {
   serializeCart,
   type CartItem,
 } from "@/lib/cart";
+import { addTemplateToCart } from "@/lib/cart-add-template";
 import { prisma } from "@/lib/db";
-import { catalogProductWhere } from "@/lib/catalog-where";
 import {
   calculateCustomPrice,
-  calculateTemplatePrice,
   unitPriceFromTotal,
   type ComplexityMultipliers,
   type ThicknessCoefficients,
@@ -35,62 +34,11 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
     }
 
-    const product = await prisma.product.findFirst({
-      where: { id: parsed.data.productId, ...catalogProductWhere },
-      include: { options: true },
-    });
-    if (!product) {
-      return NextResponse.json({ error: "Продуктът не е намерен" }, { status: 404 });
+    const result = await addTemplateToCart(parsed.data);
+    if (!result.ok) {
+      return NextResponse.json({ error: result.error }, { status: result.status });
     }
-
-    const option = product.options.find((o) => o.id === parsed.data.optionId);
-    if (!option) {
-      return NextResponse.json({ error: "Опцията не е намерена" }, { status: 404 });
-    }
-
-    const rule = await prisma.pricingRule.findFirst({
-      where: { active: true },
-      orderBy: { createdAt: "asc" },
-    });
-    const quantityDiscounts =
-      (rule?.quantityDiscounts as { minQty: number; percentOff: number }[] | undefined) ??
-      [];
-    const lineTotal = calculateTemplatePrice(
-      Number(product.basePrice),
-      Number(option.priceModifier),
-      parsed.data.quantity,
-      {
-        quantityDiscounts,
-        rush: parsed.data.rush,
-        rushMultiplier: Number(rule?.rushMultiplier ?? 1.5),
-        doubleSided: Boolean(option.doubleSided),
-      },
-    );
-
-    const item: CartItem = {
-      id: randomUUID(),
-      type: "TEMPLATE",
-      productId: product.id,
-      productSlug: product.slug,
-      title: product.name,
-      quantity: parsed.data.quantity,
-      unitPrice: unitPriceFromTotal(lineTotal, parsed.data.quantity),
-      imageUrl: product.imageUrl,
-      personalization: {
-        engravingText: parsed.data.engravingText ?? "",
-        sizeLabel: option.sizeLabel,
-        thicknessMm: option.thicknessMm,
-        laserType: option.laserType,
-        optionId: option.id,
-        optionLabel: option.label,
-        material: option.material,
-        finish: option.finish,
-        doubleSided: option.doubleSided,
-        rush: parsed.data.rush,
-      },
-    };
-
-    cart.items.push(item);
+    return NextResponse.json(result.cart);
   } else if (body.action === "add_custom") {
     const quote = customQuoteSchema.safeParse(body);
     if (!quote.success) {

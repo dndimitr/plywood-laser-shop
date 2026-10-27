@@ -131,7 +131,10 @@ type ProductOptionCreate = {
 
 type ProductWhere = {
   active?: boolean;
+  availability?: string;
   category?: string;
+  id?: string;
+  slug?: string;
   name?: { contains?: string; mode?: string };
   OR?: Array<{
     name?: { contains?: string; mode?: string };
@@ -157,7 +160,14 @@ function filterProducts(products: LocalProduct[], where?: ProductWhere) {
   if (!where) return products;
   return products.filter((p) => {
     if (where.active != null && p.active !== where.active) return false;
+    if (
+      where.availability != null &&
+      (p.availability ?? "IN_STOCK") !== where.availability
+    )
+      return false;
     if (where.category != null && p.category !== where.category) return false;
+    if (where.id != null && p.id !== where.id) return false;
+    if (where.slug != null && p.slug !== where.slug) return false;
     if (where.name && !matchesContains(p.name, where.name)) return false;
     if (where.OR?.length) {
       const ok = where.OR.some((clause) => {
@@ -231,20 +241,14 @@ export function createLocalPrisma() {
       },
 
       async findFirst(args: {
-        where: { id?: string; slug?: string; active?: boolean };
+        where: ProductWhere;
         include?: {
           options?: boolean | { orderBy?: Record<string, "asc" | "desc"> };
         };
       }) {
         await ensureLocalDb();
         const db = readLocalDb();
-        const product = db.products.find((p) => {
-          if (args.where.id && p.id !== args.where.id) return false;
-          if (args.where.slug && p.slug !== args.where.slug) return false;
-          if (args.where.active != null && p.active !== args.where.active)
-            return false;
-          return true;
-        });
+        const product = filterProducts(db.products, args.where)[0];
         if (!product) return null;
         if (args.include?.options) {
           const withOpts = withOptions(db, product);

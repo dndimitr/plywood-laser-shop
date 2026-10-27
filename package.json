@@ -19,10 +19,13 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
+    "@ai-sdk/gateway": "^4.0.127",
+    "@ai-sdk/react": "^4.0.158",
     "@phosphor-icons/react": "^2.1.10",
     "@prisma/adapter-neon": "^7.9.1",
     "@prisma/client": "^7.9.1",
     "@vercel/blob": "^2.7.0",
+    "ai": "^7.0.154",
     "bcryptjs": "^3.0.3",
     "capi-param-builder-nodejs": "^1.3.1",
     "dotenv": "^17.4.2",
