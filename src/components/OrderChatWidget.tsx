@@ -117,12 +117,12 @@ export function OrderChatWidget() {
       {open ? (
         <section
           className="order-chat-panel"
-          aria-label="Асистент за поръчка"
+          aria-label="AI Асистент"
         >
           <header className="order-chat-header">
             <div>
               <p className="order-chat-eyebrow">Studio Breza</p>
-              <h2 className="order-chat-title">Асистент за поръчка</h2>
+              <h2 className="order-chat-title">AI Асистент</h2>
             </div>
             <button
               type="button"
@@ -136,14 +136,14 @@ export function OrderChatWidget() {
 
           <div className="order-chat-messages" ref={listRef}>
             {messages.length === 0 ? (
-              <div className="order-chat-bubble order-chat-bubble-assistant">
-                <p>
-                  Здравейте! Кажете повода или модела — напр. „подарък за
-                  кръщене с име Ива“ — и ще предложа продукти от каталога.
-                  След избор ги добавяме в количката; куриер и плащане са на
-                  касата.
-                </p>
-                <div className="order-chat-suggestions">
+              <>
+                <div className="order-chat-bubble order-chat-bubble-assistant">
+                  <p className="order-chat-text">
+                    Здравейте! Кажете повод или модел — ще предложа от каталога
+                    и ще добавя в количката. Куриер и плащане са на касата.
+                  </p>
+                </div>
+                <div className="order-chat-suggestions" aria-label="Бързи теми">
                   {[
                     "Подарък за кръщене с име",
                     "Табела за новородено",
@@ -169,7 +169,7 @@ export function OrderChatWidget() {
                     </button>
                   ))}
                 </div>
-              </div>
+              </>
             ) : null}
 
             {messages.map((message) => (
