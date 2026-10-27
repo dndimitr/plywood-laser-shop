@@ -320,10 +320,10 @@ export function OrderChatWidget() {
           type="button"
           className="order-chat-fab"
           aria-expanded={false}
-          aria-label="Отвори чат за поръчка"
+          aria-label="Отвори AI асистент"
           onClick={() => setOpen(true)}
         >
-          Поръчай с чат
+          AI Асистент
         </button>
       ) : null}
     </div>

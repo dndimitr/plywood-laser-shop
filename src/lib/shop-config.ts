@@ -202,7 +202,7 @@ export function getShopAddress() {
 
 /** Public contact phone for mobile bottom bar / tel: links */
 export function getShopPhone() {
-  return process.env.NEXT_PUBLIC_SHOP_PHONE ?? "+359 883 44 33 61";
+  return process.env.NEXT_PUBLIC_SHOP_PHONE ?? "0883443361";
 }
 
 export function getShopPhoneHref() {
@@ -230,7 +230,7 @@ export function getShopViberNumber() {
   const raw =
     process.env.NEXT_PUBLIC_SHOP_VIBER?.trim() ||
     process.env.NEXT_PUBLIC_SHOP_PHONE?.trim() ||
-    "35988344361";
+    "0883443361";
   let digits = raw.replace(/\D/g, "");
   if (digits.startsWith("0")) digits = `359${digits.slice(1)}`;
   return digits;
