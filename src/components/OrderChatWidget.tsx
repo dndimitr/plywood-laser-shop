@@ -139,8 +139,9 @@ export function OrderChatWidget() {
               <>
                 <div className="order-chat-bubble order-chat-bubble-assistant">
                   <p className="order-chat-text">
-                    Здравейте! Кажете повод или модел — ще предложа от каталога
-                    и ще добавя в количката. Куриер и плащане са на касата.
+                    Търсите подарък с име, който се помни? Кажете повода — ще
+                    подбера модел от каталога и ще го сложа в количката. На
+                    касата остават само куриер и плащане.
                   </p>
                 </div>
                 <div className="order-chat-suggestions" aria-label="Бързи теми">
