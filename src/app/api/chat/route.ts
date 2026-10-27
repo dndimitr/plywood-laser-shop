@@ -14,6 +14,7 @@ import {
 } from "@/lib/chat-catalog";
 import { chatRateLimitOk } from "@/lib/chat-rate-limit";
 import { getChatModelId, getOllamaProvider } from "@/lib/ollama";
+import { FREE_SHIPPING_MIN_EUR } from "@/lib/shop-config";
 import { addTemplateCartSchema } from "@/lib/validators";
 
 export const maxDuration = 60;
@@ -27,7 +28,7 @@ const SYSTEM_PROMPT = `Ти си продуктов асистент на Studio
 - търсене и сравнение на модели (повод, тема, име на продукт);
 - опции, размери, цена и текст за гравиране;
 - добавяне в количката след изрично „да“/потвърждение;
-- кратки факти, нужни за избор на продукт: материал (брезов шперплат), срок на изработка 2–5 раб. дни, безплатна доставка над 35 €.
+- кратки факти, нужни за избор на продукт: материал (брезов шперплат), срок на изработка 2–5 раб. дни, безплатна доставка над ${FREE_SHIPPING_MIN_EUR} €.
 
 ИЗВЪН ОБХВАТ — откажи с 1–2 изречения и върни към каталога. Не отговаряй на:
 - общи въпроси, новини, политика, здраве, рецепти, домашни, код, преводи, шеги;
