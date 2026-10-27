@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { BrandLogo } from "@/components/BrandLogo";
+import { IconFacebook, IconViber } from "@/components/Icons";
 import { categoryHref } from "@/lib/occasions";
 import {
   featuredCategories,
   getShopAddress,
+  getShopFacebookUrl,
   getShopPhone,
   getShopPhoneHref,
+  getShopViberHref,
   navCategoryGroups,
 } from "@/lib/shop-config";
 import { getMarketingSettings } from "@/lib/shop-settings";
@@ -14,9 +17,12 @@ import { SITE_NAME } from "@/lib/seo";
 export function Footer() {
   const featured = featuredCategories();
   const groups = navCategoryGroups();
-  const { facebookPageUrl } = getMarketingSettings();
+  const marketing = getMarketingSettings();
+  const facebookUrl =
+    marketing.facebookPageUrl.trim() || getShopFacebookUrl();
   const phone = getShopPhone();
   const phoneHref = getShopPhoneHref();
+  const viberHref = getShopViberHref();
   const address = getShopAddress();
 
   return (
@@ -47,17 +53,26 @@ export function Footer() {
                 <a href={phoneHref}>{phone}</a>
               </p>
             </div>
-            {facebookPageUrl ? (
-              <p style={{ marginTop: "0.75rem" }}>
-                <a
-                  href={facebookPageUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Facebook страница
-                </a>
-              </p>
-            ) : null}
+            <div className="footer-social" aria-label="Социални мрежи и чат">
+              <a
+                href={facebookUrl}
+                className="footer-social-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook страница на Studio Breza"
+              >
+                <IconFacebook size={20} aria-hidden />
+                <span>Facebook</span>
+              </a>
+              <a
+                href={viberHref}
+                className="footer-social-link footer-social-viber"
+                aria-label="Поръчай по Viber"
+              >
+                <IconViber size={20} aria-hidden />
+                <span>Поръчай по Viber</span>
+              </a>
+            </div>
           </div>
           <div>
             <h3>Магазин</h3>

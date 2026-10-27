@@ -6,14 +6,13 @@ import {
   IconCart,
   IconGrid,
   IconHome,
-  IconPhone,
+  IconViber,
 } from "@/components/Icons";
 import { allOccasionSlugs } from "@/lib/occasions";
 
 type Props = {
   cartCount: number;
-  phoneHref: string;
-  phoneLabel: string;
+  viberHref: string;
 };
 
 const OCCASION_SLUGS = new Set(allOccasionSlugs());
@@ -30,11 +29,7 @@ function isCatalogPath(pathname: string) {
   return OCCASION_SLUGS.has(first);
 }
 
-export function MobileBottomNav({
-  cartCount,
-  phoneHref,
-  phoneLabel,
-}: Props) {
+export function MobileBottomNav({ cartCount, viberHref }: Props) {
   const pathname = usePathname();
   const homeActive = pathname === "/";
   const catalogActive = isCatalogPath(pathname);
@@ -75,12 +70,12 @@ export function MobileBottomNav({
       </Link>
 
       <a
-        href={phoneHref}
+        href={viberHref}
         className="mobile-bottom-link"
-        aria-label={`Обади се на ${phoneLabel}`}
+        aria-label="Поръчай по Viber"
       >
-        <IconPhone size={22} aria-hidden />
-        <span>Телефон</span>
+        <IconViber size={22} aria-hidden />
+        <span>Viber</span>
       </a>
     </nav>
   );

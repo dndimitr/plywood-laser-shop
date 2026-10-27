@@ -7,8 +7,10 @@ import { LocaleSwitch } from "@/components/LocaleSwitch";
 import { categoryHref } from "@/lib/occasions";
 import {
   getShopAddress,
+  getShopFacebookUrl,
   getShopPhone,
   getShopPhoneHref,
+  getShopViberHref,
   navCategoryGroups,
 } from "@/lib/shop-config";
 
@@ -23,6 +25,8 @@ export function MobileNav({ cartCount }: Props) {
   const groups = navCategoryGroups();
   const phone = getShopPhone();
   const phoneHref = getShopPhoneHref();
+  const viberHref = getShopViberHref();
+  const facebookUrl = getShopFacebookUrl();
   const address = getShopAddress();
 
   useEffect(() => {
@@ -117,6 +121,17 @@ export function MobileNav({ cartCount }: Props) {
             <p className="mobile-drawer-label">Контакт</p>
             <a href={phoneHref} onClick={() => setOpen(false)}>
               {phone}
+            </a>
+            <a href={viberHref} onClick={() => setOpen(false)}>
+              Поръчай по Viber
+            </a>
+            <a
+              href={facebookUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setOpen(false)}
+            >
+              Facebook
             </a>
             <a
               href={`https://maps.google.com/?q=${encodeURIComponent(address)}`}

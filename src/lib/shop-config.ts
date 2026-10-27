@@ -215,6 +215,32 @@ export function getShopPhoneHref() {
   return `tel:${digits}`;
 }
 
+const DEFAULT_FACEBOOK_URL =
+  "https://www.facebook.com/profile.php?id=61593622670193";
+
+/** Facebook page / profile for footer icon and schema sameAs */
+export function getShopFacebookUrl() {
+  return (
+    process.env.NEXT_PUBLIC_FACEBOOK_PAGE_URL?.trim() || DEFAULT_FACEBOOK_URL
+  );
+}
+
+/** Digits only, country code without + (default matches shop phone). */
+export function getShopViberNumber() {
+  const raw =
+    process.env.NEXT_PUBLIC_SHOP_VIBER?.trim() ||
+    process.env.NEXT_PUBLIC_SHOP_PHONE?.trim() ||
+    "35988344361";
+  let digits = raw.replace(/\D/g, "");
+  if (digits.startsWith("0")) digits = `359${digits.slice(1)}`;
+  return digits;
+}
+
+/** Deep link to start a Viber chat (order / inquiry). */
+export function getShopViberHref() {
+  return `viber://chat?number=%2B${getShopViberNumber()}`;
+}
+
 /** Production lead times shown in UI (business days after design confirmation) */
 export const PRODUCTION_LEAD = {
   standardLabel: "2–5 раб. дни",

@@ -58,7 +58,9 @@ function marketingEnvDefaults(): MarketingSettings {
       process.env.NEXT_PUBLIC_META_PIXEL_ID?.trim() || "1528087985751399",
     metaCapiAccessToken: process.env.META_CAPI_ACCESS_TOKEN?.trim() ?? "",
     metaCapiTestEventCode: process.env.META_CAPI_TEST_EVENT_CODE?.trim() ?? "",
-    facebookPageUrl: process.env.NEXT_PUBLIC_FACEBOOK_PAGE_URL?.trim() ?? "",
+    facebookPageUrl:
+      process.env.NEXT_PUBLIC_FACEBOOK_PAGE_URL?.trim() ||
+      "https://www.facebook.com/profile.php?id=61593622670193",
     facebookShareEnabled: true,
   };
 }

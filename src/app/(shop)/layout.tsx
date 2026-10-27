@@ -4,7 +4,7 @@ import { MobileBottomNav } from "@/components/MobileBottomNav";
 import { OrderChatWidget } from "@/components/OrderChatWidget";
 import { ScrollToTop } from "@/components/ScrollToTop";
 import { cartTotals, getCart } from "@/lib/cart";
-import { getShopPhone, getShopPhoneHref } from "@/lib/shop-config";
+import { getShopViberHref } from "@/lib/shop-config";
 
 export default async function ShopLayout({
   children,
@@ -26,11 +26,7 @@ export default async function ShopLayout({
       <Footer />
       <ScrollToTop />
       <OrderChatWidget />
-      <MobileBottomNav
-        cartCount={itemCount}
-        phoneHref={getShopPhoneHref()}
-        phoneLabel={getShopPhone()}
-      />
+      <MobileBottomNav cartCount={itemCount} viberHref={getShopViberHref()} />
     </>
   );
 }
