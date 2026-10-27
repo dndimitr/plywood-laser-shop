@@ -48,6 +48,21 @@ const nextConfig: NextConfig = {
             value: "camera=(), microphone=(), geolocation=()",
           },
           { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          // llms.txt discovery for ChatGPT / AI agents (llmstxt.org v2)
+          {
+            key: "Link",
+            value: '</llms.txt>; rel="describedby"',
+          },
+        ],
+      },
+      {
+        source: "/llms.txt",
+        headers: [
+          { key: "Content-Type", value: "text/plain; charset=utf-8" },
+          {
+            key: "Cache-Control",
+            value: "public, max-age=3600, must-revalidate",
+          },
         ],
       },
       {

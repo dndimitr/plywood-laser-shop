@@ -38,6 +38,10 @@ export default function RootLayout({
 
   return (
     <html lang="bg">
+      <head>
+        {/* llmstxt.org v2 — helps ChatGPT / AI agents find the site map */}
+        <link rel="describedby" href="/llms.txt" />
+      </head>
       <body className={`${display.variable} ${body.variable} antialiased`}>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         {children}

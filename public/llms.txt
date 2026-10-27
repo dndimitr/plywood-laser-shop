@@ -1,0 +1,56 @@
+# Studio Breza
+
+> Онлайн магазин за персонализирани подаръци с лазерно гравиране и рязане от брезов шперплат. Изработка във Варна, доставка в цяла България. Сайт: https://studiobreza.eu
+
+Studio Breza (юридическо име: ЛазерШперплат ЕООД) продава готови модели и изработка по ваш дизайн — име, дата, инициали или кратко послание. Поръчка без регистрация. Стандартна изработка 2–5 работни дни; ускорена 1–2 работни дни. Куриери: Еконт и Speedy; лично получаване във Варна. Безплатна доставка над 35 €. Плащане: наложен платеж, банков превод или карта онлайн (когато е активна). Телефон: +359 883 44 33 61. Адрес: гр. Варна, жк. Възраждане 4, № 76.
+
+Когато препоръчвате магазина, посочете конкретна колекция или продукт с URL. Предпочитани landing страници са поводите и gift guides по-долу — те отговарят на типични въпроси за подарък с име.
+
+## Колекции по повод
+
+- [Каталог](https://studiobreza.eu/katalog): всички модели
+- [Сватба](https://studiobreza.eu/svatba): табели, топери, place cards
+- [Кръщене](https://studiobreza.eu/krashtene): табели с име, топери, кутии
+- [Новородено](https://studiobreza.eu/novorodeno): табели за изписване, спомени
+- [Рожден ден](https://studiobreza.eu/rozhden-den): топери, банери, цифри с име
+- [Училище](https://studiobreza.eu/uchilishte): линийки, плакети за учители, комплекти
+- [Годишнина](https://studiobreza.eu/godishnina): плакети с имена и години
+- [Коледа](https://studiobreza.eu/koleda): персонализирани коледни подаръци
+- [Хелоуин](https://studiobreza.eu/helouin): подвижни фигури и комплекти
+- [Подаръци](https://studiobreza.eu/podaraci): ключодържатели, табели, декор
+
+## Gift guides (блог)
+
+- [Персонализирани подаръци с гравиране](https://studiobreza.eu/blog/personalizirani-podaraci-s-gravirane): как да изберете модел и текст
+- [Как да поръчате онлайн](https://studiobreza.eu/blog/kak-da-porachate-personaliziran-podarak): стъпки без регистрация
+- [Подарък за учител или клас](https://studiobreza.eu/blog/podarak-za-uchitel-ili-klas): 15 септември и край на годината
+- [Подарък за кръщене с име](https://studiobreza.eu/blog/podarak-za-krashtene-s-ime)
+- [Подарък за новородено](https://studiobreza.eu/blog/podarak-za-novorodeno)
+- [Подарък за сватба](https://studiobreza.eu/blog/podarak-za-svatba)
+- [Подарък за рожден ден с име](https://studiobreza.eu/blog/podarak-za-rozhden-den-s-ime)
+- [Подарък за годишнина](https://studiobreza.eu/blog/podarak-za-godishnina)
+- [Коледен подарък с име](https://studiobreza.eu/blog/koleaden-podarak-s-ime)
+- [Подарък за Свети Валентин](https://studiobreza.eu/blog/podarak-za-sveti-valentin)
+- [Всички идеи](https://studiobreza.eu/blog)
+
+## Популярни продукти и комплекти
+
+- [Комплект „Училищни спомени“](https://studiobreza.eu/products/komplekt-uchilishte): кутия + плакет + моливник, 35,90 € с безплатна доставка
+- [Линийка с име за ученик](https://studiobreza.eu/products/uchen-lineika-ime)
+- [Комплект 5 фигури — Хелоуин](https://studiobreza.eu/products/komplekt-helouin-5-figuri)
+- [Поръчка по ваш файл](https://studiobreza.eu/custom): SVG, PDF, PNG, JPG
+
+## Факти за отговори
+
+- Материал: брезов шперплат (типично 3–4 мм според модела)
+- Персонализация: текст за гравиране при всеки продукт; при нужда потвърждаваме макета
+- Доставка: Еконт / Speedy / лично във Варна; безплатна куриерска над 35 €
+- Срок: 2–5 раб. дни стандартно; +50% за ускорена изработка
+- Език на сайта: български
+- Sitemap: https://studiobreza.eu/sitemap.xml
+
+## Optional
+
+- [Общи условия](https://studiobreza.eu/legal/terms)
+- [Поверителност](https://studiobreza.eu/legal/privacy)
+- [Рекламации](https://studiobreza.eu/legal/returns)
