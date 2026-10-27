@@ -5,6 +5,7 @@ import { FacebookShareButton } from "@/components/FacebookShareButton";
 import { FavoriteToggle } from "@/components/FavoriteToggle";
 import { JsonLd } from "@/components/JsonLd";
 import { MetaViewContent } from "@/components/MetaViewContent";
+import { ProductCard } from "@/components/ProductCard";
 import { ProductConfigurator } from "@/components/ProductConfigurator";
 import { ProductGallery } from "@/components/ProductGallery";
 import {
@@ -72,6 +73,22 @@ export default async function ProductPage({ params }: Props) {
         ? [product.imageUrl]
         : [];
 
+  const [related, publishedReviews] = await Promise.all([
+    prisma.product.findMany({
+      where: {
+        ...catalogProductWhere,
+        category: product.category,
+        slug: { not: product.slug },
+      },
+      orderBy: { name: "asc" },
+      take: 8,
+    }),
+    prisma.review.findMany({
+      where: { published: true },
+      take: 200,
+    }),
+  ]);
+
   const basePrice = Number(product.basePrice);
   const marketing = getMarketingSettings();
   const productUrl = absoluteUrl(`/products/${product.slug}`);
@@ -91,6 +108,16 @@ export default async function ProductPage({ params }: Props) {
   }
   crumbs.push({ name: product.name, path: `/products/${product.slug}` });
 
+  const ratingCount = publishedReviews.length;
+  const ratingValue =
+    ratingCount > 0
+      ? Math.round(
+          (publishedReviews.reduce((s, r) => s + Number(r.rating || 0), 0) /
+            ratingCount) *
+            10,
+        ) / 10
+      : null;
+
   return (
     <div className="product-detail">
       <JsonLd
@@ -100,8 +127,13 @@ export default async function ProductPage({ params }: Props) {
             description: seo.schemaDescription,
             slug: product.slug,
             imageUrl: product.imageUrl ?? gallery[0] ?? null,
+            galleryUrls: gallery,
             price: basePrice,
             category: product.category,
+            aggregateRating:
+              ratingCount > 0 && ratingValue != null
+                ? { ratingValue, reviewCount: ratingCount }
+                : null,
           }),
           breadcrumbJsonLd(crumbs),
         ]}
@@ -122,6 +154,8 @@ export default async function ProductPage({ params }: Props) {
 
       <div className="container">
         <nav className="product-breadcrumb" aria-label="Навигация">
+          <Link href="/">Начало</Link>
+          <span aria-hidden>/</span>
           <Link href="/katalog">Каталог</Link>
           {seo.categoryLabel && seo.categoryHref ? (
             <>
@@ -197,6 +231,38 @@ export default async function ProductPage({ params }: Props) {
             }))}
           />
         </div>
+
+        {related.length > 0 ? (
+          <section className="section" aria-labelledby="related-heading">
+            <h2 id="related-heading" className="catalog-section-title">
+              Подобни модели
+            </h2>
+            <p className="section-lead">
+              Още от същата колекция — с опция за гравиране на име или послание.
+            </p>
+            <div className="product-grid">
+              {related.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={{
+                    name: p.name,
+                    slug: p.slug,
+                    description: p.description,
+                    basePrice: Number(p.basePrice),
+                    imageUrl: p.imageUrl,
+                  }}
+                />
+              ))}
+            </div>
+            {seo.categoryHref ? (
+              <p style={{ marginTop: "1rem" }}>
+                <Link href={seo.categoryHref} className="btn btn-ghost">
+                  Всички в „{seo.categoryLabel}“
+                </Link>
+              </p>
+            ) : null}
+          </section>
+        ) : null}
 
         <RecentlyViewed excludeSlug={product.slug} />
       </div>

@@ -5,7 +5,13 @@ import {
   genericCategoryMeta,
 } from "@/lib/category-landings";
 import { occasionByCategoryId, occasionPath } from "@/lib/occasions";
-import { CATEGORIES, type CategoryId, categoryById } from "@/lib/shop-config";
+import {
+  CATEGORIES,
+  categoryById,
+  getShopAddress,
+  getShopPhone,
+  type CategoryId,
+} from "@/lib/shop-config";
 import {
   adsConversionSendTo,
   getMarketingSettings,
@@ -306,8 +312,25 @@ export function rootMetadata(): Metadata {
   };
 }
 
+/** Postal address for Organization / LocalBusiness (matches footer NAP). */
+export function shopPostalAddressJsonLd() {
+  const raw = getShopAddress();
+  // "гр. Варна, жк. Възраждане 4, № 76"
+  const localityMatch = raw.match(/(?:гр\.?\s*)?([А-Яа-яA-Za-z\-]+)/);
+  const street = raw.includes(",")
+    ? raw.split(",").slice(1).join(",").trim()
+    : raw;
+  return {
+    "@type": "PostalAddress" as const,
+    streetAddress: street || raw,
+    addressLocality: localityMatch?.[1] ?? "Варна",
+    addressRegion: "Варна",
+    addressCountry: "BG",
+  };
+}
+
 export function organizationJsonLd() {
-  const phone = process.env.NEXT_PUBLIC_SHOP_PHONE?.trim();
+  const phone = getShopPhone().trim();
   const { facebookPageUrl } = getMarketingSettings();
   const sameAs = [facebookPageUrl.trim()].filter(Boolean);
 
@@ -325,13 +348,10 @@ export function organizationJsonLd() {
     },
     image: absoluteUrl(BRAND_LOGO_PATH),
     description: DEFAULT_DESCRIPTION,
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "BG",
-    },
-    ...(sameAs.length ? { sameAs } : {}),
+    address: shopPostalAddressJsonLd(),
     ...(phone
       ? {
+          telephone: phone,
           contactPoint: {
             "@type": "ContactPoint",
             telephone: phone,
@@ -341,6 +361,7 @@ export function organizationJsonLd() {
           },
         }
       : {}),
+    ...(sameAs.length ? { sameAs } : {}),
   };
 }
 
@@ -400,13 +421,24 @@ export function productJsonLd(opts: {
   description: string;
   slug: string;
   imageUrl?: string | null;
+  /** Extra gallery URLs for richer Product rich results */
+  galleryUrls?: string[] | null;
   price: number;
   currency?: string;
   category?: string;
+  /** Optional sitewide or product rating */
+  aggregateRating?: { ratingValue: number; reviewCount: number } | null;
 }) {
-  const images = opts.imageUrl
-    ? [absoluteAssetUrl(opts.imageUrl)!].filter(Boolean)
-    : [absoluteUrl("/opengraph-image")];
+  const gallery = (opts.galleryUrls ?? [])
+    .map((u) => absoluteAssetUrl(u))
+    .filter((u): u is string => Boolean(u));
+  const primary = opts.imageUrl ? absoluteAssetUrl(opts.imageUrl) : null;
+  const images = [
+    ...(primary ? [primary] : []),
+    ...gallery.filter((u) => u !== primary),
+  ];
+  if (!images.length) images.push(absoluteUrl("/opengraph-image"));
+
   const cat = opts.category
     ? CATEGORIES.find((c) => c.id === opts.category)?.label
     : undefined;
@@ -426,6 +458,17 @@ export function productJsonLd(opts: {
       "@type": "Brand",
       name: SITE_NAME,
     },
+    ...(opts.aggregateRating && opts.aggregateRating.reviewCount > 0
+      ? {
+          aggregateRating: {
+            "@type": "AggregateRating",
+            ratingValue: String(opts.aggregateRating.ratingValue),
+            reviewCount: String(opts.aggregateRating.reviewCount),
+            bestRating: "5",
+            worstRating: "1",
+          },
+        }
+      : {}),
     offers: {
       "@type": "Offer",
       "@id": `${url}#offer`,
@@ -470,16 +513,17 @@ export function aggregateRatingJsonLd(
   const count = reviews.length;
   const sum = reviews.reduce((s, r) => s + Number(r.rating || 0), 0);
   const ratingValue = Math.round((sum / count) * 10) / 10;
+  const phone = getShopPhone().trim();
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
+    "@id": `${getSiteUrl()}/#localbusiness`,
     name: SITE_NAME,
     url: getSiteUrl(),
     image: absoluteUrl(BRAND_LOGO_PATH),
-    address: {
-      "@type": "PostalAddress",
-      addressCountry: "BG",
-    },
+    address: shopPostalAddressJsonLd(),
+    ...(phone ? { telephone: phone } : {}),
+    priceRange: "€€",
     aggregateRating: {
       "@type": "AggregateRating",
       ratingValue: String(ratingValue),

@@ -24,7 +24,7 @@ export function OccasionCards({ items }: { items: OccasionCardItem[] }) {
             {item.imageUrl ? (
               <Image
                 src={item.imageUrl}
-                alt=""
+                alt={item.label}
                 fill
                 sizes="(max-width:639px) 50vw, (max-width:899px) 33vw, 25vw"
                 className="object-cover"

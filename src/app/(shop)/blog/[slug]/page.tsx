@@ -66,7 +66,7 @@ export default async function BlogPostPage({ params }: Props) {
             headline: guide.headline,
             description: guide.description,
             datePublished: guide.publishedAt,
-            dateModified: guide.publishedAt,
+            dateModified: guide.updatedAt ?? guide.publishedAt,
             inLanguage: "bg-BG",
             mainEntityOfPage: {
               "@type": "WebPage",

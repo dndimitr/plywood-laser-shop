@@ -30,10 +30,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const landing = categoryLandingBySlug(slug);
   if (!landing) return { title: "Категория" };
+
+  const products = await prisma.product.findMany({
+    where: { ...catalogProductWhere, category: landing.categoryId },
+    orderBy: { name: "asc" },
+    take: 1,
+  });
+
   return buildPageMetadata({
     title: landing.title,
     description: landing.description,
     path: categoryLandingPath(landing.slug),
+    image: products[0]?.imageUrl ?? null,
+    noIndex: products.length === 0,
   });
 }
 

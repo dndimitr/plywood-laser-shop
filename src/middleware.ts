@@ -24,7 +24,7 @@ function homepageSearchRedirect(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = "/katalog";
     url.search = `?q=${encodeURIComponent(q)}`;
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, 301);
   }
 
   const cat = request.nextUrl.searchParams.get("cat");
@@ -35,7 +35,7 @@ function homepageSearchRedirect(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = occasionPath(occasion.slug);
     url.search = "";
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, 301);
   }
 
   const landing = categoryLandingById(cat);
@@ -43,13 +43,13 @@ function homepageSearchRedirect(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = categoryLandingPath(landing.slug);
     url.search = "";
-    return NextResponse.redirect(url);
+    return NextResponse.redirect(url, 301);
   }
 
   const url = request.nextUrl.clone();
   url.pathname = "/katalog";
   url.search = `?cat=${encodeURIComponent(cat)}`;
-  return NextResponse.redirect(url);
+  return NextResponse.redirect(url, 301);
 }
 
 export default function middleware(

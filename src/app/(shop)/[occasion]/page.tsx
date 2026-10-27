@@ -33,10 +33,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (OCCASION_RESERVED_PATHS.has(slug)) return { title: "Страница" };
   const occasion = occasionBySlug(slug);
   if (!occasion) return { title: "Повод" };
+
+  const products = await prisma.product.findMany({
+    where: { ...catalogProductWhere, category: occasion.categoryId },
+    orderBy: { name: "asc" },
+    take: 1,
+  });
+
   return buildPageMetadata({
     title: occasion.title,
     description: occasion.description,
     path: occasionPath(occasion.slug),
+    image: products[0]?.imageUrl ?? null,
+    noIndex: products.length === 0,
   });
 }
 
