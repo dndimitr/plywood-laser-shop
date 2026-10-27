@@ -173,13 +173,26 @@ export function OrderChatWidget() {
               </>
             ) : null}
 
-            {messages.map((message) => (
+            {messages.map((message) => {
+              const hasProductButtons = message.parts.some(
+                (part) =>
+                  part.type === "tool-searchProducts" &&
+                  part.state === "output-available" &&
+                  asSearchProducts(part.output).length > 0,
+              );
+
+              return (
               <div
                 key={message.id}
                 className={`order-chat-bubble order-chat-bubble-${message.role}`}
               >
                 {message.parts.map((part, i) => {
-                  if (part.type === "text" && part.text) {
+                  // Product cards already show name/price — skip duplicate prose lists
+                  if (
+                    part.type === "text" &&
+                    part.text &&
+                    !(message.role === "assistant" && hasProductButtons)
+                  ) {
                     return (
                       <ChatText key={`${message.id}-t-${i}`} text={part.text} />
                     );
@@ -254,7 +267,8 @@ export function OrderChatWidget() {
                   return null;
                 })}
               </div>
-            ))}
+              );
+            })}
 
             {busy ? (
               <p className="order-chat-tool-status">Пиша…</p>
