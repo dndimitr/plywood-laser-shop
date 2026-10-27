@@ -13,6 +13,7 @@ import {
   searchCatalogProducts,
 } from "@/lib/chat-catalog";
 import { chatRateLimitOk } from "@/lib/chat-rate-limit";
+import { getChatModelId, getOllamaProvider } from "@/lib/ollama";
 import { addTemplateCartSchema } from "@/lib/validators";
 
 export const maxDuration = 60;
@@ -63,12 +64,21 @@ export async function POST(req: Request) {
     return Response.json({ error: "Невалидна заявка" }, { status: 400 });
   }
 
-  const model = process.env.CHAT_MODEL?.trim() || "openai/gpt-4.1-mini";
-
   let result;
   try {
+    if (!process.env.OLLAMA_API_KEY?.trim()) {
+      return Response.json(
+        {
+          error:
+            "Чатът временно не е настроен. Липсва OLLAMA_API_KEY. Можете да поръчате през каталога.",
+        },
+        { status: 503 },
+      );
+    }
+
+    const ollama = getOllamaProvider();
     result = streamText({
-    model,
+    model: ollama(getChatModelId()),
     system: SYSTEM_PROMPT,
     messages: await convertToModelMessages(messages),
     stopWhen: stepCountIs(8),
@@ -184,7 +194,7 @@ export async function POST(req: Request) {
     return Response.json(
       {
         error:
-          "Чатът временно не е наличен. Добавете AI_GATEWAY_API_KEY в Vercel или поръчайте през каталога.",
+          "Чатът временно не е наличен. Проверете OLLAMA_API_KEY / модела или поръчайте през каталога.",
       },
       { status: 503 },
     );
